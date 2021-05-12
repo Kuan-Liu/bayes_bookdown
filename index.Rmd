@@ -49,13 +49,13 @@ This course will introduce students to Bayesian data analysis. After a thorough 
 
 By the end of this course, students will:
 
-1 Understand what is meant by a “Bayesian Analysis” and how it differs from a typical analysis under the frequentist framework
-2 Understand the role and importance of Markov Chain Monte Carlo in modern Bayesian methods
-3 Understand how modern Bayesian models are fitted
-4 Be able to fit Bayesian models to common types of study designs and data types
-5 Know what aspects of the Bayesian analysis are an essential part of a statistical report
-6 Have worked through some case studies (in lectures, tutorials and as part of assignments)
-7 Have developed expertise in using the brms program within the R environment
+1.  Understand what is meant by a “Bayesian Analysis” and how it differs from a typical analysis under the frequentist framework
+2.  Understand the role and importance of Markov Chain Monte Carlo in modern Bayesian methods
+3.   Understand how modern Bayesian models are fitted
+4.  Be able to fit Bayesian models to common types of study designs and data types
+5.  Know what aspects of the Bayesian analysis are an essential part of a statistical report
+6.  Have worked through some case studies (in lectures, tutorials and as part of assignments)
+7.  Have developed expertise in using the brms program within the R environment
 
 _Pre-requisites_
 
