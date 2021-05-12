@@ -1,3 +1,3 @@
-# Literature
+# Probability and inference {#review}
 
-Here is a review of existing methods.
+

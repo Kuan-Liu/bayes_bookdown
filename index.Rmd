@@ -18,7 +18,7 @@ always_allow_html: yes
 ---
 
 
-# University of Toronto Statement of Acknowledgment of Traditional Land {-}
+# University of Toronto Statement of Acknowledgment of Traditional Land {-} 
 
 
 > "We wish to acknowledge this land on which the University of Toronto operates. For thousands of years it has been the traditional land of the Huron-Wendat, the Seneca, and the Mississaugas of the Credit. Today, this meeting place is still the home to many Indigenous people from across Turtle Island and we are grateful to have the opportunity to work on this land."
@@ -29,30 +29,18 @@ always_allow_html: yes
 
 ## Course Info {-}
 
-_COURSE TITLE_: Applied Bayesian Methods in Clinical Epidemiology and Health Care Research
+_Course title_: Applied Bayesian Methods in Clinical Epidemiology and Health Care Research
 
-_SEMESTER_: Winter 2022
+_Semester_: Winter 2022
 
-_CLASS HOURS AND LOCATION_: TBA
+_Class hour and location_: TBA
 
-_INSTRUCTORS:_ Kuan Liu and George Tomlinson
+|  Instructors  | Email  | Office Hour | 
+|---------------|--------|-------------|
+| Kuan Liu  | mailto:kuan.liu@mail.utoronto.ca  |   |
+| George Tomlinson  |   |   |
 
-_INSTRUCTOR CONTACT INFORMATION_ 
-
-* _EMAIL_: kuan.liu@mail.utoronto.ca 
-* _OFFICE HOURS_: TBA
-* _OFFICE HOUR LOCATION_: TBA
-
-* _EMAIL_: george.tomlinson@utoronto.ca 
-* _OFFICE HOURS_: TBA
-* _OFFICE HOUR LOCATION_: TBA
-
-_TEACHING ASSISTANT INFORMATION_: 
-
-* _NAME_: TBA 
-* _EMAIL_: TBA
-* _OFFICE HOURS_: TBA
-* _OFFICE HOUR LOCATION_: TBA
+_Teaching assistant_: TBA
  
 
 ## Course Description {-}
@@ -69,66 +57,48 @@ By the end of this course, students will:
 6 Have worked through some case studies (in lectures, tutorials and as part of assignments)
 7 Have developed expertise in using the brms program within the R environment
 
-_PRE-REQUISITES_
+_Pre-requisites_
 
 HAD5316H – Biostatistics II: Advanced Techniques in Applied Regression Methods, Some simple programming (e.g., SAS data step, R, S-Plus) – may be taken concurrently with course.
 
-Necessary skills include: [installing packages](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/install.packages), reading data into R, basic [data cleaning in R](https://www.youtube.com/watch?v=6PVMJE3HBN0) including basic data manipulation and graphics (e.g., plot or [ggplot2](https://ggplot2.tidyverse.org/)).
 
 
-_EVALUATION_
+_Evaulation_
 
 4 Individual Assignments each worth 25%
 
  
 ## Course Textbook and Structure {-}
 
-_TEXTBOOK_: 2nd edition of the book by Richard McElreath: https://xcelab.net/rm/statistical-rethinking/
-
-
-The course will be organized into weekly lectures consisting of a combination of electronic slides and demonstrations. Students are expected to ask and answer questions in class. Classes will contain regular breaks for small group breakouts where small assignments will be given for students to complete together. The idea of these breakouts is to engage with your classmates and work through coding exercises together. Exercises will often be structured in a way that forces your group to go beyond what is included in the class notes and seek help online to figure out how to complete. Students should bring a laptop to in person class and be prepared to follow along with demonstrations and breakout groups.
-
-Example assignments are shown below along with the associated core competency.
-
- 
-| Assignment | Competency |
-|------------|------------|
-| Properly install software for reproducible research: R, R Studio, homebrew (Mac), Git, text editor (e.g., Notepad++ or Sublime Text), LaTex, GNU make   | Identify software for the interface of data entry and statistical analysis |
-| Build a GitHub repository, tag a release of your code, and write a proper README file | Develop public health information systems to support public health efforts |
-| Develop an R Markdown document performing a reproducible statistical analysis and summarizing results visually | Apply standard statistical methods in the analysis of public health information Assess individual data elements and display results effectively and appropriately|
-| Build a Docker container for running a fully reproducible analysis pipeline| Develop public health information systems to support public health efforts   |
-| Execute basic python commands in a Jupyter notebook. | Identify software for the interface of data entry and statistical analysis   |
-| Set up an EC2 instance and S3 bucket on AWS suitable for a reproducible data analysis in the cloud. | Develop public health information systems to support public health efforts |
+1. 2nd edition of the book by Richard McElreath: https://xcelab.net/rm/statistical-rethinking/
+2. Bayesian Approaches to Clincial Trials and Health-Care Evaluation by David Spiegelhalter, [free access via UT library](https://onlinelibrary-wiley-com.myaccess.library.utoronto.ca/doi/book/10.1002/0470092602)
 
 
 ## Accessibility and Accommodations {-}
 
-## Honor Code {-}
-You are bound by Emory University’s Student Honor and Conduct Code. RSPH requires that all material submitted by a student fulfilling his or her academic course of study must be the original work of the student.  Violations of academic honor include any action by a student indicating dishonesty or a lack of integrity in academic ethics. Academic dishonesty refers to cheating, plagiarizing, assisting other students without authorization, lying, tampering, or stealing in performing any academic work, and will not be tolerated under any circumstances.
+The University provides academic accommodations for students with disabilities in accordance with the terms of the Ontario Human Rights Code. This occurs through a collaborative process that acknowledges a collective obligation to develop an accessible learning environment that both meets the needs of students and preserves the essential academic requirements of the University’s courses and programs. For more information, or to register with Accessibility Services, please visit: http://studentlife.utoronto.ca/as.
 
-The [RSPH Honor Code](http://www.sph.emory.edu/cms/current_students/enrollment_services/honor_code.html) states: "*Plagiarism is the act of presenting as one's own work the expression, words, or ideas of another person whether published or unpublished (including the work of another student). A writer’s work should be regarded as his/her own property.*" 
+## Academic Integrity {-}
+Academic integrity is essential to the pursuit of learning and scholarship in a university, and to ensuring that a degree from the University of Toronto is a strong signal of each student’s individual academic achievement. As a result, the University treats cases of cheating and plagiarism very seriously. Help and information is available on the Academic Integrity website. The University of Toronto’s Code of Behaviour on Academic Matters (http://www.governingcouncil.utoronto.ca/policies/behaveac.htm) outlines the behaviours that constitute academic dishonesty and the processes for addressing academic offences.
 
 
 ## Calendar and Outline {-}
 
-| Date  | Topics                           |
-|-------|----------------------------------|
-| 1/  | Motivation, text editor          |
-| 1/  | Command line                     |
-| 1/  | Command line 					   |
-| 1/  | R Markdown					   |
-| 2/  | R Markdown                       |
-| 2/  | Version control using Git/GitHub |
-| 2/  | Git/GitHub + GNU Make            |
-| 3/  | GNU Make 						   |
-| 3/  | Best coding practices            |
-| 3/  | Docker    					   |
-| 4/  | Docker 						   |
-| 4/  | Last assignment due 					   |
+| Date  | Topics    | Reading   |
+|-------|-----------|-----------|
+| 1/  | Intro and Intro to R    |   |
+| 1/  | Probability and Bayes' rule |   |
+| 1/  | Bayesian inference 			|   |
+| 1/  | Bayesian computation		|   |
+| 2/  |                     		|   |
+| 2/  | Case study 		|   |
+| 2/  |             		|   |
+| 3/  |  						   		|   |
+| 3/  |            		|   |
+| 3/  |     					   		|   |
+| 4/  |  						   		|   |
+| 4/  | Last assignment due 		|   |
 
-
-
-# Getting started with R and R studio {-}
 
 
 
