@@ -1,7 +1,6 @@
 # don't push local rendered files in master branch
 
 _bookdown_files/
-libs/
 
 # R and Rstudio specific files
 .Rproj.user
