@@ -1,4 +1,4 @@
---- 
+---
 title: "Applied Bayesian Methods in Clinical Epidemiology and Health Care Research"
 author: "Kuan Liu and George Tomlinson <br> Institute of Health Policy, Management and Evaluation <br> University of Toronto"
 date: "`r Sys.Date()`"
@@ -17,88 +17,75 @@ site: bookdown::bookdown_site
 always_allow_html: yes
 ---
 
-
-# University of Toronto Statement of Acknowledgment of Traditional Land {-} 
-
+# University of Toronto Statement of Acknowledgment of Traditional Land {.unnumbered}
 
 > "We wish to acknowledge this land on which the University of Toronto operates. For thousands of years it has been the traditional land of the Huron-Wendat, the Seneca, and the Mississaugas of the Credit. Today, this meeting place is still the home to many Indigenous people from across Turtle Island and we are grateful to have the opportunity to work on this land."
 
+# Course Syllabus {.unnumbered}
 
+## Course Info {.unnumbered}
 
-# Course Syllabus {-}
+*Course title*: Applied Bayesian Methods in Clinical Epidemiology and Health Care Research
 
-## Course Info {-}
+*Semester*: Winter 2022
 
-_Course title_: Applied Bayesian Methods in Clinical Epidemiology and Health Care Research
+*Class hour and location*: TBA
 
-_Semester_: Winter 2022
+| Instructors      | Email                                                                       | Office Hour |
+|------------------|-----------------------------------------------------------------------------|-------------|
+| Kuan Liu         | [mailto:kuan.liu\@mail.utoronto.ca](mailto:kuan.liu@mail.utoronto.ca){.uri} |             |
+| George Tomlinson |                                                                             |             |
 
-_Class hour and location_: TBA
+*Teaching assistant*: TBA
 
-|  Instructors  | Email  | Office Hour | 
-|---------------|--------|-------------|
-| Kuan Liu  | mailto:kuan.liu@mail.utoronto.ca  |   |
-| George Tomlinson  |   |   |
+## Course Description {.unnumbered}
 
-_Teaching assistant_: TBA
- 
-
-## Course Description {-}
-
-This course will introduce students to Bayesian data analysis. After a thorough review of fundamental concepts in statistics and probability, an introduction will be given to the fundamentals of the Bayesian approach, including a look at how computer simulation can be used to solve statistical problems. Students will learn how to use the brms package in the R statistical software environment to carry out Bayesian analyses of data commonly seen in health sciences. Bayesian methods will be covered for binary, continuous and count outcomes in one and two samples, for logistic, linear and Poisson regression, and for meta-analysis. 
+This course will introduce students to Bayesian data analysis. After a thorough review of fundamental concepts in statistics and probability, an introduction will be given to the fundamentals of the Bayesian approach, including a look at how computer simulation can be used to solve statistical problems. Students will learn how to use the brms package in the R statistical software environment to carry out Bayesian analyses of data commonly seen in health sciences. Bayesian methods will be covered for binary, continuous and count outcomes in one and two samples, for logistic, linear and Poisson regression, and for meta-analysis.
 
 By the end of this course, students will:
 
-1.  Understand what is meant by a “Bayesian Analysis” and how it differs from a typical analysis under the frequentist framework
+1.  Understand what is meant by a "Bayesian Analysis" and how it differs from a typical analysis under the frequentist framework
 2.  Understand the role and importance of Markov Chain Monte Carlo in modern Bayesian methods
-3.   Understand how modern Bayesian models are fitted
+3.  Understand how modern Bayesian models are fitted
 4.  Be able to fit Bayesian models to common types of study designs and data types
 5.  Know what aspects of the Bayesian analysis are an essential part of a statistical report
 6.  Have worked through some case studies (in lectures, tutorials and as part of assignments)
 7.  Have developed expertise in using the brms program within the R environment
 
-_Pre-requisites_
+*Pre-requisites*
 
-HAD5316H – Biostatistics II: Advanced Techniques in Applied Regression Methods, Some simple programming (e.g., SAS data step, R, S-Plus) – may be taken concurrently with course.
+HAD5316H -- Biostatistics II: Advanced Techniques in Applied Regression Methods, Some simple programming (e.g., SAS data step, R, S-Plus) -- may be taken concurrently with course.
 
-
-
-_Evaulation_
+*Evaulation*
 
 4 Individual Assignments each worth 25%
 
- 
-## Course Textbook and Structure {-}
+## Course Textbook and Structure {.unnumbered}
 
-1. 2nd edition of the book by Richard McElreath: https://xcelab.net/rm/statistical-rethinking/
-2. Bayesian Approaches to Clincial Trials and Health-Care Evaluation by David Spiegelhalter, [free access via UT library](https://onlinelibrary-wiley-com.myaccess.library.utoronto.ca/doi/book/10.1002/0470092602)
+1.  2nd edition of the book by Richard McElreath: <https://xcelab.net/rm/statistical-rethinking/> [@mcelreath2018statistical]
+2.  Bayesian Approaches to Clincial Trials and Health-Care Evaluation by David Spiegelhalter, [free access via UT library](https://onlinelibrary-wiley-com.myaccess.library.utoronto.ca/doi/book/10.1002/0470092602)[@spiegelhalter2003]
 
+## Accessibility and Accommodations {.unnumbered}
 
-## Accessibility and Accommodations {-}
+The University provides academic accommodations for students with disabilities in accordance with the terms of the Ontario Human Rights Code. This occurs through a collaborative process that acknowledges a collective obligation to develop an accessible learning environment that both meets the needs of students and preserves the essential academic requirements of the University's courses and programs. For more information, or to register with Accessibility Services, please visit: <http://studentlife.utoronto.ca/as>.
 
-The University provides academic accommodations for students with disabilities in accordance with the terms of the Ontario Human Rights Code. This occurs through a collaborative process that acknowledges a collective obligation to develop an accessible learning environment that both meets the needs of students and preserves the essential academic requirements of the University’s courses and programs. For more information, or to register with Accessibility Services, please visit: http://studentlife.utoronto.ca/as.
+## Academic Integrity {.unnumbered}
 
-## Academic Integrity {-}
-Academic integrity is essential to the pursuit of learning and scholarship in a university, and to ensuring that a degree from the University of Toronto is a strong signal of each student’s individual academic achievement. As a result, the University treats cases of cheating and plagiarism very seriously. Help and information is available on the Academic Integrity website. The University of Toronto’s Code of Behaviour on Academic Matters (http://www.governingcouncil.utoronto.ca/policies/behaveac.htm) outlines the behaviours that constitute academic dishonesty and the processes for addressing academic offences.
+Academic integrity is essential to the pursuit of learning and scholarship in a university, and to ensuring that a degree from the University of Toronto is a strong signal of each student's individual academic achievement. As a result, the University treats cases of cheating and plagiarism very seriously. Help and information is available on the Academic Integrity website. The University of Toronto's Code of Behaviour on Academic Matters (<http://www.governingcouncil.utoronto.ca/policies/behaveac.htm>) outlines the behaviours that constitute academic dishonesty and the processes for addressing academic offences.
 
+## Calendar and Outline {.unnumbered}
 
-## Calendar and Outline {-}
-
-| Date  | Topics    | Reading   |
-|-------|-----------|-----------|
-| 1/  | Intro and Intro to R    |   |
-| 1/  | Probability and Bayes' rule |   |
-| 1/  | Bayesian inference 			|   |
-| 1/  | Bayesian computation		|   |
-| 2/  |                     		|   |
-| 2/  | Case study 		|   |
-| 2/  |             		|   |
-| 3/  |  						   		|   |
-| 3/  |            		|   |
-| 3/  |     					   		|   |
-| 4/  |  						   		|   |
-| 4/  | Last assignment due 		|   |
-
-
-
-
+| Date | Topics                      | Reading |
+|------|-----------------------------|---------|
+| 1/   | Intro and Intro to R        |         |
+| 1/   | Probability and Bayes' rule |         |
+| 1/   | Bayesian inference          |         |
+| 1/   | Bayesian computation        |         |
+| 2/   |                             |         |
+| 2/   | Case study                  |         |
+| 2/   |                             |         |
+| 3/   |                             |         |
+| 3/   |                             |         |
+| 3/   |                             |         |
+| 4/   |                             |         |
+| 4/   | Last assignment due         |         |
