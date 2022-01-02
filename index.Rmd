@@ -1,6 +1,6 @@
 ---
 title: "Applied Bayesian Methods in Clinical Epidemiology and Health Care Research"
-author: "Kuan Liu and George Tomlinson <br> Institute of Health Policy, Management and Evaluation <br> University of Toronto"
+author: "Kuan Liu <br> Institute of Health Policy, Management and Evaluation <br> University of Toronto"
 date: "`r Sys.Date()`"
 documentclass: krantz
 bibliography: [book.bib, packages.bib]
@@ -29,41 +29,58 @@ always_allow_html: yes
 
 *Semester*: Winter 2022
 
-*Class hour and location*: TBA
+*Class hour and location*: Friday, 12pm to 3pm (Two parts: Lecture & Tutorial, with 15 mins break in between). **Please see Quercus for other course details.**
 
-| Instructors      | Email                                                                       | Office Hour |
-|------------------|-----------------------------------------------------------------------------|-------------|
-| Kuan Liu         | [mailto:kuan.liu\@mail.utoronto.ca](mailto:kuan.liu@mail.utoronto.ca){.uri} |             |
-| George Tomlinson |                                                                             |             |
-
-*Teaching assistant*: TBA
+| Instructors       | Email     | Office Hour |
+|:------------------|:----------|:------------|
+| Kuan Liu (Kuan)   | [mailto:kuan.liu\@mail.utoronto.ca](mailto:kuan.liu@mail.utoronto.ca){.uri} |             |
+| Juan Pablo Díaz Martínez (Juan Pablo) |      [mailto:juan.diaz.martinez\@mail.utoronto.ca](mailto:juan.diaz.martinez@mail.utoronto.ca){.uri}  |             |
 
 ## Course Description {.unnumbered}
 
-This course will introduce students to Bayesian data analysis. After a thorough review of fundamental concepts in statistics and probability, an introduction will be given to the fundamentals of the Bayesian approach, including a look at how computer simulation can be used to solve statistical problems. Students will learn how to use the brms package in the R statistical software environment to carry out Bayesian analyses of data commonly seen in health sciences. Bayesian methods will be covered for binary, continuous and count outcomes in one and two samples, for logistic, linear and Poisson regression, and for meta-analysis.
+This course will introduce students to Bayesian data analysis. After a thorough review of fundamental concepts in statistics and probability, an introduction will be given to the fundamentals of the Bayesian approach. Students will learn how to use the brms package in the R statistical software environment to carry out Bayesian analyses of data commonly seen in health sciences. Bayesian methods will be covered for binary, continuous and count outcomes in one and two samples, for logistic, linear and Poisson regression, and for meta-analysis.
 
 By the end of this course, students will:
+1.	Understand what is meant by a “Bayesian Analysis” and how it differs from a typical analysis under the frequentist framework
+2.	Understand how modern Bayesian models are fitted
+3.	Understand the role of prior(s) in Bayesian analysis and how to use prior(s)
+4.	Be able to fit Bayesian models to common types of study outcomes
+5.	know what aspects of the Bayesian analysis are an essential part of a statistical report
+6.	Have developed expertise in using the brms program within the R environment
 
-1.  Understand what is meant by a "Bayesian Analysis" and how it differs from a typical analysis under the frequentist framework
-2.  Understand the role and importance of Markov Chain Monte Carlo in modern Bayesian methods
-3.  Understand how modern Bayesian models are fitted
-4.  Be able to fit Bayesian models to common types of study designs and data types
-5.  Know what aspects of the Bayesian analysis are an essential part of a statistical report
-6.  Have worked through some case studies (in lectures, tutorials and as part of assignments)
-7.  Have developed expertise in using the brms program within the R environment
 
 *Pre-requisites*
 
-HAD5316H -- Biostatistics II: Advanced Techniques in Applied Regression Methods, Some simple programming (e.g., SAS data step, R, S-Plus) -- may be taken concurrently with course.
+HAD5316H – Biostatistics II: Advanced Techniques in Applied Regression Methods (or CHL5202H Biostatistics II) and basic programming knowledge in R or SAS. HAD5316H or CHL5202H may be taken concurrently with this course.
 
-*Evaulation*
+*Evaluation*
 
-4 Individual Assignments each worth 25%
+Class participation worth 10% and three individual assignments each worth 30%
 
 ## Course Textbook and Structure {.unnumbered}
 
 1.  2nd edition of the book by Richard McElreath: <https://xcelab.net/rm/statistical-rethinking/> [@mcelreath2018statistical]
 2.  Bayesian Approaches to Clincial Trials and Health-Care Evaluation by David Spiegelhalter, [free access via UT library](https://onlinelibrary-wiley-com.myaccess.library.utoronto.ca/doi/book/10.1002/0470092602)[@spiegelhalter2003]
+
+The lecture slides will be one main resource for this course. McElreath has a series of lectures on YouTube that are well worth watching: https://www.youtube.com/playlist?list=UUNJK6_DZvcMqNSzQdEkzvzA (Links to an external site.). Additionally, this material, https://bookdown.org/content/4857/ (Links to an external site.) provide R code using brms and tidyverse, two R packages to recreate figures and tables in McElreath (2018).
+
+## Calendar and Outline {.unnumbered}
+
+| Date  | Topics                       | Assignment  |
+|:------|:-----------------------------|:---------|
+| Jan 7   | Course introduction; Why Bayesian; Bayesian versus Frequentist; Bayesian analysis used in clinical research        |         |
+| Jan 14  | Review of probability and other statistics concepts |         |
+| Jan 21  | Introduction to Bayesian approach          | Assignment 1: hand out        |
+| Jan 28  | Bayesian Inference        |         |
+| Feb 4   | Priors |   **Assignment 1: due Feb 8**      |
+| Feb 11  | Bayesian estimation                  |   |
+| Feb 18  | Normal Models and Linear Regression                            |   Assignment 2: hand out        |
+| Feb 25  |  Reading week - no lecture                           |         |
+| Mar 4   | Hierarchical models and convergence                            |         |
+| Mar 11  | Models for Binary Data                            |    **Assignment 2: due Mar 15**     |
+| Mar 18  | Intro to Bayesian Meta-analysis and Bayesian Network Meta-analysis (Juan Pablo)                            |    Assignment 3: hand out     |
+| Mar 25  | Models for Count Data         |    **Assignment 3: due Apr 5**     |
+
 
 ## Accessibility and Accommodations {.unnumbered}
 
@@ -73,19 +90,11 @@ The University provides academic accommodations for students with disabilities i
 
 Academic integrity is essential to the pursuit of learning and scholarship in a university, and to ensuring that a degree from the University of Toronto is a strong signal of each student's individual academic achievement. As a result, the University treats cases of cheating and plagiarism very seriously. Help and information is available on the Academic Integrity website. The University of Toronto's Code of Behaviour on Academic Matters (<http://www.governingcouncil.utoronto.ca/policies/behaveac.htm>) outlines the behaviours that constitute academic dishonesty and the processes for addressing academic offences.
 
-## Calendar and Outline {.unnumbered}
 
-| Date | Topics                      | Reading |
-|------|-----------------------------|---------|
-| 1/   | Intro and Intro to R        |         |
-| 1/   | Probability and Bayes' rule |         |
-| 1/   | Bayesian inference          |         |
-| 1/   | Bayesian computation        |         |
-| 2/   |                             |         |
-| 2/   | Case study                  |         |
-| 2/   |                             |         |
-| 3/   |                             |         |
-| 3/   |                             |         |
-| 3/   |                             |         |
-| 4/   |                             |         |
-| 4/   | Last assignment due         |         |
+## Key Resources and Supports for DSLPH Graduate Students {.unnumbered}
+
+- [U of T Student Mental Health Resources](https://mentalhealth.utoronto.ca/)
+- [U of T Graduate Student Union](https://utgsu.ca/)
+- [DLSPH Covid Information](http://www.dlsph.utoronto.ca/live-updates-on-covid-19-from-dlsph/)
+- [DLSPH Student Resources(Policies, Financial Aid, Health and Wellness, etc.)](http://www.dlsph.utoronto.ca/students/current-students/)
+- [DLSPH Student Handbook](https://www.dlsph.utoronto.ca/wp-content/uploads/2020/08/2020-21-Student-Handbook-19Aug.pdf)

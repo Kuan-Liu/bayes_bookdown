@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Lecture 1 Getting started with R and Rstudio | Applied Bayesian Methods in Clinical Epidemiology and Health Care Research</title>
+  <title>Session 1 Getting started with R and Rstudio | Applied Bayesian Methods in Clinical Epidemiology and Health Care Research</title>
   <meta name="description" content="This is a course note for HAD5314H" />
   <meta name="generator" content="bookdown 0.22.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Lecture 1 Getting started with R and Rstudio | Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
+  <meta property="og:title" content="Session 1 Getting started with R and Rstudio | Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
   <meta property="og:type" content="book" />
   
   
@@ -16,24 +16,24 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Lecture 1 Getting started with R and Rstudio | Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
+  <meta name="twitter:title" content="Session 1 Getting started with R and Rstudio | Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
   
   <meta name="twitter:description" content="This is a course note for HAD5314H" />
   
 
-<meta name="author" content="Kuan Liu and George Tomlinson   Institute of Health Policy, Management and Evaluation   University of Toronto" />
+<meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2021-05-13" />
+<meta name="date" content="2022-01-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="course-syllabus.html"/>
-<link rel="next" href="review.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="into.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -55,6 +55,70 @@
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
@@ -95,32 +159,39 @@ div.csl-indent {
 <li><a href="./">HAD5314H - Winter 2022 </a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>University of Toronto Statement of Acknowledgment of Traditional Land</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html"><i class="fa fa-check"></i>Course Syllabus</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>University of Toronto Statement of Acknowledgment of Traditional Land</a>
 <ul>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-info"><i class="fa fa-check"></i>Course Info</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-description"><i class="fa fa-check"></i>Course Description</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-textbook-and-structure"><i class="fa fa-check"></i>Course Textbook and Structure</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#accessibility-and-accommodations"><i class="fa fa-check"></i>Accessibility and Accommodations</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#academic-integrity"><i class="fa fa-check"></i>Academic Integrity</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#calendar-and-outline"><i class="fa fa-check"></i>Calendar and Outline</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-info"><i class="fa fa-check"></i>Course Info</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-description"><i class="fa fa-check"></i>Course Description</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-textbook-and-structure"><i class="fa fa-check"></i>Course Textbook and Structure</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#calendar-and-outline"><i class="fa fa-check"></i>Calendar and Outline</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#accessibility-and-accommodations"><i class="fa fa-check"></i>Accessibility and Accommodations</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#academic-integrity"><i class="fa fa-check"></i>Academic Integrity</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#key-resources-and-supports-for-dslph-graduate-students"><i class="fa fa-check"></i>Key Resources and Supports for DSLPH Graduate Students</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="intro-r.html"><a href="intro-r.html"><i class="fa fa-check"></i><b>1</b> Getting started with R and Rstudio</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="intro-r.html"><a href="intro-r.html#r-statistical-software"><i class="fa fa-check"></i><b>1.1</b> R statistical software</a></li>
-<li class="chapter" data-level="1.2" data-path="intro-r.html"><a href="intro-r.html#package-for-this-course"><i class="fa fa-check"></i><b>1.2</b> Package for this course</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="review.html"><a href="review.html"><i class="fa fa-check"></i><b>2</b> Probability and inference</a></li>
-<li class="chapter" data-level="3" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>3</b> Bayesian inference</a>
+<li class="chapter" data-level="1.1" data-path="intro-r.html"><a href="intro-r.html#r-and-rstudio-installation"><i class="fa fa-check"></i><b>1.1</b> R and Rstudio Installation</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="bayes.html"><a href="bayes.html#priors"><i class="fa fa-check"></i><b>3.1</b> Priors</a></li>
-<li class="chapter" data-level="3.2" data-path="bayes.html"><a href="bayes.html#posterior"><i class="fa fa-check"></i><b>3.2</b> Posterior</a></li>
-<li class="chapter" data-level="3.3" data-path="bayes.html"><a href="bayes.html#prediction"><i class="fa fa-check"></i><b>3.3</b> Prediction</a></li>
-<li class="chapter" data-level="3.4" data-path="bayes.html"><a href="bayes.html#decision-theory"><i class="fa fa-check"></i><b>3.4</b> Decision theory</a></li>
+<li class="chapter" data-level="1.1.1" data-path="intro-r.html"><a href="intro-r.html#windows-operating-system"><i class="fa fa-check"></i><b>1.1.1</b> Windows operating system</a></li>
+<li class="chapter" data-level="1.1.2" data-path="intro-r.html"><a href="intro-r.html#macos-operating-system"><i class="fa fa-check"></i><b>1.1.2</b> macOS operating system</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="MCMC.html"><a href="MCMC.html"><i class="fa fa-check"></i><b>4</b> Monte Carlo Markov Chain</a></li>
+<li class="chapter" data-level="1.2" data-path="intro-r.html"><a href="intro-r.html#r-packages"><i class="fa fa-check"></i><b>1.2</b> R Packages</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="intro-r.html"><a href="intro-r.html#bayesian-analysis-in-r-using-brms-package"><i class="fa fa-check"></i><b>1.2.1</b> Bayesian Analysis in R using brms package</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="into.html"><a href="into.html"><i class="fa fa-check"></i><b>2</b> Introduction to the course</a></li>
+<li class="chapter" data-level="3" data-path="prob.html"><a href="prob.html"><i class="fa fa-check"></i><b>3</b> Probability, random variables and distributions</a></li>
+<li class="chapter" data-level="4" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>4</b> Bayesian inference</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="bayes.html"><a href="bayes.html#priors"><i class="fa fa-check"></i><b>4.1</b> Priors</a></li>
+<li class="chapter" data-level="4.2" data-path="bayes.html"><a href="bayes.html#posterior"><i class="fa fa-check"></i><b>4.2</b> Posterior</a></li>
+<li class="chapter" data-level="4.3" data-path="bayes.html"><a href="bayes.html#prediction"><i class="fa fa-check"></i><b>4.3</b> Prediction</a></li>
+<li class="chapter" data-level="4.4" data-path="bayes.html"><a href="bayes.html#decision-theory"><i class="fa fa-check"></i><b>4.4</b> Decision theory</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="BayesReg.html"><a href="BayesReg.html"><i class="fa fa-check"></i><b>5</b> Bayesian Regression</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="6" data-path="BayesReg.html"><a href="BayesReg.html#BayesReg"><i class="fa fa-check"></i><b>6</b> Bayesian Regression</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a> <a href="https://www.kuan-liu.com/" target="blank">Developed by Kuan Liu</a></li>
 
@@ -142,15 +213,51 @@ div.csl-indent {
 
             <section class="normal" id="section-">
 <div id="intro_r" class="section level1" number="1">
-<h1><span class="header-section-number">Lecture 1</span> Getting started with R and Rstudio</h1>
-<div id="r-statistical-software" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> R statistical software</h2>
-<p>R can be downloaded from <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>.</p>
-<p>Many users of R like a tool called RStudio. This program is what is called an Integrated Development Environment (IDE) for R. It has several nice features, notably the ability to scroll backward through graphs you have created. RStudio can be downloaded from <a href="https://rstudio.com/" class="uri">https://rstudio.com/</a>.</p>
+<h1><span class="header-section-number">Session 1</span> Getting started with R and Rstudio</h1>
+<div id="r-and-rstudio-installation" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> R and Rstudio Installation</h2>
+<p>R is a language and environment for statistical computing and graphics (<a href="https://cran.r-project.org/manuals.html" class="uri">https://cran.r-project.org/manuals.html</a>). Many users of R like a tool called <strong>RStudio</strong> (<a href="https://www.rstudio.com/" class="uri">https://www.rstudio.com/</a>). This software is what is called an Integrated Development Environment (IDE) for R. It has several nice features, including docked windows for your console and syntax-highlighting editor that supports direct code execution, as well as tools for plotting and workspace management.</p>
+<div id="windows-operating-system" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Windows operating system</h3>
+<ul>
+<li>install R, <a href="https://cran.r-project.org/bin/windows/base/" class="uri">https://cran.r-project.org/bin/windows/base/</a></li>
+<li>install Rstudio, <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a></li>
+<li><a href="https://www.youtube.com/watch?v=TFGYlKvQEQ4">YouTube Instruction</a></li>
+</ul>
 </div>
-<div id="package-for-this-course" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Package for this course</h2>
+<div id="macos-operating-system" class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> macOS operating system</h3>
+<ul>
+<li>install R, <a href="https://cran.r-project.org/bin/macosx/" class="uri">https://cran.r-project.org/bin/macosx/</a></li>
+<li>install Rstudio, <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a> (select macOS 10.14+ option)</li>
+<li><a href="https://www.youtube.com/watch?v=LanBozXJjOk">YouTube Instruction</a></li>
+</ul>
+</div>
+</div>
+<div id="r-packages" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> R Packages</h2>
+<p>Packages are the fundamental units of reproducible R code. They include reusable R functions, the documentation that describes how to use them, and sample data.<span class="citation">(<a href="#ref-wickham2015r" role="doc-biblioref">Wickham 2015</a>)</span></p>
+<p>To load the functions in a given package, we first have to install the package. We do this using the install.packages() function. Run the line of code that installs the tidyverse package below by removing the # at the start of the second line to ‘uncomment’ the code. R will install the package to a default directory on your computer. If any dialogue box prompts you to ‘set up a personal library instead,’ click yes. Once we have the package installed, we must load the functions from this library so we can use them within R.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="intro-r.html#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># install.packages(“tidyverse”, dependencies = T) #uncomment this line if you haven&#39;t installed this package;</span></span>
+<span id="cb1-2"><a href="intro-r.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="intro-r.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(tidyverse) <span class="co"># load package library</span></span></code></pre></div>
+<p>The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures (<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>). The core packages are ggplot2 (data visualization), dplyr(dataframe manipulation), tidyr(data reshaping), readr(reading datasets), purrr (function and iterations) and tibble(dataframe).</p>
+<div id="bayesian-analysis-in-r-using-brms-package" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Bayesian Analysis in R using brms package</h3>
+<p>The course will mainly use the brms package in R<span class="citation">(<a href="#ref-burkner2017advanced" role="doc-biblioref">Bürkner 2017</a>)</span>, which offers a standard R-modelling type interface to the underlying computing engine Stan. Direct use of Stan is not ideal for teaching Bayesian methods. The brms package automatically writes Stan code that can be viewed and edited, so after learning brms, the enterprising student may want to use this Stan code as a steppingstone toward programming directly in Stan. The brms package can be installed and loaded in the same way as any other R package, in this case by typing the following commands in R:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="intro-r.html#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># install.packages(“brms”) #uncomment this line if you haven&#39;t installed this package;</span></span>
+<span id="cb2-2"><a href="intro-r.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(brms)</span></code></pre></div>
 
+</div>
+</div>
+</div>
+<h3> Bayesian Regression</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-burkner2017advanced" class="csl-entry">
+Bürkner, Paul-Christian. 2017. <span>“Advanced Bayesian Multilevel Modeling with the r Package Brms.”</span> <em>arXiv Preprint arXiv:1705.11123</em>.
+</div>
+<div id="ref-wickham2015r" class="csl-entry">
+Wickham, Hadley. 2015. <em>R Packages: Organize, Test, Document, and Share Your Code</em>. " O’Reilly Media, Inc.".
 </div>
 </div>
             </section>
@@ -158,8 +265,8 @@ div.csl-indent {
           </div>
         </div>
       </div>
-<a href="course-syllabus.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="into.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
