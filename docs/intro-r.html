@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-01-01" />
+<meta name="date" content="2022-01-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -181,6 +181,14 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="1.2.1" data-path="intro-r.html"><a href="intro-r.html#bayesian-analysis-in-r-using-brms-package"><i class="fa fa-check"></i><b>1.2.1</b> Bayesian Analysis in R using brms package</a></li>
 </ul></li>
+<li class="chapter" data-level="1.3" data-path="intro-r.html"><a href="intro-r.html#working-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> Working in Rstudio</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="intro-r.html"><a href="intro-r.html#rstudio-layout"><i class="fa fa-check"></i><b>1.3.1</b> Rstudio layout</a></li>
+<li class="chapter" data-level="1.3.2" data-path="intro-r.html"><a href="intro-r.html#customization"><i class="fa fa-check"></i><b>1.3.2</b> Customization</a></li>
+<li class="chapter" data-level="1.3.3" data-path="intro-r.html"><a href="intro-r.html#working-directory"><i class="fa fa-check"></i><b>1.3.3</b> Working directory</a></li>
+<li class="chapter" data-level="1.3.4" data-path="intro-r.html"><a href="intro-r.html#getting-help-with-r"><i class="fa fa-check"></i><b>1.3.4</b> Getting help with R</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="intro-r.html"><a href="intro-r.html#basic-r-a-crash-introduction"><i class="fa fa-check"></i><b>1.4</b> Basic R (a crash introduction)</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="into.html"><a href="into.html"><i class="fa fa-check"></i><b>2</b> Introduction to the course</a></li>
 <li class="chapter" data-level="3" data-path="prob.html"><a href="prob.html"><i class="fa fa-check"></i><b>3</b> Probability, random variables and distributions</a></li>
@@ -255,8 +263,40 @@ div.csl-indent {
 <p>The course will mainly use the brms package in R<span class="citation">(<a href="#ref-burkner2017advanced" role="doc-biblioref">Bürkner 2017</a>)</span>, which offers a standard R-modelling type interface to the underlying computing engine Stan. Direct use of Stan is not ideal for teaching Bayesian methods. The brms package automatically writes Stan code that can be viewed and edited, so after learning brms, the enterprising student may want to use this Stan code as a steppingstone toward programming directly in Stan. The brms package can be installed and loaded in the same way as any other R package, in this case by typing the following commands in R:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="intro-r.html#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># install.packages(“brms”) #uncomment this line if you haven&#39;t installed this package;</span></span>
 <span id="cb2-2"><a href="intro-r.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(brms)</span></code></pre></div>
-
 </div>
+</div>
+<div id="working-in-rstudio" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Working in Rstudio</h2>
+<div id="rstudio-layout" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Rstudio layout</h3>
+<p>When you open RStudio, your interface is made up of four panes as shown below. These can be organised via menu options <strong>View &gt; Panes &gt;</strong></p>
+<div class="figure">
+<img src="images/intro_to_r_rstudiolayout.png" alt="" />
+<p class="caption">Rstudio layout</p>
+</div>
+<p>We can run code in the console at the prompt where R will evaluate it and print the results. However, the best practice is to write your code in a new script file so it can be saved, edited, and reproduced. To open a new script, we select <strong>File &gt; New File &gt; R Script</strong>.</p>
+<p>To run code that was written in the script file, you can highlight the code lines you wish be evaluated and press CTRL-Enter (windows) or Cmd+Return (Mac). Additionally, You can comment or uncomment script lines by pressing Ctrl+Shift+C (windows) or Cmd+Shift+C (Mac). The comment operator in R is <code>#</code>. You can find more RStuio default <a href="https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts-in-the-RStudio-IDE">keyboard shortcuts here</a>.</p>
+<p>In our first tutorial, we will also introduce Rmarkdown, a R version of the markdown file editor that can write and output document in html, word, or pdf format that contents not only the programming code but also any evaluation outputs and graphs. To read more about Rmarkdown, please visit <a href="https://rmarkdown.rstudio.com/lesson-1.html" class="uri">https://rmarkdown.rstudio.com/lesson-1.html</a>.</p>
+</div>
+<div id="customization" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Customization</h3>
+<p>You can customize your Rstudio session under the Options dialog <strong>Tools &gt; Global Options</strong> menu (or <strong>RStudio &gt; Preferences</strong> on a Mac). A list of customization categories can be found here, <a href="https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio" class="uri">https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio</a>. For example, it’s popular to change Rstudio appearance and themes (e.g., mordern, sky, dark, and classic).</p>
+</div>
+<div id="working-directory" class="section level3" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Working directory</h3>
+<p>The working directory is the default location where R will look for files you want to load and where it will put any files you save. You can use function <code>getwd()</code> to display your current working directory and use function <code>setwd()</code> to set your workding directory to a new folder on your computer. One of the great things about using RStudio Projects is that when you open a project it will automatically set your working directory to the appropriate location.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="intro-r.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>() <span class="co">#show my current working directory;</span></span></code></pre></div>
+<pre><code>## [1] &quot;D:/GitHub/bayes_bookdown&quot;</code></pre>
+</div>
+<div id="getting-help-with-r" class="section level3" number="1.3.4">
+<h3><span class="header-section-number">1.3.4</span> Getting help with R</h3>
+<p>The help section of R is extremely useful if you need more information about the packages and functions that <strong>you are currently loaded</strong>. You can initiate R help using the help function <code>help()</code> or <code>?</code>, the help operator.</p>
+</div>
+</div>
+<div id="basic-r-a-crash-introduction" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Basic R (a crash introduction)</h2>
+<p>A more comprehensive introduction to base R can be found at <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html" class="uri">https://cran.r-project.org/doc/manuals/r-release/R-intro.html</a>. In this subsection, I will briefly outline some common R functions and commands for arithmetic, creating and working with object, vector, matrix, and data.</p>
+
 </div>
 </div>
 <h3>References</h3>

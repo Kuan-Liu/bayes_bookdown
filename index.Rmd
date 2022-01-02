@@ -41,12 +41,13 @@ always_allow_html: yes
 This course will introduce students to Bayesian data analysis. After a thorough review of fundamental concepts in statistics and probability, an introduction will be given to the fundamentals of the Bayesian approach. Students will learn how to use the brms package in the R statistical software environment to carry out Bayesian analyses of data commonly seen in health sciences. Bayesian methods will be covered for binary, continuous and count outcomes in one and two samples, for logistic, linear and Poisson regression, and for meta-analysis.
 
 By the end of this course, students will:
-1.	Understand what is meant by a “Bayesian Analysis” and how it differs from a typical analysis under the frequentist framework
-2.	Understand how modern Bayesian models are fitted
-3.	Understand the role of prior(s) in Bayesian analysis and how to use prior(s)
-4.	Be able to fit Bayesian models to common types of study outcomes
-5.	know what aspects of the Bayesian analysis are an essential part of a statistical report
-6.	Have developed expertise in using the brms program within the R environment
+
+1. Understand what is meant by a “Bayesian Analysis” and how it differs from a typical analysis under the frequentist framework
+2. Understand how modern Bayesian models are fitted
+3. Understand the role of prior(s) in Bayesian analysis and how to use prior(s)
+4. Be able to fit Bayesian models to common types of study outcomes
+5. know what aspects of the Bayesian analysis are an essential part of a statistical report
+6. Have developed expertise in using the brms program within the R environment
 
 
 *Pre-requisites*

@@ -4,6 +4,12 @@ windows-operating-system
 macos-operating-system
 r-packages
 bayesian-analysis-in-r-using-brms-package
+working-in-rstudio
+rstudio-layout
+customization
+working-directory
+getting-help-with-r
+basic-r-a-crash-introduction
 into
 prob
 bayes

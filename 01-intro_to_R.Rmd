@@ -48,3 +48,43 @@ The course will mainly use the brms package in R[@burkner2017advanced], which of
   library(brms)
 ```
 
+## Working in Rstudio
+
+### Rstudio layout
+
+When you open RStudio, your interface is made up of four panes as shown below. These can be organised via menu options **View > Panes >**
+
+![Rstudio layout](images/intro_to_r_rstudiolayout.png)
+
+We can run code in the console at the prompt where R will evaluate it and print the results. However, the best practice is to write your code in a new script file so it can be saved, edited, and reproduced. To open a new script, we select **File > New File > R Script**. 
+
+To run code that was written in the script file, you can highlight the code lines you wish be evaluated and press CTRL-Enter (windows) or Cmd+Return (Mac). Additionally, You can comment or uncomment script lines by pressing Ctrl+Shift+C (windows) or Cmd+Shift+C (Mac). The comment operator in R is `# `. You can find more RStuio default [keyboard shortcuts here](https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts-in-the-RStudio-IDE).
+
+In our first tutorial, we will also introduce Rmarkdown, a R version of the markdown file editor that can write and output document in html, word, or pdf format that contents not only the programming code but also any evaluation outputs and graphs. To read more about Rmarkdown, please visit https://rmarkdown.rstudio.com/lesson-1.html.
+
+### Customization
+
+You can customize your Rstudio session under the Options dialog **Tools > Global Options** menu (or **RStudio > Preferences** on a Mac). A list of customization categories can be found here, https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio. For example, it's popular to change Rstudio appearance and themes (e.g., mordern, sky, dark, and classic).
+
+### Working directory
+The working directory is the default location where R will look for files you want to load and where it will put any files you save. You can use function `getwd()` to display your current working directory and use function `setwd()` to set your workding directory to a new folder on your computer. One of the great things about using RStudio Projects is that when you open a project it will automatically set your working directory to the appropriate location. 
+
+```{r echo=T, warning=F, message=F}
+getwd() #show my current working directory;
+```
+
+
+### Getting help with R
+
+The help section of R is extremely useful if you need more information about the packages and functions that **you are currently loaded**. You can initiate R help using the help function `help() ` or `?`, the help operator.
+
+```{r echo=T, include=F, warning=F, message=F}
+help(brms)
+```
+
+
+## Basic R (a crash introduction) 
+
+A more comprehensive introduction to base R can be found at https://cran.r-project.org/doc/manuals/r-release/R-intro.html. In this subsection, I will briefly outline some common R functions and commands for arithmetic, creating and working with object, vector, matrix, and data.
+
+
