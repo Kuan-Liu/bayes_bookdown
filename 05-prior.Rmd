@@ -1,1 +1,1 @@
-# Bayesian Regression {#BayesReg}
+# Priors {#Prior}

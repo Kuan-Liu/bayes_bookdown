@@ -11,4 +11,9 @@ priors
 posterior
 prediction
 decision-theory
+Prior
 BayesReg
+normal-models-and-linear-regression
+hierarchical-models-and-convergence
+models-for-binary-data
+models-for-count-data

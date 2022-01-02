@@ -2,7 +2,6 @@ bookdown::gitbook:
   css: style.css
   config:
     toc:
-      collapse: subsection
       scroll_highlight: yes
       before: |
         <li><a href="./">HAD5314H - Winter 2022 </a></li>

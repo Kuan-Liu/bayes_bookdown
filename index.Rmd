@@ -60,7 +60,7 @@ Class participation worth 10% and three individual assignments each worth 30%
 ## Course Textbook and Structure {.unnumbered}
 
 1.  2nd edition of the book by Richard McElreath: <https://xcelab.net/rm/statistical-rethinking/> [@mcelreath2018statistical]
-2.  Bayesian Approaches to Clincial Trials and Health-Care Evaluation by David Spiegelhalter, [free access via UT library](https://onlinelibrary-wiley-com.myaccess.library.utoronto.ca/doi/book/10.1002/0470092602)[@spiegelhalter2003]
+2.  Bayesian Approaches to Clincial Trials and Health-Care Evaluation by David Spiegelhalter, [free access via UT library](https://onlinelibrary-wiley-com.myaccess.library.utoronto.ca/doi/book/10.1002/0470092602) [@spiegelhalter2003]
 
 The lecture slides will be one main resource for this course. McElreath has a series of lectures on YouTube that are well worth watching: https://www.youtube.com/playlist?list=UUNJK6_DZvcMqNSzQdEkzvzA (Links to an external site.). Additionally, this material, https://bookdown.org/content/4857/ (Links to an external site.) provide R code using brms and tidyverse, two R packages to recreate figures and tables in McElreath (2018).
 

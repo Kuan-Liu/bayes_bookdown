@@ -1,1 +1,9 @@
 # Bayesian Regression {#BayesReg}
+
+## Normal Models and Linear Regression
+
+## Hierarchical models and convergence
+
+## Models for Binary Data
+
+## Models for Count Data
