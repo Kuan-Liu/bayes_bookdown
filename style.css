@@ -12,3 +12,141 @@ pre {
 pre code {
   white-space: inherit;
 }
+
+h1, h2, h3{
+  color: #00204E;
+}
+
+
+h1, h2{
+  border-bottom: 3px solid #00204E;
+  border-top: 3px solid #00204E;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal pre {
+ /* background-color: #fffefa;
+  border:1px solid black; */
+  font-family: Monospace;
+  font-weight: bold;
+}
+
+
+
+.showopt {
+  background-color: #004c93;
+  color: #FFFFFF; 
+  width: 150px;
+  height: 25px;
+  text-align: center;
+  vertical-align: middle !important;
+  float: right;
+  font-family: sans-serif;
+  border-radius: 10px;
+}
+
+.showopt:hover {
+    background-color: #dfe4f2;
+    color: #004c93;
+}
+
+pre.plot {
+  background-color: white !important;
+}
+
+/* addition features */
+
+/* chapterintro - learning objectives */
+
+.chapterintro {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  background: #FFFAFA 5px center/3em no-repeat;
+  border-top: 3px solid #00204E;    /* openintro::COL[1,1] */ 
+  border-bottom: 3px solid #00204E; /* openintro::COL[1,1] */ 
+}
+
+.chapterintro:before {
+  content: "Learning objectives:";
+  clear: right;
+  display: block;
+  font-weight: bold;
+  font-variant: small-caps;
+  color: #00204E;
+}
+
+
+/* workedexample */
+
+.workedexample{
+  padding: 1em 1em 1em 4em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background: #f8f8f8 5px center/3em no-repeat; 
+  border-top: 1px solid #00204E;    /* openintro::COL[1,1] */ 
+  border-bottom: 1px solid #00204E; /* openintro::COL[1,1] */ 
+}
+
+.workedexample:before {
+  content: "Example:";
+  clear: right;
+  display: block;
+  font-weight: bold;
+  font-variant: small-caps;
+  color: #00204E;
+}
+
+/* important */
+
+.important {
+  padding: 1em 1em 1em 4em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background: #ffffff 5px center/3em no-repeat;
+  border-top: 1px solid #DC143C;   
+  border-bottom: 1px solid #DC143C;  
+}
+
+.important strong {
+  color: #DC143C; 
+}
+
+/* Counting exercises */
+
+.exercises ol ol { 
+  list-style-type: lower-alpha !important; 
+}
+
+.exercises ol ol ol { 
+  list-style-type: lower-roman !important; 
+}
+
+.exercises strong {
+  color: #00204E; /* openintro::COL[1,1] */ 
+}
+
+
+
+/* wrap long math lines */
+
+.mjx-chtml {
+  /*white-space: normal !important;*/
+  font-size: 100%;
+}
+
+/* overwrite bs4_book style */
+
+img.cover {
+  box-shadow: none;
+}
+
+.inline-figure {
+  border: none;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+

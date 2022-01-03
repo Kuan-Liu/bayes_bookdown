@@ -1,7 +1,9 @@
 ---
-title: "Applied Bayesian Methods in Clinical Epidemiology and Health Care Research"
+title: "HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research"
 author: "Kuan Liu <br> Institute of Health Policy, Management and Evaluation <br> University of Toronto"
+description: "Course notes for HAD5314H Winter 2022"
 date: "`r Sys.Date()`"
+url: 'https://kuan-liu.github.io/bayes_bookdown/'
 documentclass: krantz
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
@@ -12,14 +14,23 @@ lof: no
 graphics: yes
 urlcolor: blue
 geometry: "left=1.5in, right=1.5in, top=1.25in, bottom=1.25in"
-description: "This is a course note for HAD5314H"
 site: bookdown::bookdown_site
 always_allow_html: yes
 ---
 
+
 # University of Toronto Statement of Acknowledgment of Traditional Land {.unnumbered}
 
 > "We wish to acknowledge this land on which the University of Toronto operates. For thousands of years it has been the traditional land of the Huron-Wendat, the Seneca, and the Mississaugas of the Credit. Today, this meeting place is still the home to many Indigenous people from across Turtle Island and we are grateful to have the opportunity to work on this land."
+
+
+</br>
+
+![Health Sciences Building](images/cover.jpg)
+
+# License
+
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 # Course Syllabus {.unnumbered}
 
@@ -33,7 +44,7 @@ always_allow_html: yes
 
 | Instructors       | Email     | Office Hour |
 |:------------------|:----------|:------------|
-| Kuan Liu (Kuan)   | [mailto:kuan.liu\@mail.utoronto.ca](mailto:kuan.liu@mail.utoronto.ca){.uri} |             |
+| Kuan Liu (Kuan)   | [mailto:kuan.liu\@mail.utoronto.ca](mailto:kuan.liu@mail.utoronto.ca){.uri} |    Thursday, 12pm to 1pm         |
 | Juan Pablo Díaz Martínez (Juan Pablo) |      [mailto:juan.diaz.martinez\@mail.utoronto.ca](mailto:juan.diaz.martinez@mail.utoronto.ca){.uri}  |             |
 
 ## Course Description {.unnumbered}

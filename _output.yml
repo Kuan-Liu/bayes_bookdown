@@ -9,12 +9,11 @@ bookdown::gitbook:
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a> <a href="https://www.kuan-liu.com/" target="blank">Developed by Kuan Liu</a></li>
     toolbar:
       position: fixed
-    download: ["pdf", "epub"]
     search: yes
     sharing:
       facebook: no
       github: no
-      twitter: no
+      twitter: yes
       linkedin: no
       weibo: no
       instapaper: no
@@ -22,3 +21,6 @@ bookdown::gitbook:
       whatsapp: no
       all: ['twitter']
     info: yes
+
+
+  

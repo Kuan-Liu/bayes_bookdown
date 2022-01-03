@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lab1 Getting started with R &amp; Rstudio | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research</title>
+  <meta name="description" content="Course notes for HAD5314H Winter 2022" />
+  <meta name="generator" content="bookdown 0.22.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lab1 Getting started with R &amp; Rstudio | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://kuan-liu.github.io/bayes_bookdown/" />
+  
+  <meta property="og:description" content="Course notes for HAD5314H Winter 2022" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lab1 Getting started with R &amp; Rstudio | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
+  
+  <meta name="twitter:description" content="Course notes for HAD5314H Winter 2022" />
+  
+
+<meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
+
+
+<meta name="date" content="2022-01-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="into.html"/>
+<link rel="next" href="prob.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">HAD5314H - Winter 2022 </a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>University of Toronto Statement of Acknowledgment of Traditional Land</a></li>
+<li class="chapter" data-level="1" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>1</b> License</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html"><i class="fa fa-check"></i>Course Syllabus</a>
+<ul>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-info"><i class="fa fa-check"></i>Course Info</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-description"><i class="fa fa-check"></i>Course Description</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-textbook-and-structure"><i class="fa fa-check"></i>Course Textbook and Structure</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#calendar-and-outline"><i class="fa fa-check"></i>Calendar and Outline</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#accessibility-and-accommodations"><i class="fa fa-check"></i>Accessibility and Accommodations</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#academic-integrity"><i class="fa fa-check"></i>Academic Integrity</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#key-resources-and-supports-for-dslph-graduate-students"><i class="fa fa-check"></i>Key Resources and Supports for DSLPH Graduate Students</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="into.html"><a href="into.html"><i class="fa fa-check"></i><b>2</b> Introduction to the course</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="into.html"><a href="into.html#about-me"><i class="fa fa-check"></i><b>2.1</b> About me</a></li>
+<li class="chapter" data-level="2.2" data-path="into.html"><a href="into.html#syllabus"><i class="fa fa-check"></i><b>2.2</b> Syllabus</a></li>
+<li class="chapter" data-level="2.3" data-path="into.html"><a href="into.html#some-history"><i class="fa fa-check"></i><b>2.3</b> Some history</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="into.html"><a href="into.html#bayesian-history"><i class="fa fa-check"></i><b>2.3.1</b> Bayesian history</a></li>
+<li class="chapter" data-level="2.3.2" data-path="into.html"><a href="into.html#history-of-this-course"><i class="fa fa-check"></i><b>2.3.2</b> History of this course</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="into.html"><a href="into.html#thinking-like-a-bayesian-using-the-concept-of-probability"><i class="fa fa-check"></i><b>2.4</b> Thinking like a Bayesian using the concept of probability</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="into.html"><a href="into.html#probability-is-not-unitary"><i class="fa fa-check"></i><b>2.4.1</b> Probability is not unitary</a></li>
+<li class="chapter" data-level="2.4.2" data-path="into.html"><a href="into.html#bayes-rule"><i class="fa fa-check"></i><b>2.4.2</b> Bayes’ Rule</a></li>
+<li class="chapter" data-level="2.4.3" data-path="into.html"><a href="into.html#the-scientific-method-in-steps"><i class="fa fa-check"></i><b>2.4.3</b> The Scientific Method in steps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html"><i class="fa fa-check"></i>Lab1 Getting started with R &amp; Rstudio</a>
+<ul>
+<li class="chapter" data-level="2.5" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-and-rstudio-installation"><i class="fa fa-check"></i><b>2.5</b> R and Rstudio Installation</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#windows-operating-system"><i class="fa fa-check"></i><b>2.5.1</b> Windows operating system</a></li>
+<li class="chapter" data-level="2.5.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#macos-operating-system"><i class="fa fa-check"></i><b>2.5.2</b> macOS operating system</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-packages"><i class="fa fa-check"></i><b>2.6</b> R Packages</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#bayesian-analysis-in-r-using-brms-package"><i class="fa fa-check"></i><b>2.6.1</b> Bayesian Analysis in R using brms package</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-in-rstudio"><i class="fa fa-check"></i><b>2.7</b> Working in Rstudio</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#rstudio-layout"><i class="fa fa-check"></i><b>2.7.1</b> Rstudio layout</a></li>
+<li class="chapter" data-level="2.7.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#customization"><i class="fa fa-check"></i><b>2.7.2</b> Customization</a></li>
+<li class="chapter" data-level="2.7.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-directory"><i class="fa fa-check"></i><b>2.7.3</b> Working directory</a></li>
+<li class="chapter" data-level="2.7.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#getting-help-with-r"><i class="fa fa-check"></i><b>2.7.4</b> Getting help with R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#basic-r-a-crash-introduction"><i class="fa fa-check"></i><b>2.8</b> Basic R (a crash introduction)</a>
+<ul>
+<li class="chapter" data-level="2.8.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#arithmetic"><i class="fa fa-check"></i><b>2.8.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="2.8.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#vectors"><i class="fa fa-check"></i><b>2.8.2</b> Vectors</a></li>
+<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-session-information"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="prob.html"><a href="prob.html"><i class="fa fa-check"></i><b>3</b> Probability, random variables and distributions</a></li>
+<li class="chapter" data-level="4" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>4</b> Bayesian inference</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="bayes.html"><a href="bayes.html#priors"><i class="fa fa-check"></i><b>4.1</b> Priors</a></li>
+<li class="chapter" data-level="4.2" data-path="bayes.html"><a href="bayes.html#posterior"><i class="fa fa-check"></i><b>4.2</b> Posterior</a></li>
+<li class="chapter" data-level="4.3" data-path="bayes.html"><a href="bayes.html#prediction"><i class="fa fa-check"></i><b>4.3</b> Prediction</a></li>
+<li class="chapter" data-level="4.4" data-path="bayes.html"><a href="bayes.html#decision-theory"><i class="fa fa-check"></i><b>4.4</b> Decision theory</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="Prior.html"><a href="Prior.html"><i class="fa fa-check"></i><b>5</b> Considering Prior Distributions</a></li>
+<li class="chapter" data-level="6" data-path="BayesReg.html"><a href="BayesReg.html"><i class="fa fa-check"></i><b>6</b> Bayesian Regression</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="BayesReg.html"><a href="BayesReg.html#normal-models-and-linear-regression"><i class="fa fa-check"></i><b>6.1</b> Normal Models and Linear Regression</a></li>
+<li class="chapter" data-level="6.2" data-path="BayesReg.html"><a href="BayesReg.html#hierarchical-models-and-convergence"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models and convergence</a></li>
+<li class="chapter" data-level="6.3" data-path="BayesReg.html"><a href="BayesReg.html#models-for-binary-data"><i class="fa fa-check"></i><b>6.3</b> Models for Binary Data</a></li>
+<li class="chapter" data-level="6.4" data-path="BayesReg.html"><a href="BayesReg.html#models-for-count-data"><i class="fa fa-check"></i><b>6.4</b> Models for Count Data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a> <a href="https://www.kuan-liu.com/" target="blank">Developed by Kuan Liu</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab1-getting-started-with-r-rstudio" class="section level1 unnumbered">
+<h1>Lab1 Getting started with R &amp; Rstudio</h1>
+<div id="r-and-rstudio-installation" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> R and Rstudio Installation</h2>
+<p>R is a language and environment for statistical computing and graphics (<a href="https://cran.r-project.org/manuals.html" class="uri">https://cran.r-project.org/manuals.html</a>). Many users of R like a tool called <strong>RStudio</strong> (<a href="https://www.rstudio.com/" class="uri">https://www.rstudio.com/</a>). This software is what is called an Integrated Development Environment (IDE) for R. It has several nice features, including docked windows for your console and syntax-highlighting editor that supports direct code execution, as well as tools for plotting and workspace management.</p>
+<div id="windows-operating-system" class="section level3" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> Windows operating system</h3>
+<ul>
+<li>install R, <a href="https://cran.r-project.org/bin/windows/base/" class="uri">https://cran.r-project.org/bin/windows/base/</a></li>
+<li>install Rstudio, <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a></li>
+<li><a href="https://www.youtube.com/watch?v=TFGYlKvQEQ4">YouTube Instruction</a></li>
+</ul>
+</div>
+<div id="macos-operating-system" class="section level3" number="2.5.2">
+<h3><span class="header-section-number">2.5.2</span> macOS operating system</h3>
+<ul>
+<li>install R, <a href="https://cran.r-project.org/bin/macosx/" class="uri">https://cran.r-project.org/bin/macosx/</a></li>
+<li>install Rstudio, <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a> (select macOS 10.14+ option)</li>
+<li><a href="https://www.youtube.com/watch?v=LanBozXJjOk">YouTube Instruction</a></li>
+</ul>
+</div>
+</div>
+<div id="r-packages" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> R Packages</h2>
+<p>Packages are the fundamental units of reproducible R code. They include reusable R functions, the documentation that describes how to use them, and sample data.<span class="citation">(<a href="#ref-wickham2015r" role="doc-biblioref">Wickham 2015</a>)</span></p>
+<p>To load the functions in a given package, we first have to install the package. We do this using the install.packages() function. Run the line of code that installs the tidyverse package below by removing the # at the start of the second line to ‘uncomment’ the code. R will install the package to a default directory on your computer. If any dialogue box prompts you to ‘set up a personal library instead,’ click yes. Once we have the package installed, we must load the functions from this library so we can use them within R.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="lab1-getting-started-with-r-rstudio.html#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># install.packages(“tidyverse”, dependencies = T) #uncomment this line if you haven&#39;t installed this package;</span></span>
+<span id="cb7-2"><a href="lab1-getting-started-with-r-rstudio.html#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="lab1-getting-started-with-r-rstudio.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(tidyverse) <span class="co"># load package library</span></span></code></pre></div>
+<p>The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures (<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>). The core packages are ggplot2 (data visualization), dplyr(dataframe manipulation), tidyr(data reshaping), readr(reading datasets), purrr (function and iterations) and tibble(dataframe).</p>
+<div id="bayesian-analysis-in-r-using-brms-package" class="section level3" number="2.6.1">
+<h3><span class="header-section-number">2.6.1</span> Bayesian Analysis in R using brms package</h3>
+<p>The course will mainly use the brms package in R<span class="citation">(<a href="#ref-burkner2017advanced" role="doc-biblioref">Bürkner 2017</a>)</span>, which offers a standard R-modelling type interface to the underlying computing engine Stan. Direct use of Stan is not ideal for teaching Bayesian methods. The brms package automatically writes Stan code that can be viewed and edited, so after learning brms, the enterprising student may want to use this Stan code as a steppingstone toward programming directly in Stan. The brms package can be installed and loaded in the same way as any other R package, in this case by typing the following commands in R:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="lab1-getting-started-with-r-rstudio.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#uncomment this line if you haven&#39;t installed this package;  </span></span>
+<span id="cb8-2"><a href="lab1-getting-started-with-r-rstudio.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(“brms”) </span></span>
+<span id="cb8-3"><a href="lab1-getting-started-with-r-rstudio.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(brms)</span></code></pre></div>
+</div>
+</div>
+<div id="working-in-rstudio" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Working in Rstudio</h2>
+<div id="rstudio-layout" class="section level3" number="2.7.1">
+<h3><span class="header-section-number">2.7.1</span> Rstudio layout</h3>
+<p>When you open RStudio, your interface is made up of four panes as shown below. These can be organised via menu options <strong>View &gt; Panes &gt;</strong></p>
+<div class="figure">
+<img src="images/intro_to_r_rstudiolayout.png" alt="" />
+<p class="caption">Rstudio layout</p>
+</div>
+<p>We can run code in the console at the prompt where R will evaluate it and print the results. However, the best practice is to write your code in a new script file so it can be saved, edited, and reproduced. To open a new script, we select <strong>File &gt; New File &gt; R Script</strong>.</p>
+<p>To run code that was written in the script file, you can highlight the code lines you wish be evaluated and press CTRL-Enter (windows) or Cmd+Return (Mac). Additionally, You can comment or uncomment script lines by pressing Ctrl+Shift+C (windows) or Cmd+Shift+C (Mac). The comment operator in R is <code>#</code>. You can find more RStuio default <a href="https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts-in-the-RStudio-IDE">keyboard shortcuts here</a>.</p>
+<p>In our first tutorial, we will also introduce Rmarkdown, a R version of the markdown file editor that can write and output document in html, word, or pdf format that contents not only the programming code but also any evaluation outputs and graphs. To read more about Rmarkdown, please visit <a href="https://rmarkdown.rstudio.com/lesson-1.html" class="uri">https://rmarkdown.rstudio.com/lesson-1.html</a>.</p>
+</div>
+<div id="customization" class="section level3" number="2.7.2">
+<h3><span class="header-section-number">2.7.2</span> Customization</h3>
+<p>You can customize your Rstudio session under the Options dialog <strong>Tools &gt; Global Options</strong> menu (or <strong>RStudio &gt; Preferences</strong> on a Mac). A list of customization categories can be found here, <a href="https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio" class="uri">https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio</a>. For example, it’s popular to change Rstudio appearance and themes (e.g., mordern, sky, dark, and classic).</p>
+</div>
+<div id="working-directory" class="section level3" number="2.7.3">
+<h3><span class="header-section-number">2.7.3</span> Working directory</h3>
+<p>The working directory is the default location where R will look for files you want to load and where it will put any files you save. You can use function <code>getwd()</code> to display your current working directory and use function <code>setwd()</code> to set your workding directory to a new folder on your computer. One of the great things about using RStudio Projects is that when you open a project it will automatically set your working directory to the appropriate location.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="lab1-getting-started-with-r-rstudio.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>() <span class="co">#show my current working directory;</span></span></code></pre></div>
+<pre><code>## [1] &quot;D:/GitHub/bayes_bookdown&quot;</code></pre>
+</div>
+<div id="getting-help-with-r" class="section level3" number="2.7.4">
+<h3><span class="header-section-number">2.7.4</span> Getting help with R</h3>
+<p>The help section of R is extremely useful if you need more information about the packages and functions that <strong>you are currently loaded</strong>. You can initiate R help using the help function <code>help()</code> or <code>?</code>, the help operator.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="lab1-getting-started-with-r-rstudio.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(brms)</span></code></pre></div>
+</div>
+</div>
+<div id="basic-r-a-crash-introduction" class="section level2" number="2.8">
+<h2><span class="header-section-number">2.8</span> Basic R (a crash introduction)</h2>
+<p>A more comprehensive introduction to base R can be found at <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html" class="uri">https://cran.r-project.org/doc/manuals/r-release/R-intro.html</a>. In this subsection, I will briefly outline some common R functions and commands for arithmetic, creating and working with object, vector, matrix, and data.</p>
+<p>This short introduction is created using the intro to R workshop notes by <a href="https://www.dlsph.utoronto.ca/faculty-profile/thorpe-kevin-e/">Prof. Kevin Thorpe</a> as well as multiple open-source materials.</p>
+<div class="important">
+<p><strong>Some important notes</strong></p>
+<ul>
+<li><p>R is case sensitive.</p></li>
+<li><p>Commands are separated by a newline in the console.</p></li>
+<li><p>The # character can be used to make comments. R doesn’t execute the rest of the line after the # symbol - it ignores it.</p></li>
+<li><p>Previous session commands can be accessed via the up and down arrow keys on the keyboard.</p></li>
+<li><p>When naming in R, avoid using spaces and special characters (i.e., !@#$%^&amp;*()_+=;:’"&lt;&gt;?/) and avoid leading names with numbers.</p></li>
+</ul>
+</div>
+<script src="hideOutput.js"></script>
+<div id="arithmetic" class="section level3" number="2.8.1">
+<h3><span class="header-section-number">2.8.1</span> Arithmetic</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="lab1-getting-started-with-r-rstudio.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span><span class="dv">3</span></span>
+<span id="cb12-2"><a href="lab1-getting-started-with-r-rstudio.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb12-3"><a href="lab1-getting-started-with-r-rstudio.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">5</span></span>
+<span id="cb12-4"><a href="lab1-getting-started-with-r-rstudio.html#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="lab1-getting-started-with-r-rstudio.html#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">3</span>)</span>
+<span id="cb12-6"><a href="lab1-getting-started-with-r-rstudio.html#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="dv">3</span>)</span>
+<span id="cb12-7"><a href="lab1-getting-started-with-r-rstudio.html#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">exp</span>(<span class="dv">1</span>)) <span class="co">#playing with Euler&#39;s number;</span></span></code></pre></div>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-11" class="exercise"><strong>Exercise 2.3  (Rounding Issues in R)  </strong></span>Try evaluating <code>log(0.01^200)</code> and <code>200*log(0.01)</code> in R. Note that they are mathematically equivalent.
+</div>
+<div class="fold o">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="lab1-getting-started-with-r-rstudio.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fl">0.01</span><span class="sc">^</span><span class="dv">200</span>)</span></code></pre></div>
+<pre><code>## [1] -Inf</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="lab1-getting-started-with-r-rstudio.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dv">200</span><span class="sc">*</span><span class="fu">log</span>(<span class="fl">0.01</span>)</span></code></pre></div>
+<pre><code>## [1] -921.034</code></pre>
+</div>
+</div>
+<div id="vectors" class="section level3" number="2.8.2">
+<h3><span class="header-section-number">2.8.2</span> Vectors</h3>
+<p>Operator <code>&lt;-</code> is called the assignment operation, we can create a vector (numeric, characteristic, or mixture) using the assignment operation and the <code>c()</code> function.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="lab1-getting-started-with-r-rstudio.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a vector of a single element;</span></span>
+<span id="cb17-2"><a href="lab1-getting-started-with-r-rstudio.html#cb17-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb17-3"><a href="lab1-getting-started-with-r-rstudio.html#cb17-3" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb17-4"><a href="lab1-getting-started-with-r-rstudio.html#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="lab1-getting-started-with-r-rstudio.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># a character vector</span></span>
+<span id="cb17-6"><a href="lab1-getting-started-with-r-rstudio.html#cb17-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;yellow&quot;</span>)</span>
+<span id="cb17-7"><a href="lab1-getting-started-with-r-rstudio.html#cb17-7" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb17-8"><a href="lab1-getting-started-with-r-rstudio.html#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span>
+<span id="cb17-9"><a href="lab1-getting-started-with-r-rstudio.html#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">nchar</span>(x) <span class="co">#number of characters for each element;</span></span>
+<span id="cb17-10"><a href="lab1-getting-started-with-r-rstudio.html#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="lab1-getting-started-with-r-rstudio.html#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># encode a vector as a factor (or category);</span></span>
+<span id="cb17-12"><a href="lab1-getting-started-with-r-rstudio.html#cb17-12" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>))</span>
+<span id="cb17-13"><a href="lab1-getting-started-with-r-rstudio.html#cb17-13" aria-hidden="true" tabindex="-1"></a>y</span>
+<span id="cb17-14"><a href="lab1-getting-started-with-r-rstudio.html#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(y)</span>
+<span id="cb17-15"><a href="lab1-getting-started-with-r-rstudio.html#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(y) <span class="co"># we can return factors with numeric labels;</span></span>
+<span id="cb17-16"><a href="lab1-getting-started-with-r-rstudio.html#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="lab1-getting-started-with-r-rstudio.html#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co"># we can also label numeric vector with factor levels;</span></span>
+<span id="cb17-18"><a href="lab1-getting-started-with-r-rstudio.html#cb17-18" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>,<span class="st">&quot;yellow&quot;</span>))</span>
+<span id="cb17-19"><a href="lab1-getting-started-with-r-rstudio.html#cb17-19" aria-hidden="true" tabindex="-1"></a>z</span>
+<span id="cb17-20"><a href="lab1-getting-started-with-r-rstudio.html#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(z)</span>
+<span id="cb17-21"><a href="lab1-getting-started-with-r-rstudio.html#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="fu">mode</span>(z)</span>
+<span id="cb17-22"><a href="lab1-getting-started-with-r-rstudio.html#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="lab1-getting-started-with-r-rstudio.html#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#we can use this to create dummy variables for regression;</span></span>
+<span id="cb17-24"><a href="lab1-getting-started-with-r-rstudio.html#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(z) </span>
+<span id="cb17-25"><a href="lab1-getting-started-with-r-rstudio.html#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="lab1-getting-started-with-r-rstudio.html#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co"># a numeric vector;</span></span>
+<span id="cb17-27"><a href="lab1-getting-started-with-r-rstudio.html#cb17-27" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">10.4</span>, <span class="fl">5.6</span>, <span class="fl">3.1</span>, <span class="fl">6.4</span>, <span class="fl">21.7</span>, <span class="fl">53.5</span>, <span class="fl">3.6</span>, <span class="fl">2.6</span>, <span class="fl">6.1</span>, <span class="fl">1.7</span>)</span>
+<span id="cb17-28"><a href="lab1-getting-started-with-r-rstudio.html#cb17-28" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb17-29"><a href="lab1-getting-started-with-r-rstudio.html#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x) <span class="co">#return number of elements;</span></span>
+<span id="cb17-30"><a href="lab1-getting-started-with-r-rstudio.html#cb17-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-31"><a href="lab1-getting-started-with-r-rstudio.html#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="co"># a numeric vector composed of all integers between 1 and 10;</span></span>
+<span id="cb17-32"><a href="lab1-getting-started-with-r-rstudio.html#cb17-32" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb17-33"><a href="lab1-getting-started-with-r-rstudio.html#cb17-33" aria-hidden="true" tabindex="-1"></a>y</span>
+<span id="cb17-34"><a href="lab1-getting-started-with-r-rstudio.html#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-35"><a href="lab1-getting-started-with-r-rstudio.html#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="co"># a numeric vector composed of all even number integers between 0 and 10;</span></span>
+<span id="cb17-36"><a href="lab1-getting-started-with-r-rstudio.html#cb17-36" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>, <span class="at">by=</span><span class="dv">2</span>)</span>
+<span id="cb17-37"><a href="lab1-getting-started-with-r-rstudio.html#cb17-37" aria-hidden="true" tabindex="-1"></a>z</span>
+<span id="cb17-38"><a href="lab1-getting-started-with-r-rstudio.html#cb17-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-39"><a href="lab1-getting-started-with-r-rstudio.html#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co"># simple vector based calculations;</span></span>
+<span id="cb17-40"><a href="lab1-getting-started-with-r-rstudio.html#cb17-40" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span>
+<span id="cb17-41"><a href="lab1-getting-started-with-r-rstudio.html#cb17-41" aria-hidden="true" tabindex="-1"></a>x<span class="sc">*</span>y</span>
+<span id="cb17-42"><a href="lab1-getting-started-with-r-rstudio.html#cb17-42" aria-hidden="true" tabindex="-1"></a>x<span class="sc">/</span>y</span></code></pre></div>
+</div>
+<div id="r-session-information" class="section level3 unnumbered">
+<h3>R Session information</h3>
+<pre><code>## R version 4.0.5 (2021-03-31)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19042)
+## 
+## Matrix products: 
+## 
+## locale:
+## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
+## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
+## [5] LC_TIME=English_Canada.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] brms_2.15.0     Rcpp_1.0.7      forcats_0.5.1   stringr_1.4.0  
+##  [5] dplyr_1.0.7     purrr_0.3.4     readr_2.0.0     tidyr_1.1.3    
+##  [9] tibble_3.1.3    ggplot2_3.3.5   tidyverse_1.3.1</code></pre>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-burkner2017advanced" class="csl-entry">
+Bürkner, Paul-Christian. 2017. <span>“Advanced Bayesian Multilevel Modeling with the r Package Brms.”</span> <em>arXiv Preprint arXiv:1705.11123</em>.
+</div>
+<div id="ref-wickham2015r" class="csl-entry">
+Wickham, Hadley. 2015. <em>R Packages: Organize, Test, Document, and Share Your Code</em>. " O’Reilly Media, Inc.".
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="into.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="prob.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": "twitter"
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true,
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
