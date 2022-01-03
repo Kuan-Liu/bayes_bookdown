@@ -28,10 +28,6 @@ always_allow_html: yes
 
 ![Health Sciences Building](images/cover.jpg)
 
-# License
-
-This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-
 # Course Syllabus {.unnumbered}
 
 ## Course Info {.unnumbered}
@@ -110,3 +106,7 @@ Academic integrity is essential to the pursuit of learning and scholarship in a 
 - [DLSPH Covid Information](http://www.dlsph.utoronto.ca/live-updates-on-covid-19-from-dlsph/)
 - [DLSPH Student Resources(Policies, Financial Aid, Health and Wellness, etc.)](http://www.dlsph.utoronto.ca/students/current-students/)
 - [DLSPH Student Handbook](https://www.dlsph.utoronto.ca/wp-content/uploads/2020/08/2020-21-Student-Handbook-19Aug.pdf)
+
+## License {.unnumbered}
+
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).

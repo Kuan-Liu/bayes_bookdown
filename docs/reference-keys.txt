@@ -1,7 +1,6 @@
 exr:unnamed-chunk-1
 exr:unnamed-chunk-4
 exr:unnamed-chunk-11
-license
 into
 about-me
 syllabus

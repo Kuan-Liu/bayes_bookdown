@@ -21,6 +21,4 @@ bookdown::gitbook:
       whatsapp: no
       all: ['twitter']
     info: yes
-
-
   
