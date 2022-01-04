@@ -124,7 +124,29 @@ pre.plot {
   color: #00204E; /* openintro::COL[1,1] */ 
 }
 
+/* guidedpexercise */
 
+.guidedexercise {
+  padding: 1em 1em 1em 4em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background: #f5faf5 5px center/3em no-repeat;  
+  border-top: 1px solid #000000;    /* openintro::COL[1,1] */ 
+  border-bottom: 1px solid #000000; /* openintro::COL[1,1] */ 
+}
+
+.guidedexercise:before {
+  content: "Exercise:";
+  clear: right;
+  display: block;
+  font-weight: bold;
+  font-variant: small-caps;
+  color: #000000;
+}
+
+.guidedexercise strong {
+  color: #000000; 
+}
 
 /* wrap long math lines */
 
@@ -132,6 +154,7 @@ pre.plot {
   /*white-space: normal !important;*/
   font-size: 100%;
 }
+
 
 /* overwrite bs4_book style */
 

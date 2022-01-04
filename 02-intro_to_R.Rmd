@@ -5,7 +5,7 @@ link-citations: yes
 colorlinks: yes
 ---
 
-# Lab1 Getting started with R & Rstudio {-}
+# Lab1 Getting started with R & RStudio {-}
 
 ::: {.chapterintro data-latex=""}
 
@@ -17,20 +17,20 @@ colorlinks: yes
 
 :::
 
-## R and Rstudio Installation
+## R and RStudio Installation
 
 R is a language and environment for statistical computing and graphics (https://cran.r-project.org/manuals.html). Many users of R like a tool called **RStudio** (https://www.rstudio.com/). This software is what is called an Integrated Development Environment (IDE) for R. It has several nice features, including docked windows for your console and syntax-highlighting editor that supports direct code execution, as well as tools for plotting and workspace management.
 
 ### Windows operating system
 
 - install R, https://cran.r-project.org/bin/windows/base/
-- install Rstudio, https://www.rstudio.com/products/rstudio/download/#download
+- install RStudio, https://www.rstudio.com/products/rstudio/download/#download
 - [YouTube Instruction](https://www.youtube.com/watch?v=TFGYlKvQEQ4)
 
 ### macOS operating system
 
 - install R, https://cran.r-project.org/bin/macosx/
-- install Rstudio, https://www.rstudio.com/products/rstudio/download/#download (select macOS 10.14+ option)
+- install RStudio, https://www.rstudio.com/products/rstudio/download/#download (select macOS 10.14+ option)
 - [YouTube Instruction](https://www.youtube.com/watch?v=LanBozXJjOk)
 
 
@@ -59,13 +59,13 @@ The course will mainly use the brms package in R[@burkner2017advanced], which of
   library(brms)
 ```
 
-## Working in Rstudio
+## Working in RStudio
 
-### Rstudio layout
+### RStudio layout
 
 When you open RStudio, your interface is made up of four panes as shown below. These can be organised via menu options **View > Panes >**
 
-![Rstudio layout](images/intro_to_r_rstudiolayout.png)
+![RStudio layout](images/intro_to_r_rstudiolayout.png)
 
 We can run code in the console at the prompt where R will evaluate it and print the results. However, the best practice is to write your code in a new script file so it can be saved, edited, and reproduced. To open a new script, we select **File > New File > R Script**. 
 
@@ -75,7 +75,7 @@ In our first tutorial, we will also introduce Rmarkdown, a R version of the mark
 
 ### Customization
 
-You can customize your Rstudio session under the Options dialog **Tools > Global Options** menu (or **RStudio > Preferences** on a Mac). A list of customization categories can be found here, https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio. For example, it's popular to change Rstudio appearance and themes (e.g., mordern, sky, dark, and classic).
+You can customize your RStudio session under the Options dialog **Tools > Global Options** menu (or **RStudio > Preferences** on a Mac). A list of customization categories can be found here, https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio. For example, it's popular to change RStudio appearance and themes (e.g., mordern, sky, dark, and classic).
 
 ### Working directory
 The working directory is the default location where R will look for files you want to load and where it will put any files you save. You can use function `getwd()` to display your current working directory and use function `setwd()` to set your workding directory to a new folder on your computer. One of the great things about using RStudio Projects is that when you open a project it will automatically set your working directory to the appropriate location. 
@@ -139,10 +139,10 @@ sqrt(x)
 
 ```
 
-  
-```{exercise, name = "Rounding Issues in R"}
+::: {.guidedexercise data-latex=""}
+**Rounding Issues in R**
 Try evaluating `log(0.01^200) ` and `200*log(0.01)` in R. Note that they are mathematically equivalent.
-```
+:::
 
 <div class="fold o">
 ```{r echo=T, message=FALSE, warning=FALSE}
@@ -232,10 +232,19 @@ X %*% Y #inner product;
 
 ### Data frame - The Titanic dataset
 
+
 ```{r echo=T, eval=knitr::is_html_output(), message=FALSE, collapse=TRUE}
 Titanic <- read.csv('data/Titanic.csv', header = TRUE, na.strings = "NA")
 knitr::kable(rbind(head(Titanic), tail(Titanic)), row.names = FALSE)
 ```
+
+::: {.guidedexercise data-latex=""}
+**Reading data**
+
+- create a local folder, *HAD5314H_Bayesian_2022*, in your PC where you will store the Titan.csv file downloaded from Quercus
+- set your working directory to this folder
+- import the csv data to your session
+:::
 
 ```{r echo=TRUE, eval=FALSE, message=FALSE, collapse=TRUE}
 dim(Titanic)
@@ -284,6 +293,11 @@ Titanic %>%
 
 ```
 
+::: {.guidedexercise data-latex=""}
+**Summarize age by survival status**
+Using the example code above, please calculate the mean and median age by survival status. Can you figure out how to get IQR with the pipe operator `%>%` in dlypr?
+:::
+
 ### Simple plots
 
 ```{r echo=T, fig.height=5, fig.width=5}
@@ -305,6 +319,10 @@ ggplot(Titanic, aes(x=as.factor(PClass), y=Age, fill = as.factor(PClass))) +
 
 ```
 
+::: {.guidedexercise data-latex=""}
+**Plot age distribution by survival status**
+Using the example code above, please generate a boxplot of age by survival status.
+:::
 
 ### R Session information {-}
 

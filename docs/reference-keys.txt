@@ -56,3 +56,16 @@ normal-models-and-linear-regression
 hierarchical-models-and-convergence
 models-for-binary-data
 models-for-count-data
+exr:unnamed-chunk-6
+exr:unnamed-chunk-10
+exr:unnamed-chunk-12
+exr:unnamed-chunk-16
+sample-space-and-set-theory
+venn-diagrams
+how-to-define-and-assign-probabilities-in-general
+random-variables
+probability
+fig:unnamed-chunk-3
+fig:unnamed-chunk-2
+fig:unnamed-chunk-4
+fig:unnamed-chunk-5

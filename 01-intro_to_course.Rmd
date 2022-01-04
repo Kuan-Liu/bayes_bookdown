@@ -20,9 +20,10 @@ Besides academic work and creating fun data visualizations in R ([Covid Dashboar
   
 ![My work for [Dr. Burns's](https://jamanetwork.com/journals/jamanetworkopen/article-abstract/2787001) systematic review paper on the trustworthiness of published Clinical Practice Guidelines for Pharmacologic Treatments of Hospitalized Patients With COVID-19.](images/CoxcombChart.png)
 
-```{exercise, name = "Please introduce yourselves"}
-You can share your program, research interets, learning goals, and hobby.
-```
+::: {.guidedexercise data-latex=""}
+**Please introduce yourselves**
+You can share your program, research interest, learning goals, and hobby.
+:::
 
 ## Syllabus
 
@@ -43,10 +44,10 @@ Detailed course syllabus is posted on Quercus.
   - I am happy to arrange for additional virtual office hours
   
 - *Course materials*
-  - Textbooks are free for access via U of T library account
+  - The lecture notes will be one main resource for this course.
+      - Online course note is open-access ([GitHub Repository](https://github.com/Kuan-Liu/bayes_bookdown)). It's licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/). Please do not use this material for commercial purposes.
+      - Course notes for latter sessions might not be available for view. I aim to publish the day before the scheduled lecture.
   - Additional reading materials (e.g., articles) will be posted on Quercus
-  - Online course note is open-access ([GitHub Repository](https://github.com/Kuan-Liu/bayes_bookdown)). It's licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/). Please do not use this material for commercial purposes.
-  - Course notes for latter sessions might not be available for view. I aim to publish the day before the scheduled lecture.
   - Sample R scripts, data and brms code will be uploaded to Quercus.
 
 - *R and RStudio*
@@ -56,7 +57,7 @@ Detailed course syllabus is posted on Quercus.
   
 - *'Grading'*
   - Participation under remote learning: **accommodation and written explanations**
-  - Assignments will be handed out on Quercus and submitted to me via email
+  - Assignments will be handed out and submitted on **Quercus**
   - Can I work with peers?
  
 - *Auditing the course*
@@ -110,7 +111,7 @@ He essentially used probabilistic terms to express arguments about the uncertain
 
 From [wikipedia](https://en.wikipedia.org/wiki/Monty_Hall_problem), Vos Savant's response was that the contestant should switch to the other door. Many readers of vos Savant's column refused to believe switching is beneficial and rejected her explanation. After the problem appeared in Parade, approximately 10,000 readers, including nearly 1,000 with PhDs, wrote to the magazine, most of them calling vos Savant wrong ([Tierney 1991](https://query.nytimes.com/gst/fullpage.html?res=9D0CEFDD1E3FF932A15754C0A967958260)).
 
-**We will revisit this problem in session 2 on Probability. I provided a short R simulation below to demonstrate why the contest should switch door - higher chance of winning the game.**
+**We will revisit this problem in session 2 on Probability. I provided a short R simulation below to demonstrate why the player should choose to switch door - higher chance of winning the game.**
 
 :::
 
@@ -215,9 +216,9 @@ The alternative way (essentially proposed by Bayes, LaPlace, other later promine
 
 Example from [@johnsonbayes]
 
-```{exercise, name = "Different interpretation of probability/uncertainty"}
-</br>
-  
+::: {.guidedexercise data-latex=""}
+**Different interpretation of probability/uncertainty**
+
 1. When flipping a fair coin, we say that “the probability of flipping Heads is 0.5.” How do you interpret this probability?
     a. If I flip this coin over and over, roughly 50% will be Heads.
     b. Heads and Tails are equally plausible.
@@ -227,8 +228,7 @@ Example from [@johnsonbayes]
     a. If we observe the election over and over, candidate A will win roughly 60% of the time.
     b. Candidate A is much more likely to win than to lose.
     c. The pollster’s calculation is wrong. Candidate A will either win or lose, thus their probability of winning can only be 0 or 1.
-
-```
+:::
 
 In the coin flip example, a Bayesian would conclude that Heads and Tails are equally likely. In contrast, a frequentist would conclude that if we flip the coin over and over and over, roughly 1/2 of these flips will be Heads.
 
@@ -284,7 +284,7 @@ Suppose a randomly selected individual **tested positive**:
  - Using the Bayes' Rule, we can calculate the posterior probability of the disease given the result, $P(D^+ \mid T^+)$ 
  
 $$\begin{aligned}
-P(D^+ \mid T^+) & = \frac{\text{Chance of HIV positive and test positive} )}{\text{Chance of test positive}}\\
+P(D^+ \mid T^+) & = \frac{\text{Chance of HIV positive and test positive}}{\text{Chance of test positive}}\\
 & = \frac{P(D^+ \text{and } T^+)}{P(T^+)} \\
 & = \frac{P(T^+ \mid D^+)P(D^+)}{P(T^+)} \\
 & =  \frac{P(T^+ \mid D^+)P(D^+)}{P(T^+ \mid D^+)P(D^+) + P(T^+ \mid D^-)P(D^-)} \\

@@ -36,7 +36,9 @@ always_allow_html: yes
 
 *Semester*: Winter 2022
 
-*Class hour and location*: Friday, 12pm to 3pm (Two parts: Lecture & Tutorial, with 15 mins break in between). **Please see Quercus for other course details.**
+*Class hour and location*: Friday, 12pm to 3pm (Two parts: Lecture & Tutorial, with 15 mins break in between). 
+
+**Please see Quercus for other course details.**
 
 | Instructors       | Email     | Office Hour |
 |:------------------|:----------|:------------|
@@ -80,13 +82,13 @@ The lecture slides will be one main resource for this course. McElreath has a se
 | Jan 14  | Review of probability and other statistics concepts |         |
 | Jan 21  | Introduction to Bayesian approach          | Assignment 1: hand out        |
 | Jan 28  | Bayesian Inference        |         |
-| Feb 4   | Priors |   **Assignment 1: due Feb 8**      |
+| Feb 4   | Priors (guest lecturer: [Dr. Sindu Johnson](https://ihpme.utoronto.ca/faculty/sindhu-johnson/) )|   **Assignment 1: due Feb 8**      |
 | Feb 11  | Bayesian estimation                  |   |
 | Feb 18  | Normal Models and Linear Regression                            |   Assignment 2: hand out        |
 | Feb 25  |  Reading week - no lecture                           |         |
 | Mar 4   | Hierarchical models and convergence                            |         |
 | Mar 11  | Models for Binary Data                            |    **Assignment 2: due Mar 15**     |
-| Mar 18  | Intro to Bayesian Meta-analysis and Bayesian Network Meta-analysis (Juan Pablo)                            |    Assignment 3: hand out     |
+| Mar 18  | Intro to Bayesian Meta-analysis and Bayesian Network Meta-analysis (guest lecturer: Juan Pablo)                            |    Assignment 3: hand out     |
 | Mar 25  | Models for Count Data         |    **Assignment 3: due Apr 5**     |
 
 
