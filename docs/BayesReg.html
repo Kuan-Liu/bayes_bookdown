@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Session 5 Bayesian Regression | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research</title>
   <meta name="description" content="Course notes for HAD5314H Winter 2022" />
-  <meta name="generator" content="bookdown 0.22.2 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Session 5 Bayesian Regression | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-01-03" />
+<meta name="date" content="2022-01-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="Prior.html"/>
 <link rel="next" href="references.html"/>
-<script src="libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -187,9 +187,9 @@ div.csl-indent {
 <li class="chapter" data-level="1.4.3" data-path="into.html"><a href="into.html#the-scientific-method-in-steps"><i class="fa fa-check"></i><b>1.4.3</b> The Scientific Method in steps</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html"><i class="fa fa-check"></i>Lab1 Getting started with R &amp; Rstudio</a>
+<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html"><i class="fa fa-check"></i>Lab1 Getting started with R &amp; RStudio</a>
 <ul>
-<li class="chapter" data-level="1.5" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-and-rstudio-installation"><i class="fa fa-check"></i><b>1.5</b> R and Rstudio Installation</a>
+<li class="chapter" data-level="1.5" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-and-rstudio-installation"><i class="fa fa-check"></i><b>1.5</b> R and RStudio Installation</a>
 <ul>
 <li class="chapter" data-level="1.5.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#windows-operating-system"><i class="fa fa-check"></i><b>1.5.1</b> Windows operating system</a></li>
 <li class="chapter" data-level="1.5.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#macos-operating-system"><i class="fa fa-check"></i><b>1.5.2</b> macOS operating system</a></li>
@@ -198,9 +198,9 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="1.6.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#bayesian-analysis-in-r-using-brms-package"><i class="fa fa-check"></i><b>1.6.1</b> Bayesian Analysis in R using brms package</a></li>
 </ul></li>
-<li class="chapter" data-level="1.7" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-in-rstudio"><i class="fa fa-check"></i><b>1.7</b> Working in Rstudio</a>
+<li class="chapter" data-level="1.7" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-in-rstudio"><i class="fa fa-check"></i><b>1.7</b> Working in RStudio</a>
 <ul>
-<li class="chapter" data-level="1.7.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#rstudio-layout"><i class="fa fa-check"></i><b>1.7.1</b> Rstudio layout</a></li>
+<li class="chapter" data-level="1.7.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#rstudio-layout"><i class="fa fa-check"></i><b>1.7.1</b> RStudio layout</a></li>
 <li class="chapter" data-level="1.7.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#customization"><i class="fa fa-check"></i><b>1.7.2</b> Customization</a></li>
 <li class="chapter" data-level="1.7.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-directory"><i class="fa fa-check"></i><b>1.7.3</b> Working directory</a></li>
 <li class="chapter" data-level="1.7.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#getting-help-with-r"><i class="fa fa-check"></i><b>1.7.4</b> Getting help with R</a></li>
@@ -216,32 +216,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2" data-path="prob.html"><a href="prob.html"><i class="fa fa-check"></i><b>2</b> Probability, random variables and distributions</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="prob.html"><a href="prob.html#introduction-to-set-theory"><i class="fa fa-check"></i><b>2.1</b> Introduction to Set Theory</a>
+<li class="chapter" data-level="2.1" data-path="prob.html"><a href="prob.html#probability"><i class="fa fa-check"></i><b>2.1</b> Probability</a>
 <ul>
-<li class="chapter" data-level="2.1.1" data-path="prob.html"><a href="prob.html#composition-of-events"><i class="fa fa-check"></i><b>2.1.1</b> Composition of events</a></li>
+<li class="chapter" data-level="2.1.1" data-path="prob.html"><a href="prob.html#venn-diagrams"><i class="fa fa-check"></i><b>2.1.1</b> Venn Diagrams</a></li>
+<li class="chapter" data-level="2.1.2" data-path="prob.html"><a href="prob.html#probability-rules"><i class="fa fa-check"></i><b>2.1.2</b> Probability Rules</a></li>
+<li class="chapter" data-level="2.1.3" data-path="prob.html"><a href="prob.html#how-to-define-and-assign-probabilities-in-general"><i class="fa fa-check"></i><b>2.1.3</b> How to define and assign probabilities in general?</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="prob.html"><a href="prob.html#probability-rules"><i class="fa fa-check"></i><b>2.2</b> Probability Rules</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="prob.html"><a href="prob.html#simple-rules"><i class="fa fa-check"></i><b>2.2.1</b> Simple Rules</a></li>
-<li class="chapter" data-level="2.2.2" data-path="prob.html"><a href="prob.html#conditional-probability"><i class="fa fa-check"></i><b>2.2.2</b> Conditional Probability</a></li>
-<li class="chapter" data-level="2.2.3" data-path="prob.html"><a href="prob.html#summary-of-probability-rules"><i class="fa fa-check"></i><b>2.2.3</b> Summary of Probability Rules</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="prob.html"><a href="prob.html#discrete-random-variables"><i class="fa fa-check"></i><b>2.3</b> Discrete Random Variables</a>
-<ul>
-<li class="chapter" data-level="2.3.1" data-path="prob.html"><a href="prob.html#introduction-to-discrete-random-variables"><i class="fa fa-check"></i><b>2.3.1</b> Introduction to Discrete Random Variables</a></li>
-</ul></li>
-<li class="chapter" data-level="2.4" data-path="prob.html"><a href="prob.html#common-discrete-distributions"><i class="fa fa-check"></i><b>2.4</b> Common Discrete Distributions</a>
-<ul>
-<li class="chapter" data-level="2.4.1" data-path="prob.html"><a href="prob.html#binomial-distribution"><i class="fa fa-check"></i><b>2.4.1</b> Binomial Distribution</a></li>
-<li class="chapter" data-level="2.4.2" data-path="prob.html"><a href="prob.html#poisson-distribution"><i class="fa fa-check"></i><b>2.4.2</b> Poisson Distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="2.5" data-path="prob.html"><a href="prob.html#continuous-random-variables"><i class="fa fa-check"></i><b>2.5</b> Continuous Random Variables</a>
-<ul>
-<li class="chapter" data-level="2.5.1" data-path="prob.html"><a href="prob.html#uniform01-distribution"><i class="fa fa-check"></i><b>2.5.1</b> Uniform(0,1) Distribution</a></li>
-<li class="chapter" data-level="2.5.2" data-path="prob.html"><a href="prob.html#exponential-distribution"><i class="fa fa-check"></i><b>2.5.2</b> Exponential Distribution</a></li>
-<li class="chapter" data-level="2.5.3" data-path="prob.html"><a href="prob.html#normal-distribution"><i class="fa fa-check"></i><b>2.5.3</b> Normal Distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="2.6" data-path="prob.html"><a href="prob.html#r-quick-reference"><i class="fa fa-check"></i><b>2.6</b> R Quick Reference</a></li>
+<li class="chapter" data-level="2.2" data-path="prob.html"><a href="prob.html#random-variables"><i class="fa fa-check"></i><b>2.2</b> Random Variables</a></li>
+<li class="chapter" data-level="2.3" data-path="prob.html"><a href="prob.html#r-quick-reference"><i class="fa fa-check"></i><b>2.3</b> R Quick Reference</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>3</b> Bayesian inference</a>
 <ul>
@@ -305,7 +287,6 @@ div.csl-indent {
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -345,6 +326,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection",
 "scroll_highlight": true
@@ -352,7 +337,6 @@ gitbook.start({
 "toolbar": {
 "position": "fixed"
 },
-"search": true,
 "info": true
 });
 });
