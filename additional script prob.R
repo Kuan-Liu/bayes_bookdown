@@ -135,63 +135,9 @@ per day $Y$ could take on values $y=0,1,2,3,$ or $4$.
 
 #### Binomial Distribution
 
-**Example:** Suppose we are trapping small mammals in the desert and we spread 
-out three traps. Assume that the traps are far enough apart that having one being 
-filled doesn't affect the probability of the others being filled and that all 
-three traps have the same probability of being filled in an evening. Denote the 
-event that a trap is filled with a critter as $C_{i}$ and denote the event that 
-the trap is empty as $E_{i}$. Denote the probability that a trap is filled by 
-$\pi=0.8$. (This sort of random variable is often referred to as a Bernoulli RV.)
-
-The possible outcomes are 
-
-|  Outcome           |  $\,$  |
-  |:------------------:|:------:|
-  |  $E_1, E_2, E_3$   |  $\,$  |
-  |  $C_1, E_2, E_3$   |  $\,$  |
-  |  $E_1, C_2, E_3$   |  $\,$  |
-  |  $E_1, E_2, C_3$   |  $\,$  |
-  |  $C_1, C_2, E_3$   |  $\,$  |
-  |  $C_1, E_2, C_3$   |  $\,$  |
-  |  $E_1, C_2, C_3$   |  $\,$  |
-  |  $C_1, C_2, C_3$   |  $\,$  |
+A binomial experiment is one that:
   
-  Because these are far apart enough in space that the outcome of Trap1 is independent 
-of Trap2 and Trap3, then 
-$$P(E_{1}\cap C_{2}\cap E_{3})	=	P(E_{1})P(C_{2})P(E_{3})
-=	(1-0.8)0.8(1-0.8)
-=	0.032$$
-  **Notice how important the assumption of independence is!!!** Similarly we could 
-calculate the probabilities for the rest of the table.
-
-|  Outcome           |   Probability   |  $S$ Outcome  |   Probability        |
-  |:------------------:|:---------------:|:-------------:|:--------------------:|
-  |  $E_1, E_2, E_3$   |     0.008       |   $S=0$       |     0.008            |
-  |------------------- | --------------- | ------------- | ---------------      |
-  |  $C_1, E_2, E_3$   |     0.032       |               |                      |
-  |  $E_1, C_2, E_3$   |     0.032       |   $S=1$       |  $3(0.032) = 0.096$  |
-  |  $E_1, E_2, C_3$   |     0.032       |               |                      |
-  |------------------- | --------------- | ------------- | ---------------      |
-  |  $C_1, C_2, E_3$   |     0.128       |               |                      | 
-  |  $C_1, E_2, C_3$   |     0.128       |   $S=2$       |  $3(0.128) = 0.384$  |
-  |  $E_1, C_2, C_3$   |     0.128       |               |                      |
-  |------------------- | --------------- | ------------- | ---------------      |
-  |  $C_1, C_2, C_3$   |     0.512       |   $S=3$       |  $0.512$             |
-  
-  
-  Next we are interested in the random variable $S$, the number of traps that were filled:
-  
-  |  $S$ Outcome  |   Probability   |
-  |:-------------:|:---------------:|
-  |   $S=0$       |  $0.008$        |
-  |   $S=1$       |  $0.096$        |
-  |   $S=2$       |  $0.384$        |
-  |   $S=3$       |  $0.512$        |
-  
-  
-  $S$ is an example of a Binomial Random Variable. A binomial experiment is one that:
-  
-  1.  Experiment consists of $n$ identical trials.
+1.  Experiment consists of $n$ identical trials.
 2.  Each trial results in one of two outcomes (Heads/Tails, presence/absence). One 
 will be labeled a success and the other a failure.
 3.  The probability of success on a single trial is equal to $\pi$ and remains the 
@@ -259,7 +205,7 @@ $$\begin{aligned} V[X]
 &=	n\pi(1-\pi) \end{aligned}$$
   
   
-  **Example:** Suppose a bird survey only captures the presence or absence of a 
+**Example:** Suppose a bird survey only captures the presence or absence of a 
 particular bird (say the mountain chickadee). Assuming the true presence proportion 
 at national forest sites around Flagstaff is $\pi=0.1$, then for $n=20$ randomly 
 chosen sites, the number of sites in which the bird was observed would have the 

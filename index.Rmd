@@ -42,7 +42,7 @@ always_allow_html: yes
 
 | Instructors       | Email     | Office Hour |
 |:------------------|:----------|:------------|
-| Kuan Liu (Kuan)   | [mailto:kuan.liu\@mail.utoronto.ca](mailto:kuan.liu@mail.utoronto.ca){.uri} |    Thursday, 12pm to 1pm         |
+| Kuan Liu (Kuan)   | [mailto:kuan.liu\@utoronto.ca](mailto:kuan.liu@utoronto.ca){.uri} |    Thursday, 12pm to 1pm         |
 | Juan Pablo Díaz Martínez (Juan Pablo) |      [mailto:juan.diaz.martinez\@mail.utoronto.ca](mailto:juan.diaz.martinez@mail.utoronto.ca){.uri}  |             |
 
 ## Course Description {.unnumbered}

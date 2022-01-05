@@ -180,7 +180,7 @@ print(paste("Chance of winning if we always switch: ", sum(switch_win)/1000))
 - He taught this course from 2004 to 2017 and again from 2020 to 2021. Prof. [Nicholas Mitsakakis](https://www.dlsph.utoronto.ca/faculty-profile/mitsakakis-nicholas/) taught it in 2019. 
 - This is my first time teaching this course. We are making history together =)
 - I have borrowed a lot of course materials from George. Thank you George!
-- [Juan Pablo](https://juandiazmart.com/) will be our guest lecturer this year!
+- [Dr.Sindu Johnson](https://ihpme.utoronto.ca/faculty/sindhu-johnson/) and [Juan Pablo](https://juandiazmart.com/) will be our guest lecturers this year!
 
 <img src="images/instructors.jpg" class="center">
 <!-- <img src="images/JuanPablo.jpg" width = "100" /> -->
@@ -238,7 +238,7 @@ In the coin flip example, a Bayesian would conclude that Heads and Tails are equ
 
 **Bayes' rule** specifies how a prior probability $P(H)$ of event $H$ is updated in response to the evidence/data $E$ to obtain the posterior probability $P(H|E)$.
 \[
-P(H|E) = \frac{P(E|H)P(H)}{P(E)}
+P(H|E) = \frac{P(E|H)P(H)}{P(E)} \propto P(E|H)P(H)
 \]
 
 - Event $H$ represents a particular hypothesis^[We're using "hypothesis" in the sense of a general scientific hypothesis, not necessarily a statistical null or alternative hypothesis.] (or model or parameter)
@@ -246,6 +246,7 @@ P(H|E) = \frac{P(E|H)P(H)}{P(E)}
 - $P(H)$ is the unconditional or **prior probability** of $H$ (prior to observing $E$)
 - $P(H|E)$ is the conditional or **posterior probability** of $H$ after observing evidence $E$.
 - $P(E|H)$ is the **likelihood** of evidence $E$ given hypothesis (or model or parameter) $H$
+- The symbol $\propto$ "proportional to", i.e., the right hand side needs to be divided by a normalizing factor (commonly viewed as a "constant" under Bayesian framework).
 
 The Bayesian approach provides a probability of the hypothesis given the data/evidence, which is something generally highly desirable from a scientific perspective.
 
@@ -275,49 +276,42 @@ The ELISA test for HIV was widely used in the mid-1990s for screening blood dona
 - If a person does not carry the HIV virus, ELISA gives a negative (correct) result 92.6% of the time (the *specificity* of the test).
 - Assume the estimated HIV prevalence at the time was 0.5% of (the *prior base rate*). 
 
-<!-- Given a randomly selected individual tested positive; we are interested in the conditional probability that the person actually carries the virus. -->
+Given a randomly selected individual tested positive; we are interested in the conditional probability that the person actually carries the virus.
 
 Suppose a randomly selected individual **tested positive**:
 
  - If we know the **likelihood** of getting a **positive test** if HIV is truly present, $P(T^+ \mid D^+) = 0.977$,
  - and the **likelihood** of getting a **positive test** if HIV is not present, $P(T^+ \mid D^-) = 1 - 0.926 = 0.074$,
- - Using the Bayes' Rule, we can calculate the posterior probability of the disease given the result, $P(D^+ \mid T^+)$ 
- 
-$$\begin{aligned}
-P(D^+ \mid T^+) & = \frac{\text{Chance of HIV positive and test positive}}{\text{Chance of test positive}}\\
-& = \frac{P(D^+ \text{and } T^+)}{P(T^+)} \\
-& = \frac{P(T^+ \mid D^+)P(D^+)}{P(T^+)} \\
-& =  \frac{P(T^+ \mid D^+)P(D^+)}{P(T^+ \mid D^+)P(D^+) + P(T^+ \mid D^-)P(D^-)} \\
-& = \frac{0.977*0.005}{0.977*0.005 + 0.074*0.995} = \frac{0.0049}{0.0785} = 0.0622
+ - Using the Bayes' Rule, we can obtain the posterior probability of the disease given the positive test result, 
+
+ $$\begin{aligned}
+P(D^+ \mid T^+) & = \frac{P(T^+ \mid D^+)P(D^+)}{P(T^+)} \\
+& = P(T^+ \mid D^+) \frac{P(D^+)}{P(T^+)}\\
+\Bigg( \begin{matrix}
+\text{Probability of}  \\
+\text{HIV given} \\
+\text{a positive} \\
+\text{test} 
+\end{matrix} \Bigg) & = \Bigg(\begin{matrix}
+\text{Probability of}  \\
+\text{a positive} \\
+\text{test among} \\
+\text{HIV patients} 
+\end{matrix} \Bigg) \times \frac{\text{Probability of having HIV}}{\text{Probability of a positive test}} \\
+& \propto \Bigg(\begin{matrix}
+\text{Probability of}  \\
+\text{a positive} \\
+\text{test among} \\
+\text{HIV patients} 
+\end{matrix} \Bigg) \times \text{Probability of having HIV}
 \end{aligned}$$
 
-We will review probability rules in session 2 in details.
-
+We can see here the posterior probability is an updated belief!
+ 
 :::
 
 
-**Demonstrate calculation in R**
 
-```{r, echo = T, message=FALSE}
-library(tidyverse)
-hypothesis = c("Carries HIV", "Does not carry HIV")
-prior = c(0.005, 1 - 0.005)
-likelihood = c(0.977, 1 - 0.926) # given positive test
-product = prior * likelihood
-posterior = product / sum(product)
-bayes_table = data.frame(hypothesis,
-                         prior,
-                         likelihood,
-                         product,
-                         posterior) %>%
-  add_row(hypothesis = "Sum",
-          prior = sum(prior),
-          likelihood = NA,
-          product = sum(product),
-          posterior = sum(posterior))
-
-knitr::kable(bayes_table, digits = 4, align = 'r')
-```
 
 
 ::: {.important data-latex=""}
@@ -332,3 +326,6 @@ knitr::kable(bayes_table, digits = 4, align = 'r')
 \]
 
 :::
+
+
+
