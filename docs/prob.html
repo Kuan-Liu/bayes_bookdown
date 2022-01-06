@@ -445,12 +445,34 @@ P(A\mid B) &amp;=   \frac{P(B\mid A)P(A) }{P(B)}\\
 <li><strong>Long-term frequency</strong> It is natural to think of large sequences of similar events defining frequency-type probability if we allow the number of trials to be indefinitely large.</li>
 </ul></li>
 </ol>
+<div class="fold s">
+
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="prob.html#cb24-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb24-2"><a href="prob.html#cb24-2" aria-hidden="true" tabindex="-1"></a>pHeads <span class="ot">=</span><span class="fl">0.5</span></span>
+<span id="cb24-3"><a href="prob.html#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb24-4"><a href="prob.html#cb24-4" aria-hidden="true" tabindex="-1"></a>flipSequence <span class="ot">=</span> <span class="fu">sample</span>( <span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">-</span>pHeads,pHeads),<span class="at">size=</span>n,<span class="at">replace=</span>T)</span>
+<span id="cb24-5"><a href="prob.html#cb24-5" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb24-6"><a href="prob.html#cb24-6" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">cumsum</span>(flipSequence)</span>
+<span id="cb24-7"><a href="prob.html#cb24-7" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb24-8"><a href="prob.html#cb24-8" aria-hidden="true" tabindex="-1"></a>runProp <span class="ot">=</span> r<span class="sc">/</span>n</span>
+<span id="cb24-9"><a href="prob.html#cb24-9" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb24-10"><a href="prob.html#cb24-10" aria-hidden="true" tabindex="-1"></a>flip_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">run=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>,<span class="at">prop=</span>runProp)</span>
+<span id="cb24-11"><a href="prob.html#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="prob.html#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(flip_data,<span class="fu">aes</span>(<span class="at">x=</span>run,<span class="at">y=</span>prop,<span class="at">frame=</span>run)) <span class="sc">+</span> </span>
+<span id="cb24-13"><a href="prob.html#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>()<span class="sc">+</span></span>
+<span id="cb24-14"><a href="prob.html#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">1</span>,<span class="dv">1000</span>)<span class="sc">+</span><span class="fu">ylim</span>(<span class="fl">0.0</span>,<span class="fl">1.0</span>)<span class="sc">+</span></span>
+<span id="cb24-15"><a href="prob.html#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb24-16"><a href="prob.html#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of Heads&quot;</span>)<span class="sc">+</span></span>
+<span id="cb24-17"><a href="prob.html#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Number of Flips&quot;</span>)<span class="sc">+</span></span>
+<span id="cb24-18"><a href="prob.html#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-20"></span>
 <img src="bayes_bookdown_files/figure-html/unnamed-chunk-20-1.png" alt="Demonstrate law of large number with the coin tossing example" width="384" />
 <p class="caption">
 Figure 2.3: Demonstrate law of large number with the coin tossing example
 </p>
 </div>
+<div>
+
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Belief-type (Subjective Probability)</strong>: based on the idea of degree of belief (weight of evidence) about an event where the scale is anchored at certain (=1) and impossible (=0).</li>
 </ol>
@@ -526,23 +548,23 @@ P(D^+ \mid T^+) &amp; = \frac{P(D^+ \text{and } T^+)}{P(T^+)}\\
 \end{aligned}\]</span></p>
 </div>
 <p><strong>Demonstrate calculation in R</strong></p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="prob.html#cb24-1" aria-hidden="true" tabindex="-1"></a>hypothesis <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Carries HIV&quot;</span>, <span class="st">&quot;Does not carry HIV&quot;</span>)</span>
-<span id="cb24-2"><a href="prob.html#cb24-2" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.005</span>, <span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.005</span>)</span>
-<span id="cb24-3"><a href="prob.html#cb24-3" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.977</span>, <span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.926</span>) <span class="co"># given positive test</span></span>
-<span id="cb24-4"><a href="prob.html#cb24-4" aria-hidden="true" tabindex="-1"></a>product <span class="ot">=</span> prior <span class="sc">*</span> likelihood</span>
-<span id="cb24-5"><a href="prob.html#cb24-5" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">=</span> product <span class="sc">/</span> <span class="fu">sum</span>(product)</span>
-<span id="cb24-6"><a href="prob.html#cb24-6" aria-hidden="true" tabindex="-1"></a>bayes_table <span class="ot">=</span> <span class="fu">data.frame</span>(hypothesis,</span>
-<span id="cb24-7"><a href="prob.html#cb24-7" aria-hidden="true" tabindex="-1"></a>                         prior,</span>
-<span id="cb24-8"><a href="prob.html#cb24-8" aria-hidden="true" tabindex="-1"></a>                         likelihood,</span>
-<span id="cb24-9"><a href="prob.html#cb24-9" aria-hidden="true" tabindex="-1"></a>                         product,</span>
-<span id="cb24-10"><a href="prob.html#cb24-10" aria-hidden="true" tabindex="-1"></a>                         posterior) <span class="sc">%&gt;%</span></span>
-<span id="cb24-11"><a href="prob.html#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_row</span>(<span class="at">hypothesis =</span> <span class="st">&quot;Sum&quot;</span>,</span>
-<span id="cb24-12"><a href="prob.html#cb24-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">prior =</span> <span class="fu">sum</span>(prior),</span>
-<span id="cb24-13"><a href="prob.html#cb24-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">likelihood =</span> <span class="cn">NA</span>,</span>
-<span id="cb24-14"><a href="prob.html#cb24-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">product =</span> <span class="fu">sum</span>(product),</span>
-<span id="cb24-15"><a href="prob.html#cb24-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">posterior =</span> <span class="fu">sum</span>(posterior))</span>
-<span id="cb24-16"><a href="prob.html#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-17"><a href="prob.html#cb24-17" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(bayes_table, <span class="at">digits =</span> <span class="dv">4</span>, <span class="at">align =</span> <span class="st">&#39;r&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="prob.html#cb25-1" aria-hidden="true" tabindex="-1"></a>hypothesis <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Carries HIV&quot;</span>, <span class="st">&quot;Does not carry HIV&quot;</span>)</span>
+<span id="cb25-2"><a href="prob.html#cb25-2" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.005</span>, <span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.005</span>)</span>
+<span id="cb25-3"><a href="prob.html#cb25-3" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.977</span>, <span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.926</span>) <span class="co"># given positive test</span></span>
+<span id="cb25-4"><a href="prob.html#cb25-4" aria-hidden="true" tabindex="-1"></a>product <span class="ot">=</span> prior <span class="sc">*</span> likelihood</span>
+<span id="cb25-5"><a href="prob.html#cb25-5" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">=</span> product <span class="sc">/</span> <span class="fu">sum</span>(product)</span>
+<span id="cb25-6"><a href="prob.html#cb25-6" aria-hidden="true" tabindex="-1"></a>bayes_table <span class="ot">=</span> <span class="fu">data.frame</span>(hypothesis,</span>
+<span id="cb25-7"><a href="prob.html#cb25-7" aria-hidden="true" tabindex="-1"></a>                         prior,</span>
+<span id="cb25-8"><a href="prob.html#cb25-8" aria-hidden="true" tabindex="-1"></a>                         likelihood,</span>
+<span id="cb25-9"><a href="prob.html#cb25-9" aria-hidden="true" tabindex="-1"></a>                         product,</span>
+<span id="cb25-10"><a href="prob.html#cb25-10" aria-hidden="true" tabindex="-1"></a>                         posterior) <span class="sc">%&gt;%</span></span>
+<span id="cb25-11"><a href="prob.html#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_row</span>(<span class="at">hypothesis =</span> <span class="st">&quot;Sum&quot;</span>,</span>
+<span id="cb25-12"><a href="prob.html#cb25-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">prior =</span> <span class="fu">sum</span>(prior),</span>
+<span id="cb25-13"><a href="prob.html#cb25-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">likelihood =</span> <span class="cn">NA</span>,</span>
+<span id="cb25-14"><a href="prob.html#cb25-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">product =</span> <span class="fu">sum</span>(product),</span>
+<span id="cb25-15"><a href="prob.html#cb25-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">posterior =</span> <span class="fu">sum</span>(posterior))</span>
+<span id="cb25-16"><a href="prob.html#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="prob.html#cb25-17" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(bayes_table, <span class="at">digits =</span> <span class="dv">4</span>, <span class="at">align =</span> <span class="st">&#39;r&#39;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -619,46 +641,46 @@ called ‘parametric’ modelling.</li>
 </blockquote>
 <div class="fold s">
 
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="prob.html#cb25-1" aria-hidden="true" tabindex="-1"></a>Distance <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">600</span></span>
-<span id="cb25-2"><a href="prob.html#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="prob.html#cb25-3" aria-hidden="true" tabindex="-1"></a>makePlot <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">frac=</span><span class="fl">0.3</span>){</span>
-<span id="cb25-4"><a href="prob.html#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="prob.html#cb25-5" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Distance=</span>Distance,</span>
-<span id="cb25-6"><a href="prob.html#cb25-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">f1 =</span> <span class="fu">dnorm</span>(Distance,<span class="dv">240</span>,<span class="dv">80</span>),</span>
-<span id="cb25-7"><a href="prob.html#cb25-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">f2 =</span> <span class="fu">dnorm</span>(Distance,<span class="dv">450</span>,<span class="dv">70</span>),</span>
-<span id="cb25-8"><a href="prob.html#cb25-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">p =</span> <span class="fu">rep</span>(frac, <span class="fu">length</span>(Distance)))</span>
-<span id="cb25-9"><a href="prob.html#cb25-9" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>f <span class="ot">&lt;-</span> df<span class="sc">$</span>p<span class="sc">*</span>df<span class="sc">$</span>f1 <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>df<span class="sc">$</span>p)<span class="sc">*</span>df<span class="sc">$</span>f2</span>
-<span id="cb25-10"><a href="prob.html#cb25-10" aria-hidden="true" tabindex="-1"></a>  maxH <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>f)<span class="sc">*</span><span class="fl">1.05</span></span>
-<span id="cb25-11"><a href="prob.html#cb25-11" aria-hidden="true" tabindex="-1"></a>  p0 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(Distance,f))<span class="sc">+</span></span>
-<span id="cb25-12"><a href="prob.html#cb25-12" aria-hidden="true" tabindex="-1"></a>         <span class="fu">geom_line</span>(<span class="at">col=</span><span class="st">&quot;red&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb25-13"><a href="prob.html#cb25-13" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ylab</span>(<span class="st">&quot;p(Distance)&quot;</span>)<span class="sc">+</span></span>
-<span id="cb25-14"><a href="prob.html#cb25-14" aria-hidden="true" tabindex="-1"></a>         <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">600</span>))<span class="sc">+</span></span>
-<span id="cb25-15"><a href="prob.html#cb25-15" aria-hidden="true" tabindex="-1"></a>         <span class="fu">theme_bw</span>()</span>
-<span id="cb25-16"><a href="prob.html#cb25-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb25-17"><a href="prob.html#cb25-17" aria-hidden="true" tabindex="-1"></a>  p1 <span class="ot">&lt;-</span> p0<span class="sc">+</span><span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>,</span>
-<span id="cb25-18"><a href="prob.html#cb25-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x=</span><span class="dv">200</span>,</span>
-<span id="cb25-19"><a href="prob.html#cb25-19" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span>maxH,</span>
-<span id="cb25-20"><a href="prob.html#cb25-20" aria-hidden="true" tabindex="-1"></a>                    <span class="at">label=</span><span class="st">&quot;D ~ p(theta)&quot;</span>,</span>
-<span id="cb25-21"><a href="prob.html#cb25-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col=</span><span class="st">&quot;red&quot;</span>,</span>
-<span id="cb25-22"><a href="prob.html#cb25-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">size=</span><span class="dv">4</span>)</span>
-<span id="cb25-23"><a href="prob.html#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-24"><a href="prob.html#cb25-24" aria-hidden="true" tabindex="-1"></a>  p2 <span class="ot">&lt;-</span> p0 <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(Distance,p<span class="sc">*</span>f1),<span class="at">col=</span><span class="st">&quot;blue&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb25-25"><a href="prob.html#cb25-25" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_line</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(Distance,(<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">*</span>f2),<span class="at">col=</span><span class="st">&quot;orange&quot;</span>)<span class="sc">+</span></span>
-<span id="cb25-26"><a href="prob.html#cb25-26" aria-hidden="true" tabindex="-1"></a>     <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>,<span class="at">x=</span><span class="dv">50</span>,<span class="at">y=</span>maxH<span class="sc">*</span><span class="fl">1.05</span>,<span class="at">hjust=</span><span class="dv">0</span>,</span>
-<span id="cb25-27"><a href="prob.html#cb25-27" aria-hidden="true" tabindex="-1"></a>              <span class="at">label=</span><span class="fu">paste0</span>(<span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>frac),</span>
-<span id="cb25-28"><a href="prob.html#cb25-28" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;%: D | Hospitalized ~ N(mu1, V1)&quot;</span>),</span>
-<span id="cb25-29"><a href="prob.html#cb25-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">col=</span><span class="st">&quot;blue&quot;</span>,<span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span></span>
-<span id="cb25-30"><a href="prob.html#cb25-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>,<span class="at">x=</span><span class="dv">50</span>,<span class="at">y=</span>maxH<span class="sc">*</span><span class="fl">1.1</span>,<span class="at">hjust=</span><span class="dv">0</span>,</span>
-<span id="cb25-31"><a href="prob.html#cb25-31" aria-hidden="true" tabindex="-1"></a>         <span class="at">label=</span><span class="fu">paste0</span>(<span class="fu">round</span>(<span class="dv">100-100</span><span class="sc">*</span>frac),</span>
-<span id="cb25-32"><a href="prob.html#cb25-32" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;%: D | Not Hospitalized ~ N(mu1+delta, V2)&quot;</span>),</span>
-<span id="cb25-33"><a href="prob.html#cb25-33" aria-hidden="true" tabindex="-1"></a>                      <span class="at">col=</span><span class="st">&quot;orange&quot;</span>,<span class="at">size=</span><span class="dv">4</span>)</span>
-<span id="cb25-34"><a href="prob.html#cb25-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-35"><a href="prob.html#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span>
-<span id="cb25-36"><a href="prob.html#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p2)</span>
-<span id="cb25-37"><a href="prob.html#cb25-37" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-38"><a href="prob.html#cb25-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-39"><a href="prob.html#cb25-39" aria-hidden="true" tabindex="-1"></a><span class="fu">makePlot</span>(<span class="at">frac =</span> <span class="fl">0.3</span>)</span></code></pre></div>
-<img src="bayes_bookdown_files/figure-html/unnamed-chunk-22-1.png" width="384" style="display: block; margin: auto;" /><img src="bayes_bookdown_files/figure-html/unnamed-chunk-22-2.png" width="384" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="prob.html#cb26-1" aria-hidden="true" tabindex="-1"></a>Distance <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">600</span></span>
+<span id="cb26-2"><a href="prob.html#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="prob.html#cb26-3" aria-hidden="true" tabindex="-1"></a>makePlot <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">frac=</span><span class="fl">0.3</span>){</span>
+<span id="cb26-4"><a href="prob.html#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="prob.html#cb26-5" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Distance=</span>Distance,</span>
+<span id="cb26-6"><a href="prob.html#cb26-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">f1 =</span> <span class="fu">dnorm</span>(Distance,<span class="dv">240</span>,<span class="dv">80</span>),</span>
+<span id="cb26-7"><a href="prob.html#cb26-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">f2 =</span> <span class="fu">dnorm</span>(Distance,<span class="dv">450</span>,<span class="dv">70</span>),</span>
+<span id="cb26-8"><a href="prob.html#cb26-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">p =</span> <span class="fu">rep</span>(frac, <span class="fu">length</span>(Distance)))</span>
+<span id="cb26-9"><a href="prob.html#cb26-9" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>f <span class="ot">&lt;-</span> df<span class="sc">$</span>p<span class="sc">*</span>df<span class="sc">$</span>f1 <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>df<span class="sc">$</span>p)<span class="sc">*</span>df<span class="sc">$</span>f2</span>
+<span id="cb26-10"><a href="prob.html#cb26-10" aria-hidden="true" tabindex="-1"></a>  maxH <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>f)<span class="sc">*</span><span class="fl">1.05</span></span>
+<span id="cb26-11"><a href="prob.html#cb26-11" aria-hidden="true" tabindex="-1"></a>  p0 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(Distance,f))<span class="sc">+</span></span>
+<span id="cb26-12"><a href="prob.html#cb26-12" aria-hidden="true" tabindex="-1"></a>         <span class="fu">geom_line</span>(<span class="at">col=</span><span class="st">&quot;red&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb26-13"><a href="prob.html#cb26-13" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ylab</span>(<span class="st">&quot;p(Distance)&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-14"><a href="prob.html#cb26-14" aria-hidden="true" tabindex="-1"></a>         <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">600</span>))<span class="sc">+</span></span>
+<span id="cb26-15"><a href="prob.html#cb26-15" aria-hidden="true" tabindex="-1"></a>         <span class="fu">theme_bw</span>()</span>
+<span id="cb26-16"><a href="prob.html#cb26-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-17"><a href="prob.html#cb26-17" aria-hidden="true" tabindex="-1"></a>  p1 <span class="ot">&lt;-</span> p0<span class="sc">+</span><span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>,</span>
+<span id="cb26-18"><a href="prob.html#cb26-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x=</span><span class="dv">200</span>,</span>
+<span id="cb26-19"><a href="prob.html#cb26-19" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span>maxH,</span>
+<span id="cb26-20"><a href="prob.html#cb26-20" aria-hidden="true" tabindex="-1"></a>                    <span class="at">label=</span><span class="st">&quot;D ~ p(theta)&quot;</span>,</span>
+<span id="cb26-21"><a href="prob.html#cb26-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb26-22"><a href="prob.html#cb26-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">size=</span><span class="fl">3.5</span>)</span>
+<span id="cb26-23"><a href="prob.html#cb26-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-24"><a href="prob.html#cb26-24" aria-hidden="true" tabindex="-1"></a>  p2 <span class="ot">&lt;-</span> p0 <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(Distance,p<span class="sc">*</span>f1),<span class="at">col=</span><span class="st">&quot;blue&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb26-25"><a href="prob.html#cb26-25" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_line</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(Distance,(<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">*</span>f2),<span class="at">col=</span><span class="st">&quot;orange&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-26"><a href="prob.html#cb26-26" aria-hidden="true" tabindex="-1"></a>     <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>,<span class="at">x=</span><span class="dv">50</span>,<span class="at">y=</span>maxH<span class="sc">*</span><span class="fl">1.05</span>,<span class="at">hjust=</span><span class="dv">0</span>,</span>
+<span id="cb26-27"><a href="prob.html#cb26-27" aria-hidden="true" tabindex="-1"></a>              <span class="at">label=</span><span class="fu">paste0</span>(<span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>frac),</span>
+<span id="cb26-28"><a href="prob.html#cb26-28" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;%: D | Hospitalized ~ N(mu1, V1)&quot;</span>),</span>
+<span id="cb26-29"><a href="prob.html#cb26-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">col=</span><span class="st">&quot;blue&quot;</span>,<span class="at">size=</span><span class="fl">3.5</span>)<span class="sc">+</span></span>
+<span id="cb26-30"><a href="prob.html#cb26-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>,<span class="at">x=</span><span class="dv">50</span>,<span class="at">y=</span>maxH<span class="sc">*</span><span class="fl">1.1</span>,<span class="at">hjust=</span><span class="dv">0</span>,</span>
+<span id="cb26-31"><a href="prob.html#cb26-31" aria-hidden="true" tabindex="-1"></a>         <span class="at">label=</span><span class="fu">paste0</span>(<span class="fu">round</span>(<span class="dv">100-100</span><span class="sc">*</span>frac),</span>
+<span id="cb26-32"><a href="prob.html#cb26-32" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;%: D | Not Hospitalized ~ N(mu1+delta, V2)&quot;</span>),</span>
+<span id="cb26-33"><a href="prob.html#cb26-33" aria-hidden="true" tabindex="-1"></a>                      <span class="at">col=</span><span class="st">&quot;orange&quot;</span>,<span class="at">size=</span><span class="fl">3.5</span>)</span>
+<span id="cb26-34"><a href="prob.html#cb26-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-35"><a href="prob.html#cb26-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggarrange</span>(p1, p2,  <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">1</span>)</span>
+<span id="cb26-36"><a href="prob.html#cb26-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-37"><a href="prob.html#cb26-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-38"><a href="prob.html#cb26-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-39"><a href="prob.html#cb26-39" aria-hidden="true" tabindex="-1"></a><span class="fu">makePlot</span>(<span class="at">frac =</span> <span class="fl">0.3</span>)</span></code></pre></div>
+<img src="bayes_bookdown_files/figure-html/unnamed-chunk-22-1.png" width="384" style="display: block; margin: auto;" />
 <div>
 
 <div id="probability-density-functions" class="section level3" number="2.2.1">
@@ -757,32 +779,16 @@ called a binomial coefficient
 \]</span>
 which counts the number of ways to choose <span class="math inline">\(x\)</span> things from <span class="math inline">\(n\)</span>.</p>
 <p>The mean of the binomial distribution is <span class="math inline">\(E(X) = np\)</span> and the variance is <span class="math inline">\(Var(X) = np(1-p)\)</span>.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="prob.html#cb26-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">10</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-2"><a href="prob.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">probability =</span> <span class="fu">dbinom</span>(x, <span class="at">size=</span><span class="dv">10</span>, <span class="at">prob=</span><span class="fl">0.5</span>))</span>
-<span id="cb26-3"><a href="prob.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dist, <span class="fu">aes</span>(<span class="at">x=</span>x)) <span class="sc">+</span></span>
-<span id="cb26-4"><a href="prob.html#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y=</span>probability)) <span class="sc">+</span></span>
-<span id="cb26-5"><a href="prob.html#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">ymax=</span>probability, <span class="at">ymin=</span><span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb26-6"><a href="prob.html#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb26-7"><a href="prob.html#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&#39;Binomial distribution: n=10, p=0.5&#39;</span>) <span class="sc">+</span></span>
-<span id="cb26-8"><a href="prob.html#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="prob.html#cb27-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">10</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-2"><a href="prob.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">probability =</span> <span class="fu">dbinom</span>(x, <span class="at">size=</span><span class="dv">10</span>, <span class="at">prob=</span><span class="fl">0.8</span>))</span>
+<span id="cb27-2"><a href="prob.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">probability =</span> <span class="fu">dbinom</span>(x, <span class="at">size=</span><span class="dv">10</span>, <span class="at">prob=</span><span class="fl">0.5</span>))</span>
 <span id="cb27-3"><a href="prob.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dist, <span class="fu">aes</span>(<span class="at">x=</span>x)) <span class="sc">+</span></span>
 <span id="cb27-4"><a href="prob.html#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y=</span>probability)) <span class="sc">+</span></span>
 <span id="cb27-5"><a href="prob.html#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">ymax=</span>probability, <span class="at">ymin=</span><span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb27-6"><a href="prob.html#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb27-7"><a href="prob.html#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&#39;Binomial distribution: n=10, p=0.8&#39;</span>) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="prob.html#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&#39;Binomial distribution: n=10, p=0.5&#39;</span>) <span class="sc">+</span></span>
 <span id="cb27-8"><a href="prob.html#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="prob.html#cb28-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">100</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb28-2"><a href="prob.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">probability =</span> <span class="fu">dbinom</span>(x, <span class="at">size=</span><span class="dv">100</span>, <span class="at">prob=</span><span class="fl">0.8</span>))</span>
-<span id="cb28-3"><a href="prob.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dist, <span class="fu">aes</span>(<span class="at">x=</span>x)) <span class="sc">+</span></span>
-<span id="cb28-4"><a href="prob.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y=</span>probability)) <span class="sc">+</span></span>
-<span id="cb28-5"><a href="prob.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">ymax=</span>probability, <span class="at">ymin=</span><span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb28-6"><a href="prob.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">10</span>))<span class="sc">+</span></span>
-<span id="cb28-7"><a href="prob.html#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&#39;Binomial distribution: n=100, p=0.8&#39;</span>) <span class="sc">+</span></span>
-<span id="cb28-8"><a href="prob.html#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>We can use R to calculate binomial probabilities. In general, for any distribution,
 the “d-function” gives the distribution function (pmf or pdf). <span class="math inline">\(P( x = 5 | n=10, p=0.8 ) = 0.02642412\)</span> from <code>dbinom(5, size=10, prob=0.8)</code> and <span class="math inline">\(P( x = 8 | n=10, p=0.8 )=0.3019899\)</span> from <code>dbinom(8, size=10, prob=0.8)</code>.</p>
@@ -842,14 +848,14 @@ What about the probability of finding at most 4?
 <span class="math display">\[P(Y\ge5)    =   1-P(Y\le4) =    1-0.9163 =  0.0837\]</span></p>
 <p>These calculations can be done using the distribution function (d-function) for
 the Poisson and the cumulative distribution function (p-function). e.g. <span class="math inline">\(P(Y=4\mid \lambda = 2.3\)</span> can be obtained using <code>dpois(4, lambda=2.3)</code> and <span class="math inline">\(P(Y \leq 4\mid \lambda = 2.3\)</span> can be obtained using <code>ppois(4, lambda=2.3)</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="prob.html#cb29-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">NumCaught =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span> ) <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a href="prob.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">probability =</span> <span class="fu">dpois</span>( NumCaught, <span class="at">lambda=</span><span class="fl">2.3</span> ) )</span>
-<span id="cb29-3"><a href="prob.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dist, <span class="fu">aes</span>(<span class="at">x=</span>NumCaught)) <span class="sc">+</span></span>
-<span id="cb29-4"><a href="prob.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>( <span class="fu">aes</span>(<span class="at">y=</span>probability) ) <span class="sc">+</span></span>
-<span id="cb29-5"><a href="prob.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>( <span class="at">ymax=</span>probability, <span class="at">ymin=</span><span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb29-6"><a href="prob.html#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Poisson Distribution with  &#39;</span>, lambda <span class="sc">==</span> <span class="fl">2.3</span>))) <span class="sc">+</span></span>
-<span id="cb29-7"><a href="prob.html#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&#39;Number Caught&#39;</span>) <span class="sc">+</span></span>
-<span id="cb29-8"><a href="prob.html#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()            </span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="prob.html#cb28-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">NumCaught =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span> ) <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="prob.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">probability =</span> <span class="fu">dpois</span>( NumCaught, <span class="at">lambda=</span><span class="fl">2.3</span> ) )</span>
+<span id="cb28-3"><a href="prob.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dist, <span class="fu">aes</span>(<span class="at">x=</span>NumCaught)) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="prob.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>( <span class="fu">aes</span>(<span class="at">y=</span>probability) ) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="prob.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>( <span class="at">ymax=</span>probability, <span class="at">ymin=</span><span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="prob.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Poisson Distribution with  &#39;</span>, lambda <span class="sc">==</span> <span class="fl">2.3</span>))) <span class="sc">+</span></span>
+<span id="cb28-7"><a href="prob.html#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&#39;Number Caught&#39;</span>) <span class="sc">+</span></span>
+<span id="cb28-8"><a href="prob.html#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()            </span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 </div>
 </div>
@@ -861,7 +867,6 @@ the Poisson and the cumulative distribution function (p-function). e.g. <span c
 intervals of equal size should have the same probability of the value being in
 them. This random variable is said to have a Uniform(0,1) distribution.</p>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
-<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <ul>
 <li>The uniform distribution has two parameter, a lower bound (a) and an upper
 bound (b)</li>
@@ -885,13 +890,6 @@ variance <span class="math inline">\(Var[X]=\sigma^{2}\)</span>.</p>
 <p><strong>Example:</strong> It is known that the heights of adult males in the US is
 approximately normal with a mean of 5 feet 10 inches (<span class="math inline">\(\mu=70\)</span> inches) and a
 standard deviation of <span class="math inline">\(\sigma=3\)</span> inches. I am 5 feet 4 inches (64 inches). What proportion of the adult male population is shorter than me?</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="prob.html#cb30-1" aria-hidden="true" tabindex="-1"></a>distr <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">seq</span>(<span class="dv">57</span>, <span class="dv">82</span>, <span class="at">length=</span><span class="dv">1000</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb30-2"><a href="prob.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">density =</span> <span class="fu">dnorm</span>(x, <span class="at">mean=</span><span class="dv">70</span>, <span class="at">sd=</span><span class="dv">3</span>),</span>
-<span id="cb30-3"><a href="prob.html#cb30-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">group =</span> <span class="fu">ifelse</span>(x<span class="sc">&lt;=</span><span class="dv">64</span>, <span class="st">&#39;Shorter&#39;</span>,<span class="st">&#39;Taller&#39;</span>) )</span>
-<span id="cb30-4"><a href="prob.html#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(distr, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>density, <span class="at">fill=</span>group)) <span class="sc">+</span></span>
-<span id="cb30-5"><a href="prob.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb30-6"><a href="prob.html#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>() <span class="sc">+</span></span>
-<span id="cb30-7"><a href="prob.html#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <p>Using R you can easily find this probability is 0.02275013 using <code>pnorm(64, mean=70, sd=3)</code>.</p>
 </div>
@@ -905,7 +903,53 @@ non-events, so that <span class="math inline">\(\alpha + \beta\)</span> is the p
 <li>mean = <span class="math inline">\(\frac{\alpha}{\alpha+\beta} = \frac{\text(events)}{\text(sample size)} = p\)</span></li>
 <li>variance = <span class="math display">\[ \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)} = \frac{\alpha}{\alpha+\beta} \times \frac{\beta}{\alpha+\beta} \times \frac{1}{\alpha+\beta+1} = p(1-p)\frac{1}{\text(sample size)+1} \]</span></li>
 </ul>
-<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="fold s">
+
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="prob.html#cb29-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>) , <span class="at">prob =</span> <span class="fu">dbeta</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>) , <span class="at">shape1 =</span> <span class="dv">1</span>, <span class="at">shape2 =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="prob.html#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="prob.html#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb29-4"><a href="prob.html#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;X ~ Beta(alpha = 1, beta = 1)&quot;</span>,</span>
+<span id="cb29-5"><a href="prob.html#cb29-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Interval (x)&quot;</span>,</span>
+<span id="cb29-6"><a href="prob.html#cb29-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Probability Density Function&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="prob.html#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb29-8"><a href="prob.html#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="prob.html#cb29-9" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>) , <span class="at">prob =</span> <span class="fu">dbeta</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>) , <span class="at">shape1 =</span> <span class="dv">1</span>, <span class="at">shape2 =</span> <span class="dv">5</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-10"><a href="prob.html#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb29-11"><a href="prob.html#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb29-12"><a href="prob.html#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;X ~ Beta(alpha = 1, beta = 5)&quot;</span>,</span>
+<span id="cb29-13"><a href="prob.html#cb29-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Interval (x)&quot;</span>,</span>
+<span id="cb29-14"><a href="prob.html#cb29-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Probability Density Function&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-15"><a href="prob.html#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb29-16"><a href="prob.html#cb29-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-17"><a href="prob.html#cb29-17" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>) , <span class="at">prob =</span> <span class="fu">dbeta</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>) , <span class="at">shape1 =</span> <span class="dv">5</span>, <span class="at">shape2 =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-18"><a href="prob.html#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb29-19"><a href="prob.html#cb29-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">&quot;green&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb29-20"><a href="prob.html#cb29-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;X ~ Beta(alpha = 5, beta = 1)&quot;</span>,</span>
+<span id="cb29-21"><a href="prob.html#cb29-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Interval (x)&quot;</span>,</span>
+<span id="cb29-22"><a href="prob.html#cb29-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Probability Density Function&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-23"><a href="prob.html#cb29-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb29-24"><a href="prob.html#cb29-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-25"><a href="prob.html#cb29-25" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>), <span class="at">prob =</span> <span class="fu">dbeta</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>), <span class="at">shape1 =</span> <span class="dv">10</span>, <span class="at">shape2 =</span> <span class="dv">5</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-26"><a href="prob.html#cb29-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb29-27"><a href="prob.html#cb29-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb29-28"><a href="prob.html#cb29-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;X ~ Beta(alpha = 10, beta = 5)&quot;</span>,</span>
+<span id="cb29-29"><a href="prob.html#cb29-29" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Interval (x)&quot;</span>,</span>
+<span id="cb29-30"><a href="prob.html#cb29-30" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Probability Density Function&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-31"><a href="prob.html#cb29-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb29-32"><a href="prob.html#cb29-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-33"><a href="prob.html#cb29-33" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>), <span class="at">prob =</span> <span class="fu">dbeta</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">100</span>), <span class="at">shape1 =</span> <span class="dv">10</span>, <span class="at">shape2 =</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-34"><a href="prob.html#cb29-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb29-35"><a href="prob.html#cb29-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb29-36"><a href="prob.html#cb29-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;X ~ Beta(alpha = 10, beta = 10)&quot;</span>,</span>
+<span id="cb29-37"><a href="prob.html#cb29-37" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Interval (x)&quot;</span>,</span>
+<span id="cb29-38"><a href="prob.html#cb29-38" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Probability Density Function&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-39"><a href="prob.html#cb29-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb29-40"><a href="prob.html#cb29-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-41"><a href="prob.html#cb29-41" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p5, p2, p3, p4, </span>
+<span id="cb29-42"><a href="prob.html#cb29-42" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span></code></pre></div>
+<img src="bayes_bookdown_files/figure-html/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" />
+<div>
+
 </div>
 <div id="gamma-distributions" class="section level4" number="2.2.3.4">
 <h4><span class="header-section-number">2.2.3.4</span> Gamma Distributions</h4>
@@ -914,7 +958,46 @@ non-events, so that <span class="math inline">\(\alpha + \beta\)</span> is the p
 <li>If the random variable follows a Gamma distribution, it can have values larger than 0</li>
 <li>mean = <span class="math inline">\(\frac{\alpha}{\beta}\)</span> and variance = <span class="math inline">\(\frac{\alpha}{\beta^2}\)</span></li>
 </ul>
-<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="fold s">
+
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="prob.html#cb30-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">prob =</span> <span class="fu">dgamma</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">shape =</span> <span class="dv">10</span>, <span class="at">rate =</span> <span class="fl">0.25</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="prob.html#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="prob.html#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb30-4"><a href="prob.html#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;X ~ Gamma(alpha = 10, beta = .25)&quot;</span>,</span>
+<span id="cb30-5"><a href="prob.html#cb30-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Interval (x)&quot;</span>,</span>
+<span id="cb30-6"><a href="prob.html#cb30-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Probability Density Function&quot;</span>) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="prob.html#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb30-8"><a href="prob.html#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="prob.html#cb30-9" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">prob =</span> <span class="fu">dgamma</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">shape =</span> <span class="dv">10</span>, <span class="at">rate =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-10"><a href="prob.html#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb30-11"><a href="prob.html#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb30-12"><a href="prob.html#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;X ~ Gamma(alpha = 10, beta = 1)&quot;</span>,</span>
+<span id="cb30-13"><a href="prob.html#cb30-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Interval (x)&quot;</span>,</span>
+<span id="cb30-14"><a href="prob.html#cb30-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Probability Density Function&quot;</span>) <span class="sc">+</span></span>
+<span id="cb30-15"><a href="prob.html#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb30-16"><a href="prob.html#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-17"><a href="prob.html#cb30-17" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">prob =</span> <span class="fu">dgamma</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">shape =</span> <span class="dv">20</span>, <span class="at">rate =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-18"><a href="prob.html#cb30-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb30-19"><a href="prob.html#cb30-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">&quot;green&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb30-20"><a href="prob.html#cb30-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;X ~ Gamma(alpha = 20, beta = 1)&quot;</span>,</span>
+<span id="cb30-21"><a href="prob.html#cb30-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Interval (x)&quot;</span>,</span>
+<span id="cb30-22"><a href="prob.html#cb30-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Probability Density Function&quot;</span>) <span class="sc">+</span></span>
+<span id="cb30-23"><a href="prob.html#cb30-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb30-24"><a href="prob.html#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-25"><a href="prob.html#cb30-25" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">prob =</span> <span class="fu">dgamma</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">shape =</span> <span class="dv">20</span>, <span class="at">rate =</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-26"><a href="prob.html#cb30-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb30-27"><a href="prob.html#cb30-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb30-28"><a href="prob.html#cb30-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;X ~ Gamma(alpha = 20, beta = 10)&quot;</span>,</span>
+<span id="cb30-29"><a href="prob.html#cb30-29" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Interval (x)&quot;</span>,</span>
+<span id="cb30-30"><a href="prob.html#cb30-30" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Probability Density Function&quot;</span>) <span class="sc">+</span></span>
+<span id="cb30-31"><a href="prob.html#cb30-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb30-32"><a href="prob.html#cb30-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-33"><a href="prob.html#cb30-33" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2, p3, p4,</span>
+<span id="cb30-34"><a href="prob.html#cb30-34" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code></pre></div>
+<img src="bayes_bookdown_files/figure-html/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" />
+<div>
+
+
 <div class="important">
 <p><strong>Role of these distributions</strong></p>
 <ul>
@@ -949,12 +1032,12 @@ distributions for parameters</p>
 ## [8] base     
 ## 
 ## other attached packages:
-##  [1] truncnorm_1.0-8     tweenr_1.0.2        gganimate_1.0.7    
-##  [4] VennDiagram_1.7.1   futile.logger_1.4.3 brms_2.16.3        
-##  [7] Rcpp_1.0.7          forcats_0.5.1       stringr_1.4.0      
-## [10] dplyr_1.0.7         purrr_0.3.4         readr_2.1.1        
-## [13] tidyr_1.1.4         tibble_3.1.6        ggplot2_3.3.5      
-## [16] tidyverse_1.3.1</code></pre>
+##  [1] truncnorm_1.0-8     ggpubr_0.4.0        tweenr_1.0.2       
+##  [4] gganimate_1.0.7     VennDiagram_1.7.1   futile.logger_1.4.3
+##  [7] brms_2.16.3         Rcpp_1.0.7          forcats_0.5.1      
+## [10] stringr_1.4.0       dplyr_1.0.7         purrr_0.3.4        
+## [13] readr_2.1.1         tidyr_1.1.4         tibble_3.1.6       
+## [16] ggplot2_3.3.5       tidyverse_1.3.1</code></pre>
 
 </div>
 </div>

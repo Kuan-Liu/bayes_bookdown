@@ -17,6 +17,7 @@ library(tidyverse)
 library(VennDiagram)
 library(gganimate)
 library(tweenr)
+library(ggpubr)
 options(scipen = 999)
 ```
 
@@ -221,8 +222,8 @@ P(A\mid B) &=	\frac{P(B\mid A)P(A) }{P(B)}\\
     $$ P(A) = \frac{|A|}{|S|} = \frac{\text{Number of outcomes in S that satisfy A}}{\text{Total number of outcomes in S} } $$
     - **Long-term frequency** It is natural to think of large sequences of similar events defining frequency-type probability if we allow the number of trials to be indefinitely large. 
 
-
-```{r echo=FALSE, fig.cap="Demonstrate law of large number with the coin tossing example", fig.height=4, fig.width=4, fig.align = 'center', eval=TRUE}
+<div class="fold s">
+```{r echo=TRUE, fig.cap="Demonstrate law of large number with the coin tossing example", fig.height=4, fig.width=4, fig.align = 'center', eval=TRUE}
 n = 1000
 pHeads =0.5
 set.seed(123)
@@ -242,6 +243,7 @@ ggplot(flip_data,aes(x=run,y=prop,frame=run)) +
   xlab("Number of Flips")+
   theme_bw()
 ```
+<div>
 
 2. **Belief-type (Subjective Probability)**: based on the idea of degree of belief (weight of evidence) about an event where the scale is anchored at certain (=1) and impossible (=0).
 
@@ -423,21 +425,21 @@ makePlot <- function(frac=0.3){
                     y=maxH,
                     label="D ~ p(theta)",
                     col="red",
-                    size=4)
+                    size=3.5)
 
   p2 <- p0 + geom_line(data=df, aes(Distance,p*f1),col="blue",lwd=1)+
      geom_line(data=df, aes(Distance,(1-p)*f2),col="orange")+
      annotate("text",x=50,y=maxH*1.05,hjust=0,
               label=paste0(round(100*frac),
                            "%: D | Hospitalized ~ N(mu1, V1)"),
-              col="blue",size=4)+
+              col="blue",size=3.5)+
     annotate("text",x=50,y=maxH*1.1,hjust=0,
          label=paste0(round(100-100*frac),
                       "%: D | Not Hospitalized ~ N(mu1+delta, V2)"),
-                      col="orange",size=4)
+                      col="orange",size=3.5)
 
-print(p1)
-print(p2)
+    ggarrange(p1, p2,  ncol = 2, nrow = 1)
+
 }
 
 makePlot(frac = 0.3)
@@ -599,7 +601,7 @@ ggplot(dist, aes(x=x)) +
 ```
 
 
-```{r}
+```{r echo=FALSE}
 dist <- data.frame( x=0:10 ) %>% 
   mutate(probability = dbinom(x, size=10, prob=0.8))
 ggplot(dist, aes(x=x)) +
@@ -611,7 +613,7 @@ ggplot(dist, aes(x=x)) +
 ```
 
 
-```{r}
+```{r echo=FALSE}
 dist <- data.frame( x=0:100 ) %>% 
   mutate(probability = dbinom(x, size=100, prob=0.8))
 ggplot(dist, aes(x=x)) +
@@ -716,7 +718,7 @@ ggplot(data, aes(x=x, y=y)) +
   theme_bw() 
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 data <- data.frame(x = seq(-.2, 1.2, length=1000)) %>%
   mutate( y = dunif(x))
 ggplot(data, aes(x=x, y=y)) +
@@ -771,7 +773,7 @@ ggplot(data, aes(x=x, y=y, color=factor(grp))) +
 approximately normal with a mean of 5 feet 10 inches ($\mu=70$ inches) and a 
 standard deviation of $\sigma=3$ inches. I am 5 feet 4 inches (64 inches). What proportion of the adult male population is shorter than me?
 
-```{r}
+```{r, echo=FALSE}
 distr <- data.frame(x=seq(57, 82, length=1000)) %>%
   mutate( density = dnorm(x, mean=70, sd=3),
           group = ifelse(x<=64, 'Shorter','Taller') )
@@ -793,8 +795,8 @@ non-events, so that $\alpha + \beta$ is the pseudo sample size
 - mean = $\frac{\alpha}{\alpha+\beta} = \frac{\text(events)}{\text(sample size)} = p$
 - variance = \[ \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)} = \frac{\alpha}{\alpha+\beta} \times \frac{\beta}{\alpha+\beta} \times \frac{1}{\alpha+\beta+1} = p(1-p)\frac{1}{\text(sample size)+1} \]
 
-
-```{r echo=FALSE, fig.height=8, fig.align = 'center'}
+<div class="fold s">
+```{r echo=T, fig.height=8, fig.align = 'center'}
 p1 <- data.frame(x = seq(0, 1, length=100) , prob = dbeta(x = seq(0, 1, length=100) , shape1 = 1, shape2 = 1)) %>%
     ggplot(aes(x = x, y = prob)) +
     geom_area(fill = "blue", alpha = 0.5)+
@@ -835,11 +837,11 @@ p5 <- data.frame(x =seq(0, 1, length=100), prob = dbeta(x = seq(0, 1, length=100
          y = "Probability Density Function") +
     theme_bw()
 
-ggpubr::ggarrange(p1, p5, p2, p3, p4, 
+ggarrange(p1, p5, p2, p3, p4, 
                   ncol = 2, nrow = 3)
 
 ```
-
+<div>
 
 #### Gamma Distributions
 
@@ -847,8 +849,8 @@ ggpubr::ggarrange(p1, p5, p2, p3, p4,
 - If the random variable follows a Gamma distribution, it can have values larger than 0
 - mean = $\frac{\alpha}{\beta}$ and variance = $\frac{\alpha}{\beta^2}$
 
-
-```{r echo=FALSE, fig.align = 'center'}
+<div class="fold s">
+```{r echo=T, fig.align = 'center'}
 p1 <- data.frame(x = 0:100, prob = dgamma(x = 0:100, shape = 10, rate = 0.25)) %>%
     ggplot(aes(x = x, y = prob)) +
     geom_area(fill = "blue", alpha = 0.5)+
@@ -881,11 +883,11 @@ p4 <- data.frame(x = 0:100, prob = dgamma(x = 0:100, shape = 20, rate = 10)) %>%
          y = "Probability Density Function") +
     theme_bw()
 
-ggpubr::ggarrange(p1, p2, p3, p4,
+ggarrange(p1, p2, p3, p4,
                   ncol = 2, nrow = 2)
 
 ```
-
+<div>
 
 
 ::: {.important data-latex=""}
