@@ -1,9 +1,79 @@
-# Bayesian inference {#bayes}
+# Introduction to Bayesian inference {#bayes}
 
-## Priors
+::: {.chapterintro data-latex=""}
 
-## Posterior
+- Review of frequentist inferential approaches
+- Introduce Bayesian inference
+- Learn two simple Bayesian models (Beta-binomial & normal-normal)
+- Discuss practical advantages and disadvantages of Bayesian approach
+Probability Terminology
 
-## Prediction
+:::
 
-## Decision theory
+<script src="hideOutput.js"></script>
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+# Every chapter, we will load all the library we will use at the beginning
+# of the chapter. 
+library(tidyverse)
+library(ggpubr)
+library(brms)
+options(scipen = 999)
+```
+
+</br>
+
+::: {.important data-latex=""}
+**Review of likelihood function**
+
+- Given a statistical model with some parameters (let's call them $\theta$), and given a set of observed data $D$, the likelihood function, $L(\theta, D)$ is a \textbf{mathematical} function that for every value of $\theta$ is equal to the probability (mass or density) of observing $D$ given $\theta$
+- i.e. $L(\theta, D) = L_D(\theta) = p(Data | \theta)$
+
+**Example - Binomial likelihood** Suppose we want to estimate the risk of death $\theta$ after a surgery
+
+- We assume that every patient has the same risk $\theta$
+- We collect data from 10 surgeries and we find that 3 patients died
+- What is the likelihood function for $\theta$ in this example?
+
+
+The distribution for each patient is $Bernoulli(\theta)$ \textbf{Since they are independent} the probability of the number of those who died out of $n$ (here $n$=10) is $Binomial(\theta, 10)$
+
+The probability mass function of the binomial is \[p(x|\theta, n) = {n \choose x} \theta^x (1-\theta)^{n-x}\]
+
+The likelihood function of the observed data (3 deaths out of 10) given $\theta$ is \[ L_D(\theta) = p(x=3| \theta) = {10 \choose 3} \theta^3 (1-\theta)^{10-3}\]
+
+```{r}
+#simulating a sequence of probability representing parameter \theta;
+#\theta, probability of success, value between 0 and 1;
+theta <- seq(0, 1, length=101) 
+
+#coding Binomial likelihood given x = 3 and n = 10;
+L <- choose(10,3)*theta^3*(1-theta)^(10-3)
+
+# Ploting likelihood function
+d <- tibble(theta=theta, L=L)
+ggplot(data=d, aes(theta,L)) +
+    geom_line()+
+    ggtitle("Binomial likelihood x = 3 and n=10") + 
+    theme_bw()
+
+```
+
+:::
+
+
+## Classical frequentist approach
+
+- The classical (frequentist) statistical approach takes many forms, but the most wide-ranging is the likelihood-based approach
+
+- This approach specifies a distributional form for data and considers the
+parameters of the distributions to be fixed constants to be estimated.
+
+- The parameters are estimated by finding the values that maximize the
+likelihood (hence the name)
+
+> i.e. given the observed data, and assuming they come from specific distributions, what are the parameter values for these distributions that maximize the likelihood of these data?
+
+
+
+

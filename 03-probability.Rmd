@@ -5,7 +5,6 @@
 - Review of probability terminologies, probability rules, and Venn Diagrams
 - Review conditional probability, independence, and Bayes' theorem. 
 - Review on random variables and common probability distributions
-Probability Terminology
 :::
 
 <script src="hideOutput.js"></script>
@@ -565,9 +564,9 @@ $$E[X]=	\int_{a}^{b}x\,f(x) dx$$
 **A binomial experiment is one that**:
   
 1.  Experiment consists of $n$ identical trials.
-2.  Each trial results in one of two outcomes (Heads/Tails, presence/absence). One 
+2.  Each trial results in one of two outcomes (Heads/Tails, presence/absence).
 will be labeled a success and the other a failure.
-3.  The probability of success on a single trial is equal to $\p$ and remains the 
+3.  The probability of success on a single trial is equal to $p$ and remains the 
 same from trial to trial. 
 4.  The trials are independent (this is implied from property 3).
 5.  The random variable $X$ is the number of successes observed during $n$ trials.
@@ -637,7 +636,7 @@ the “d-function” gives the distribution function (pmf or pdf). $P( x = 5 | n
 
 The probability mass function for the multinomial distribution is
 
-\[P(y_1, y_2, \ldots, y_K) = \frac{n! }{y_1!, y_2!, \ldots, y_K!} p_1^{y_1} p_2^{y_2} \cdots p_K^{y_K} \]
+\[P(y_1, y_2, \ldots, y_K) = \frac{n! }{y_1!, y_2!, \ldots, y_K!} p_1^{y_1} p_2^{y_2} \cdots p_K^{y_K}, y_j= 0, \ldots, K, j = 1, \ldots, K \ and \ \sum y_j = K.  \]
 
 - This is a useful distribution to use as a starting point for modelling categorical data with a relatively small number (> 2) of possible values.
 
@@ -664,7 +663,7 @@ The following conditions apply:
 
 Assuming that these conditions hold for some count variable $Y$, the the 
 probability mass function is given by
-$$P(Y=y)=\frac{\lambda^{y}e^{-\lambda}}{y!}$$
+$$P(Y=y)=\frac{\lambda^{y}e^{-\lambda}}{y!}, y = 0, 1, \ldots$$
   where $\lambda$ is the expected number of events over 1 unit of time or space 
 and $e$ is the euler's number $2.718281828\dots$. 
 
@@ -738,7 +737,7 @@ ggplot(data, aes(x=x, y=y)) +
 - The uniform distribution has two parameter, a lower bound (a) and an upper
 bound (b)
 - The pdf is a constant - no value is any more likely than any other
-\[p(x \mid a, b) = \frac{1}{b-a}, b>a\]
+\[p(x \mid a, b) = \frac{1}{b-a}, b>a, a \leq x \leq b\]
 - Mean = $\frac{a+b}{2}$ and variance = $\frac{(b-a)^2}{12}$
 
 #### Normal Distributions
@@ -800,6 +799,9 @@ non-events, so that $\alpha + \beta$ is the pseudo sample size
 - mean = $\frac{\alpha}{\alpha+\beta} = \frac{\text(events)}{\text(sample size)} = p$
 - variance = \[ \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)} = \frac{\alpha}{\alpha+\beta} \times \frac{\beta}{\alpha+\beta} \times \frac{1}{\alpha+\beta+1} = p(1-p)\frac{1}{\text(sample size)+1} \]
 
+The probability density function
+$$ \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha - 1} (1-x)^{\beta - 1}, 0 \leq x \leq 1.$$ 
+where $$ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$$ and $$\Gamma()$$ is called [the gamma function](https://en.wikipedia.org/wiki/Gamma_function).
 
 ```{r echo=F, fig.height=8, fig.align = 'center'}
 p1 <- data.frame(x = seq(0, 1, length=100) , prob = dbeta(x = seq(0, 1, length=100) , shape1 = 1, shape2 = 1)) %>%
@@ -856,6 +858,9 @@ ggarrange(p1, p5, p2, p3, p4,
 - Gamma distribution is denoted as $Gamma(\alpha, \beta)$, with $\alpha>0$ (shape parameter) and $\beta>0$ (rate parameter)
 - If the random variable follows a Gamma distribution, it can have values larger than 0
 - mean = $\frac{\alpha}{\beta}$ and variance = $\frac{\alpha}{\beta^2}$
+
+The probability density function
+$$ \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\beta x},x \geq 0.$$ 
 
 <div class="fold s">
 ```{r echo=F, fig.align = 'center'}

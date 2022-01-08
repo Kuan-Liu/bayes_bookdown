@@ -44,10 +44,7 @@ normal-distributions
 beta-distributions
 gamma-distributions
 bayes
-priors
-posterior
-prediction
-decision-theory
+classical-frequentist-approach
 Prior
 BayesReg
 normal-models-and-linear-regression
