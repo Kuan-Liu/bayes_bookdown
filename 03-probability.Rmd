@@ -565,28 +565,28 @@ $$E[X]=	\int_{a}^{b}x\,f(x) dx$$
   
 1.  Experiment consists of $n$ identical trials.
 2.  Each trial results in one of two outcomes (Heads/Tails, presence/absence).
-will be labeled a success and the other a failure.
+will be labelled a success and the other a failure.
 3.  The probability of success on a single trial is equal to $p$ and remains the 
 same from trial to trial. 
 4.  The trials are independent (this is implied from property 3).
-5.  The random variable $X$ is the number of successes observed during $n$ trials.
+5.  The random variable $Y$ is the number of successes observed during $n$ trials.
 
 **The Binomial Probability Mass Function**
 
 The probability mass function for the binomial distribution is
 $$
-P(X=x) = \binom{n}{x} p^x(1-p)^{n-x}, \ \text{for } x=0,\ldots,n
+P(Y=y) = \binom{n}{y} p^y(1-p)^{n-y}, \ \text{for } y=0,\ldots,n
 $$
 where $n$ is a positive integer and $p$ is a probability between 0 and 1.
 
-This probability mass function uses the expression $\binom{n}{x}$,
+This probability mass function uses the expression $\binom{n}{y}$,
 called a binomial coefficient
 $$
-\binom{n}{x} = \frac{n!}{x!(n-x)!}
+\binom{n}{y} = \frac{n!}{y!(n-y)!}
 $$
 which counts the number of ways to choose $x$ things from $n$.
 
-The mean of the binomial distribution is $E(X) = np$ and the variance is $Var(X) = np(1-p)$.
+The mean of the binomial distribution is $E(Y) = np$ and the variance is $Var(Y) = np(1-p)$.
 
 ```{r}
 dist <- data.frame( x=0:10 ) %>% 
@@ -664,8 +664,7 @@ The following conditions apply:
 Assuming that these conditions hold for some count variable $Y$, the the 
 probability mass function is given by
 $$P(Y=y)=\frac{\lambda^{y}e^{-\lambda}}{y!}, y = 0, 1, \ldots$$
-  where $\lambda$ is the expected number of events over 1 unit of time or space 
-and $e$ is the euler's number $2.718281828\dots$. 
+where $\lambda$ is the expected number of events over 1 unit of time or space and $e$ is the euler's number $2.718281828\dots$. 
 
 $$E[Y]	=	\lambda$$
 $$Var[Y]	=	\lambda$$
@@ -700,6 +699,36 @@ ggplot(dist, aes(x=NumCaught)) +
   theme_bw()            
 ```
 <!-- <div> -->
+
+#### Negative Binomial Distribution
+
+ - If $Y$ is the count of independent Bernoulli trials required to achieve the $r$th successful trial ($k$ failures) when the probability of success is $p$. 
+
+- $Y \sim NB(r, p)$ and the probability mass function is
+ 
+\[ f(Y = k) = \frac{\Gamma(k+r)}{k! \Gamma(r)} (1-p)^y (p)^{r}, \ \text{for } y=0,1,\ldots \]
+
+- $E(Y) = \frac{pr}{1-p}$ and $V(Y) =  \frac{pr}{(1-p)^2}$
+
+- **Connection between Poisson and Negative Binomial**. 
+
+    - Let $\lambda = E(Y) = \frac{pr}{1-p}$, we thus have $p=\frac{\lambda}{r+\lambda}$ and $V(Y) = \lambda(1 + \frac{\lambda}{r}) > \lambda$.
+
+    - **The variance of the NB is greater than its mean, where as the variance of Poisson equals to its mean!** 
+    - When we fit a Poisson regression and encounter over-dispersion - the observed variance of the data is greater than the variance of the Poisson model, we can fit a Negative Binomial regression instead!
+
+
+```{r echo=F}
+dist <- data.frame( x = 0:10 ) %>%
+  mutate( probability = dnbinom( x, size = 2, prob = 0.4 ) )
+ggplot(dist, aes(x=x)) +
+  geom_point( aes(y=probability) ) +
+  geom_linerange(aes( ymax=probability, ymin=0)) +
+  scale_x_continuous(breaks = seq(0,10,1)) +
+  ggtitle(expression(paste('Negative Binomail with  ', size == 2, ' ', prob == 0.4 ))) +
+  labs(x='Number of Trials') +
+  theme_bw()            
+```
 
 ### Continous Distributions
 
@@ -800,8 +829,8 @@ non-events, so that $\alpha + \beta$ is the pseudo sample size
 - variance = \[ \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)} = \frac{\alpha}{\alpha+\beta} \times \frac{\beta}{\alpha+\beta} \times \frac{1}{\alpha+\beta+1} = p(1-p)\frac{1}{\text(sample size)+1} \]
 
 The probability density function
-$$ \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha - 1} (1-x)^{\beta - 1}, 0 \leq x \leq 1.$$ 
-where $$ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$$ and $$\Gamma()$$ is called [the gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+$$ f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha - 1} (1-x)^{\beta - 1}, 0 \leq x \leq 1.$$ 
+where $$ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$$ and $\Gamma()$ is called [the gamma function](https://en.wikipedia.org/wiki/Gamma_function).
 
 ```{r echo=F, fig.height=8, fig.align = 'center'}
 p1 <- data.frame(x = seq(0, 1, length=100) , prob = dbeta(x = seq(0, 1, length=100) , shape1 = 1, shape2 = 1)) %>%
@@ -860,7 +889,7 @@ ggarrange(p1, p5, p2, p3, p4,
 - mean = $\frac{\alpha}{\beta}$ and variance = $\frac{\alpha}{\beta^2}$
 
 The probability density function
-$$ \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\beta x},x \geq 0.$$ 
+$$f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\beta x},x \geq 0.$$ 
 
 <div class="fold s">
 ```{r echo=F, fig.align = 'center'}

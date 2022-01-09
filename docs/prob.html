@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-01-07" />
+<meta name="date" content="2022-01-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -752,25 +752,25 @@ called ‘parametric’ modelling.</li>
 <ol style="list-style-type: decimal">
 <li>Experiment consists of <span class="math inline">\(n\)</span> identical trials.</li>
 <li>Each trial results in one of two outcomes (Heads/Tails, presence/absence).
-will be labeled a success and the other a failure.</li>
+will be labelled a success and the other a failure.</li>
 <li>The probability of success on a single trial is equal to <span class="math inline">\(p\)</span> and remains the
 same from trial to trial.</li>
 <li>The trials are independent (this is implied from property 3).</li>
-<li>The random variable <span class="math inline">\(X\)</span> is the number of successes observed during <span class="math inline">\(n\)</span> trials.</li>
+<li>The random variable <span class="math inline">\(Y\)</span> is the number of successes observed during <span class="math inline">\(n\)</span> trials.</li>
 </ol>
 <p><strong>The Binomial Probability Mass Function</strong></p>
 <p>The probability mass function for the binomial distribution is
 <span class="math display">\[
-P(X=x) = \binom{n}{x} p^x(1-p)^{n-x}, \ \text{for } x=0,\ldots,n
+P(Y=y) = \binom{n}{y} p^y(1-p)^{n-y}, \ \text{for } y=0,\ldots,n
 \]</span>
 where <span class="math inline">\(n\)</span> is a positive integer and <span class="math inline">\(p\)</span> is a probability between 0 and 1.</p>
-<p>This probability mass function uses the expression <span class="math inline">\(\binom{n}{x}\)</span>,
+<p>This probability mass function uses the expression <span class="math inline">\(\binom{n}{y}\)</span>,
 called a binomial coefficient
 <span class="math display">\[
-\binom{n}{x} = \frac{n!}{x!(n-x)!}
+\binom{n}{y} = \frac{n!}{y!(n-y)!}
 \]</span>
 which counts the number of ways to choose <span class="math inline">\(x\)</span> things from <span class="math inline">\(n\)</span>.</p>
-<p>The mean of the binomial distribution is <span class="math inline">\(E(X) = np\)</span> and the variance is <span class="math inline">\(Var(X) = np(1-p)\)</span>.</p>
+<p>The mean of the binomial distribution is <span class="math inline">\(E(Y) = np\)</span> and the variance is <span class="math inline">\(Var(Y) = np(1-p)\)</span>.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="prob.html#cb27-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">10</span> ) <span class="sc">%&gt;%</span> </span>
 <span id="cb27-2"><a href="prob.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">probability =</span> <span class="fu">dbinom</span>(x, <span class="at">size=</span><span class="dv">10</span>, <span class="at">prob=</span><span class="fl">0.5</span>))</span>
 <span id="cb27-3"><a href="prob.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dist, <span class="fu">aes</span>(<span class="at">x=</span>x)) <span class="sc">+</span></span>
@@ -822,8 +822,7 @@ the “d-function” gives the distribution function (pmf or pdf). <span class="
 <p>Assuming that these conditions hold for some count variable <span class="math inline">\(Y\)</span>, the the
 probability mass function is given by
 <span class="math display">\[P(Y=y)=\frac{\lambda^{y}e^{-\lambda}}{y!}, y = 0, 1, \ldots\]</span>
-where <span class="math inline">\(\lambda\)</span> is the expected number of events over 1 unit of time or space
-and <span class="math inline">\(e\)</span> is the euler’s number <span class="math inline">\(2.718281828\dots\)</span>.</p>
+where <span class="math inline">\(\lambda\)</span> is the expected number of events over 1 unit of time or space and <span class="math inline">\(e\)</span> is the euler’s number <span class="math inline">\(2.718281828\dots\)</span>.</p>
 <p><span class="math display">\[E[Y]  =   \lambda\]</span>
 <span class="math display">\[Var[Y]    =   \lambda\]</span></p>
 <p><strong>Example:</strong> Suppose we are interested in the population size of small mammals in
@@ -844,6 +843,24 @@ the Poisson and the cumulative distribution function (p-function). e.g. <span c
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-28-1.png" width="672" />
 <!-- <div> --></p>
 </div>
+<div id="negative-binomial-distribution" class="section level4" number="2.2.2.5">
+<h4><span class="header-section-number">2.2.2.5</span> Negative Binomial Distribution</h4>
+<ul>
+<li><p>If <span class="math inline">\(Y\)</span> is the count of independent Bernoulli trials required to achieve the <span class="math inline">\(r\)</span>th successful trial (<span class="math inline">\(k\)</span> failures) when the probability of success is <span class="math inline">\(p\)</span>.</p></li>
+<li><p><span class="math inline">\(Y \sim NB(r, p)\)</span> and the probability mass function is</p></li>
+</ul>
+<p><span class="math display">\[ f(Y = k) = \frac{\Gamma(k+r)}{k! \Gamma(r)} (1-p)^y (p)^{r}, \ \text{for } y=0,1,\ldots \]</span></p>
+<ul>
+<li><p><span class="math inline">\(E(Y) = \frac{pr}{1-p}\)</span> and <span class="math inline">\(V(Y) = \frac{pr}{(1-p)^2}\)</span></p></li>
+<li><p><strong>Connection between Poisson and Negative Binomial</strong>.</p>
+<ul>
+<li><p>Let <span class="math inline">\(\lambda = E(Y) = \frac{pr}{1-p}\)</span>, we thus have <span class="math inline">\(p=\frac{\lambda}{r+\lambda}\)</span> and <span class="math inline">\(V(Y) = \lambda(1 + \frac{\lambda}{r}) &gt; \lambda\)</span>.</p></li>
+<li><p><strong>The variance of the NB is greater than its mean, where as the variance of Poisson equals to its mean!</strong></p></li>
+<li><p>When we fit a Poisson regression and encounter over-dispersion - the observed variance of the data is greater than the variance of the Poisson model, we can fit a Negative Binomial regression instead!</p></li>
+</ul></li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
 </div>
 <div id="continous-distributions" class="section level3" number="2.2.3">
 <h3><span class="header-section-number">2.2.3</span> Continous Distributions</h3>
@@ -852,7 +869,7 @@ the Poisson and the cumulative distribution function (p-function). e.g. <span c
 <p>Suppose you wish to draw a random number number between 0 and 1 and any two
 intervals of equal size should have the same probability of the value being in
 them. This random variable is said to have a Uniform(0,1) distribution.</p>
-<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <ul>
 <li>The uniform distribution has two parameter, a lower bound (a) and an upper
 bound (b)</li>
@@ -873,13 +890,13 @@ the function to</p>
 <p>and see this distribution is defined by its expectation <span class="math inline">\(E[X]=\mu\)</span> and its
 variance <span class="math inline">\(Var[X]=\sigma^{2}\)</span>.</p>
 <div class="fold s">
-<img src="bayes_bookdown_files/figure-html/unnamed-chunk-31-1.png" width="672" />
+<img src="bayes_bookdown_files/figure-html/unnamed-chunk-32-1.png" width="672" />
 <div>
 
 <p><strong>Example:</strong> It is known that the heights of adult males in the US is
 approximately normal with a mean of 5 feet 10 inches (<span class="math inline">\(\mu=70\)</span> inches) and a
 standard deviation of <span class="math inline">\(\sigma=3\)</span> inches. I am 5 feet 4 inches (64 inches). What proportion of the adult male population is shorter than me?</p>
-<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p>Using R you can easily find this probability is 0.02275013 using <code>pnorm(64, mean=70, sd=3)</code>.</p>
 </div>
 <div id="beta-distributions" class="section level4" number="2.2.3.3">
@@ -893,9 +910,9 @@ non-events, so that <span class="math inline">\(\alpha + \beta\)</span> is the p
 <li>variance = <span class="math display">\[ \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)} = \frac{\alpha}{\alpha+\beta} \times \frac{\beta}{\alpha+\beta} \times \frac{1}{\alpha+\beta+1} = p(1-p)\frac{1}{\text(sample size)+1} \]</span></li>
 </ul>
 <p>The probability density function
-<span class="math display">\[ \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha - 1} (1-x)^{\beta - 1}, 0 \leq x \leq 1.\]</span>
-where <span class="math display">\[ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}\]</span> and <span class="math display">\[\Gamma()\]</span> is called <a href="https://en.wikipedia.org/wiki/Gamma_function">the gamma function</a>.</p>
-<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+<span class="math display">\[ f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha - 1} (1-x)^{\beta - 1}, 0 \leq x \leq 1.\]</span>
+where <span class="math display">\[ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}\]</span> and <span class="math inline">\(\Gamma()\)</span> is called <a href="https://en.wikipedia.org/wiki/Gamma_function">the gamma function</a>.</p>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="gamma-distributions" class="section level4" number="2.2.3.4">
 <h4><span class="header-section-number">2.2.3.4</span> Gamma Distributions</h4>
@@ -905,9 +922,9 @@ where <span class="math display">\[ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamm
 <li>mean = <span class="math inline">\(\frac{\alpha}{\beta}\)</span> and variance = <span class="math inline">\(\frac{\alpha}{\beta^2}\)</span></li>
 </ul>
 <p>The probability density function
-<span class="math display">\[ \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\beta x},x \geq 0.\]</span></p>
+<span class="math display">\[f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\beta x},x \geq 0.\]</span></p>
 <div class="fold s">
-<img src="bayes_bookdown_files/figure-html/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto;" />
+<img src="bayes_bookdown_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" />
 <div>
 
 

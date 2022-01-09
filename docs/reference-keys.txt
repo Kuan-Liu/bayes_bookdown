@@ -38,6 +38,7 @@ bernoulli-distribution
 binomial-distribution
 multinomial-distribution
 poisson-distribution
+negative-binomial-distribution
 continous-distributions
 uniform-distributions
 normal-distributions

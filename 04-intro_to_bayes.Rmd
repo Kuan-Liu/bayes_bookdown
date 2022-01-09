@@ -6,7 +6,6 @@
 - Introduce Bayesian inference
 - Learn two simple Bayesian models (Beta-binomial & normal-normal)
 - Discuss practical advantages and disadvantages of Bayesian approach
-Probability Terminology
 
 :::
 
