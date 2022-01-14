@@ -153,8 +153,7 @@ knitr::include_graphics("images/law_tot_prob.png")
 
 
 ::: {.workedexample data-latex=""}
-**Law of Total Probability** suppose I know that whenever it rains there is 10% chance of being late at work, while the chance is only 1% if it does not rain. Suppose that there is 30% chance of raining tomorrow; what is the chance of
-being late at work?
+**Law of Total Probability** Suppose I know that whenever it rains there is 10% chance of being late at work, while the chance is only 1% if it does not rain. Suppose that there is 30% chance of raining tomorrow; what is the chance of being late at work?
 
 Denote with event $A$ as "I will be late to work tomorrow" and event $B$ as "It is going
 to rain tomorrow"

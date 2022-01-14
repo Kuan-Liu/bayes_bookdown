@@ -9,7 +9,7 @@
 
 :::
 
-<script src="hideOutput.js"></script>
+<!-- <script src="hideOutput.js"></script> -->
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 # Every chapter, we will load all the library we will use at the beginning
@@ -21,45 +21,6 @@ options(scipen = 999)
 ```
 
 </br>
-
-::: {.important data-latex=""}
-**Review of likelihood function**
-
-- Given a statistical model with some parameters (let's call them $\theta$), and given a set of observed data $D$, the likelihood function, $L(\theta, D)$ is a \textbf{mathematical} function that for every value of $\theta$ is equal to the probability (mass or density) of observing $D$ given $\theta$
-- i.e. $L(\theta, D) = L_D(\theta) = p(Data | \theta)$
-
-**Example - Binomial likelihood** Suppose we want to estimate the risk of death $\theta$ after a surgery
-
-- We assume that every patient has the same risk $\theta$
-- We collect data from 10 surgeries and we find that 3 patients died
-- What is the likelihood function for $\theta$ in this example?
-
-
-The distribution for each patient is $Bernoulli(\theta)$ \textbf{Since they are independent} the probability of the number of those who died out of $n$ (here $n$=10) is $Binomial(\theta, 10)$
-
-The probability mass function of the binomial is \[p(x|\theta, n) = {n \choose x} \theta^x (1-\theta)^{n-x}\]
-
-The likelihood function of the observed data (3 deaths out of 10) given $\theta$ is \[ L_D(\theta) = p(x=3| \theta) = {10 \choose 3} \theta^3 (1-\theta)^{10-3}\]
-
-```{r}
-#simulating a sequence of probability representing parameter \theta;
-#\theta, probability of success, value between 0 and 1;
-theta <- seq(0, 1, length=101) 
-
-#coding Binomial likelihood given x = 3 and n = 10;
-L <- choose(10,3)*theta^3*(1-theta)^(10-3)
-
-# Ploting likelihood function
-d <- tibble(theta=theta, L=L)
-ggplot(data=d, aes(theta,L)) +
-    geom_line()+
-    ggtitle("Binomial likelihood x = 3 and n=10") + 
-    theme_bw()
-
-```
-
-:::
-
 
 ## Classical frequentist approach
 
@@ -74,5 +35,133 @@ likelihood (hence the name)
 > i.e. given the observed data, and assuming they come from specific distributions, what are the parameter values for these distributions that maximize the likelihood of these data?
 
 
+::: {.important data-latex=""}
+**Review of likelihood function**
 
+- Given a statistical model with some parameters (let's call them $\theta$), and given a set of observed data of size $n$, $D = \{x_1, x_2, \ldots, x_n \}$, the likelihood function, $L(\theta, D)$ is a \textbf{mathematical} function that for every value of $\theta$ is equal to the probability (mass or density) of observing $D$ given $\theta$
+- i.e. $L(\theta, D) = L_D(\theta) = P(Data | \theta)$
+- if we assume $x_1, x_2, \ldots, x_n$ are independent and identically distributed, we can express the likelihood function as
+
+\[ L(\theta, D) = P(x_1 \mid \theta)\times P(x_2 \mid \theta) \ldots \times P(x_n \mid \theta) = \prod_{i=1}^n P(x_i\mid \theta).\]
+
+
+**Example - Bernoulli trials** Suppose we want to estimate the risk of death $\theta$ after a surgery
+
+- We assume that every patient has the same risk $\theta$
+- We collect data from 10 surgeries and we find that 3 patients died and 7 survived,
+- What is the likelihood function for $\theta$ in this example?
+
+
+The distribution for each patient is $Bernoulli(\theta)$ \textbf{Since they are independent} the probability of the number of those who died out of $n$ (here $n$=10) is $Binomial(\theta, 10)$
+
+The probability mass function of the binomial is \[p(x|\theta, n) = {n \choose x} \theta^x (1-\theta)^{n-x}\]
+
+The likelihood function of the observed data (3 deaths out of 10) given $\theta$ is \[ L_D(\theta) = p(x=3| \theta) = {10 \choose 3} \theta^3 (1-\theta)^{10-3} \propto \theta^3 (1-\theta)^{10-3}\]
+
+**Maximum Likelihood Estimator**
+
+- The value that maximizes the likelihood function is called the maximum likelihood estimator or MLE
+- It is the "most likely" value for $\theta$ given the observed data
+- In this example it is equal to $\hat{\theta}_{mle} = \frac{x}{n} = \frac{3}{10}=0.3$ (the observed proportion of event), which can be obtained by taking the first derivative of the loglikelihood and calculate the value of $\theta$ that yields
+
+$$\begin{aligned}
+LogL(\theta, D) &= log({10 \choose 3}) + 3\ log(\theta) + (10-3)\ log(1- \theta) \\
+\frac{\partial}{\partial \theta}LogL(\theta, D) & = \frac{3}{\theta} - \frac{10-3}{1-p} = 0 \\
+\hat{\theta}_{mle} & = \frac{3}{10}=0.3
+\end{aligned}$$
+
+- It is the most commonly method to estimate a parameter in frequentist statistics
+
+:::
+
+
+```{r echo=T, fig.width=8, fig.align = 'center', eval=TRUE}
+#simulating a sequence of probability representing parameter \theta;
+#\theta, probability of success, value between 0 and 1;
+theta <- seq(0, 1, length=101) 
+
+#coding Binomial likelihood given x = 3 and n = 10;
+L <- choose(10,3)*theta^3*(1-theta)^(10-3)
+
+#coding log Binomial likelihood given x = 3 and n = 10;
+logL <- log(choose(10,3)) + 3*log(theta)+ (10-3)*log((1-theta))
+
+# Ploting likelihood function
+d <- tibble(theta=theta, L=L)
+p1<-ggplot(data=d, aes(theta,L)) +
+    geom_line()+
+    ggtitle("Binomial likelihood x = 3 and n=10") + 
+    theme_bw()
+
+# Ploting likelihood function
+d2 <- tibble(theta=theta, logL=logL)
+p2<-ggplot(data=d, aes(theta,logL)) +
+    geom_line()+
+    ggtitle("Log Binomial likelihood x = 3 and n=10") + 
+    theme_bw()
+
+ggarrange(p1, p2,  ncol = 2, nrow = 1)
+
+```
+
+
+<div class="fold o">
+```{r echo=T, eval=T}
+#negative loglikelihood function of binomial;
+neglogL <- function(theta){-sum(dbinom(x=3, size = 10, theta, log = TRUE))}
+#optimize:
+optim(par = 0.5, fn=neglogL, method = "Brent", lower = 0, upper = 1, hessian = TRUE)
+```
+<div>
+
+::: {.important data-latex=""}
+
+
+**Maximum Likelihood confidence interval**
+
+MLE satisfies the following two properties called **consistency** and **asymptotic normality**.
+
+1. **Consistency.** We say that an estimate $\hat{\theta}$ is consistent if $\hat{\theta} \rightarrow \theta_0$ as $n \rightarrow \infty$, where $\theta_0$ is the true unknown parameter and $n$ is sample size.
+
+2. **Asymptotic normality** $\hat{\theta}$ is asymptotic normality if
+
+\[ \sqrt{n} (\hat{\theta} - \theta_0) \rightarrow^d N(0, \sigma_{\theta_0}^2) \]
+where $\sigma_{\theta_0}^2)$ is the asymptotic variance of the estimate $\hat{\theta}$. Asymptotic normality says that the estimator not only converges to the unknown parameter, but it converges fast enough, at a rate $1/\sqrt{n}$.
+
+Given this properties, we can use **Fisher information** to estimate the variance of MLE and subsequently obtaining confidence intervals.
+- MLE Asymptotic normality with Fisher information, $I(\theta_0)$
+
+\[ \sqrt{n} (\hat{\theta}_{mle} - \theta_0) \rightarrow^d N(0, \frac{1}{I(\theta_0)}) \]
+ 
+- Fisher information is defined using the second derivative of the loglikelihood. 
+\[ I(\theta) = - E[\frac{\partial^2}{\partial \theta^2} logL(x_1,\ldots, x_n \mid \theta)]\]
+
+    - e.g., for binomail distribution, $I(\theta)=\frac{n}{\theta(1-\theta)}$, thus the 95% CI for $\hat{\theta}_{mle}$ is 
+    \[ \hat{\theta}_{mle} \pm 1.96 \sqrt{\frac{\hat{\theta}_{mle}(1-\hat{\theta}_{mle})}{n}} \]
+    
+    which gives us $0.3 \pm 1.96 \times \sqrt{\frac{0.3 \times 0.7}{10}}$, [0.016, 0.584].
+
+:::
+
+How to calculate variance of MLE in R?
+
+```{r echo=T, eval=T}
+mle<-optim(par = 0.5, fn=neglogL, method = "Brent", lower = 0, upper = 1, hessian = TRUE)
+
+# solve(mle$hessian) # to compute the inverse of hessian which is the approximate the variance of theta;
+upperbound<-0.3 + 1.96*sqrt(solve(mle$hessian))
+lowerbound<-0.3 - 1.96*sqrt(solve(mle$hessian))
+
+print(paste("95% CI for theta is:",round(lowerbound,3),"-", round(upperbound,3)))
+
+```
+
+### R Session information {-}
+
+
+
+
+```{r echo=F}
+getS3method("print","sessionInfo")(sessionInfo()[c(1:7)])
+```
 
