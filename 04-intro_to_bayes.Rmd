@@ -9,7 +9,7 @@
 
 :::
 
-<!-- <script src="hideOutput.js"></script> -->
+<script src="hideOutput.js"></script>
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 # Every chapter, we will load all the library we will use at the beginning
@@ -105,14 +105,14 @@ ggarrange(p1, p2,  ncol = 2, nrow = 1)
 ```
 
 
-<div class="fold o">
+
 ```{r echo=T, eval=T}
 #negative loglikelihood function of binomial;
 neglogL <- function(theta){-sum(dbinom(x=3, size = 10, theta, log = TRUE))}
 #optimize:
 optim(par = 0.5, fn=neglogL, method = "Brent", lower = 0, upper = 1, hessian = TRUE)
 ```
-<div>
+
 
 ::: {.important data-latex=""}
 

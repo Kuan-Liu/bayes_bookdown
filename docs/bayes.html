@@ -276,7 +276,7 @@ div.csl-indent {
 <li>Discuss practical advantages and disadvantages of Bayesian approach</li>
 </ul>
 </div>
-<!-- <script src="hideOutput.js"></script> -->
+<script src="hideOutput.js"></script>
 <p></br></p>
 <div id="classical-frequentist-approach" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Classical frequentist approach</h2>
@@ -348,8 +348,6 @@ LogL(\theta, D) &amp;= log({10 \choose 3}) + 3\ log(\theta) + (10-3)\ log(1- \th
 <span id="cb29-24"><a href="bayes.html#cb29-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-25"><a href="bayes.html#cb29-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2,  <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-39-1.png" width="768" style="display: block; margin: auto;" /></p>
-<div class="fold o">
-
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="bayes.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#negative loglikelihood function of binomial;</span></span>
 <span id="cb30-2"><a href="bayes.html#cb30-2" aria-hidden="true" tabindex="-1"></a>neglogL <span class="ot">&lt;-</span> <span class="cf">function</span>(theta){<span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="at">x=</span><span class="dv">3</span>, <span class="at">size =</span> <span class="dv">10</span>, theta, <span class="at">log =</span> <span class="cn">TRUE</span>))}</span>
 <span id="cb30-3"><a href="bayes.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#optimize:</span></span>
@@ -373,8 +371,6 @@ LogL(\theta, D) &amp;= log({10 \choose 3}) + 3\ log(\theta) + (10-3)\ log(1- \th
 ## $hessian
 ##          [,1]
 ## [1,] 47.61985</code></pre>
-<div>
-
 <div class="important">
 <p><strong>Maximum Likelihood confidence interval</strong></p>
 <p>MLE satisfies the following two properties called <strong>consistency</strong> and <strong>asymptotic normality</strong>.</p>
