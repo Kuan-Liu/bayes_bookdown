@@ -79,20 +79,16 @@ LogL(\theta, D) &= log({10 \choose 3}) + 3\ log(\theta) + (10-3)\ log(1- \theta)
 #simulating a sequence of probability representing parameter \theta;
 #\theta, probability of success, value between 0 and 1;
 theta <- seq(0, 1, length=101) 
-
 #coding Binomial likelihood given x = 3 and n = 10;
 L <- choose(10,3)*theta^3*(1-theta)^(10-3)
-
 #coding log Binomial likelihood given x = 3 and n = 10;
 logL <- log(choose(10,3)) + 3*log(theta)+ (10-3)*log((1-theta))
-
 # Ploting likelihood function
 d <- tibble(theta=theta, L=L)
 p1<-ggplot(data=d, aes(theta,L)) +
     geom_line()+
     ggtitle("Binomial likelihood x = 3 and n=10") + 
     theme_bw()
-
 # Ploting likelihood function
 d2 <- tibble(theta=theta, logL=logL)
 p2<-ggplot(data=d, aes(theta,logL)) +
