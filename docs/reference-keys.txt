@@ -1,6 +1,8 @@
 fig:unnamed-chunk-17
 fig:unnamed-chunk-19
 fig:unnamed-chunk-20
+fig:unnamed-chunk-44
+fig:unnamed-chunk-45
 into
 about-me
 syllabus
@@ -46,6 +48,9 @@ beta-distributions
 gamma-distributions
 bayes
 classical-frequentist-approach
+introduction-to-bayesian-approach
+review-from-session-1
+the-beta-binomial-model
 Prior
 BayesReg
 normal-models-and-linear-regression

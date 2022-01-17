@@ -152,6 +152,199 @@ print(paste("95% CI for theta is:",round(lowerbound,3),"-", round(upperbound,3))
 
 ```
 
+
+::: {.guidedexercise data-latex=""}
+
+**Practice MLE estimation in R (Tutorial Practice)** 
+
+Suppose we want to estimate the risk of death \theta after a surgery and We assume that every patient has the same risk \theta. We collect data from 100 surgeries and we find that 30 patients died and 70 survived, 
+
+- What is the likelihood function for \theta in this example?
+- What is the MLE estimator given the observed data?
+- Can you construct the 95% CI confidence interval of the MLE estimator?
+- What is you conclusion comparing this estimator to the MLE obtain from the smaller dataset (10 surgeries, 3 patients died and 7 survived)?
+  
+
+:::
+
+
+## Introduction to Bayesian approach
+
+### Review from session 1
+
+- In the Bayesian approach, everything that is not data is considered as a parameter
+- Uncertainty about these parameters is expressed using probability distributions
+and probabilistic statements
+- A prior distribution expresses what is known or believed independently of the data
+- This prior is updated as data or new evidence is presented
+- The posterior distribution expresses the updated belief
+
+
+::: {.important data-latex=""}
+**Recall Bayes theorem**
+
+Let $D = \text{patient has disease}$ and $Y = \text{patient has a positive diagnostic test}$,
+
+$$\begin{aligned}
+P(D \mid T) & = \frac{P(T \mid D)P(D)}{P(T)} \\
+& = \frac{P(T \mid D)P(D)}{P(T \mid D)P(D) + P(T \mid D^c)P(D^c)}
+\end{aligned}$$
+
+ - $P(T\mid D)$ is the **likelihood** of the outcome (positive test) given the unknown parameter (disease state)
+ - $P(D)$ is **pre-test probability** (prior probability) of disease
+ - $P(D\mid T)$ is the post-test probability of disease which can be obtained by multiplying the **likelihood** and the **pre-test probabiltiy**.
+ - Here, to calculate $P(D\mid T)$ we need $P(D)$!
+ - A very sensitive test (e.g., P(T\mid D) = 0.99) can still result in a small post-test probability if the prior probability of disease, $P(D)$, is low!
+
+:::
+
+**The Bayesian approach to estimating parameters stems from Bayes' theorem for continuous variables:**
+
+Let $\theta$ be the parameter of interest and $y$ be the observed data,
+
+$$\begin{aligned}
+P(\theta \mid y) & = \frac{P(y \mid \theta)P(\theta)}{P(y)} \\
+& = \frac{\text{likelihood of data given parameter} \times \text{prior}}{\text{marginal distribution of data free of the parameter}} \\
+& \propto \text{likelihood}(y \mid \theta ) \times \text{prior}(\theta)
+\end{aligned}$$
+
+- $P(y)$ is called a normalizing factor, it's in place to ensure that $\int P(\theta \mid y) d\theta = 1$, that is the posterior distribution of $\theta$ is a proper probability distribution with area under the density curve equals to 1.
+
+- Its value is not of interest, unless we are comparing between data models.
+
+- The essence of Bayes theorem only concerns the terms involving the parameter, $\theta$, hence $P(\theta \mid y) \propto P(y\mid \theta)P(\theta)$.
+
+
+::: {.workedexample data-latex=""}
+**Estimating a Proportion**
+
+Suppose you have observed 6 patients in a Phase I RCT on a given dose of drug,
+- 0 out of 6 patients have had an adverse event
+- decision to escalate to a higher dose if it's unlikely that the current dosing results in a true proportion of adverse events above 20% (i.e., given the current data, is there sufficient evidence to infer the true proportion of adverse event is less than 20%, if so we can increase the dose level)
+
+- This is a classic phase I estimate, under frequentist test (Exact Binomial Test) we have
+
+```{r }
+binom.test(x=0, n=6, p = 0.2,
+           alternative = c("less"),
+           conf.level = 0.95)
+```
+
+ - The observed proportion $\hat{\theta}=0$ with 95% CI: 0 - 0.39.
+ - How much evidence we have that AE rate is < 20%?
+ 
+```{r }
+#suppose we observe 0 adverse event out of 14 patients; 
+#the test results below suggest we would reject the null hypothesis;
+#at 0.05 alpha level and conclude the true AE rate is < 20%;
+
+binom.test(x=0, n=14, p = 0.2,
+           alternative = c("less"),
+           conf.level = 0.95)
+```
+
+**What would a Bayesian do?**
+
+To make probability statements about $\theta$ after observing data $y$, we need a probability distribution for $\theta$ given $y$ (the posterior distribution).
+
+1.First, we need to specify a prior distribution for $\theta$, $P(\theta)$.
+
+- Example 1: We might have no idea about $\theta$ other than that it lies in the interval [0,1] and thus specify a unif(0,1). Let $\theta \sim U(0,1)$, the prior probability distribution (p.d.f) is
+\[ P(\theta) = \frac{1}{1-0} = 1.\]
+
+- Example 2: We might have some knowledge about the range of $\theta$, say, we are believe $0.05<\theta<0.5$. We can have
+\[ \theta \sim U(0.05, 0.5)\]
+\[P(\theta) = \frac{1}{0.5-0.05} = 2.22.\]
+
+
+2. We assume the $P(y \mid \theta)$ follows a binomial distribution, thus the likelihood of the observed data given $\theta$ is 
+\[ P(y = 0 \mid \theta) = {6 \choose 0} \theta^0 (1-\theta)^6 = (1-\theta)^6\]
+
+
+3. The posterior then becomes (given example prior 1)
+
+$$\begin{align}
+P(\theta \mid y = 0) &= \frac{P(y = 0 \mid \theta) \times P(\theta)}{P(y=0)} \\
+& = \frac{(1-\theta)^6 \times 1}{P(y=0)} \\
+& = \text{Constant} \times (1-\theta)^6 \\
+ & \propto (1-\theta)^6 
+\end{align}$$
+
+```{r fig.height=3, fig.cap="Approximate posterior distribution obtained using Bayes' rule with UNIF(0,1) prior. In this example, the normalizaing term P(y=0) is not considered."}
+d <- tibble(p_grid = seq(from = 0, to = 1, length.out = 101),
+         y      = 0, 
+         n      = 6) %>% 
+    mutate(prior      = dunif(p_grid, 0, 1),
+         likelihood = dbinom(y, n, p_grid)) %>% 
+    mutate(posterior = likelihood * prior )
+
+d %>% pivot_longer(prior:posterior) %>% 
+  # this line allows us to dictate the order in which the panels will appear
+    mutate(name = factor(name, levels = c("prior", "likelihood", "posterior"))) %>% 
+    ggplot(aes(x = p_grid, y = value, fill = name)) +
+    geom_area(show.legend = FALSE) +
+    scale_fill_manual(values = c("grey", "red", "blue")) +
+    facet_wrap(~ name, scales = "free")+
+    theme_bw()
+
+```
+
+```{r echo=F, fig.height=3, fig.cap="Approximate posterior distribution obtained using Bayes' rule with UNIF(0.05,0.5) prior. In this example, the normalizaing term P(y=0) is not considered."}
+d <- tibble(p_grid = seq(from = 0, to = 1, length.out = 101),
+         y      = 0, 
+         n      = 6) %>% 
+    mutate(prior      = dunif(p_grid, 0.05, 0.5),
+         likelihood = dbinom(y, n, p_grid)) %>% 
+    mutate(posterior = likelihood * prior )
+
+d %>% pivot_longer(prior:posterior) %>% 
+  # this line allows us to dictate the order in which the panels will appear
+    mutate(name = factor(name, levels = c("prior", "likelihood", "posterior"))) %>% 
+    ggplot(aes(x = p_grid, y = value, fill = name)) +
+    geom_area(show.legend = FALSE) +
+    scale_fill_manual(values = c("grey", "red", "blue")) +
+    facet_wrap(~ name, scales = "free")+
+    theme_bw()
+
+```
+
+**Why is P(y=0) free of $\theta$?**
+
+- The **law of total probability** for discrete parameter values can be used
+- Suppose there are two possible values of parameter $\theta$, 0.5 and 0.1. 
+- Suppose we know the prior distribution of $\theta$: $P(\theta = 0.5) = 0:8$ and
+$P(\theta = 0.1) = 0.2$
+- Likelihood values are calculated given a known $\theta$, so then don't include the parameter $\theta$.
+- Call these $P_{0.5} = P(Y = 0 \mid \theta = 0.5)$ and $P_{0.1} = P(Y = 0 \mid \theta = 0.1)$, 
+- Putting all components together using law of total probability, $P(Y = 0)$ does not involved the unknown $\theta$
+\[P(Y = 0) = P(Y = 0 \mid \theta = 0.5)P(\theta = 0.5) + P(Y = 0 \mid \theta = 0.1)P(\theta = 0.1)\]
+
+\[ P(Y = 0) = P_{0.5} \times 0.8 + P_{0.1} \times 0.2 \]
+
+
+- In case of a continuous parameter value, we can obtain $P(y=0)$ by intergrating over the space of $\theta$ as following
+\[P(y=0) = \int_{\theta=0}^{\theta=1} P(y=0 \mid \theta) P(\theta) \ d \theta\]
+- Intergrating over $\theta$ is analogous to summing over a set of discrete values of $\theta$.
+- After integration over $\theta$, $\theta$ is no longer featured in $P(y=0)$.
+
+:::
+
+
+
+
+### The Beta-binomial model
+
+
+- With a single sample of $n$ binary outcomes, we have one unknown parameter: $\theta$ and $0 \leq \theta \leq 1$.
+- We need a prior distribution for $\theta$ (e.g., proportion, risk, probability of event etc): $P(\theta)$
+    - To express indifference between all values of $\theta$, we can use a uniform distribution on $\theta$, as we did in the previous example
+    - To express belief (e.g. based on external evidence) that some values of $\theta$ are more likely that others, it is convenient to use a **beta distribution**
+    - This has two parameters, often labeled as $\alpha$ (also written as a) and $\beta$ (also written as b), which we can choose to represent the strength of the external evidence
+    - If a parameter has a Beta(a,b) distribution, then the prior mean is
+    \[\frac{a}{a+b}\]
+    - The beta distribution prior for the binomial is useful for illustrating how the Bayesian approach combines prior information and new data
+    
+    
 ### R Session information {-}
 
 

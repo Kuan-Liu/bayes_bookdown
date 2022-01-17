@@ -200,9 +200,10 @@ techniques are problematic.
 **Bayes' Rule:** This arises naturally from the rule on conditional probability. Since the order does not matter in $A \cap B$, we can rewrite the equation: 
 
 $$\begin{aligned} 
-P(A \cap B) &=	P(B \cap A) \\
-P(A\mid B)P(B) &=	P(B\mid A)P(A) \\
-P(A\mid B) &=	\frac{P(B\mid A)P(A) }{P(B)}\\
+P(A\mid B) &=	\frac{P(A \cap B) }{P(B)}\\
+ &=	\frac{P(B \cap A)}{P(B)}\\
+ &=	\frac{P(B\mid A)P(A) }{P(B)}\\
+ &=	\frac{P(B\mid A)P(A) }{P(B \cap A) + P(B \cap A^C)}\\
 &=	\frac{P(B\mid A)P(A) }{P(B\mid A)P(A) + P(B\mid A^C)P(A^C)}
 \end{aligned}$$ 
 
