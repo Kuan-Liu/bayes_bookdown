@@ -570,7 +570,7 @@ ggplot(d, aes(theta, priorDensity))+
 
 - Here, prior is of little importance!
 
-```{r echo=F, fig.height=6, fig.width=8}
+```{r echo=F, fig.height=3, fig.width=8}
 
 L <- 200
 
