@@ -80,7 +80,7 @@ LogL(\theta, D) &= log({10 \choose 3}) + 3\ log(\theta) + (10-3)\ log(1- \theta)
 ```{r echo=T, fig.width=8, fig.align = 'center', eval=TRUE}
 #simulating a sequence of probability representing parameter \theta;
 #\theta, probability of success, value between 0 and 1;
-theta <- seq(0, 1, length=101) 
+theta <- seq(0, 1, length=1000) 
 #coding Binomial likelihood given x = 3 and n = 10;
 L <- choose(10,3)*theta^3*(1-theta)^(10-3)
 #coding log Binomial likelihood given x = 3 and n = 10;
@@ -277,7 +277,7 @@ P(\theta \mid y = 0) &= \frac{P(y = 0 \mid \theta) \times P(\theta)}{P(y=0)} \\
 \end{align}$$
 
 ```{r fig.height=3, fig.cap="Approximate posterior distribution obtained using Bayes' rule with UNIF(0,1) prior. In this example, the normalizaing term P(y=0) is not considered."}
-d <- tibble(p_grid = seq(from = 0, to = 1, length.out = 101),
+d <- tibble(p_grid = seq(from = 0, to = 1, length.out = 1000),
          y      = 0, 
          n      = 6) %>% 
     mutate(prior      = dunif(p_grid, 0, 1),
@@ -296,7 +296,7 @@ d %>% pivot_longer(prior:posterior) %>%
 ```
 
 ```{r echo=F, fig.height=3, fig.cap="Approximate posterior distribution obtained using Bayes' rule with UNIF(0.05,0.5) prior. In this example, the normalizaing term P(y=0) is not considered."}
-d2 <- tibble(p_grid = seq(from = 0, to = 1, length.out = 101),
+d2 <- tibble(p_grid = seq(from = 0, to = 1, length.out = 1000),
          y      = 0, 
          n      = 6) %>% 
     mutate(prior      = dunif(p_grid, 0.05, 0.5),
@@ -355,7 +355,7 @@ normalizing_constant2
 <div class="fold s">
 ```{r echo=T, warning=F, fig.height=3, fig.cap="Posterior distribution obtained using Bayes' rule with UNIF(0,1) and UNIF(0.05,0.5) priors"}
 
-d <- tibble(p_grid = seq(from = 0, to = 1, length.out = 101),
+d <- tibble(p_grid = seq(from = 0, to = 1, length.out = 1000),
          y      = 0, 
          n      = 6) %>% 
     mutate(prior1 = dunif(p_grid, 0, 1),
@@ -434,12 +434,205 @@ hypothesis(fit2, 'Intercept < 0.2')
 - We need a prior distribution for $\theta$ (e.g., proportion, risk, probability of event etc): $P(\theta)$
     - To express indifference between all values of $\theta$, we can use a uniform distribution on $\theta$, as we did in the previous example
     - To express belief (e.g. based on external evidence) that some values of $\theta$ are more likely that others, it is convenient to use a **beta distribution**
-    - This has two parameters, often labeled as $\alpha$ (also written as a) and $\beta$ (also written as b), which we can choose to represent the strength of the external evidence
+    - This has two parameters, often labelled as $\alpha$ (also written as a) and $\beta$ (also written as b), which we can choose to represent the strength of the external evidence
     - If a parameter has a Beta(a,b) distribution, then the prior mean is
     \[\frac{a}{a+b}\]
     - The beta distribution prior for the binomial is useful for illustrating how the Bayesian approach combines prior information and new data
+
+
+::: {.important data-latex=""}
+**Beta-binomial model**
+
+- Recall the likelihood for a binomial outcome of x successes in n trials,
+
+\[ P(x \mid \theta) \propto \theta^x (1-\theta)^{n-x}\]
+
+- The $Beta(\alpha,\beta)$ prior has the same functional form for $\theta$,
+
+\[ P( \theta) \propto \theta^{\alpha-1} (1-\theta)^{\beta-1}\]
+
+- We find the posterior as
+
+$$\begin{align}
+P(\theta \mid x) & \propto P(x \mid \theta) \times P( \theta) \\
+& \propto \theta^x (1-\theta)^{n-x} \times \theta^{\alpha-1} (1-\theta)^{\beta-1} \\
+&  \propto \theta^{x+\alpha-1}  (1-\theta)^{n-x+\beta-1}
+\end{align}$$
+
+- Thus, comparing to the $Beta(\alpha,\beta)$ prior, the posterior just changes the exponents by adding **x and n-x**, respectively.
+
+    - Comparing to the prior, make two changes to get the posterior:
+        1. $a \rightarrow a+x$, [a + number of events]
+        2. $b \rightarrow b+(n-x)$, [b + number of non-events]
+    - Quite simply, when $x$ events have been observed in n subjects, the prior 
     
+    \[ \theta \sim Beta(\alpha, \beta) \]
     
+    - gives the posterior
+    
+    \[ \theta \mid x \sim Beta(\alpha+x, \beta+n-x) \]
+
+- The prior and posterior are both **beta distributions!**
+
+:::
+
+
+**Interpretation of Beta Prior**
+
+- Suppose we start with a beta prior with small parameters
+
+\[ \theta \sim Beta(0.001, 0.001) \]
+
+- Observe x events in n trials, the posterior
+
+ \[ \theta \mid x \sim Beta(0.001+x, 0.001+n-x) \approx Beta(x,n-x)\]
+ 
+- Posterior mean of $\theta \approx \frac{x}{n}$, the equivalent to the MLE based only on the data
+
+- Interpretation of the $Beta(\alpha,\beta)$ prior.
+    - Like having seen $\alpha$ events and $\beta$ non events in a sample size of $\alpha + \beta$
+    - Strength of prior information equivalent to prior "sample size" $\alpha + \beta$
+    - Prior mean = $\frac{\alpha}{\alpha + \beta}$
+
+::: {.workedexample data-latex=""}
+
+Consider Beta(3,7)and Beta(12,28) priors
+
+- Gold line: prior belief that assumes approximately 3 events in 10 subjects
+- Blue line: prior belief that assumes approximately 12 events in 40(=12+28) subjects
+
+```{r echo=F}
+d <- tibble(theta = seq(from = 0, to = 1, length.out = 101)) %>% 
+  expand(theta, a = c(3, 12), b = c(7,28)) %>% 
+  mutate(PriorSet = paste0("Beta(",format(a), "," , format(b),")")) %>%
+  mutate(priorDensity = dbeta(theta, shape1 = a,shape2 = b))%>%
+  filter(a/(a+b)==0.3)
+  
+
+ggplot(d, aes(theta, priorDensity,colour=PriorSet))+
+  geom_line(size=1)+
+  xlab(expression(theta))+
+  ylab(expression(p(theta)))+
+  theme(legend.position = "bottom")+
+  scale_colour_manual(values=c("goldenrod","steelblue"))+
+  theme_bw()
+
+```
+:::
+
+::: {.guidedexercise data-latex=""}
+
+**Plot Beta densities in R (Tutorial Practice)** Try plotting Beta(2,8), Beta(8,2), and Beta(8,8). Example R code provided below.
+
+```{r echo=T, eval=F}
+a<-2
+b<-2
+d <- tibble(theta = seq(from = 0, to = 1, length.out = 101)) %>% 
+  mutate(priorDensity = dbeta(theta, shape1 = a,shape2 = b))
+
+ggplot(d, aes(theta, priorDensity))+
+  geom_line()+
+  xlab(expression(theta))+
+  ylab(expression(p(theta)))+
+  ggtitle(paste0("Beta distribution with ", "a = ",a,"; b = ",b))+
+  theme_bw()
+```
+
+:::
+
+**Summarizing Posterior Distribution**
+
+- Since we know the form of the posterior distribution, we can easily calculate functions such as:
+    1. Posterior mean $E(\theta) = \frac{\alpha+x}{\alpha + \beta+n}$
+    2. 95% Credible intervals (we will talk more about them next week)
+    3. $P(\theta < 0.2)$, $P(\theta < 0.5)$, $P(0.4< \theta < 0.6)$, etc, which can be directly used to make probabilistic statement about the $\theta$. E.g., the probability of the posterior adverse event rate < 0.2 is about 0.95.  
+    
+- Generate informative plots for assessing priors and posteriors. All this can easily be done using R.
+    
+::: {.guidedexercise data-latex=""}
+
+**Beta densities posterior summary in R (Tutorial Practice)** Suppose we observe 1 adverse events among 10 patients and we assume the prior distribution of adverse event proportion $\theta \sim Beta(1,1)$.
+
+- What is the posterior Beta distribution of $\theta$?
+- What is the posterior mean Beta distribution of $\theta$?
+- What is the posterior probability $P(\theta<0.2)$?
+
+:::
+
+**Data overwhelming the prior**
+
+- The posterior for the beta-binomial model after seeing x events in n trials is $\theta \mid x ~ Beta(\alpha + x, \beta + n - x)$ with posterior mean as
+
+\[E(\theta \mid x) = \frac{\alpha + x}{\alpha + \beta + n}\]
+
+- In $n \gg \alpha + \beta$ and $x \gg \alpha$ (sample size and number of events is large), recall when using prior $Beta(0.001, 0.001)$,
+\[ E(\theta \mid x) = \frac{\alpha + x}{\alpha + \beta + n} \approx \frac{x}{n}\]
+
+- Here, prior is of little importance!
+
+```{r echo=F, fig.height=6, fig.width=8}
+
+L <- 200
+
+data <- tibble(Observed=c(" 3/10","11/20","21/40","40/80"),
+               x=c(3, 11, 21, 40),
+               n=c(10, 20, 40, 80),
+               row=1)
+d <-tibble(theta = seq(from = 0, to = 1, length.out = L),
+         a=rep(2, L),
+         b=rep(6, L),
+         row=1) %>%
+  inner_join(data, by="row") %>%
+  mutate(a2 = a+x, b2=b+n-x) %>%
+  mutate(priorDensity = dbeta(theta, shape1 = a,shape2 = b))%>%
+  mutate(likelihood.0 = dbinom(x, prob=theta,size=n))%>%
+  mutate(posteriorDensity = dbeta(theta, shape1 = a2,shape2 = b2)) %>%
+  group_by(Observed) %>%
+  mutate(likelihood = likelihood.0/sum(diff(theta)*likelihood.0[-1])) %>%
+  pivot_longer(cols=c(priorDensity,likelihood,posteriorDensity),names_to="Function",values_to="p")
+  
+d$Function <- factor(d$Function, 
+                     levels=c("priorDensity","likelihood","posteriorDensity"),
+                     labels=c("Prior","Likelihood","Posterior"))
+
+ggplot(d, aes(theta, p,colour=Function))+
+  geom_line(size=1)+
+  xlab(expression(theta))+
+  ylab(expression(p(theta)))+
+  theme(legend.position = "bottom")+
+  facet_wrap(~Observed, labeller=label_both,nrow=1)+
+  scale_colour_manual(values=c("goldenrod","steelblue","black"))+
+  theme_bw()
+
+```
+
+
+**A Beta(1,1) is Unif(0,1)**
+
+- When $\alpha = \beta = 1$, $P(\theta) \propto \theta^{1-1}(1-\theta)^{1-1} = 1$, which is the probability density of a unif(0,1).
+
+**Posterior mean as a weighted average**
+
+- The posterior mean is
+
+$$\begin{align}
+E(\theta \mid x) & = \frac{\alpha + x}{\alpha + \beta + n} \\
+& = \frac{\alpha }{\alpha + \beta + n} + \frac{x }{\alpha + \beta + n}\\
+& = \Big( \frac{\alpha+ \beta }{\alpha + \beta + n} \Big) \times \Big( \frac{\alpha }{\alpha + \beta} \Big) + \Big( \frac{n }{\alpha + \beta + n} \Big) \times \Big( \frac{x }{n} \Big) \\
+& = w \times \Big( \frac{\alpha }{\alpha + \beta} \Big) + (1-w) \times \Big( \frac{x }{n} \Big) \\
+& = w \times (\text{prior mean}) + (1-w) \times (\text{sample estimate})
+\end{align}$$
+
+- Where $w$ is the ratio of the "prior sample size" to the "total sample size" \[ w = \frac{\alpha+ \beta }{\alpha + \beta + n}.\]
+
+- This is a common theme in Bayesian models with actual prior information
+- The posterior distribution will lie between the prior and likelihood
+- The posterior mean is a weighted average of the prior mean and data-based estimate
+- **As the sample size increases, the contribution of the prior diminishes**
+
+
+### The Normal-normal model
+
 ### R Session information {-}
 
 

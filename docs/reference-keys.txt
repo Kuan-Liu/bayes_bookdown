@@ -52,6 +52,7 @@ classical-frequentist-approach
 introduction-to-bayesian-approach
 review-from-session-1
 the-beta-binomial-model
+the-normal-normal-model
 Prior
 BayesReg
 normal-models-and-linear-regression
