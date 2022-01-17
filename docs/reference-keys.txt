@@ -3,6 +3,7 @@ fig:unnamed-chunk-19
 fig:unnamed-chunk-20
 fig:unnamed-chunk-44
 fig:unnamed-chunk-45
+fig:unnamed-chunk-47
 into
 about-me
 syllabus
@@ -57,5 +58,3 @@ normal-models-and-linear-regression
 hierarchical-models-and-convergence
 models-for-binary-data
 models-for-count-data
-fig:unnamed-chunk-7
-fig:unnamed-chunk-8

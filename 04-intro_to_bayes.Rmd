@@ -17,6 +17,8 @@
 library(tidyverse)
 library(ggpubr)
 library(brms)
+library(ggmcmc)
+library(bayesplot)
 options(scipen = 999)
 ```
 
@@ -243,6 +245,10 @@ binom.test(x=0, n=14, p = 0.2,
            conf.level = 0.95)
 ```
 
+
+:::
+
+
 **What would a Bayesian do?**
 
 To make probability statements about $\theta$ after observing data $y$, we need a probability distribution for $\theta$ given $y$ (the posterior distribution).
@@ -290,14 +296,14 @@ d %>% pivot_longer(prior:posterior) %>%
 ```
 
 ```{r echo=F, fig.height=3, fig.cap="Approximate posterior distribution obtained using Bayes' rule with UNIF(0.05,0.5) prior. In this example, the normalizaing term P(y=0) is not considered."}
-d <- tibble(p_grid = seq(from = 0, to = 1, length.out = 101),
+d2 <- tibble(p_grid = seq(from = 0, to = 1, length.out = 101),
          y      = 0, 
          n      = 6) %>% 
     mutate(prior      = dunif(p_grid, 0.05, 0.5),
          likelihood = dbinom(y, n, p_grid)) %>% 
     mutate(posterior = likelihood * prior )
 
-d %>% pivot_longer(prior:posterior) %>% 
+d2 %>% pivot_longer(prior:posterior) %>% 
   # this line allows us to dictate the order in which the panels will appear
     mutate(name = factor(name, levels = c("prior", "likelihood", "posterior"))) %>% 
     ggplot(aes(x = p_grid, y = value, fill = name)) +
@@ -322,14 +328,103 @@ $P(\theta = 0.1) = 0.2$
 \[ P(Y = 0) = P_{0.5} \times 0.8 + P_{0.1} \times 0.2 \]
 
 
-- In case of a continuous parameter value, we can obtain $P(y=0)$ by intergrating over the space of $\theta$ as following
+- In case of a continuous parameter value, we can obtain $P(y=0)$ by integrating over the space of $\theta$ as following
 \[P(y=0) = \int_{\theta=0}^{\theta=1} P(y=0 \mid \theta) P(\theta) \ d \theta\]
-- Intergrating over $\theta$ is analogous to summing over a set of discrete values of $\theta$.
+- Integrating over $\theta$ is analogous to summing over a set of discrete values of $\theta$.
 - After integration over $\theta$, $\theta$ is no longer featured in $P(y=0)$.
 
+- In this example, we have
+
+\[P(y=0) = \int_{\theta=0}^{\theta=1} P(y=0 \mid \theta) \times \frac{1}{1-0} \ d \theta \]
+\[P(y=0) = \int_{\theta=0}^{\theta=1} P(y=0 \mid \theta) \times \frac{1}{0.5-0.05} \ d \theta \]
+
+
+```{r echo=T}
+#Integration in R with one variable;
+#Unif(0,1);
+integrand <- function(theta) {(1-theta)^6}
+normalizing_constant<-integrate(integrand, lower = 0, upper = 1)
+normalizing_constant
+
+#Unif(0.05,0.5);
+integrand2 <- function(theta) {((1-theta)^6)/(0.5-0.05)}
+normalizing_constant2<-integrate(integrand2, lower = 0, upper = 1)
+normalizing_constant2
+```
+
+<div class="fold s">
+```{r echo=T, warning=F, fig.height=3, fig.cap="Posterior distribution obtained using Bayes' rule with UNIF(0,1) and UNIF(0.05,0.5) priors"}
+
+d <- tibble(p_grid = seq(from = 0, to = 1, length.out = 101),
+         y      = 0, 
+         n      = 6) %>% 
+    mutate(prior1 = dunif(p_grid, 0, 1),
+           prior2 = dunif(p_grid, 0.05, 0.5),
+           likelihood = dbinom(y, n, p_grid)) %>% 
+    mutate(posterior1 = likelihood * prior1 / normalizing_constant$value,
+           posterior2 = likelihood * prior2 / normalizing_constant2$value)
+
+d %>% pivot_longer(posterior1:posterior2) %>% 
+    ggplot(aes(x = p_grid, y = value, group = as.factor(name))) +
+    geom_area(aes(fill = name),position="identity") +
+    scale_fill_manual(name = "Prior", labels = c("UNIF(0,1)","UNIF(0.05,0.5)"),values = c("#d8b365",  "#5ab4ac")) +
+    geom_vline(xintercept = 0.2, size=1) +
+    annotate("text", x=0.3, y=6, label= expression(paste(theta, "=0.2")), size = 5) + 
+    labs(x = expression(theta), y = "posterior probability density", title="Posterior distribution given uniform priors and binary data")+
+    theme_bw()
+
+```
+<div>
+
+::: {.guidedexercise data-latex=""}
+
+**Practice posterior estimation with brms package in R (Tutorial Practice)**  
+
+> we will introduction MCMC in later sessions.
+
+```{r echo=T, eval=F}
+dat1<-data.frame(y=rep(0,6))
+fit1 <- brm(data = dat1, 
+      family = bernoulli(link = "identity"),
+      y ~ 1,
+      prior = c(prior(uniform(0, 1), class = Intercept)),
+      iter = 1000 + 2000, warmup = 1000, chains = 4, cores = 2,
+      seed = 123)
+
+fit2 <- brm(data = dat1, 
+      family = bernoulli(link = "identity"),
+      y ~ 1,
+      prior = c(prior(uniform(0.05, 0.5), class = Intercept)),
+      iter = 1000 + 2000, warmup = 1000, chains = 4,cores = 2,
+      seed = 123)
+
+summary(fit1)
+summary(fit2)
+  
+plot(fit1)
+plot(fit2)
+
+mcmc_areas(
+  fit1, 
+  pars = c("Intercept"),
+  prob = 0.80, # 80% inner intervals;
+  prob_outer = 0.95, # 99% outter intervals;
+  point_est = "mean"
+)
+
+mcmc_areas(
+  fit2, 
+  pars = c("Intercept"),
+  prob = 0.80, # 80% inner intervals;
+  prob_outer = 0.95, # 99% outter intervals;
+  point_est = "mean"
+)
+
+hypothesis(fit1, 'Intercept < 0.2')
+hypothesis(fit2, 'Intercept < 0.2')
+
+```
 :::
-
-
 
 
 ### The Beta-binomial model
