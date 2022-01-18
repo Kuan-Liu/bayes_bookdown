@@ -380,7 +380,7 @@ d %>% pivot_longer(posterior1:posterior2) %>%
 
 **Practice posterior estimation with brms package in R (Tutorial Practice)**  
 
-> we will introduction MCMC in later sessions.
+> we will introduce MCMC in later sessions.
 
 ```{r echo=T, eval=F}
 dat1<-data.frame(y=rep(0,6))
@@ -388,14 +388,14 @@ fit1 <- brm(data = dat1,
       family = bernoulli(link = "identity"),
       y ~ 1,
       prior = c(prior(uniform(0, 1), class = Intercept)),
-      iter = 1000 + 2000, warmup = 1000, chains = 4, cores = 2,
+      iter = 1000 + 2500, warmup = 1000, chains = 2, cores = 2,
       seed = 123)
 
 fit2 <- brm(data = dat1, 
       family = bernoulli(link = "identity"),
       y ~ 1,
       prior = c(prior(uniform(0.05, 0.5), class = Intercept)),
-      iter = 1000 + 2000, warmup = 1000, chains = 4,cores = 2,
+      iter = 1000 + 2500, warmup = 1000, chains = 2, cores = 2,
       seed = 123)
 
 summary(fit1)
@@ -406,7 +406,7 @@ plot(fit2)
 
 mcmc_areas(
   fit1, 
-  pars = c("Intercept"),
+  pars = c("b_Intercept"),
   prob = 0.80, # 80% inner intervals;
   prob_outer = 0.95, # 99% outter intervals;
   point_est = "mean"
@@ -414,7 +414,7 @@ mcmc_areas(
 
 mcmc_areas(
   fit2, 
-  pars = c("Intercept"),
+  pars = c("b_Intercept"),
   prob = 0.80, # 80% inner intervals;
   prob_outer = 0.95, # 99% outter intervals;
   point_est = "mean"
@@ -631,7 +631,42 @@ E(\theta \mid x) & = \frac{\alpha + x}{\alpha + \beta + n} \\
 - **As the sample size increases, the contribution of the prior diminishes**
 
 
+::: {.guidedexercise data-latex=""}
+
+**Revisit the adverse event example, now using the beta-binomial model**
+
+- Suppose you have observed 0 adverse events in 6 patients in a phase I clinical trial
+on a given dose of a drug
+- Assume a prior: $\theta \sim Beta(1,1)$ ; What is the posterior distribution? 
+- How much evidence that the AE rate is < 20%? Find $P(\theta < 0.2)$ using the posterior distribution?
+- What is the AE rate at a lower dose was 1/6? Can we use this external evidence?
+    - New prior for the lower dose, $\theta \sim Beta(1,5)$
+    - New Posterior is given 0 adverse events in 6 patients: $\theta \sim Beta(1,11)$
+    - Find $P(\theta < 0.2)$.
+:::
+
+
 ### The Normal-normal model
+
+
+**Parameters with normal priors and likelihoods**
+
+- Continuing with a single parameter model
+
+- The likelihood of the parameter given some data is that of a normal distribution with known variance $\sigma^2$
+
+\[ y \mid \theta \sim N(\theta, \sigma^2) \]
+
+- suppose the prior for $\theta$, the mean, follows a normal distribution
+
+\[ \theta \sim N(\mu_0, V_0)\]
+
+- We want to make inference about $\theta$ given the data y, what is the posterior distribution $P(\theta \mid y)$?
+
+
+
+
+
 
 ### R Session information {-}
 
