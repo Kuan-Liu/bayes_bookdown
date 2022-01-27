@@ -1167,7 +1167,7 @@ The **Bayes Factor (BF)** compares the posterior odds to the prior odds, and pro
 
 In a hypothesis test of two competing hypotheses, $H_0$ vs $H_a$, 
 
-\[\text{Bayes Factor} = \frac{\text{Posterior odds}}{\text{Prior odds}} = \frac{\frac{H_0 \mid y}{H_1 \mid y}}{\frac{P(H_0)}{P(H_a)}}\]
+\[\text{Bayes Factor} = \frac{\text{Posterior odds}}{\text{Prior odds}} = \frac{\frac{P(H_0 \mid y)}{P(H_1 \mid y)}}{\frac{P(H_0)}{P(H_a)}}\]
 
 Example: (Beta-binomial model) Data
 - Data: 0 out of 6 patients have had an adverse event
