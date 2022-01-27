@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-01-18" />
+<meta name="date" content="2022-01-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -120,6 +120,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -526,7 +548,7 @@ Figure 3.2: Approximate posterior distribution obtained using Bayes’ rule with
 <ul>
 <li>The <strong>law of total probability</strong> for discrete parameter values can be used</li>
 <li>Suppose there are two possible values of parameter <span class="math inline">\(\theta\)</span>, 0.5 and 0.1.</li>
-<li>Suppose we know the prior distribution of <span class="math inline">\(\theta\)</span>: <span class="math inline">\(P(\theta = 0.5) = 0:8\)</span> and
+<li>Suppose we know the prior distribution of <span class="math inline">\(\theta\)</span>: <span class="math inline">\(P(\theta = 0.5) = 0.8\)</span> and
 <span class="math inline">\(P(\theta = 0.1) = 0.2\)</span></li>
 <li>Likelihood values are calculated given a known <span class="math inline">\(\theta\)</span>, so then don’t include the parameter <span class="math inline">\(\theta\)</span>.</li>
 <li>Call these <span class="math inline">\(P_{0.5} = P(Y = 0 \mid \theta = 0.5)\)</span> and <span class="math inline">\(P_{0.1} = P(Y = 0 \mid \theta = 0.1)\)</span>,</li>
@@ -799,6 +821,233 @@ on a given dose of a drug</li>
 <ul>
 <li>We want to make inference about <span class="math inline">\(\theta\)</span> given the data y, what is the posterior distribution <span class="math inline">\(P(\theta \mid y)\)</span>?</li>
 </ul>
+<div class="important">
+<p><strong>Normal-normal model</strong></p>
+<p><strong>1. The normal model (likelihood) of one data point</strong></p>
+<ul>
+<li><p>Consider a single observation <span class="math inline">\(y\)</span> from a normal distribution parameterized by a mean <span class="math inline">\(\theta\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, we assume that <span class="math inline">\(\sigma^2\)</span> is known.</p></li>
+<li><p>The normal likelihood for <span class="math inline">\(y\)</span> given <span class="math inline">\(\theta\)</span> is
+<span class="math display">\[ P(y\mid \theta) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y-\theta)^2}{2\sigma^2}}, y \in (-\infty, \infty)\]</span></p></li>
+<li><p>The <span class="math inline">\(E(y) = \theta\)</span> and <span class="math inline">\(V(y) = \sigma^2\)</span> and <span class="math inline">\(SD(y) = \sigma\)</span>.</p></li>
+<li><p>Given <span class="math inline">\(y \mid \theta \sim N(\theta,\sigma^2 )\)</span>, <span class="math inline">\(z = \frac{x-\theta}{\sigma} \sim N(0,1)\)</span>. Thus, if we rescale <span class="math inline">\(y\)</span> by <span class="math inline">\(\sigma\)</span>, we have</p>
+<ul>
+<li>95%CI of y: <span class="math inline">\(\theta \pm 1.96 \times \sigma\)</span></li>
+</ul></li>
+</ul>
+<p><strong>2. Prior</strong></p>
+<p>We can often use a normal prior to represent <span class="math inline">\(\theta \sim N(\mu_0, V_0)\)</span></p>
+<ul>
+<li><p><span class="math inline">\(\mu_0\)</span> is the prior mean</p></li>
+<li><p><span class="math inline">\(V_0\)</span> is the prior variance, which expresses the uncertainty around the mean <span class="math inline">\(\mu_0\)</span></p></li>
+<li><p><span class="math inline">\(\tau_0 = \frac{1}{V_0}\)</span> is called precision, it can also be used to express the uncertainty around the mean, e.g. <span class="math inline">\(\theta \sim N(\mu_0, \tau_0)\)</span></p></li>
+<li><p>High precision = low variance, in other words, the distribution of the normal random variable <span class="math inline">\(\theta\)</span> is closely centered around its mean.</p></li>
+</ul>
+<p><strong>3. Posterior</strong></p>
+<ul>
+<li>With a normal prior and a normal likelihood of the data given parameter <span class="math inline">\(\theta\)</span>, (here we use precision to express the normal distributions)</li>
+</ul>
+<p><span class="math display">\[ \theta \sim N(\mu_0,\tau_0 ) \text{ and } y \mid \theta \sim N(\theta,\tau_y )\]</span></p>
+<ul>
+<li><p>where <span class="math inline">\(\tau_y = \frac{1}{\sigma^2}\)</span> is the precision of the observed data</p></li>
+<li><p>It can be proven mathematically using the Bayes’ rule that the posterior distribution given a normal prior and normal likelihood is also normal,</p></li>
+</ul>
+<p><span class="math display">\[ \theta \mid y \sim  N(\mu_1, \tau_1)\]</span></p>
+<ul>
+<li>The posterior mean <span class="math inline">\(\mu_1\)</span> is</li>
+</ul>
+<p><span class="math display">\[ \frac{\tau_0 \times \mu_0 + \tau_y \times y}{\tau_0+ \tau_y} \]</span></p>
+<ul>
+<li>The posterior precision is</li>
+</ul>
+<p><span class="math display">\[ \tau_1 = \tau_0 + \tau_y\]</span></p>
+<ul>
+<li>Again, <strong>the prior and posterior are both normal distributions!</strong></li>
+</ul>
+</div>
+<p><strong>Posterior mean as a weighted average of the prior mean and data-based estimate</strong></p>
+<ul>
+<li>Using the precision parameters</li>
+</ul>
+<p><span class="math display">\[ \tau_y = \frac{1}{\sigma^2_y} \text{ and } \tau_0 = \frac{1}{V_0}\]</span></p>
+<ul>
+<li>The posterior distribution of <span class="math inline">\(\theta\)</span> is then</li>
+</ul>
+<p><span class="math display">\[\theta \mid y \sim N(\mu_1, \tau_1)\]</span></p>
+<ul>
+<li>where the mean and precision are</li>
+</ul>
+<p><span class="math display">\[\begin{align}
+&amp; \mu_1 = \Big(\frac{\tau_0}{\tau_0 + \tau_y}\Big) \times \mu_0 + \Big(\frac{\tau_y}{\tau_0 + \tau_y}\Big) \times y \\
+&amp; \tau_1 = \tau_0 + \tau_y
+\end{align}\]</span></p>
+<ul>
+<li>The posterior mean is a weighted sum of the prior mean and the observed value.</li>
+<li>The weights are the relative precisions of the prior and the likelihood
+<span class="math display">\[\mu_1 = w_0 \times \mu_0 + w_y \times y\]</span>
+<span class="math display">\[w_0 = \frac{\tau_0}{\tau_0 + \tau_y}\]</span>
+and</li>
+</ul>
+<p><span class="math display">\[w_y = 1-w_0 = \frac{\tau_y}{\tau_0 + \tau_y}\]</span></p>
+<p><strong>Data overwhelming the prior and vice versa</strong></p>
+<ul>
+<li>With relatively low prior precision (imprecise prior and substantial data), i.e., <span class="math inline">\(\tau_0 \ll \tau_y\)</span> and <span class="math inline">\(0 \approx w_0 \ll w_y \approx 1\)</span>,</li>
+</ul>
+<p><span class="math display">\[ \mu_1 = w_0 \times \mu_0 + w_y \times y \approx y\]</span></p>
+<ul>
+<li>With relative little data and aprior that is not too diffuse, i.e., <span class="math inline">\(\tau_y \ll \tau_0\)</span> and <span class="math inline">\(0 \approx w_y \ll w_0 \approx 1\)</span>,</li>
+</ul>
+<p><span class="math display">\[ \mu_1 = w_0 \times \mu_0 + w_y \times y \approx \mu_0\]</span></p>
+<ul>
+<li>In most cases, the posterior mean is a compromise between what we believed before and what we observed in the data.</li>
+</ul>
+<p><strong>Normal model with multiple observations</strong></p>
+<ul>
+<li><p>Consider a set of <span class="math inline">\(n\)</span> observations <span class="math inline">\(y = (y_1, \ldots, y_n)\)</span> sample from a <span class="math inline">\(N(\theta, \sigma^2)\)</span>, where <span class="math inline">\(y_1,\ldots, y_n\)</span> are identically, independently distributed and <span class="math inline">\(y_i \sim N(\theta, \sigma^2)\)</span>, <span class="math inline">\(i = 1, \ldots, n\)</span>.</p></li>
+<li><p>The normal likelihood of the joint distribution <span class="math inline">\(y = (y_1, \ldots, y_n)\)</span> is</p></li>
+</ul>
+<p><span class="math display">\[\begin{align}
+P((y_1, \ldots, y_n \mid \theta) &amp;= \prod_{i=1}^n P(y_i \mid \theta) \\
+&amp; = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y_i-\theta)^2}{2\sigma^2}}, y \in (-\infty, \infty)
+\end{align}\]</span></p>
+<ul>
+<li>Given prior <span class="math inline">\(\theta \sim N(\mu_0, \tau_0)\)</span>, the posterior of <span class="math inline">\(\theta \mid y\)</span> is</li>
+</ul>
+<p><span class="math display">\[P(\theta \mid y_1, \ldots, y_n) = N(\mu_n, \tau_n)\]</span></p>
+<ul>
+<li>where the posterior mean <span class="math inline">\(\mu_n\)</span> is</li>
+</ul>
+<p><span class="math display">\[\mu_n = \frac{\tau_0 \times \mu_0 + n\tau_y \times \bar{y}}{\tau_0+ n\tau_y} = \Big( \frac{\tau_0}{\tau_0+ n\tau_y} \Big) \times \mu_0 + \Big( \frac{n\tau_y}{\tau_0+ n\tau_y} \Big) \times \bar{y}\]</span></p>
+<ul>
+<li>and the posterior precision is</li>
+</ul>
+<p><span class="math display">\[ \tau_n = \tau_0 + n\tau_y\]</span></p>
+<ul>
+<li><p><span class="math inline">\(\bar{y} = \frac{\sum_{i=1}^2y_i}{n}\)</span> is the sample mean and <span class="math inline">\(\tau_y = \frac{1}{\sigma^2}\)</span></p></li>
+<li><p>Again, the posterior mean is a weighted sum between prior and data. As sample size <span class="math inline">\(n \rightarrow \infty\)</span>, <span class="math inline">\(\Big( \frac{\tau_0}{\tau_0+ n\tau_y} \Big) \rightarrow 0\)</span> and <span class="math inline">\(\Big( \frac{n\tau_y}{\tau_0+ n\tau_y} \Big) \rightarrow 1\)</span>, <strong>data will overwhelm the prior and dominate the posterior distribution</strong>.</p></li>
+</ul>
+<p><strong>The use of normal-normal model in clinical applications</strong></p>
+<ul>
+<li><p>Consider estimating a parameter <span class="math inline">\(\theta\)</span>, e.g. mean, log-hazard ratio, log-odds-ratio, log-relative-risk</p></li>
+<li><p>Suppose we have an estimate of <span class="math inline">\(\theta\)</span>; We will call it <span class="math inline">\(y\)</span> and let <span class="math inline">\(\hat{\sigma}^2_y\)</span> be the estimated variance</p></li>
+<li><p>This estimate <span class="math inline">\(y\)</span> can be viewed as a single data observation of <span class="math inline">\(\theta\)</span>!</p></li>
+<li><p>In large samples, it is approximately true that <span class="math inline">\(y \sim N(\theta, \sigma^2_y)\)</span>, where <span class="math inline">\(\theta\)</span> is the true value and <span class="math inline">\(\sigma^2_y\)</span> is the true variance (sample size dependent) and the 95%CI of <span class="math inline">\(y\)</span> is <span class="math inline">\(\theta \pm 1.96 \times \sigma\)</span>.</p></li>
+<li><p>We can construct a normal likelihood of data for the parameter <span class="math inline">\(\theta\)</span> as
+<span class="math display">\[y \mid N(\theta, \hat{\sigma}^2_y)\]</span></p></li>
+</ul>
+<div class="workedexample">
+<p><strong>Treatment effect estimate on the mean</strong></p>
+<ul>
+<li><p>For this example, we will simulate data for a small study of n=100 subjects and randomized 50% to treat=0 and 50% to treat=1 (mimicking an RCT). We will then generate the outcome Y from a normal distribution depending on the treatment indicator.</p></li>
+<li><p>Suppose we have the following table of results from a linear regression estimating treatment effect <span class="math inline">\(\theta\)</span> on the outcome</p></li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="bayes.html#cb18-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb18-2"><a href="bayes.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb18-3"><a href="bayes.html#cb18-3" aria-hidden="true" tabindex="-1"></a>treat <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span>(<span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)<span class="sc">&lt;</span><span class="fl">0.5</span>)</span>
+<span id="cb18-4"><a href="bayes.html#cb18-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">5</span><span class="sc">*</span>treat<span class="sc">+</span><span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span><span class="dv">10</span>)</span>
+<span id="cb18-5"><a href="bayes.html#cb18-5" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">&lt;-</span><span class="fu">lm</span>(y<span class="sc">~</span>treat)</span>
+<span id="cb18-6"><a href="bayes.html#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ treat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -19.8662  -6.7095  -0.5731   5.7503  24.1866 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)    1.303      1.423   0.916   0.3618  
+## treat          4.080      1.918   2.127   0.0359 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 9.543 on 98 degrees of freedom
+## Multiple R-squared:  0.04414,    Adjusted R-squared:  0.03438 
+## F-statistic: 4.525 on 1 and 98 DF,  p-value: 0.03591</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="bayes.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">confint.default</span>(fit, <span class="st">&#39;treat&#39;</span>, <span class="at">level=</span><span class="fl">0.95</span>),<span class="dv">3</span>) <span class="co"># based on asymptotic normality</span></span></code></pre></div>
+<pre><code>##       2.5 % 97.5 %
+## treat 0.321   7.84</code></pre>
+<ul>
+<li><p>We are interested in using this published results to make Bayesian inference on <span class="math inline">\(\theta\)</span></p></li>
+<li><p>Our observed data (estimate) of <span class="math inline">\(\theta\)</span>, denoted as <span class="math inline">\(y\)</span> is 4.08 with standard error 1.918. Here, <span class="math inline">\(y\)</span> plays the role of data! We call <span class="math inline">\(y\)</span> the observed datum.</p></li>
+<li><p>Relying on the large sample approximation, we assume that the estimate y arose from a normal distribution with true mean <span class="math inline">\(\theta\)</span>, <strong>We treat the observed standard error <span class="math inline">\(\hat{\sigma}_y = 1.918\)</span> as the true standard deviation of <span class="math inline">\(y\)</span></strong></p>
+<ul>
+<li>Recall, the standard deviation of the sampling distribution of a parameter estimate is called its standard error</li>
+</ul></li>
+<li><p>This gives us the likelihood
+<span class="math display">\[y \mid \theta \sim N(\theta, 1.918^2)\]</span></p></li>
+<li><p>The width of the 95% CI is approximately equal to <span class="math inline">\(2 \times 1.96 \times \sigma_y\)</span></p></li>
+<li><p>Suppose we are not provided with <span class="math inline">\(\sigma_y\)</span> from the table of results, but know the 95% CI of y is (1.568,0.064), we can calculate <span class="math inline">\(\sigma_y\)</span> with</p></li>
+</ul>
+<p><span class="math display">\[\sigma_y = \frac{7.84- 0.321}{2\times 1.96}=1.918\]</span></p>
+<ul>
+<li>The normal likelihood is this example is <span class="math inline">\(y \sim N(4.08, 1.918^2)\)</span>, if we assume a prior <span class="math inline">\(\theta \sim N(0, 2 \times 1.918^2)\)</span>, we have a posterior</li>
+</ul>
+<p><span class="math display">\[\begin{align}
+&amp; \theta \mid y \sim N(\mu_1, \tau_1) \\
+\mu_1  &amp;= \frac{ \frac{1}{prior.sd^2} }{\frac{1}{prior.sd^2} + \frac{1}{se.obs^2} } \times prior.mean + \frac{\frac{1}{se.obs^2}}{\frac{1}{prior.sd^2} + \frac{1}{se.obs^2}} \times y.obs \\
+ &amp; = \frac{ \frac{1}{2 \times 1.918^2} }{\frac{1}{2 \times 1.918^2} + \frac{1}{1.918^2} } \times 0 + \frac{\frac{1}{1.918^2}}{\frac{1}{2 \times 1.918^2} + \frac{1}{1.918^2}} \times 4.08 = 2.72 \\
+ 
+ \tau_1 &amp; = \tau_0 + \tau_y \\
+        &amp; = \frac{1}{prior.sd^2} + \frac{1}{se.obs^2} \\
+        &amp; = \frac{1}{2 \times 1.918^2} + \frac{1}{1.918^2} = 0.408
+\end{align}\]</span></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="bayes.html#cb22-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">theta =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">to =</span> <span class="dv">15</span>, <span class="at">length.out =</span> <span class="dv">200</span>),</span>
+<span id="cb22-2"><a href="bayes.html#cb22-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">y.obs=</span><span class="fl">4.08</span>,</span>
+<span id="cb22-3"><a href="bayes.html#cb22-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">se.obs=</span><span class="fl">1.918</span>,</span>
+<span id="cb22-4"><a href="bayes.html#cb22-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">prior.mean=</span><span class="dv">0</span>,</span>
+<span id="cb22-5"><a href="bayes.html#cb22-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">prior.sd=</span><span class="fu">sqrt</span>(<span class="dv">2</span>)<span class="sc">*</span><span class="fl">1.918</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="bayes.html#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">priorDensity =</span> <span class="fu">dnorm</span>(theta, prior.mean, prior.sd)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="bayes.html#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">likelihood.0 =</span> <span class="fu">dnorm</span>(theta, y.obs, se.obs)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-8"><a href="bayes.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">w =</span> (<span class="dv">1</span><span class="sc">/</span>se.obs<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>se.obs<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>prior.sd<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-9"><a href="bayes.html#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">post.prec =</span> <span class="dv">1</span><span class="sc">/</span>se.obs<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>prior.sd<span class="sc">^</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-10"><a href="bayes.html#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">posteriorDensity =</span> <span class="fu">dnorm</span>(theta, w<span class="sc">*</span>y.obs<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>w)<span class="sc">*</span>prior.mean, <span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>post.prec))) <span class="sc">%&gt;%</span></span>
+<span id="cb22-11"><a href="bayes.html#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">likelihood =</span> likelihood<span class="fl">.0</span><span class="sc">/</span><span class="fu">sum</span>(<span class="fu">diff</span>(theta)<span class="sc">*</span>likelihood<span class="fl">.0</span>[<span class="sc">-</span><span class="dv">1</span>])) <span class="sc">%&gt;%</span></span>
+<span id="cb22-12"><a href="bayes.html#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(priorDensity,likelihood,posteriorDensity),<span class="at">names_to=</span><span class="st">&quot;Function&quot;</span>,<span class="at">values_to=</span><span class="st">&quot;p&quot;</span>)</span>
+<span id="cb22-13"><a href="bayes.html#cb22-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-14"><a href="bayes.html#cb22-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Function <span class="ot">&lt;-</span> <span class="fu">factor</span>(d<span class="sc">$</span>Function, </span>
+<span id="cb22-15"><a href="bayes.html#cb22-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;priorDensity&quot;</span>,<span class="st">&quot;likelihood&quot;</span>,<span class="st">&quot;posteriorDensity&quot;</span>),</span>
+<span id="cb22-16"><a href="bayes.html#cb22-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Prior&quot;</span>,<span class="st">&quot;Likelihood&quot;</span>,<span class="st">&quot;Posterior&quot;</span>))</span>
+<span id="cb22-17"><a href="bayes.html#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="bayes.html#cb22-18" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(theta, p,<span class="at">colour=</span>Function))<span class="sc">+</span></span>
+<span id="cb22-19"><a href="bayes.html#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb22-20"><a href="bayes.html#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(theta))<span class="sc">+</span></span>
+<span id="cb22-21"><a href="bayes.html#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">p</span>(theta)))<span class="sc">+</span></span>
+<span id="cb22-22"><a href="bayes.html#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-23"><a href="bayes.html#cb22-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>)) <span class="sc">+</span><span class="fu">theme_bw</span>()</span>
+<span id="cb22-24"><a href="bayes.html#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="bayes.html#cb22-25" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div class="workedexample">
+<p><strong>Hazard Ratio on time-to-event from COX proportional hazard model</strong></p>
+<ul>
+<li><p>Effect of a Resuscitation Strategy Targeting Peripheral Perfusion Status vs Serum Lactate Levels on 28-Day Mortality Among Patients With Septic Shock
+The ANDROMEDA-SHOCK Randomized Clinical Trial <span class="citation">(<a href="#ref-hernandez2019effect" role="doc-biblioref">Hernández et al. 2019</a>)</span></p></li>
+<li><p>Open-access link: <a href="https://jamanetwork.com/journals/jama/fullarticle/2724361" class="uri">https://jamanetwork.com/journals/jama/fullarticle/2724361</a></p></li>
+<li><p>We are interested to make inference on the hazard ratio of peripheral perfusion versus Lactate level on 28-Day mortality among patients with septic shock.</p></li>
+<li><p>Let <span class="math inline">\(\theta\)</span> be the true value of this HR, we obtain a point estimate of <span class="math inline">\(\theta\)</span> and it’s 95%CI from Table 2 of <span class="citation">(<a href="#ref-hernandez2019effect" role="doc-biblioref">Hernández et al. 2019</a>)</span>.</p></li>
+</ul>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-17"></span>
+<img src="images/ANDROMEDA-SHOCK_table2.png" alt="HR estimates of the effectiveness of peripheral perfusion on primary outcome - Death within 28 days" width="982" />
+<p class="caption">
+Figure 3.4: HR estimates of the effectiveness of peripheral perfusion on primary outcome - Death within 28 days
+</p>
+</div>
+<ul>
+<li><p>The estimated adjusted <span class="math inline">\(\theta\)</span> (HR) on 28-day mortality, 0.75 (0.55 to 1.02), is called the <strong>observed datum</strong> (viewed as a single data observation on <span class="math inline">\(\theta\)</span>, denoted as <span class="math inline">\(y\)</span>)</p></li>
+<li><p>It’s known that <strong>log of the parameter estimate, such as HR, RR and OR, follow a normal distribution around its true log value</strong>. Thus, We need to use the reported output information in order to specify the likelihood
+for the log of the parameter, y.</p></li>
+<li><p>Let <span class="math inline">\(y\)</span> denote this data point, we have <span class="math inline">\(y \sim N(log(\theta), \sigma_y^2)\)</span>, where <span class="math inline">\(\theta\)</span> is log(HR) and <span class="math inline">\(sigma_y\)</span> is the standard error of the log(HR)</p></li>
+<li><p>In order to get <span class="math inline">\(\sigma_y^2\)</span> from the result table, we will use the reported 95% CI of the <strong>log of HR</strong>!</p></li>
+<li><p>The limits of the CI for the log value are obtained by taking the logs of the reported CI, i.e., 95% CI on the log(HR) in this example is [log(0.55)=-0.598, log(1.02)=0.02].</p></li>
+<li><p>Take the width of the 95% CI and divided by <span class="math inline">\(2\times 1.96\)</span>, we have</p></li>
+</ul>
+<p><span class="math display">\[\hat{\sigma}_y = \frac{log(1.02) - log(0.55)}{2\times 1.96} = 0.158\]</span></p>
+<ul>
+<li>We use <span class="math inline">\(\hat{\sigma}_y\)</span> to approximate <span class="math inline">\(\sigma_y\)</span>, therefore, the data likelihood <span class="math inline">\(y \mid \theta \sim (\theta,0.158^2)\)</span> where we have observed <span class="math inline">\(y=log(0.75)=-0.287\)</span></li>
+</ul>
+</div>
 </div>
 <div id="r-session-information-2" class="section level3 unnumbered">
 <h3>R Session information</h3>
@@ -823,6 +1072,12 @@ on a given dose of a drug</li>
 ## [13] ggplot2_3.3.5   tidyverse_1.3.1</code></pre>
 
 </div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-hernandez2019effect" class="csl-entry">
+Hernández, Glenn, Gustavo A Ospina-Tascón, Lucas Petri Damiani, Elisa Estenssoro, Arnaldo Dubin, Javier Hurtado, Gilberto Friedman, et al. 2019. <span>“Effect of a Resuscitation Strategy Targeting Peripheral Perfusion Status Vs Serum Lactate Levels on 28-Day Mortality Among Patients with Septic Shock: The ANDROMEDA-SHOCK Randomized Clinical Trial.”</span> <em>Jama</em> 321 (7): 654–64.
 </div>
 </div>
             </section>

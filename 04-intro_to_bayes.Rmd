@@ -318,7 +318,7 @@ d2 %>% pivot_longer(prior:posterior) %>%
 
 - The **law of total probability** for discrete parameter values can be used
 - Suppose there are two possible values of parameter $\theta$, 0.5 and 0.1. 
-- Suppose we know the prior distribution of $\theta$: $P(\theta = 0.5) = 0:8$ and
+- Suppose we know the prior distribution of $\theta$: $P(\theta = 0.5) = 0.8$ and
 $P(\theta = 0.1) = 0.2$
 - Likelihood values are calculated given a known $\theta$, so then don't include the parameter $\theta$.
 - Call these $P_{0.5} = P(Y = 0 \mid \theta = 0.5)$ and $P_{0.1} = P(Y = 0 \mid \theta = 0.1)$, 
@@ -514,8 +514,7 @@ ggplot(d, aes(theta, priorDensity,colour=PriorSet))+
   xlab(expression(theta))+
   ylab(expression(p(theta)))+
   theme(legend.position = "bottom")+
-  scale_colour_manual(values=c("goldenrod","steelblue"))+
-  theme_bw()
+  scale_colour_manual(values=c("goldenrod","steelblue"))+theme_bw()
 
 ```
 :::
@@ -664,7 +663,261 @@ on a given dose of a drug
 - We want to make inference about $\theta$ given the data y, what is the posterior distribution $P(\theta \mid y)$?
 
 
+::: {.important data-latex=""}
+**Normal-normal model**
 
+**1. The normal model (likelihood) of one data point**
+
+- Consider a single observation $y$ from a normal distribution parameterized by a mean $\theta$ and variance $\sigma^2$, we assume that $\sigma^2$ is known.
+
+- The normal likelihood for $y$ given $\theta$ is
+\[ P(y\mid \theta) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y-\theta)^2}{2\sigma^2}}, y \in (-\infty, \infty)\]
+
+- The $E(y) = \theta$ and $V(y) = \sigma^2$ and $SD(y) = \sigma$.
+
+- Given $y \mid \theta \sim N(\theta,\sigma^2 )$, $z = \frac{x-\theta}{\sigma} \sim N(0,1)$. Thus, if we rescale $y$ by $\sigma$, we have
+
+    - 95%CI of y: $\theta \pm 1.96 \times \sigma$
+
+
+**2. Prior**
+
+We can often use a normal prior to represent $\theta \sim N(\mu_0, V_0)$
+
+- $\mu_0$ is the prior mean
+    
+- $V_0$ is the prior variance, which expresses the uncertainty around the mean $\mu_0$
+    
+- $\tau_0 = \frac{1}{V_0}$ is called precision, it can also be used to express the uncertainty around the mean, e.g. $\theta \sim N(\mu_0, \tau_0)$
+    
+- High precision = low variance, in other words, the distribution of the normal random variable $\theta$ is closely centered around its mean.
+
+
+**3. Posterior**
+
+ - With a normal prior and a normal likelihood of the data given parameter $\theta$, (here we use precision to express the normal distributions)
+ 
+\[ \theta \sim N(\mu_0,\tau_0 ) \text{ and } y \mid \theta \sim N(\theta,\tau_y )\]
+
+- where $\tau_y = \frac{1}{\sigma^2}$ is the precision of the observed data
+
+- It can be proven mathematically using the Bayes' rule that the posterior distribution given a normal prior and normal likelihood is also normal,
+
+\[ \theta \mid y \sim  N(\mu_1, \tau_1)\]
+
+- The posterior mean $\mu_1$ is
+
+\[ \frac{\tau_0 \times \mu_0 + \tau_y \times y}{\tau_0+ \tau_y} \]
+
+- The posterior precision is
+
+\[ \tau_1 = \tau_0 + \tau_y\]
+
+- Again, **the prior and posterior are both normal distributions!**
+
+:::
+
+**Posterior mean as a weighted average of the prior mean and data-based estimate**
+
+
+- Using the precision parameters
+
+\[ \tau_y = \frac{1}{\sigma^2_y} \text{ and } \tau_0 = \frac{1}{V_0}\]
+
+- The posterior distribution of $\theta$ is then
+
+\[\theta \mid y \sim N(\mu_1, \tau_1)\]
+
+- where the mean and precision are
+
+$$\begin{align}
+& \mu_1 = \Big(\frac{\tau_0}{\tau_0 + \tau_y}\Big) \times \mu_0 + \Big(\frac{\tau_y}{\tau_0 + \tau_y}\Big) \times y \\
+& \tau_1 = \tau_0 + \tau_y
+\end{align}$$
+
+- The posterior mean is a weighted sum of the prior mean and the observed value.
+- The weights are the relative precisions of the prior and the likelihood
+\[\mu_1 = w_0 \times \mu_0 + w_y \times y\]
+\[w_0 = \frac{\tau_0}{\tau_0 + \tau_y}\] 
+and
+
+\[w_y = 1-w_0 = \frac{\tau_y}{\tau_0 + \tau_y}\] 
+
+
+
+**Data overwhelming the prior and vice versa**
+
+- With relatively low prior precision (imprecise prior and substantial data), i.e., $\tau_0 \ll \tau_y$ and $0 \approx w_0 \ll w_y \approx 1$,
+
+\[ \mu_1 = w_0 \times \mu_0 + w_y \times y \approx y\]
+
+- With relative little data and aprior that is not too diffuse, i.e., $\tau_y \ll \tau_0$ and $0 \approx w_y \ll w_0 \approx 1$,
+
+\[ \mu_1 = w_0 \times \mu_0 + w_y \times y \approx \mu_0\]
+
+- In most cases, the posterior mean is a compromise between what we believed before and what we observed in the data.
+
+
+**Normal model with multiple observations**
+
+ - Consider a set of $n$ observations $y = (y_1, \ldots, y_n)$ sample from a $N(\theta, \sigma^2)$, where $y_1,\ldots, y_n$ are identically, independently distributed and $y_i \sim N(\theta, \sigma^2)$, $i = 1, \ldots, n$. 
+ 
+ - The normal likelihood of the joint distribution $y = (y_1, \ldots, y_n)$ is
+ 
+$$\begin{align}
+P((y_1, \ldots, y_n \mid \theta) &= \prod_{i=1}^n P(y_i \mid \theta) \\
+& = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y_i-\theta)^2}{2\sigma^2}}, y \in (-\infty, \infty)
+\end{align}$$
+
+- Given prior $\theta \sim N(\mu_0, \tau_0)$, the posterior of $\theta \mid y$ is
+
+\[P(\theta \mid y_1, \ldots, y_n) = N(\mu_n, \tau_n)\]
+
+- where the posterior mean $\mu_n$ is
+
+\[\mu_n = \frac{\tau_0 \times \mu_0 + n\tau_y \times \bar{y}}{\tau_0+ n\tau_y} = \Big( \frac{\tau_0}{\tau_0+ n\tau_y} \Big) \times \mu_0 + \Big( \frac{n\tau_y}{\tau_0+ n\tau_y} \Big) \times \bar{y}\]
+
+- and the posterior precision is
+
+\[ \tau_n = \tau_0 + n\tau_y\]
+
+- $\bar{y} = \frac{\sum_{i=1}^2y_i}{n}$ is the sample mean and $\tau_y = \frac{1}{\sigma^2}$
+
+- Again, the posterior mean is a weighted sum between prior and data. As sample size $n \rightarrow \infty$, $\Big( \frac{\tau_0}{\tau_0+ n\tau_y} \Big) \rightarrow 0$ and $\Big( \frac{n\tau_y}{\tau_0+ n\tau_y} \Big) \rightarrow 1$, **data will overwhelm the prior and dominate the posterior distribution**.  
+
+
+
+**The use of normal-normal model in clinical applications**
+
+- Consider estimating a parameter $\theta$, e.g. mean, log-hazard ratio, log-odds-ratio, log-relative-risk
+
+- Suppose we have an estimate of $\theta$; We will call it $y$ and let $\hat{\sigma}^2_y$ be the estimated variance
+
+- This estimate $y$ can be viewed as a single data observation of $\theta$! 
+
+- In large samples, it is approximately true that $y \sim N(\theta, \sigma^2_y)$, where $\theta$ is the true value and $\sigma^2_y$ is the true variance (sample size dependent) and the 95%CI of $y$ is $\theta \pm 1.96 \times \sigma$.
+
+-  We can construct a normal likelihood of data for the parameter $\theta$ as 
+\[y \mid N(\theta, \hat{\sigma}^2_y)\]
+
+
+::: {.workedexample data-latex=""}
+
+**Treatment effect estimate on the mean**
+
+- For this example, we will simulate data for a small study of n=100 subjects and randomized 50% to treat=0 and 50% to treat=1 (mimicking an RCT). We will then generate the outcome Y from a normal distribution depending on the treatment indicator.
+
+- Suppose we have the following table of results from a linear regression estimating treatment effect $\theta$ on the outcome
+
+```{r}
+n <- 100
+set.seed(1234)
+treat <- 1*(runif(n, min = 0, max = 1)<0.5)
+y <- 5*treat+rnorm(n, mean = 0, sd =10)
+fit<-lm(y~treat)
+summary(fit)
+round(confint.default(fit, 'treat', level=0.95),3) # based on asymptotic normality
+```
+
+- We are interested in using this published results to make Bayesian inference on $\theta$
+
+- Our observed data (estimate) of $\theta$, denoted as $y$ is 4.08 with standard error 1.918. Here, $y$ plays the role of data! We call $y$ the observed datum.
+
+- Relying on the large sample approximation, we assume that the estimate y arose from a normal distribution with true mean $\theta$, **We treat the observed standard error $\hat{\sigma}_y = 1.918$ as the true standard deviation of $y$**
+
+    - Recall, the standard deviation of the sampling distribution of a parameter estimate is called its standard error
+
+- This gives us the likelihood 
+\[y \mid \theta \sim N(\theta, 1.918^2)\]
+
+- The width of the 95% CI is approximately equal to $2 \times 1.96 \times \sigma_y$
+
+- Suppose we are not provided with $\sigma_y$ from the table of results, but know the 95% CI of y is (1.568,0.064), we can calculate $\sigma_y$ with 
+
+\[\sigma_y = \frac{7.84- 0.321}{2\times 1.96}=1.918\]
+
+- The normal likelihood is this example is $y \sim N(4.08, 1.918^2)$, if we assume a prior $\theta \sim N(0, 2 \times 1.918^2)$, we have a posterior
+
+\begin{align}
+& \theta \mid y \sim N(\mu_1, \tau_1) \\
+\mu_1  &= \frac{ \frac{1}{prior.sd^2} }{\frac{1}{prior.sd^2} + \frac{1}{se.obs^2} } \times prior.mean + \frac{\frac{1}{se.obs^2}}{\frac{1}{prior.sd^2} + \frac{1}{se.obs^2}} \times y.obs \\
+ & = \frac{ \frac{1}{2 \times 1.918^2} }{\frac{1}{2 \times 1.918^2} + \frac{1}{1.918^2} } \times 0 + \frac{\frac{1}{1.918^2}}{\frac{1}{2 \times 1.918^2} + \frac{1}{1.918^2}} \times 4.08 = 2.72 \\
+ 
+ \tau_1 & = \tau_0 + \tau_y \\
+        & = \frac{1}{prior.sd^2} + \frac{1}{se.obs^2} \\
+        & = \frac{1}{2 \times 1.918^2} + \frac{1}{1.918^2} = 0.408
+\end{align}
+
+```{r}
+d <- tibble(theta = seq(from = -10, to = 15, length.out = 200),
+         y.obs=4.08,
+         se.obs=1.918,
+         prior.mean=0,
+         prior.sd=sqrt(2)*1.918) %>% 
+  mutate(priorDensity = dnorm(theta, prior.mean, prior.sd)) %>%
+  mutate(likelihood.0 = dnorm(theta, y.obs, se.obs)) %>%
+  mutate(w = (1/se.obs^2)/(1/se.obs^2 + 1/prior.sd^2)) %>%
+  mutate(post.prec = 1/se.obs^2 + 1/prior.sd^2) %>%
+  mutate(posteriorDensity = dnorm(theta, w*y.obs+(1-w)*prior.mean, sqrt(1/post.prec))) %>%
+  mutate(likelihood = likelihood.0/sum(diff(theta)*likelihood.0[-1])) %>%
+  pivot_longer(cols=c(priorDensity,likelihood,posteriorDensity),names_to="Function",values_to="p")
+  
+d$Function <- factor(d$Function, 
+                     levels=c("priorDensity","likelihood","posteriorDensity"),
+                     labels=c("Prior","Likelihood","Posterior"))
+
+p<-ggplot(d, aes(theta, p,colour=Function))+
+  geom_line(size=1)+
+  xlab(expression(theta))+
+  ylab(expression(p(theta)))+
+  theme(legend.position = "bottom")+
+  scale_colour_manual(values=c("goldenrod","steelblue","black")) +theme_bw()
+
+p
+```
+
+
+:::
+
+
+
+::: {.workedexample data-latex=""}
+
+**Hazard Ratio on time-to-event from COX proportional hazard model**
+
+- Effect of a Resuscitation Strategy Targeting Peripheral Perfusion Status vs Serum Lactate Levels on 28-Day Mortality Among Patients With Septic Shock
+The ANDROMEDA-SHOCK Randomized Clinical Trial [@hernandez2019effect]
+
+- Open-access link: https://jamanetwork.com/journals/jama/fullarticle/2724361
+
+- We are interested to make inference on the hazard ratio of peripheral perfusion versus Lactate level on 28-Day mortality among patients with septic shock.
+
+- Let $\theta$ be the true value of this HR, we obtain a point estimate of $\theta$ and it's 95%CI from Table 2 of [@hernandez2019effect].
+
+```{r echo=FALSE, fig.cap="HR estimates of the effectiveness of peripheral perfusion on primary outcome - Death within 28 days", fig.align='center'}
+knitr::include_graphics("images/ANDROMEDA-SHOCK_table2.png")
+```
+
+- The estimated adjusted $\theta$ (HR) on 28-day mortality, 0.75 (0.55 to 1.02), is called the **observed datum** (viewed as a single data observation on $\theta$, denoted as $y$)  
+
+- It's known that **log of the parameter estimate, such as HR, RR and OR, follow a normal distribution around its true log value**. Thus, We need to use the reported output information in order to specify the likelihood
+for the log of the parameter, y.
+
+- Let $y$ denote this data point, we have $y \sim N(log(\theta), \sigma_y^2)$, where $\theta$ is log(HR) and $sigma_y$ is the standard error of the log(HR)
+
+- In order to get $\sigma_y^2$ from the result table, we will use the reported 95% CI of the **log of HR**!
+
+- The limits of the CI for the log value are obtained by taking the logs of the reported CI, i.e., 95% CI on the log(HR) in this example is [log(0.55)=-0.598, log(1.02)=0.02].
+
+- Take the width of the 95% CI and divided by $2\times 1.96$, we have
+
+\[\hat{\sigma}_y = \frac{log(1.02) - log(0.55)}{2\times 1.96} = 0.158\]
+
+- We use $\hat{\sigma}_y$ to approximate $\sigma_y$, therefore, the data likelihood $y \mid \theta \sim (\theta,0.158^2)$ where we have observed $y=log(0.75)=-0.287$
+
+
+
+:::
 
 
 
