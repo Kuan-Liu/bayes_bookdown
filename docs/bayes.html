@@ -239,8 +239,10 @@ div.csl-indent {
 <li class="chapter" data-level="3.2.3" data-path="bayes.html"><a href="bayes.html#the-normal-normal-model"><i class="fa fa-check"></i><b>3.2.3</b> The Normal-normal model</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="bayes.html"><a href="bayes.html#summary-of-conjugate-priors-models"><i class="fa fa-check"></i><b>3.3</b> Summary of Conjugate priors &amp; models</a></li>
-<li class="chapter" data-level="3.4" data-path="bayes.html"><a href="bayes.html#frequentist-vs-bayesian"><i class="fa fa-check"></i><b>3.4</b> Frequentist vs Bayesian</a>
+<li class="chapter" data-level="3.4" data-path="bayes.html"><a href="bayes.html#why-bayesian-statistical-estimation-revisit"><i class="fa fa-check"></i><b>3.4</b> Why Bayesian: Statistical Estimation Revisit</a>
 <ul>
+<li class="chapter" data-level="3.4.1" data-path="bayes.html"><a href="bayes.html#classic-frequentist-inference"><i class="fa fa-check"></i><b>3.4.1</b> Classic Frequentist Inference</a></li>
+<li class="chapter" data-level="3.4.2" data-path="bayes.html"><a href="bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>3.4.2</b> Bayesian Inference</a></li>
 <li class="chapter" data-level="" data-path="bayes.html"><a href="bayes.html#r-session-information-2"><i class="fa fa-check"></i>R Session information</a></li>
 </ul></li>
 </ul></li>
@@ -1150,8 +1152,313 @@ for on the log scale.</p></li>
 <li><p>They are useful teaching tools, soon we will see how we can extend beyond these simple models</p></li>
 </ul>
 </div>
-<div id="frequentist-vs-bayesian" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Frequentist vs Bayesian</h2>
+<div id="why-bayesian-statistical-estimation-revisit" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Why Bayesian: Statistical Estimation Revisit</h2>
+<div id="classic-frequentist-inference" class="section level3" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Classic Frequentist Inference</h3>
+<ul>
+<li>Many common intuitive data-based estimators are maximum likelihood estimators
+<ul>
+<li>sample mean, <span class="math inline">\(\bar{x}\)</span></li>
+<li>sample proportion, <span class="math inline">\(\hat{p}\)</span></li>
+<li>rate of an event, <span class="math inline">\(\hat{\lambda} = \frac{\text{Number Events}}{\text{Follow-up Time}}\)</span></li>
+<li>least square estimators from linear regression model</li>
+<li>OR &amp; RR</li>
+<li>HR, cox regression uses partial-likelihood approach</li>
+</ul></li>
+<li>Likelihood-based inference does two things
+<ul>
+<li>Finds the MLE, the parameter value that is most likely, given the observed data.</li>
+<li>Finds how much curvature there is near this maximum. This leads to estimates of standard errors and CIs.</li>
+</ul></li>
+<li>The 95% CI refers to the frequency with which hypothetical future random intervals from repeated sampling constructed in the same way will include the true value
+<ul>
+<li>A particular interval will either include the value or not.</li>
+<li><strong>It does not mean that the interval contains the true value with 0.95 probability</strong>, i.e. we do not have <span class="math inline">\(P(\theta \mid data)\)</span></li>
+</ul></li>
+</ul>
+<p><strong>Hypothesis Testing in a nutshell</strong></p>
+<p>Hypothesis testing is a procedure for determining whether a hypothesis is valid or not, based on sample evidence</p>
+<ol style="list-style-type: decimal">
+<li><p>Set up two hypotheses: Null (<span class="math inline">\(H_0\)</span>) &amp; Αlternative (<span class="math inline">\(H_A\)</span>)</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>, Specifies population parameter of interest &amp; proposes baseline value for it. Null presumed true unless disproved</li>
+<li><span class="math inline">\(H_A\)</span>, Contains value of parameter different from H0; typically what you want to show</li>
+</ul></li>
+<li><p>Specify appropriate model (find test statistic)</p>
+<ul>
+<li>Z test, T test, chi-square test etc</li>
+<li>under the assumption that the model is correct</li>
+</ul></li>
+<li><p>Mechanics (calculate p-value)</p>
+<ul>
+<li>We want to compare data to what we would expect to see if <span class="math inline">\(H_0\)</span> was true and ask how likely it is to get these data, if <span class="math inline">\(H_0\)</span> was true</li>
+<li>P-value is used to quantify evidence against <span class="math inline">\(H_0\)</span>; The probability of getting equally or more extreme data (i.e. test statistic) under repeated sampling if <span class="math inline">\(H_0\)</span> is true</li>
+</ul>
+<p><span class="math display">\[ P_{-value} = P\Bigg( \begin{matrix}
+\text{observed or more}  \\
+\text{extreme test statistics} 
+\end{matrix} \mid H_0 \ is \ true \Bigg) \]</span></p>
+<ul>
+<li>P-value tells how “surprising” are data you observed under <span class="math inline">\(H_0\)</span></li>
+</ul></li>
+<li><p>Arrive at conclusion: Reject <span class="math inline">\(H_0\)</span> or not</p></li>
+</ol>
+<ul>
+<li>Decisions about rejecting H0 or not are usually done by computing a p-value and comparing to <span class="math inline">\(\alpha\)</span>, significance level</li>
+<li>significance level, an arbitrary threshold for P-value to define “rare/extreme event.” If P-value falls below this level, we conclude results are statistically significance and we reject the null</li>
+</ul>
+<p><strong>Hypothesis Tests Errors</strong></p>
+<ul>
+<li>Type I error (<span class="math inline">\(\alpha\)</span>): <span class="math inline">\(H_0\)</span> is true, but we reject it <span class="math inline">\(\alpha = P(Reject \ H_0 | H_0 \ is \ true)\)</span>
+<ul>
+<li>We commonly control for Type I error - “innocent until proven guilty”</li>
+</ul></li>
+<li>Type II error (<span class="math inline">\(\beta\)</span>): <span class="math inline">\(H_0\)</span> is false, but we fail reject it <span class="math inline">\(\beta = P(Fail to Reject \ H_0 | H_0 \ is \ false)\)</span>
+<ul>
+<li>A test’s ability to detect a false null hypothesis is called the power of the test, <span class="math inline">\(1-\beta\)</span></li>
+</ul></li>
+<li>For any test, there is trade-off between <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> (e.g., for fixed n, decreasing<span class="math inline">\(\alpha\)</span> increases <span class="math inline">\(\beta\)</span>, vice-versa )</li>
+</ul>
+<div class="workedexample">
+<p><strong>Revisit Estimating a Proportion</strong></p>
+<p>Suppose you have observed 6 patients in a Phase I RCT on a given dose of drug,
+- 0 out of 6 patients have had an adverse event
+- decision to escalate to a higher dose if it’s unlikely that the current dosing results in a true proportion of adverse events above 20%</p>
+<p>Let <span class="math inline">\(\theta\)</span> be the true adverse event proportion, we want to test the following hypothesis
+- <span class="math inline">\(H_0: \theta = 0.2\)</span>
+- <span class="math inline">\(H_a: \theta \leq 0.2\)</span></p>
+<ul>
+<li>We implement an exact binomial test</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="bayes.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">n=</span><span class="dv">6</span>, <span class="at">p =</span> <span class="fl">0.2</span>,</span>
+<span id="cb26-2"><a href="bayes.html#cb26-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;less&quot;</span>),</span>
+<span id="cb26-3"><a href="bayes.html#cb26-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  0 and 6
+## number of successes = 0, number of trials = 6, p-value = 0.2621
+## alternative hypothesis: true probability of success is less than 0.2
+## 95 percent confidence interval:
+##  0.0000000 0.3930378
+## sample estimates:
+## probability of success 
+##                      0</code></pre>
+<ul>
+<li><p>P-value = P(0 or more extreme: X <span class="math inline">\(\leq 0\)</span> <span class="math inline">\(\theta = 0.2\)</span>) = P( 0 adverse event among 6 patients a binomial model with <span class="math inline">\(\theta = 0.2\)</span>) = <code>dbinom(x=0,size=6,prob=0.2)</code> = 0.262144.</p></li>
+<li><p>Using significance level/type I error at 5%, 0.262144 &gt; 0.05, thus, we fail to reject <span class="math inline">\(H_0\)</span>.</p></li>
+</ul>
+</div>
+<p><strong>More about p-value</strong> <span class="citation">(<a href="#ref-wasserstein2016asa" role="doc-biblioref">Wasserstein and Lazar 2016</a>)</span></p>
+<ul>
+<li><p>By its definition, <strong>P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone.</strong></p></li>
+<li><p><strong>Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold.</strong></p>
+<ul>
+<li>“A conclusion does not immediately become “true” on one side of the divide and “false” on the other.”</li>
+</ul></li>
+<li><p><strong>A p-value, or statistical significance, does not measure the size of an effect or the importance of a result.</strong></p></li>
+<li><p>“By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis.”</p>
+<ul>
+<li>“For example, a p-value near 0.05 taken by itself offers only weak evidence against the null hypothesis.”</li>
+<li>absence of evidence is not evidence of absence</li>
+</ul></li>
+<li><p>Inference is performed based on data that have not been observed, under an assumption that is almost certain not to be true</p>
+<ul>
+<li>Would you be willing to bet that the true probability a coin comes up heads is exactly P(head)=0.5, or that the exact true adverse rate is fixed at 0.2?</li>
+</ul></li>
+</ul>
+</div>
+<div id="bayesian-inference" class="section level3" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Bayesian Inference</h3>
+<ul>
+<li><p>In Bayesian statistics, inference is done using the posterior distribution</p></li>
+<li><p>Given a posterior distribution, we can calculate any summary of it we like</p>
+<ul>
+<li><span class="math inline">\(P(0.008 &lt; \theta &lt; 0.012)\)</span>, <span class="math inline">\(P( \theta &lt; 0.1)\)</span>, interval with 95% probability of containing <span class="math inline">\(\theta\)</span></li>
+<li>We can use quantities to summarize the posterior distribution (mean, median, sd, IQR)</li>
+<li>We can plot the density function and shade areas of interest</li>
+</ul></li>
+</ul>
+<p><strong>Posterior uncertainty</strong></p>
+<ul>
+<li>Posterior variance is used to characterize the posterior uncertainty
+<ul>
+<li>In most cases, it is smaller than the prior variance</li>
+<li>In some cases, for some models, the opposite is true, when prior is in direct conflict with the data</li>
+</ul></li>
+<li><strong>Credible intervals</strong> play the role of the confidence intervals
+<ul>
+<li>For the 95% credible interval <span class="math inline">\([\alpha, \beta]\)</span>, <span class="math inline">\(P(\alpha&lt; \theta &lt;\beta \mid y)\)</span> = 0.95</li>
+</ul></li>
+</ul>
+<p><strong>Hypothesis testing</strong></p>
+<ul>
+<li><p>For a continuous parameter <span class="math inline">\(\theta\)</span>, the hypothesis that <span class="math inline">\(\theta\)</span> is exactly some fix value (e.g., 1 for OR) is rarely reasonable and it’s more of interest to estimate a posterior distribution or a corresponding interval estimate of <span class="math inline">\(\theta\)</span></p>
+<ul>
+<li>The question ‘Dose <span class="math inline">\(\theta\)</span> equal 1’ can be rephrased as ‘what is the posterior distribution for <span class="math inline">\(\theta\)</span>’</li>
+</ul></li>
+</ul>
+<div class="important">
+<p><strong>Bayesian Factor for one-sided test</strong></p>
+<p>The <strong>Bayes Factor (BF)</strong> compares the posterior odds to the prior odds, and provides insight into just how much our updated belief about the parameter evolved upon observing sample data</p>
+<p>In a hypothesis test of two competing hypotheses, <span class="math inline">\(H_0\)</span> vs <span class="math inline">\(H_a\)</span>,</p>
+<p><span class="math display">\[\text{Bayes Factor} = \frac{\text{Posterior odds}}{\text{Prior odds}} = \frac{\frac{H_0 \mid y}{H_1 \mid y}}{\frac{P(H_0)}{P(H_a)}}\]</span></p>
+<p>Example: (Beta-binomial model) Data
+- Data: 0 out of 6 patients have had an adverse event
+- Prior: <span class="math inline">\(\theta \sim Beta(1,1)\)</span>
+- Posterior: <span class="math inline">\(\theta \mid y \sim Beta(1,7)\)</span></p>
+<p>Let <span class="math inline">\(\theta\)</span> be the true adverse event proportion, we are interested in testing the following hypothesis
+- <span class="math inline">\(H_0: \theta \geq 0.2\)</span>
+- <span class="math inline">\(H_a: \theta \leq 0.2\)</span></p>
+<p><span class="math display">\[BF = \frac{\frac{P(\theta \geq 0.2 \mid y)}{P(\theta \leq 0.2 \mid y)}}{\frac{P(\theta \geq 0.2)}{P(\theta \leq 0.2)}} = \frac{\frac{qbeta(0.2, 1, 7)}{1-qbeta(0.2, 1, 7)}}{\frac{qbeta(0.2, 1, 1)}{1- qbeta(0.2, 1, 1)}} = \frac{0.032}{0.25} = 0.1295647\]</span></p>
+<p>Bayes factor calibration table from <span class="citation">(<a href="#ref-spiegelhalter2003" role="doc-biblioref">Spiegelhalter, Abrams, and Myles 2003</a>)</span></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-21"></span>
+<img src="images/bayes_factor_spiegelhalter.JPG" alt="Calibration of Bayes factor (likelihood ratio) provided by Jeffreys from Spiegelhalter 2003 " width="436" />
+<p class="caption">
+Figure 3.5: Calibration of Bayes factor (likelihood ratio) provided by Jeffreys from Spiegelhalter 2003
+</p>
+</div>
+<ul>
+<li>Our BF estimate, 1/10 &lt; 0.1295647 &lt; 1/3.2, based on the calibration table, we would conclude substantial evidence against <span class="math inline">\(H_0: \theta \geq 0.2\)</span> and in favour of <span class="math inline">\(H_0: \theta \leq 0.2\)</span>.</li>
+</ul>
+</div>
+<p><strong>Posterior predictive distributions</strong></p>
+<ul>
+<li>Often we are interested in extending our (Bayesian) analysis using priors and data, and predicting outcomes in data observed in the future
+<ul>
+<li>e.g., predicting number of successes in a future trial , where <span class="math inline">\(n* = 25\)</span>, 25 new observations</li>
+</ul></li>
+<li>Essentially we want the probability density $P(y^* y), where with <span class="math inline">\(y^*\)</span> we denote the new data
+<ul>
+<li>This probability is not always possible to compute directly, it does not correspond to some known distribution</li>
+<li>We will see that these kinds of questions can be answered using Markov Chain Monte Carlo method and brms (coming up in a couple of weeks)</li>
+</ul></li>
+</ul>
+<div class="important">
+<p><strong>Posterior predictive distribution</strong></p>
+<p>Let <span class="math inline">\(y^*\)</span> denote a new data, the posterior predictive distribution for <span class="math inline">\(y^*\)</span> is</p>
+<p><span class="math display">\[P(y^* \mid y)  = \int P(y^* \mid \theta) P(\theta \mid y) \ d \theta\]</span></p>
+<ul>
+<li><p>The posterior predictive distribution as an average of conditional predictions over the posterior distribution of <span class="math inline">\(\theta\)</span></p></li>
+<li><p>We assume conditional independence of <span class="math inline">\(y^*\)</span> and <span class="math inline">\(y\)</span> given <span class="math inline">\(\theta\)</span></p></li>
+</ul>
+</div>
+<p>In the beta-binomial adverse event example, let <span class="math inline">\(y^*\)</span> denote the result of a new trial of 6 patients given posterior <span class="math inline">\(\theta \mid y \sim Beta(1,7)\)</span>,</p>
+<p><span class="math display">\[P(y^* \mid y)  = \int_0^1 {6 \choose y^*} \theta^{y^*} (1- \theta)^{6-y^*} P(\theta \mid y) \ d \theta, y^* \in \{0,1,2,3,4,5,6\}\]</span>
+<span class="math display">\[P(\theta \mid y) = \frac{\Gamma(8)}{\Gamma(1)\Gamma(7)} \theta^{0}(1-theta)^{6}\]</span></p>
+<div class="fold s">
+
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="bayes.html#cb28-1" aria-hidden="true" tabindex="-1"></a>likelihood<span class="ot">&lt;-</span><span class="fu">length</span>(<span class="dv">7</span>)</span>
+<span id="cb28-2"><a href="bayes.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>) {</span>
+<span id="cb28-3"><a href="bayes.html#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="bayes.html#cb28-4" aria-hidden="true" tabindex="-1"></a>integrand_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb28-5"><a href="bayes.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">choose</span>(<span class="dv">6</span>, i<span class="dv">-1</span>)<span class="sc">*</span>theta<span class="sc">^</span>(i<span class="dv">-1</span>)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span>(<span class="dv">6</span><span class="sc">-</span>i<span class="sc">+</span><span class="dv">1</span>))<span class="sc">*</span>((<span class="fu">gamma</span>(<span class="dv">8</span>)<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">1</span>)<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">7</span>))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span><span class="dv">6</span>)}</span>
+<span id="cb28-6"><a href="bayes.html#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="bayes.html#cb28-7" aria-hidden="true" tabindex="-1"></a>likelihood[i] <span class="ot">&lt;-</span> <span class="fu">integrate</span>(integrand_pred,<span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)<span class="sc">$</span>value   </span>
+<span id="cb28-8"><a href="bayes.html#cb28-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb28-9"><a href="bayes.html#cb28-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-10"><a href="bayes.html#cb28-10" aria-hidden="true" tabindex="-1"></a>posterior_pred<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">y_star=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">likelihood =</span> likelihood)</span>
+<span id="cb28-11"><a href="bayes.html#cb28-11" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(posterior_pred, <span class="at">caption =</span> <span class="st">&quot;Posterior predictive distribution for a new trial of 6 patients&quot;</span>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-22">Table 3.1: </span>Posterior predictive distribution for a new trial of 6 patients</caption>
+<thead>
+<tr class="header">
+<th align="right">y_star</th>
+<th align="right">likelihood</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="right">0.5384615</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">0.2692308</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">0.1223776</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">0.0489510</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">0.0163170</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="right">0.0040793</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">0.0005828</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="bayes.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(posterior_pred<span class="sc">$</span>likelihood)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div>
+
+
+<p><strong>Why Bayesian? Practical Reasons</strong></p>
+<ul>
+<li>Apart from making more sense to use then P-value, the modern Bayesian approach offers some practical advantages to data analysis
+<ul>
+<li>Prior information</li>
+<li>Direct probability statements</li>
+<li>Subjectivity acknowledged and formally represented</li>
+</ul></li>
+</ul>
+<p><strong>Prior information</strong></p>
+<ul>
+<li>Science rarely proceeds in the absence of any prior information or opinion</li>
+<li>Bayesian reasoning allows the formal incorporation of this opinion</li>
+<li>The classical approach introduces prior information and opinion in study planning
+and, informally, at the ” stage of results - high risk of inconsistency</li>
+<li>In Bayesian approach:
+<ul>
+<li>For small sample sizes, a prior will “rein in” imprecise data-based estimates</li>
+<li>For large sample sizes, most priors are overwhelmed by the likelihood (data)</li>
+</ul></li>
+</ul>
+<p><strong>Probability Statements</strong></p>
+<ul>
+<li><p>A result of a Bayesian analysis is a posterior distribution, <span class="math inline">\(P(\theta \mid data)\)</span>, for an
+unknown parameter (e.g. an odds ratio <span class="math inline">\(\theta\)</span>) given the data</p></li>
+<li><p>We can compute probabilities directly from the posterior distribution</p></li>
+</ul>
+<p><span class="math display">\[P(\theta &lt; 1 \mid data) = \int_0^1 P(\theta \mid data) d\theta\]</span></p>
+<ul>
+<li><p>this is the area under the posterior density <span class="math inline">\(P(\theta \mid data)\)</span> between the value of 0 and 1 for <span class="math inline">\(\theta\)</span></p></li>
+<li><p>this is what we prefer p-value to be!</p></li>
+<li><p>we can define <span class="math inline">\(P(\theta &lt; 0.9 )\)</span> as a clincically important effect, then we calculate the probability of <span class="math inline">\(P(\theta &lt; 0.9 \mid data )\)</span>. No need to choose a “significance” level, we can directly use this probably to make clinical decision!</p></li>
+<li><p>We can also ask which is more likely - an important effect (<span class="math inline">\(H_a\)</span>) or an unimportant effect (<span class="math inline">\(H_0\)</span>), e.g., <span class="math inline">\(P(\theta &lt; 0.9)\)</span> or <span class="math inline">\(P(0.95 &lt; \theta &lt; 1.05)\)</span></p></li>
+<li><p>We can compute probabilities for statements combining more than one parameter (e.g. regression parameters), e.g., <span class="math inline">\(P(\beta_1 &lt;0 \cap \beta_2 &lt;0)\)</span>, gives the probability that two slopes are both negative.</p>
+<ul>
+<li>Statements about compound events can facilitate direct group comparisons</li>
+</ul>
+<p><span class="math display">\[ E(Y_i \mid stage_i) = \beta_1 + \beta_2 \times I(stage_i=II) + \beta_3 \times I(stage_i=III) + \beta_4 \times I(stage_i=IV)\]</span></p>
+<ul>
+<li>The probability that mean of outcome under stage II is greater than mean under stage I: <span class="math inline">\(P(\beta_2 &gt; 0 )\)</span></li>
+<li>The probability that mean of outcome under stage IV is greater than mean under stage II: <span class="math inline">\(P(\beta_4 &gt; \beta_2 )\)</span></li>
+</ul></li>
+</ul>
+<p><strong>Summary</strong></p>
+<p>Practical advantages of Bayesian approach
+- Direct probability statements
+- Incorporation of external evidence
+- Complex models can be built step-by-step
+- Makes you understand the analysis better</p>
+<p>Disadvantages including
+- Learning how to code
+- Need to know more about distributions
+- Require good probability and statistical model knowledge
+- More time consuming (computationally more expensive with complex model and multiple parameters)</p>
+</div>
 <div id="r-session-information-2" class="section level3 unnumbered">
 <h3>R Session information</h3>
 <pre><code>## R version 4.0.5 (2021-03-31)
@@ -1181,6 +1488,12 @@ for on the log scale.</p></li>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-hernandez2019effect" class="csl-entry">
 Hernández, Glenn, Gustavo A Ospina-Tascón, Lucas Petri Damiani, Elisa Estenssoro, Arnaldo Dubin, Javier Hurtado, Gilberto Friedman, et al. 2019. <span>“Effect of a Resuscitation Strategy Targeting Peripheral Perfusion Status Vs Serum Lactate Levels on 28-Day Mortality Among Patients with Septic Shock: The ANDROMEDA-SHOCK Randomized Clinical Trial.”</span> <em>Jama</em> 321 (7): 654–64.
+</div>
+<div id="ref-spiegelhalter2003" class="csl-entry">
+Spiegelhalter, David J., Keith R. Abrams, and Jonathan P. Myles. 2003. <em>Bayesian Approaches to Clinical Trials and Health-Care Evaluation</em>. John Wiley &amp; Sons, Ltd. <a href="https://doi.org/10.1002/0470092602">https://doi.org/10.1002/0470092602</a>.
+</div>
+<div id="ref-wasserstein2016asa" class="csl-entry">
+Wasserstein, Ronald L, and Nicole A Lazar. 2016. <span>“The ASA Statement on p-Values: Context, Process, and Purpose.”</span> <em>The American Statistician</em>. Taylor &amp; Francis.
 </div>
 </div>
             </section>

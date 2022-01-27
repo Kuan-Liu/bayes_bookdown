@@ -1030,9 +1030,267 @@ res <-exp( qnorm(c(0.5, 0.025, 0.975), mu1, sigma1))
 
 - They are useful teaching tools, soon we will see how we can extend beyond these simple models
 
-## Frequentist vs Bayesian
+## Why Bayesian: Statistical Estimation Revisit
+
+### Classic Frequentist Inference
+
+- Many common intuitive data-based estimators are maximum likelihood estimators
+    - sample mean, $\bar{x}$
+    - sample proportion, $\hat{p}$
+    - rate of an event, $\hat{\lambda} = \frac{\text{Number Events}}{\text{Follow-up Time}}$
+    - least square estimators from linear regression model
+    - OR & RR
+    - HR, cox regression uses partial-likelihood approach
 
 
+- Likelihood-based inference does two things
+    - Finds the MLE, the parameter value that is most likely, given the observed data.
+    - Finds how much curvature there is near this maximum. This leads to estimates of standard errors and CIs.
+
+- The 95% CI refers to the frequency with which hypothetical future random intervals from repeated sampling constructed in the same way will include the true value
+    - A particular interval will either include the value or not.
+    - **It does not mean that the interval contains the true value with 0.95 probability**, i.e. we do not have $P(\theta \mid data)$
+    
+    
+**Hypothesis Testing in a nutshell**    
+
+Hypothesis testing is a procedure for determining whether a hypothesis is valid or not, based on sample evidence 
+
+1. Set up two hypotheses: Null ($H_0$) & Αlternative ($H_A$)
+    - $H_0$, Specifies population parameter of interest & proposes baseline value for it. Null presumed true unless disproved
+    - $H_A$, Contains value of parameter different from H0; typically what you want to show
+    
+2. Specify appropriate model (find test statistic)
+    - Z test, T test, chi-square test etc
+    - under the assumption that the model is correct
+    
+3. Mechanics (calculate p-value)
+    - We want to compare data to what we would expect to see if $H_0$ was true and ask how likely it is to get these data, if $H_0$ was true
+    - P-value is used to quantify evidence against $H_0$; The probability of getting equally or more extreme data (i.e. test statistic) under repeated sampling if $H_0$ is true
+    
+    \[ P_{-value} = P\Bigg( \begin{matrix}
+\text{observed or more}  \\
+\text{extreme test statistics} 
+\end{matrix} \mid H_0 \ is \ true \Bigg) \]
+
+    - P-value tells how “surprising” are data you observed under $H_0$
+
+4. Arrive at conclusion: Reject $H_0$ or not
+  - Decisions about rejecting H0 or not are usually done by computing a p-value and comparing to $\alpha$, significance level
+  - significance level, an arbitrary threshold for P-value to define "rare/extreme event". If P-value falls below this level, we conclude results are statistically significance and we reject the null
+
+
+**Hypothesis Tests Errors**
+
+- Type I error ($\alpha$): $H_0$ is true, but we reject it $\alpha = P(Reject \ H_0 | H_0 \ is \ true)$
+    - We commonly control for Type I error - "innocent until proven guilty"
+
+- Type II error ($\beta$): $H_0$ is false, but we fail reject it $\beta = P(Fail to Reject \ H_0 | H_0 \ is \ false)$
+    - A test’s ability to detect a false null hypothesis is called the power of the test, $1-\beta$
+
+- For any test, there is trade-off between $\alpha$ and $\beta$ (e.g., for fixed n, decreasing$\alpha$ increases $\beta$, vice-versa )
+
+
+::: {.workedexample data-latex=""}
+**Revisit Estimating a Proportion**
+
+Suppose you have observed 6 patients in a Phase I RCT on a given dose of drug,
+- 0 out of 6 patients have had an adverse event
+- decision to escalate to a higher dose if it's unlikely that the current dosing results in a true proportion of adverse events above 20% 
+
+Let $\theta$ be the true adverse event proportion, we want to test the following hypothesis
+    - $H_0: \theta = 0.2$
+    - $H_a: \theta \leq 0.2$
+
+- We implement an exact binomial test
+
+```{r }
+binom.test(x=0, n=6, p = 0.2,
+           alternative = c("less"),
+           conf.level = 0.95)
+```
+
+- P-value = P(0 or more extreme: X $\leq 0$ \mid $\theta = 0.2$) = P( 0 adverse event among 6 patients \mid a binomial model with $\theta = 0.2$) = `dbinom(x=0,size=6,prob=0.2)` = 0.262144.
+
+- Using significance level/type I error at 5%, 0.262144 > 0.05, thus, we fail to reject $H_0$.
+
+:::
+
+
+**More about p-value** [@wasserstein2016asa]
+
+- By its definition, **P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone.**
+
+- **Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold.**
+    - "A conclusion does not immediately become “true” on one side of the divide and “false” on the other."
+
+- **A p-value, or statistical significance, does not measure the size of an effect or the importance of a result.**
+
+- "By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis."
+    - "For example, a p-value near 0.05 taken by itself offers only weak evidence against the null hypothesis."
+    - absence of evidence is not evidence of absence
+    
+- Inference is performed based on data that have not been observed, under an assumption that is almost certain not to be true
+    - Would you be willing to bet that the true probability a coin comes up heads is exactly P(head)=0.5, or that the exact true adverse rate is fixed at 0.2?
+
+
+### Bayesian Inference
+
+- In Bayesian statistics, inference is done using the posterior distribution
+
+- Given a posterior distribution, we can calculate any summary of it we like
+    - $P(0.008 < \theta < 0.012)$,  $P( \theta < 0.1)$, interval with 95% probability of containing $\theta$
+    - We can use quantities to summarize the posterior distribution (mean, median, sd, IQR)
+    - We can plot the density function and shade areas of interest
+    
+**Posterior uncertainty**
+
+- Posterior variance is used to characterize the posterior uncertainty
+    - In most cases, it is smaller than the prior variance
+    - In some cases, for some models, the opposite is true, when prior is in direct conflict with the data
+
+- **Credible intervals** play the role of the confidence intervals
+    - For the 95% credible interval $[\alpha, \beta]$, $P(\alpha< \theta <\beta \mid y)$ = 0.95
+
+
+**Hypothesis testing**
+
+- For a continuous parameter $\theta$, the hypothesis that $\theta$ is exactly some fix value (e.g., 1 for OR) is rarely reasonable and it's more of interest to estimate a posterior distribution or a corresponding interval estimate of $\theta$
+
+    - The question 'Dose $\theta$ equal 1' can be rephrased as 'what is the posterior distribution for $\theta$'
+    
+    
+::: {.important data-latex=""}
+**Bayesian Factor for one-sided test**
+
+The **Bayes Factor (BF)** compares the posterior odds to the prior odds, and provides insight into just how much our updated belief about the parameter evolved upon observing sample data
+
+In a hypothesis test of two competing hypotheses, $H_0$ vs $H_a$, 
+
+\[\text{Bayes Factor} = \frac{\text{Posterior odds}}{\text{Prior odds}} = \frac{\frac{H_0 \mid y}{H_1 \mid y}}{\frac{P(H_0)}{P(H_a)}}\]
+
+Example: (Beta-binomial model) Data
+- Data: 0 out of 6 patients have had an adverse event
+- Prior: $\theta \sim Beta(1,1)$
+- Posterior: $\theta \mid y \sim Beta(1,7)$
+
+Let $\theta$ be the true adverse event proportion, we are interested in testing the following hypothesis
+    - $H_0: \theta \geq 0.2$
+    - $H_a: \theta \leq 0.2$
+
+\[BF = \frac{\frac{P(\theta \geq 0.2 \mid y)}{P(\theta \leq 0.2 \mid y)}}{\frac{P(\theta \geq 0.2)}{P(\theta \leq 0.2)}} = \frac{\frac{qbeta(0.2, 1, 7)}{1-qbeta(0.2, 1, 7)}}{\frac{qbeta(0.2, 1, 1)}{1- qbeta(0.2, 1, 1)}} = \frac{0.032}{0.25} = 0.1295647\]
+
+
+Bayes factor calibration table from [@spiegelhalter2003]
+
+```{r echo=FALSE, fig.cap="Calibration of Bayes factor (likelihood ratio) provided by Jeffreys from Spiegelhalter 2003 ", fig.align='center'}
+knitr::include_graphics("images/bayes_factor_spiegelhalter.jpg")
+```
+
+- Our BF estimate, 1/10 < 0.1295647 < 1/3.2, based on the calibration table, we would conclude substantial evidence against $H_0: \theta \geq 0.2$ and in favour of $H_0: \theta \leq 0.2$.
+
+:::
+
+**Posterior predictive distributions**
+
+- Often we are interested in extending our (Bayesian) analysis using priors and data, and predicting outcomes in data observed in the future
+    - e.g., predicting number of successes in a future trial , where $n* = 25$, 25 new observations
+    
+- Essentially we want the probability density $P(y^* \mid y), where with $y^*$ we denote the new data
+    - This probability is not always possible to compute directly, it does not correspond to some known distribution
+    - We will see that these kinds of questions can be answered using Markov Chain Monte Carlo method and brms (coming up in a couple of weeks)
+
+::: {.important data-latex=""}
+**Posterior predictive distribution**
+
+Let $y^*$ denote a new data, the posterior predictive distribution for $y^*$ is
+
+\[P(y^* \mid y)  = \int P(y^* \mid \theta) P(\theta \mid y) \ d \theta\]
+
+- The posterior predictive distribution as an average of conditional predictions over the posterior distribution of $\theta$
+
+- We assume conditional independence of $y^*$ and $y$ given $\theta$
+
+:::
+
+In the beta-binomial adverse event example, let $y^*$ denote the result of a new trial of 6 patients given posterior $\theta \mid y \sim Beta(1,7)$,
+
+\[P(y^* \mid y)  = \int_0^1 {6 \choose y^*} \theta^{y^*} (1- \theta)^{6-y^*} P(\theta \mid y) \ d \theta, y^* \in \{0,1,2,3,4,5,6\}\]
+\[P(\theta \mid y) = \frac{\Gamma(8)}{\Gamma(1)\Gamma(7)} \theta^{0}(1-theta)^{6}\]
+
+<div class="fold s">
+```{r}
+likelihood<-length(7)
+for (i in 1:7) {
+
+integrand_pred <- function(theta) {
+  (choose(6, i-1)*theta^(i-1)*(1-theta)^(6-i+1))*((gamma(8)/gamma(1)/gamma(7))*(1-theta)^6)}
+
+likelihood[i] <- integrate(integrand_pred,lower = 0, upper = 1)$value   
+    }
+  
+posterior_pred<-data.frame(y_star=0:6, likelihood = likelihood)
+knitr::kable(posterior_pred, caption = "Posterior predictive distribution for a new trial of 6 patients")
+sum(posterior_pred$likelihood)
+```
+<div>
+
+
+**Why Bayesian? Practical Reasons**
+
+- Apart from making more sense to use then P-value, the modern Bayesian approach offers some practical advantages to data analysis
+    - Prior information
+    - Direct probability statements
+    - Subjectivity acknowledged and formally represented
+    
+**Prior information**
+
+- Science rarely proceeds in the absence of any prior information or opinion
+- Bayesian reasoning allows the formal incorporation of this opinion
+- The classical approach introduces prior information and opinion in study planning
+and, informally, at the \discussion" stage of results - high risk of inconsistency
+- In Bayesian approach:
+    - For small sample sizes, a prior will "rein in" imprecise data-based estimates
+    - For large sample sizes, most priors are overwhelmed by the likelihood (data)
+
+**Probability Statements**
+
+- A result of a Bayesian analysis is a posterior distribution, $P(\theta \mid data)$, for an
+unknown parameter (e.g. an odds ratio $\theta$) given the data
+
+- We can compute probabilities directly from the posterior distribution
+
+\[P(\theta < 1 \mid data) = \int_0^1 P(\theta \mid data) d\theta\]
+
+- this is the area under the posterior density $P(\theta \mid data)$ between the value of 0 and 1 for $\theta$
+- this is what we prefer p-value to be!
+- we can define $P(\theta  < 0.9 )$ as a clincically important effect, then we calculate the probability of $P(\theta  < 0.9 \mid data )$. No need to choose a "significance" level, we can directly use this probably to make clinical decision!
+    
+- We can also ask which is more likely - an important effect ($H_a$) or an unimportant effect ($H_0$), e.g., $P(\theta < 0.9)$ or $P(0.95 < \theta < 1.05)$
+
+- We can compute probabilities for statements combining more than one parameter (e.g. regression parameters), e.g., $P(\beta_1 <0 \cap \beta_2 <0)$, gives the probability that two slopes are both negative.
+
+    - Statements about compound events can facilitate direct group comparisons 
+    
+  \[ E(Y_i \mid stage_i) = \beta_1 + \beta_2 \times I(stage_i=II) + \beta_3 \times I(stage_i=III) + \beta_4 \times I(stage_i=IV)\]
+
+    - The probability that mean of outcome under stage II is greater than mean under stage I: $P(\beta_2 > 0 )$
+    - The probability that mean of outcome under stage IV is greater than mean under stage II: $P(\beta_4 > \beta_2 )$
+
+
+**Summary**
+
+Practical advantages of Bayesian approach
+- Direct probability statements
+- Incorporation of external evidence
+- Complex models can be built step-by-step
+- Makes you understand the analysis better
+
+Disadvantages including
+- Learning how to code
+- Need to know more about distributions
+- Require good probability and statistical model knowledge
+- More time consuming (computationally more expensive with complex model and multiple parameters)
 
 
 ### R Session information {-}

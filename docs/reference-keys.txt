@@ -66,3 +66,8 @@ fig:unnamed-chunk-15
 fig:unnamed-chunk-16
 summary-of-conjugate-priors-models
 frequentist-vs-bayesian
+why-bayesian-statistical-estimation-revisit
+fig:unnamed-chunk-21
+classic-frequentist-inference
+bayesian-inference
+tab:unnamed-chunk-22
