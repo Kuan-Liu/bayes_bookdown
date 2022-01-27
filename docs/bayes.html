@@ -1029,7 +1029,7 @@ P((y_1, \ldots, y_n \mid \theta) &amp;= \prod_{i=1}^n P(y_i \mid \theta) \\
 The ANDROMEDA-SHOCK Randomized Clinical Trial <span class="citation">(<a href="#ref-hernandez2019effect" role="doc-biblioref">Hernández et al. 2019</a>)</span></p></li>
 <li><p>Open-access link: <a href="https://jamanetwork.com/journals/jama/fullarticle/2724361" class="uri">https://jamanetwork.com/journals/jama/fullarticle/2724361</a></p></li>
 <li><p>We are interested to make inference on the hazard ratio of peripheral perfusion versus Lactate level on 28-Day mortality among patients with septic shock.</p></li>
-<li><p>Let <span class="math inline">\(\theta\)</span> be the true value of this HR, we obtain a point estimate of <span class="math inline">\(\theta\)</span> and it’s 95%CI from Table 2 of <span class="citation">(<a href="#ref-hernandez2019effect" role="doc-biblioref">Hernández et al. 2019</a>)</span>.</p></li>
+<li><p>We obtain a point estimate of HR and it’s 95%CI from Table 2 of <span class="citation">(<a href="#ref-hernandez2019effect" role="doc-biblioref">Hernández et al. 2019</a>)</span>.</p></li>
 </ul>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-17"></span>
 <img src="images/ANDROMEDA-SHOCK_table2.png" alt="HR estimates of the effectiveness of peripheral perfusion on primary outcome - Death within 28 days" width="982" />
@@ -1037,11 +1037,13 @@ The ANDROMEDA-SHOCK Randomized Clinical Trial <span class="citation">(<a href="#
 Figure 3.4: HR estimates of the effectiveness of peripheral perfusion on primary outcome - Death within 28 days
 </p>
 </div>
+<p><strong>1. The normal likelihood on log(HR)</strong></p>
 <ul>
-<li><p>The estimated adjusted <span class="math inline">\(\theta\)</span> (HR) on 28-day mortality, 0.75 (0.55 to 1.02), is called the <strong>observed datum</strong> (viewed as a single data observation on <span class="math inline">\(\theta\)</span>, denoted as <span class="math inline">\(y\)</span>)</p></li>
+<li><p>The estimated adjusted (HR) on 28-day mortality, 0.75 (0.55 to 1.02), is called the <strong>observed datum</strong> (viewed as a single data observation on <span class="math inline">\(\theta\)</span>, denoted as <span class="math inline">\(y\)</span>)</p></li>
 <li><p>It’s known that <strong>log of the parameter estimate, such as HR, RR and OR, follow a normal distribution around its true log value</strong>. Thus, We need to use the reported output information in order to specify the likelihood
-for the log of the parameter, y.</p></li>
-<li><p>Let <span class="math inline">\(y\)</span> denote this data point, we have <span class="math inline">\(y \sim N(log(\theta), \sigma_y^2)\)</span>, where <span class="math inline">\(\theta\)</span> is log(HR) and <span class="math inline">\(sigma_y\)</span> is the standard error of the log(HR)</p></li>
+for on the log scale.</p></li>
+<li><p>Let <span class="math inline">\(\theta\)</span> denote the random variable representing log(HR)</p></li>
+<li><p>Let <span class="math inline">\(y\)</span> denote an observed data point of <span class="math inline">\(\theta\)</span>, we have <span class="math inline">\(y \sim N(\theta, \sigma_y^2)\)</span>, where <span class="math inline">\(\theta\)</span> is log(HR) and <span class="math inline">\(sigma_y\)</span> is the standard error of the log(HR)</p></li>
 <li><p>In order to get <span class="math inline">\(\sigma_y^2\)</span> from the result table, we will use the reported 95% CI of the <strong>log of HR</strong>!</p></li>
 <li><p>The limits of the CI for the log value are obtained by taking the logs of the reported CI, i.e., 95% CI on the log(HR) in this example is [log(0.55)=-0.598, log(1.02)=0.02].</p></li>
 <li><p>Take the width of the 95% CI and divided by <span class="math inline">\(2\times 1.96\)</span>, we have</p></li>
@@ -1050,6 +1052,87 @@ for the log of the parameter, y.</p></li>
 <ul>
 <li>We use <span class="math inline">\(\hat{\sigma}_y\)</span> to approximate <span class="math inline">\(\sigma_y\)</span>, therefore, the data likelihood <span class="math inline">\(y \mid \theta \sim (\theta,0.158^2)\)</span> where we have observed <span class="math inline">\(y=log(0.75)=-0.287\)</span></li>
 </ul>
+<p><strong>2. The prior for log(HR)</strong></p>
+<p>Suppose we consider a neutral prior for log(HR), such that 95% of the prior for probability for the HR is in the range 0.8 to 1.25 and the median of HR is 1 (indicating the intervention is neither beneficial or harmful)</p>
+<ul>
+<li><p>The prior of <span class="math inline">\(log(HR) \sim N(log(1), \sigma_0^2)\)</span>, where
+<span class="math display">\[ \sigma_0 = \frac{\log(1.25) - \log(0.8)}{2 \times 1.96} = 0.11\]</span></p></li>
+<li><p>We can express the prior normal distribution on log(HR) as
+<span class="math display">\[\theta \sim N(\mu_0 = 1, \sigma_0^2=0.11^2)\]</span></p></li>
+<li><p><strong>We specify normal prior for log(HR)! The prior distribution of HR</strong>. In probability theory, a lognormal distribution is a continuous probability distribution of a random variable whose logarithm is normally distributed. In this case, HR follows a lognormal distribution!</p></li>
+</ul>
+<p><strong>3. The posterior of log(HR)</strong></p>
+<ul>
+<li><p>Given prior <span class="math inline">\(\theta \sim N(1, 0.11^2)\)</span> and likelihood <span class="math inline">\(y \mid \theta \sim (\theta,0.158^2)\)</span> where <span class="math inline">\(y=log(0.75)=-0.287\)</span></p></li>
+<li><p>Prior precision is <span class="math inline">\(\frac{1}{0.11^2} = 82.6\)</span> and the likelihood precision is <span class="math inline">\(\frac{1}{0.158^2} = 40.1\)</span>, we can see that the prior has more information than the likelihood!</p></li>
+<li><p>The posterior precision on log(HR) is
+<span class="math inline">\(\tau_1 = 82.6 + 40.1=122.7\)</span></p></li>
+<li><p>The posterior mean is</p></li>
+</ul>
+<p><span class="math display">\[ \frac{82.6}{82.6 + 40.1} \times log(1) + \frac{40.1}{82.6 + 40.1} \times log(0.75) = -0.094\]</span></p>
+<ul>
+<li>The posterior variance of <span class="math inline">\(\log(HR) = \frac{1}{122.7}\)</span> and the posterior standard deviation is <span class="math inline">\(\sqrt{\frac{1}{122.7}} = 0.09\)</span>, thus</li>
+</ul>
+<p><span class="math display">\[\theta \mid y \sim N(\mu_1 = -0.094, \sigma_1^2 = 0.09^2\]</span></p>
+<ul>
+<li>The posterior median HR = exp(-0.094) = 0.91 and the posterior 95% Credible Interval for HR is
+<span class="math display">\[\exp(-0.094 \pm 1.96\times 0.09) \rightarrow (0.763, 1.086) \]</span></li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="bayes.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#prior on log(HR);</span></span>
+<span id="cb23-2"><a href="bayes.html#cb23-2" aria-hidden="true" tabindex="-1"></a>mu0<span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb23-3"><a href="bayes.html#cb23-3" aria-hidden="true" tabindex="-1"></a>sd0<span class="ot">&lt;-</span> <span class="fl">0.11</span></span>
+<span id="cb23-4"><a href="bayes.html#cb23-4" aria-hidden="true" tabindex="-1"></a>prec0 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sd0<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb23-5"><a href="bayes.html#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="bayes.html#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#likelihood on log(HR);</span></span>
+<span id="cb23-7"><a href="bayes.html#cb23-7" aria-hidden="true" tabindex="-1"></a>ybar<span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.598</span></span>
+<span id="cb23-8"><a href="bayes.html#cb23-8" aria-hidden="true" tabindex="-1"></a>sd.ybar<span class="ot">&lt;-</span> <span class="fl">0.158</span> </span>
+<span id="cb23-9"><a href="bayes.html#cb23-9" aria-hidden="true" tabindex="-1"></a>prec.y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sd.ybar<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb23-10"><a href="bayes.html#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="bayes.html#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#posterior on log(HR)</span></span>
+<span id="cb23-12"><a href="bayes.html#cb23-12" aria-hidden="true" tabindex="-1"></a>prec1 <span class="ot">&lt;-</span> prec0 <span class="sc">+</span> prec.y</span>
+<span id="cb23-13"><a href="bayes.html#cb23-13" aria-hidden="true" tabindex="-1"></a>mu1 <span class="ot">&lt;-</span> (prec0 <span class="sc">*</span> mu0 <span class="sc">+</span> prec.y<span class="sc">*</span>ybar)<span class="sc">/</span>prec1</span>
+<span id="cb23-14"><a href="bayes.html#cb23-14" aria-hidden="true" tabindex="-1"></a>sigma1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(prec1)</span>
+<span id="cb23-15"><a href="bayes.html#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="bayes.html#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="bayes.html#cb23-17" aria-hidden="true" tabindex="-1"></a>mu.plot <span class="ot">&lt;-</span> <span class="fu">seq</span>(ybar<span class="dv">-1</span>,ybar<span class="sc">+</span><span class="dv">1</span>,</span>
+<span id="cb23-18"><a href="bayes.html#cb23-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">length.out=</span><span class="dv">200</span>)</span>
+<span id="cb23-19"><a href="bayes.html#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-20"><a href="bayes.html#cb23-20" aria-hidden="true" tabindex="-1"></a>lik <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(ybar, mu.plot, sd.ybar)</span>
+<span id="cb23-21"><a href="bayes.html#cb23-21" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(mu.plot, mu0, sd0)</span>
+<span id="cb23-22"><a href="bayes.html#cb23-22" aria-hidden="true" tabindex="-1"></a>posterior<span class="ot">&lt;-</span> <span class="fu">dnorm</span>(mu.plot, mu1,sigma1)</span>
+<span id="cb23-23"><a href="bayes.html#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-24"><a href="bayes.html#cb23-24" aria-hidden="true" tabindex="-1"></a>d<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">mu.plot=</span><span class="fu">rep</span>(mu.plot, <span class="dv">3</span>),</span>
+<span id="cb23-25"><a href="bayes.html#cb23-25" aria-hidden="true" tabindex="-1"></a>              <span class="at">p =</span><span class="fu">c</span>(lik,prior,posterior),</span>
+<span id="cb23-26"><a href="bayes.html#cb23-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">Function=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;likelihood&quot;</span>,<span class="st">&quot;prior&quot;</span>,<span class="st">&quot;posterior&quot;</span>),<span class="at">each=</span><span class="fu">length</span>(mu.plot)))</span>
+<span id="cb23-27"><a href="bayes.html#cb23-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-28"><a href="bayes.html#cb23-28" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(mu.plot, p,<span class="at">colour=</span>Function))<span class="sc">+</span></span>
+<span id="cb23-29"><a href="bayes.html#cb23-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb23-30"><a href="bayes.html#cb23-30" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">&quot;log(HR)&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-31"><a href="bayes.html#cb23-31" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">&quot;Probability Density&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-32"><a href="bayes.html#cb23-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
+<span id="cb23-33"><a href="bayes.html#cb23-33" aria-hidden="true" tabindex="-1"></a>     <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb23-34"><a href="bayes.html#cb23-34" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ggtitle</span>(<span class="st">&quot;Neural prior on log(HR): plot on log(HR) scale&quot;</span>)</span>
+<span id="cb23-35"><a href="bayes.html#cb23-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-36"><a href="bayes.html#cb23-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-37"><a href="bayes.html#cb23-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-38"><a href="bayes.html#cb23-38" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="fu">exp</span>(mu.plot), p,<span class="at">colour=</span>Function))<span class="sc">+</span></span>
+<span id="cb23-39"><a href="bayes.html#cb23-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb23-40"><a href="bayes.html#cb23-40" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">&quot;HR&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-41"><a href="bayes.html#cb23-41" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">&quot;Probability Density&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-42"><a href="bayes.html#cb23-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
+<span id="cb23-43"><a href="bayes.html#cb23-43" aria-hidden="true" tabindex="-1"></a>     <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb23-44"><a href="bayes.html#cb23-44" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ggtitle</span>(<span class="st">&quot;Neural prior on log(HR): plot on HR scale&quot;</span>)</span>
+<span id="cb23-45"><a href="bayes.html#cb23-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-46"><a href="bayes.html#cb23-46" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1,p2, <span class="at">nrow=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><strong>Posterior summary statistics from R</strong></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="bayes.html#cb24-1" aria-hidden="true" tabindex="-1"></a>thresholds<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.8</span>)</span>
+<span id="cb24-2"><a href="bayes.html#cb24-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span><span class="fu">exp</span>( <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.025</span>, <span class="fl">0.975</span>), mu1, sigma1))</span>
+<span id="cb24-3"><a href="bayes.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">c</span>(res, <span class="fu">pnorm</span>(<span class="fu">log</span>(thresholds), mu1, sigma1))</span>
+<span id="cb24-4"><a href="bayes.html#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;median&quot;</span>,<span class="st">&quot;q2.5&quot;</span>,<span class="st">&quot;q97.5&quot;</span>,<span class="fu">paste0</span>(<span class="st">&quot;Pr(OR &lt; &quot;</span>,thresholds,<span class="st">&quot;)&quot;</span>))</span>
+<span id="cb24-5"><a href="bayes.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  res</span></code></pre></div>
+<pre><code>##       median         q2.5        q97.5   Pr(OR &lt; 1) Pr(OR &lt; 0.8) 
+##    0.8226500    0.6892421    0.9818799    0.9847110    0.3785609</code></pre>
 </div>
 </div>
 <div id="r-session-information-2" class="section level3 unnumbered">

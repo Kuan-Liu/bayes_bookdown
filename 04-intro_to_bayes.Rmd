@@ -894,18 +894,23 @@ The ANDROMEDA-SHOCK Randomized Clinical Trial [@hernandez2019effect]
 
 - We are interested to make inference on the hazard ratio of peripheral perfusion versus Lactate level on 28-Day mortality among patients with septic shock.
 
-- Let $\theta$ be the true value of this HR, we obtain a point estimate of $\theta$ and it's 95%CI from Table 2 of [@hernandez2019effect].
+- We obtain a point estimate of HR and it's 95%CI from Table 2 of [@hernandez2019effect].
 
 ```{r echo=FALSE, fig.cap="HR estimates of the effectiveness of peripheral perfusion on primary outcome - Death within 28 days", fig.align='center'}
 knitr::include_graphics("images/ANDROMEDA-SHOCK_table2.png")
 ```
 
-- The estimated adjusted $\theta$ (HR) on 28-day mortality, 0.75 (0.55 to 1.02), is called the **observed datum** (viewed as a single data observation on $\theta$, denoted as $y$)  
+
+**1. The normal likelihood on log(HR)**
+
+- The estimated adjusted (HR) on 28-day mortality, 0.75 (0.55 to 1.02), is called the **observed datum** (viewed as a single data observation on $\theta$, denoted as $y$)  
 
 - It's known that **log of the parameter estimate, such as HR, RR and OR, follow a normal distribution around its true log value**. Thus, We need to use the reported output information in order to specify the likelihood
-for the log of the parameter, y.
+for on the log scale. 
 
-- Let $y$ denote this data point, we have $y \sim N(log(\theta), \sigma_y^2)$, where $\theta$ is log(HR) and $sigma_y$ is the standard error of the log(HR)
+- Let $\theta$ denote the random variable representing log(HR)
+
+- Let $y$ denote an observed data point of $\theta$, we have $y \sim N(\theta, \sigma_y^2)$, where $\theta$ is log(HR) and $sigma_y$ is the standard error of the log(HR)
 
 - In order to get $\sigma_y^2$ from the result table, we will use the reported 95% CI of the **log of HR**!
 
@@ -917,7 +922,98 @@ for the log of the parameter, y.
 
 - We use $\hat{\sigma}_y$ to approximate $\sigma_y$, therefore, the data likelihood $y \mid \theta \sim (\theta,0.158^2)$ where we have observed $y=log(0.75)=-0.287$
 
+**2. The prior for log(HR)**
 
+Suppose we consider a neutral prior for log(HR), such that 95% of the prior for probability for the HR is in the range 0.8 to 1.25 and the median of HR is 1 (indicating the intervention is neither beneficial or harmful)
+
+- The prior of $log(HR) \sim N(log(1), \sigma_0^2)$, where 
+\[ \sigma_0 = \frac{\log(1.25) - \log(0.8)}{2 \times 1.96} = 0.11\]
+
+- We can express the prior normal distribution on log(HR) as
+\[\theta \sim N(\mu_0 = 1, \sigma_0^2=0.11^2)\]
+
+- **We specify normal prior for log(HR)! The prior distribution of HR**. In probability theory, a lognormal distribution is a continuous probability distribution of a random variable whose logarithm is normally distributed. In this case, HR follows a lognormal distribution!
+
+
+**3. The posterior of log(HR)**
+
+- Given prior $\theta \sim N(1, 0.11^2)$ and likelihood $y \mid \theta \sim (\theta,0.158^2)$ where $y=log(0.75)=-0.287$
+
+- Prior precision is $\frac{1}{0.11^2} = 82.6$ and the likelihood precision is $\frac{1}{0.158^2} = 40.1$, we can see that the prior has more information than the likelihood!
+
+- The posterior precision on log(HR) is
+$\tau_1 = 82.6 + 40.1=122.7$ 
+
+- The posterior mean is
+
+\[ \frac{82.6}{82.6 + 40.1} \times log(1) + \frac{40.1}{82.6 + 40.1} \times log(0.75) = -0.094\]
+
+- The posterior variance of $\log(HR) = \frac{1}{122.7}$ and the posterior standard deviation is $\sqrt{\frac{1}{122.7}} = 0.09$, thus
+
+\[\theta \mid y \sim N(\mu_1 = -0.094, \sigma_1^2 = 0.09^2\]
+
+- The posterior median HR = exp(-0.094) = 0.91 and the posterior 95% Credible Interval for HR is 
+\[\exp(-0.094 \pm 1.96\times 0.09) \rightarrow (0.763, 1.086) \]
+
+
+```{r}
+#prior on log(HR);
+mu0<- 0
+sd0<- 0.11
+prec0 <- 1/sd0^2
+
+#likelihood on log(HR);
+ybar<- -0.598
+sd.ybar<- 0.158 
+prec.y <- 1/sd.ybar^2
+
+#posterior on log(HR)
+prec1 <- prec0 + prec.y
+mu1 <- (prec0 * mu0 + prec.y*ybar)/prec1
+sigma1 <- 1/sqrt(prec1)
+
+
+mu.plot <- seq(ybar-1,ybar+1,
+               length.out=200)
+
+lik <- dnorm(ybar, mu.plot, sd.ybar)
+prior <- dnorm(mu.plot, mu0, sd0)
+posterior<- dnorm(mu.plot, mu1,sigma1)
+
+d<-data.frame(mu.plot=rep(mu.plot, 3),
+              p =c(lik,prior,posterior),
+              Function=rep(c("likelihood","prior","posterior"),each=length(mu.plot)))
+
+p1<- ggplot(d, aes(mu.plot, p,colour=Function))+
+    geom_line(size = 1)+
+     xlab("log(HR)")+
+     ylab("Probability Density")+
+    scale_colour_manual(values=c("goldenrod","steelblue","black"))+
+     theme_bw()+
+     ggtitle("Neural prior on log(HR): plot on log(HR) scale")
+
+
+
+p2<- ggplot(d, aes(exp(mu.plot), p,colour=Function))+
+    geom_line(size = 1)+
+     xlab("HR")+
+     ylab("Probability Density")+
+    scale_colour_manual(values=c("goldenrod","steelblue","black"))+
+     theme_bw()+
+     ggtitle("Neural prior on log(HR): plot on HR scale")
+
+ggarrange(p1,p2, nrow=2)
+```
+
+**Posterior summary statistics from R**
+
+```{r}
+thresholds<-c(1,0.8)
+res <-exp( qnorm(c(0.5, 0.025, 0.975), mu1, sigma1))
+  res <- c(res, pnorm(log(thresholds), mu1, sigma1))
+  names(res) <- c("median","q2.5","q97.5",paste0("Pr(OR < ",thresholds,")"))
+  res
+```
 
 :::
 
