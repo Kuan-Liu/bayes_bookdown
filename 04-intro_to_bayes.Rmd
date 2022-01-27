@@ -932,7 +932,7 @@ Suppose we consider a neutral prior for log(HR), such that 95% of the prior for 
 - We can express the prior normal distribution on log(HR) as
 \[\theta \sim N(\mu_0 = 1, \sigma_0^2=0.11^2)\]
 
-- **We specify normal prior for log(HR)! The prior distribution of HR**. In probability theory, a lognormal distribution is a continuous probability distribution of a random variable whose logarithm is normally distributed. In this case, HR follows a lognormal distribution!
+- **We specify normal prior for log(HR)!**. In probability theory, a lognormal distribution is a continuous probability distribution of a random variable whose logarithm is normally distributed. In this case, HR follows a lognormal distribution!
 
 
 **3. The posterior of log(HR)**
@@ -963,7 +963,7 @@ sd0<- 0.11
 prec0 <- 1/sd0^2
 
 #likelihood on log(HR);
-ybar<- -0.598
+ybar<- -0.287
 sd.ybar<- 0.158 
 prec.y <- 1/sd.ybar^2
 

@@ -1063,7 +1063,7 @@ for on the log scale.</p></li>
 <span class="math display">\[ \sigma_0 = \frac{\log(1.25) - \log(0.8)}{2 \times 1.96} = 0.11\]</span></p></li>
 <li><p>We can express the prior normal distribution on log(HR) as
 <span class="math display">\[\theta \sim N(\mu_0 = 1, \sigma_0^2=0.11^2)\]</span></p></li>
-<li><p><strong>We specify normal prior for log(HR)! The prior distribution of HR</strong>. In probability theory, a lognormal distribution is a continuous probability distribution of a random variable whose logarithm is normally distributed. In this case, HR follows a lognormal distribution!</p></li>
+<li><p><strong>We specify normal prior for log(HR)!</strong>. In probability theory, a lognormal distribution is a continuous probability distribution of a random variable whose logarithm is normally distributed. In this case, HR follows a lognormal distribution!</p></li>
 </ul>
 <p><strong>3. The posterior of log(HR)</strong></p>
 <ul>
@@ -1088,7 +1088,7 @@ for on the log scale.</p></li>
 <span id="cb23-4"><a href="bayes.html#cb23-4" aria-hidden="true" tabindex="-1"></a>prec0 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sd0<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb23-5"><a href="bayes.html#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-6"><a href="bayes.html#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#likelihood on log(HR);</span></span>
-<span id="cb23-7"><a href="bayes.html#cb23-7" aria-hidden="true" tabindex="-1"></a>ybar<span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.598</span></span>
+<span id="cb23-7"><a href="bayes.html#cb23-7" aria-hidden="true" tabindex="-1"></a>ybar<span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.287</span></span>
 <span id="cb23-8"><a href="bayes.html#cb23-8" aria-hidden="true" tabindex="-1"></a>sd.ybar<span class="ot">&lt;-</span> <span class="fl">0.158</span> </span>
 <span id="cb23-9"><a href="bayes.html#cb23-9" aria-hidden="true" tabindex="-1"></a>prec.y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sd.ybar<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb23-10"><a href="bayes.html#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
@@ -1136,7 +1136,7 @@ for on the log scale.</p></li>
 <span id="cb24-4"><a href="bayes.html#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;median&quot;</span>,<span class="st">&quot;q2.5&quot;</span>,<span class="st">&quot;q97.5&quot;</span>,<span class="fu">paste0</span>(<span class="st">&quot;Pr(OR &lt; &quot;</span>,thresholds,<span class="st">&quot;)&quot;</span>))</span>
 <span id="cb24-5"><a href="bayes.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  res</span></code></pre></div>
 <pre><code>##       median         q2.5        q97.5   Pr(OR &lt; 1) Pr(OR &lt; 0.8) 
-##    0.8226500    0.6892421    0.9818799    0.9847110    0.3785609</code></pre>
+##    0.9105607    0.7628965    1.0868065    0.8503338    0.0757977</code></pre>
 </div>
 </div>
 </div>
