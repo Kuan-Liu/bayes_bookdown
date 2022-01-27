@@ -1017,6 +1017,22 @@ res <-exp( qnorm(c(0.5, 0.025, 0.975), mu1, sigma1))
 
 :::
 
+## Summary of Conjugate priors & models
+
+- There are a small number of prior-likelihood pairs where the prior and the posterior are in the same family (e.g., both beta, both normal): these are called conjugate models
+
+
+- These posterior distributions can be computed without specialized software
+
+- These examples are useful for illustrating how Bayesian methods combine prior information with data
+
+- They have only limited practical usefulness - limits on types priors, limits on number of parameters
+
+- They are useful teaching tools, soon we will see how we can extend beyond these simple models
+
+## Frequentist vs Bayesian
+
+
 
 
 ### R Session information {-}

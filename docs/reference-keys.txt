@@ -64,3 +64,5 @@ fig:unnamed-chunk-8
 fig:unnamed-chunk-10
 fig:unnamed-chunk-15
 fig:unnamed-chunk-16
+summary-of-conjugate-priors-models
+frequentist-vs-bayesian
