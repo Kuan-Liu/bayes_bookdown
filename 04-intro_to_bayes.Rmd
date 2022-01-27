@@ -883,8 +883,10 @@ p
 
 ::: {.workedexample data-latex=""}
 
-**Hazard Ratio on time-to-event from COX proportional hazard model**
+**Hazard Ratio on time-to-event from Cox proportional hazard model**
 
+> [In memory of Sir David Cox, 1925-2022](https://rss.org.uk/news-publication/news-publications/2022/general-news/sir-david-cox-1924-2022/)
+ 
 - Effect of a Resuscitation Strategy Targeting Peripheral Perfusion Status vs Serum Lactate Levels on 28-Day Mortality Among Patients With Septic Shock
 The ANDROMEDA-SHOCK Randomized Clinical Trial [@hernandez2019effect]
 
