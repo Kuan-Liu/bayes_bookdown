@@ -66,3 +66,8 @@ normal-models-and-linear-regression
 hierarchical-models-and-convergence
 models-for-binary-data
 models-for-count-data
+fig:unnamed-chunk-7
+fig:unnamed-chunk-8
+fig:unnamed-chunk-10
+fig:unnamed-chunk-21
+tab:unnamed-chunk-22
