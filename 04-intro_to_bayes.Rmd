@@ -1281,15 +1281,23 @@ unknown parameter (e.g. an odds ratio $\theta$) given the data
 **Summary**
 
 Practical advantages of Bayesian approach
+
 - Direct probability statements
+
 - Incorporation of external evidence
+
 - Complex models can be built step-by-step
+
 - Makes you understand the analysis better
 
 Disadvantages including
+
 - Learning how to code
+
 - Need to know more about distributions
+
 - Require good probability and statistical model knowledge
+
 - More time consuming (computationally more expensive with complex model and multiple parameters)
 
 
