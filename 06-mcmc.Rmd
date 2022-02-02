@@ -1,2 +1,18 @@
 # Bayesian estimation with MCMC {#mcmc}
 
+## Introduction to Markov Chain Monte Carlo Methods
+
+### Metropolis-Hastings
+
+### Gibbs sampling
+
+## MCMC demo with brms
+
+### Beta-Binomial example
+
+### Normal-normal example
+
+
+## MCMC diganostics
+
+

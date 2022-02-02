@@ -68,3 +68,10 @@ hierarchical-models-and-convergence
 BayesReg2
 models-for-binary-data
 models-for-count-data
+introduction-to-markov-chain-monte-carlo-methods
+metropolis-hastings
+gibbs-sampling
+mcmc-demo-with-brms
+beta-binomial-example
+normal-normal-example
+mcmc-diganostics
