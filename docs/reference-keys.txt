@@ -61,13 +61,8 @@ why-bayesian-statistical-estimation-revisit
 classic-frequentist-inference
 bayesian-inference
 Prior
-mcmc
-BayesReg1
-normal-models-and-linear-regression
-hierarchical-models-and-convergence
-BayesReg2
-models-for-binary-data
-models-for-count-data
+where-do-priors-come-from
+BayesMCMC
 introduction-to-markov-chain-monte-carlo-methods
 metropolis-hastings
 gibbs-sampling
@@ -75,3 +70,9 @@ mcmc-demo-with-brms
 beta-binomial-example
 normal-normal-example
 mcmc-diganostics
+BayesReg1
+normal-models-and-linear-regression
+hierarchical-models-and-convergence
+BayesReg2
+models-for-binary-data
+models-for-count-data

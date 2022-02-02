@@ -1,4 +1,4 @@
-# Bayesian estimation with MCMC {#mcmc}
+# Bayesian estimation with MCMC {#BayesMCMC}
 
 ## Introduction to Markov Chain Monte Carlo Methods
 

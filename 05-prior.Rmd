@@ -9,6 +9,8 @@
 :::
 
 
+## Where do priors come from?
+
 <!-- One of the most commonly asked questions when one first encounters Bayesian statistics is "how do we choose a prior?"  While there is never one "perfect" prior in any situation, we'll discuss in this chapter some issues to consider when choosing a prior.  But first, here are a few big picture ideas to keep in mind. -->
 
 <!-- - The prior is only one part of the Bayesian model.  The likelihood is the other part.  And there is the data that is used to fit the model.  Choice of prior is just one of many modeling assumptions that should be evaluated and checked. -->
