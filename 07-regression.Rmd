@@ -1,0 +1,5 @@
+# Bayesian Regression I {#BayesReg1}
+
+## Normal Models and Linear Regression
+
+## Hierarchical models and convergence

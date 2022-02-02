@@ -1,0 +1,5 @@
+# Bayesian Regression II {#BayesReg2}
+
+## Models for Binary Data
+
+## Models for Count Data

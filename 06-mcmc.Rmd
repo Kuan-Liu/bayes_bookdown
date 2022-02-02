@@ -1,0 +1,2 @@
+# Bayesian estimation with MCMC {#mcmc}
+
