@@ -675,7 +675,7 @@ on a given dose of a drug
 
 - The $E(y) = \theta$ and $V(y) = \sigma^2$ and $SD(y) = \sigma$.
 
-- Given $y \mid \theta \sim N(\theta,\sigma^2 )$, $z = \frac{x-\theta}{\sigma} \sim N(0,1)$. Thus, if we rescale $y$ by $\sigma$, we have
+- Given $y \mid \theta \sim N(\theta,\sigma^2 )$, $z = \frac{y-\theta}{\sigma} \sim N(0,1)$. Thus, if we rescale $y$ by $\sigma$, we have
 
     - 95%CI of y: $\theta \pm 1.96 \times \sigma$
 
@@ -930,14 +930,14 @@ Suppose we consider a neutral prior for log(HR), such that 95% of the prior for 
 \[ \sigma_0 = \frac{\log(1.25) - \log(0.8)}{2 \times 1.96} = 0.11\]
 
 - We can express the prior normal distribution on log(HR) as
-\[\theta \sim N(\mu_0 = 1, \sigma_0^2=0.11^2)\]
+\[\theta \sim N(\mu_0 = 0, \sigma_0^2=0.11^2)\]
 
 - **We specify normal prior for log(HR)!**. In probability theory, a lognormal distribution is a continuous probability distribution of a random variable whose logarithm is normally distributed. In this case, HR follows a lognormal distribution!
 
 
 **3. The posterior of log(HR)**
 
-- Given prior $\theta \sim N(1, 0.11^2)$ and likelihood $y \mid \theta \sim (\theta,0.158^2)$ where $y=log(0.75)=-0.287$
+- Given prior $\theta \sim N(0, 0.11^2)$ and likelihood $y \mid \theta \sim (\theta,0.158^2)$ where $y=log(0.75)=-0.287$
 
 - Prior precision is $\frac{1}{0.11^2} = 82.6$ and the likelihood precision is $\frac{1}{0.158^2} = 40.1$, we can see that the prior has more information than the likelihood!
 

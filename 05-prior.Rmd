@@ -1,4 +1,13 @@
-# Considering Prior Distributions {#Prior}
+# Prior Distributions {#Prior}
+
+::: {.chapterintro data-latex=""}
+
+- Learn different ways of selecting and constructing priors
+- Prior distributions used in clinical studies
+- Introduction to hierarchical priors for random effects
+- Introduction to sparsity promoting prior for Bayesian regression variable selection
+:::
+
 
 <!-- One of the most commonly asked questions when one first encounters Bayesian statistics is "how do we choose a prior?"  While there is never one "perfect" prior in any situation, we'll discuss in this chapter some issues to consider when choosing a prior.  But first, here are a few big picture ideas to keep in mind. -->
 
