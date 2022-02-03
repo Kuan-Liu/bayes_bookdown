@@ -76,3 +76,6 @@ hierarchical-models-and-convergence
 BayesReg2
 models-for-binary-data
 models-for-count-data
+types-of-prior
+choosing-prios
+eliciting-priors-from-experts
