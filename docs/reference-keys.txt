@@ -79,3 +79,7 @@ models-for-count-data
 types-of-prior
 choosing-prios
 eliciting-priors-from-experts
+default-clincial-priors
+historical-data-meta-analysis
+hierarchical-priors
+shrinkage-priors

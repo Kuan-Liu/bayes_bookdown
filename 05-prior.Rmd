@@ -57,8 +57,6 @@ Generally speaking, there are two types of priors: informative and noninformativ
         
 ### Eliciting priors from experts
 
-Reference reading on expert elicitation: [O'Hagan, A., Buck, C.E., Daneshkhah, A., Eiser, J.R., Garthwaite, P.H., Jenkinson, D.J., Oakley, J.E. and Rakow, T., 2006. Uncertain judgements: eliciting experts' probabilities.](https://librarysearch.library.utoronto.ca/permalink/01UTORONTO_INST/fedca1/cdi_crossref_primary_10_1007_s11336_007_9036_x) [@o2006uncertain]
-
 Elicitation is the process of
 
 - representing the knowledge of one or more experts - expert knowledge is useful!
@@ -82,22 +80,14 @@ There are two general approaches to summarizing the estimates from the experts.
     
 - Aggregate the experts
     - gather expert belief and elicit a single distribution, also called behavioural aggregation. 
+
+       
         
-        
-Three protocols/frameworks
+**Three protocols**
 
 - **Most popular.** Sheffield Elicitation Framework (SHELF). The SHELF protocol is a behavioral aggregation method that uses two rounds of judgments. [@o2006uncertain]
     - In the first round, individuals make private judgements
     - In the second round, those judgments are reviewed before the group agrees on consensus judgement. 
-    - SHELF documentation and software: http://www.jeremy-oakley.staff.shef.ac.uk/shelf/software/
-    - Dr. Anthony O'Hagan's talk on elicitation and SHELF
-
-</br>
-
-<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/cU4Cd8CGiaM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
-
-</br>
-
 
 - Cooke protocol. A mathematical aggregation approach weights expert responses by their likely accuracy. [@cooke1991experts]
     - The likely accuracy is calculated using a "seed" value.
@@ -107,6 +97,19 @@ Three protocols/frameworks
     - unlike SHELF, experts provide their judgments individually with no interaction and a pooling rule is required across expert final distributions.
 
 
+Reference reading on expert elicitation: 
+
+- [Methods to elicit beliefs for Bayesian priors: a systematic review (2010), by johnson et al.](https://www.sciencedirect.com/science/article/pii/S0895435609001759?casa_token=hejHbiF8uv4AAAAA:wfJlHvZYsIkhyGIrPooRQuO8Bz57fPoe_wYhUvW4xA02hio_LDCZF8KzGykdotVcPCQSVQchDSs#bib24) [@johnson2010methods] 
+    - Reviewed on measurement properties including validity,
+reliability, responsiveness, and feasibility (lacking in exisiting work).
+    - A valid and reliable method [@johnson2010valid] 
+
+- [Uncertain judgements: eliciting experts' probabilities (2006) by O'Hagan et al.](https://librarysearch.library.utoronto.ca/permalink/01UTORONTO_INST/fedca1/cdi_crossref_primary_10_1007_s11336_007_9036_x) [@o2006uncertain]
+    - SHELF documentation and software: http://www.jeremy-oakley.staff.shef.ac.uk/shelf/software/
+    - Dr. Anthony O'Hagan's talk on elicitation and SHELF: https://www.youtube.com/embed/cU4Cd8CGiaM
+
+
+
 ::: {.workedexample data-latex=""}
 **Tutorial example on SHELF framework** - Elicitation workshop for Bronchiolitis in Infants Placebo Versus Epinephrine and Dexamethasone (BIPED) study (project manuscript under review)
 
@@ -114,8 +117,11 @@ Principal Investigator for the Elicitation Study: Dr. [Anna Heath](https://www.s
 
 Research Assistant and ShinyApp Developer: [Jingxian (Phebe) Lan](https://www.linkedin.com/in/phebelan/), M.Sc
 
-
 :::
+
+
+
+
 
 
 ## Default clincial priors

@@ -188,6 +188,10 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="4.1.1" data-path="Prior.html"><a href="Prior.html#eliciting-priors-from-experts"><i class="fa fa-check"></i><b>4.1.1</b> Eliciting priors from experts</a></li>
 </ul></li>
+<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors</a></li>
+<li class="chapter" data-level="4.3" data-path="Prior.html"><a href="Prior.html#historical-data-meta-analysis"><i class="fa fa-check"></i><b>4.3</b> Historical data (meta-analysis)</a></li>
+<li class="chapter" data-level="4.4" data-path="Prior.html"><a href="Prior.html#hierarchical-priors"><i class="fa fa-check"></i><b>4.4</b> Hierarchical priors</a></li>
+<li class="chapter" data-level="4.5" data-path="Prior.html"><a href="Prior.html#shrinkage-priors"><i class="fa fa-check"></i><b>4.5</b> Shrinkage priors</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="BayesMCMC.html"><a href="BayesMCMC.html"><i class="fa fa-check"></i><b>5</b> Bayesian estimation with MCMC</a>
 <ul>
@@ -285,7 +289,6 @@ div.csl-indent {
 </ul>
 <div id="eliciting-priors-from-experts" class="section level3" number="4.1.1">
 <h3><span class="header-section-number">4.1.1</span> Eliciting priors from experts</h3>
-<p>Reference reading on expert elicitation: <a href="https://librarysearch.library.utoronto.ca/permalink/01UTORONTO_INST/fedca1/cdi_crossref_primary_10_1007_s11336_007_9036_x">O’Hagan, A., Buck, C.E., Daneshkhah, A., Eiser, J.R., Garthwaite, P.H., Jenkinson, D.J., Oakley, J.E. and Rakow, T., 2006. Uncertain judgements: eliciting experts’ probabilities.</a> <span class="citation">(<a href="#ref-o2006uncertain" role="doc-biblioref">O’Hagan et al. 2006</a>)</span></p>
 <p>Elicitation is the process of</p>
 <ul>
 <li>representing the knowledge of one or more experts - expert knowledge is useful!</li>
@@ -309,23 +312,13 @@ div.csl-indent {
 <li>gather expert belief and elicit a single distribution, also called behavioural aggregation.</li>
 </ul></li>
 </ul>
-<p>Three protocols/frameworks</p>
+<p><strong>Three protocols</strong></p>
 <ul>
 <li><strong>Most popular.</strong> Sheffield Elicitation Framework (SHELF). The SHELF protocol is a behavioral aggregation method that uses two rounds of judgments. <span class="citation">(<a href="#ref-o2006uncertain" role="doc-biblioref">O’Hagan et al. 2006</a>)</span>
 <ul>
 <li>In the first round, individuals make private judgements</li>
 <li>In the second round, those judgments are reviewed before the group agrees on consensus judgement.</li>
-<li>SHELF documentation and software: <a href="http://www.jeremy-oakley.staff.shef.ac.uk/shelf/software/" class="uri">http://www.jeremy-oakley.staff.shef.ac.uk/shelf/software/</a></li>
-<li>Dr. Anthony O’Hagan’s talk on elicitation and SHELF</li>
 </ul></li>
-</ul>
-<p></br></p>
-<p align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/cU4Cd8CGiaM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-</iframe>
-</p>
-<p></br></p>
-<ul>
 <li>Cooke protocol. A mathematical aggregation approach weights expert responses by their likely accuracy. <span class="citation">(<a href="#ref-cooke1991experts" role="doc-biblioref">Cooke et al. 1991</a>)</span>
 <ul>
 <li>The likely accuracy is calculated using a “seed” value.</li>
@@ -336,19 +329,51 @@ div.csl-indent {
 <li>unlike SHELF, experts provide their judgments individually with no interaction and a pooling rule is required across expert final distributions.</li>
 </ul></li>
 </ul>
+<p>Reference reading on expert elicitation:</p>
+<ul>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0895435609001759?casa_token=hejHbiF8uv4AAAAA:wfJlHvZYsIkhyGIrPooRQuO8Bz57fPoe_wYhUvW4xA02hio_LDCZF8KzGykdotVcPCQSVQchDSs#bib24">Methods to elicit beliefs for Bayesian priors: a systematic review (2010), by johnson et al.</a> <span class="citation">(<a href="#ref-johnson2010methods" role="doc-biblioref">Johnson, Tomlinson, Hawker, Granton, and Feldman 2010</a>)</span>
+<ul>
+<li>Reviewed on measurement properties including validity,
+reliability, responsiveness, and feasibility (lacking in exisiting work).</li>
+<li>A valid and reliable method <span class="citation">(<a href="#ref-johnson2010valid" role="doc-biblioref">Johnson, Tomlinson, Hawker, Granton, Grosbein, et al. 2010</a>)</span></li>
+</ul></li>
+<li><a href="https://librarysearch.library.utoronto.ca/permalink/01UTORONTO_INST/fedca1/cdi_crossref_primary_10_1007_s11336_007_9036_x">Uncertain judgements: eliciting experts’ probabilities (2006) by O’Hagan et al.</a> <span class="citation">(<a href="#ref-o2006uncertain" role="doc-biblioref">O’Hagan et al. 2006</a>)</span>
+<ul>
+<li>SHELF documentation and software: <a href="http://www.jeremy-oakley.staff.shef.ac.uk/shelf/software/" class="uri">http://www.jeremy-oakley.staff.shef.ac.uk/shelf/software/</a></li>
+<li>Dr. Anthony O’Hagan’s talk on elicitation and SHELF: <a href="https://www.youtube.com/embed/cU4Cd8CGiaM" class="uri">https://www.youtube.com/embed/cU4Cd8CGiaM</a></li>
+</ul></li>
+</ul>
 <div class="workedexample">
 <p><strong>Tutorial example on SHELF framework</strong> - Elicitation workshop for Bronchiolitis in Infants Placebo Versus Epinephrine and Dexamethasone (BIPED) study (project manuscript under review)</p>
 <p>Principal Investigator for the Elicitation Study: Dr. <a href="https://www.sickkids.ca/en/staff/h/anna-heath/">Anna Heath</a>, PhD, MMath, The Hospital for Sick Children, Toronto</p>
 <p>Research Assistant and ShinyApp Developer: <a href="https://www.linkedin.com/in/phebelan/">Jingxian (Phebe) Lan</a>, M.Sc</p>
 </div>
-
 </div>
+</div>
+<div id="default-clincial-priors" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Default clincial priors</h2>
+</div>
+<div id="historical-data-meta-analysis" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Historical data (meta-analysis)</h2>
+</div>
+<div id="hierarchical-priors" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Hierarchical priors</h2>
+</div>
+<div id="shrinkage-priors" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Shrinkage priors</h2>
+
 </div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-cooke1991experts" class="csl-entry">
 Cooke, Roger et al. 1991. <em>Experts in Uncertainty: Opinion and Subjective Probability in Science</em>. Oxford University Press on Demand.
+</div>
+<div id="ref-johnson2010methods" class="csl-entry">
+Johnson, Sindhu R, George A Tomlinson, Gillian A Hawker, John T Granton, and Brian M Feldman. 2010. <span>“Methods to Elicit Beliefs for Bayesian Priors: A Systematic Review.”</span> <em>Journal of Clinical Epidemiology</em> 63 (4): 355–69.
+</div>
+<div id="ref-johnson2010valid" class="csl-entry">
+Johnson, Sindhu R, George A Tomlinson, Gillian A Hawker, John T Granton, Haddas A Grosbein, and Brian M Feldman. 2010. <span>“A Valid and Reliable Belief Elicitation Method for Bayesian Priors.”</span> <em>Journal of Clinical Epidemiology</em> 63 (4): 370–83.
 </div>
 <div id="ref-o2006uncertain" class="csl-entry">
 O’Hagan, Anthony, Caitlin E Buck, Alireza Daneshkhah, J Richard Eiser, Paul H Garthwaite, David J Jenkinson, Jeremy E Oakley, and Tim Rakow. 2006. <span>“Uncertain Judgements: Eliciting Experts’ Probabilities.”</span>
