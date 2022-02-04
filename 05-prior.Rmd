@@ -132,7 +132,7 @@ Section 5.5 Default Priors of [@spiegelhalter2003]
 prior to use as a baseline analysis
     - "such analyses have been suggested as a way of making probability statements about parameters without being explicitly Bayesian" [@spiegelhalter2004incorporating]
     
-- (Cons) However, ninformative priors are nonsensical and can lead to inference problems, especially in smaller samples
+- (Cons) However, nonninformative priors are nonsensical and can lead to inference problems, especially in smaller samples
     - can have a strong impact particularly when events are rare.
     
 - Prior Choice Recommendations and Wiki developed by the stan team, https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
@@ -284,6 +284,18 @@ knitr::kable(res, row.names = F,
 - Posterior could land on implausible values with small numbers of deaths in one group or other. 
 - These issues resolve somewhat with larger data sets
 - With a precise likelihood (e.g., large sample size or large number of events), data rescues you from allowing implausible values.
+
+
+**Evaluating Priors?**
+1. Section 5.8 [@spiegelhalter2003] introduced a Box approach to comparing priors with subsequent data in assessing the ability of the chosen subjective prior to predict the true benefit of intervention
+    - The prior is used to derive a predictive distribution for future observations, and thus to calculate the chance of a result with lower predictive ordinate than that actually observed: 
+    - when the predictive distribution is symmetric and unimodal, this is analagous to a traditional two-sided P-value in measuring the predictive probability of getting a result at least as extreme as that observed.
+    - this assessment can be used to evaluate prior distributions parameter values
+
+2. When we have several candidate prior distributions (e.g. lognormal, beta, normal, etc), we can use goodness-of-fit statistics like Kolmogorov-Smirnov, Cramer-von Mises, and Anderson-Darl to evaluate which distribution best fit the prior belief density.
+    - [fitdistrplus:  An R Package for Fitting Distributions](https://cran.r-project.org/web/packages/fitdistrplus/vignettes/paper2JSS.pdf)
+    
+    
 
 ::: {.guidedexercise data-latex=""}
 
@@ -591,6 +603,7 @@ ggarrange(plot.gamma(0.1,0.1),
 - The horseshoe prior (hierarchical) is given as:
 \[\beta_j \mid \lambda_j, \tau, \sim N(0, \lambda_j^2 \tau^2)\]
 \[\lambda_j \sim halfCauchy(0,1), j = 1, \ldots, p.\]
+\[\tau \sim halfCauchy(0,\tau_0)\]
 
 - $\lambda_j$ is called local shrinkage parameter - enable some $\beta$ to escape the shrinkage
 - $\tau$ is the global shrinkage parameter - shrink all $\beta$ towards zero, thus removing the corresponding covariate from the regression model.
