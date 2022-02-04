@@ -628,3 +628,12 @@ compare_priors()
 
 ```
 
+
+### R Session information {-}
+
+
+
+
+```{r echo=F}
+getS3method("print","sessionInfo")(sessionInfo()[c(1:7)])
+```
