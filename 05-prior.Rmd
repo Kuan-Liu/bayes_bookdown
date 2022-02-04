@@ -23,7 +23,7 @@ options(scipen = 999)
 
 </br>
 
-## Choosing prios
+## Choosing priors
 
 **Types of prior**
 

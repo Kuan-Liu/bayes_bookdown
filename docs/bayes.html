@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-02-02" />
+<meta name="date" content="2022-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -249,7 +249,20 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="4" data-path="Prior.html"><a href="Prior.html"><i class="fa fa-check"></i><b>4</b> Prior Distributions</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="Prior.html"><a href="Prior.html#where-do-priors-come-from"><i class="fa fa-check"></i><b>4.1</b> Where do priors come from?</a></li>
+<li class="chapter" data-level="4.1" data-path="Prior.html"><a href="Prior.html#choosing-priors"><i class="fa fa-check"></i><b>4.1</b> Choosing priors</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="Prior.html"><a href="Prior.html#eliciting-priors-from-experts"><i class="fa fa-check"></i><b>4.1.1</b> Eliciting priors from experts</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="Prior.html"><a href="Prior.html#non-informative-or-reference-priors"><i class="fa fa-check"></i><b>4.2.1</b> “Non-informative” or “reference” priors</a></li>
+<li class="chapter" data-level="4.2.2" data-path="Prior.html"><a href="Prior.html#minimally-informative-prior"><i class="fa fa-check"></i><b>4.2.2</b> Minimally informative prior</a></li>
+<li class="chapter" data-level="4.2.3" data-path="Prior.html"><a href="Prior.html#skeptical-prior"><i class="fa fa-check"></i><b>4.2.3</b> Skeptical Prior</a></li>
+<li class="chapter" data-level="4.2.4" data-path="Prior.html"><a href="Prior.html#optimisticenthusiastic-prior"><i class="fa fa-check"></i><b>4.2.4</b> Optimistic/enthusiastic Prior</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="Prior.html"><a href="Prior.html#historical-data-meta-analysis"><i class="fa fa-check"></i><b>4.3</b> Historical data (meta-analysis)</a></li>
+<li class="chapter" data-level="4.4" data-path="Prior.html"><a href="Prior.html#hierarchical-priors"><i class="fa fa-check"></i><b>4.4</b> Hierarchical priors</a></li>
+<li class="chapter" data-level="4.5" data-path="Prior.html"><a href="Prior.html#shrinkage-priors"><i class="fa fa-check"></i><b>4.5</b> Shrinkage priors</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="BayesMCMC.html"><a href="BayesMCMC.html"><i class="fa fa-check"></i><b>5</b> Bayesian estimation with MCMC</a>
 <ul>
@@ -1333,7 +1346,7 @@ for on the log scale.</p></li>
 - <span class="math inline">\(H_0: \theta \geq 0.2\)</span>
 - <span class="math inline">\(H_a: \theta \leq 0.2\)</span></p>
 <p><span class="math display">\[BF = \frac{\frac{P(\theta \geq 0.2 \mid y)}{P(\theta \leq 0.2 \mid y)}}{\frac{P(\theta \geq 0.2)}{P(\theta \leq 0.2)}} = \frac{\frac{qbeta(0.2, 1, 7)}{1-qbeta(0.2, 1, 7)}}{\frac{qbeta(0.2, 1, 1)}{1- qbeta(0.2, 1, 1)}} = \frac{0.032}{0.25} = 0.1295647\]</span></p>
-<p>Bayes factor calibration table from <span class="citation">(<a href="#ref-spiegelhalter2003" role="doc-biblioref">Spiegelhalter, Abrams, and Myles 2003</a>)</span></p>
+<p>Bayes factor calibration table from <span class="citation">(<a href="#ref-spiegelhalter2003" role="doc-biblioref">David J. Spiegelhalter, Abrams, and Myles 2003</a>)</span></p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-58"></span>
 <img src="images/bayes_factor_spiegelhalter.JPG" alt="Calibration of Bayes factor (likelihood ratio) provided by Jeffreys from Spiegelhalter 2003 " width="436" />
 <p class="caption">
