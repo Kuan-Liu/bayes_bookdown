@@ -382,10 +382,10 @@ ggarrange(p1,p2,nrow=1)
 - MCID for 60-day mortality in RR comparing between ECOMO and Rescue Lung Injury in Severe ARDS is 0.67, log(0.4/0.6) = -0.405.
 - Let P(RR<0.67) = P(log(RR)< -0.405) = 0.05, that is saying the probability of the ECOMO being effective beyond MCID is only 5%, we have
 
-\[1.645 \times \sigma = MCID = |-0.405| = 0.405\]
-\[\sigma = \frac{0.405}{1.645} = 0.246\]
+\[1.6445 \times \sigma = MCID = |-0.405| = 0.405\]
+\[\sigma = \frac{0.405}{1.6445} = 0.242\]
 
-- yielding a candidate skeptical prior on log(RR) ~ $N(0,0.245^2)$
+- yielding a candidate skeptical prior on log(RR) ~ $N(0,0.242^2)$
 
 :::
 
@@ -589,7 +589,7 @@ ggarrange(plot.gamma(0.1,0.1),
 \[y_i = \beta^TX_i + \epsilon_i, \ e_i \sim N(0,\sigma^2), \ i = 1, \ldots, n\]
 
 - The horseshoe prior (hierarchical) is given as:
-\[beta_j \mid \lambda_j, \tau, \sim N(0, \lambda_j^2 \tau^2)\]
+\[\beta_j \mid \lambda_j, \tau, \sim N(0, \lambda_j^2 \tau^2)\]
 \[\lambda_j \sim halfCauchy(0,1), j = 1, \ldots, p.\]
 
 - $\lambda_j$ is called local shrinkage parameter - enable some $\beta$ to escape the shrinkage
