@@ -17,6 +17,7 @@ library(tidyverse)
 library(ggpubr)
 library(SHELF)
 library(MCMCpack)
+library(extraDistr)
 
 options(scipen = 999)
 ```
@@ -399,16 +400,231 @@ ggarrange(p1,p2,nrow=1)
 
 ## Historical data (meta-analysis)
 
-
-
-## Hierarchical priors
-
-
-
-## Shrinkage priors
-
-
-
-
-
+- Incorporating historical data in Bayesian analysis
+    - these can be formalized as a means of using past evidence as a basis for a prior distribution for a parameter of interest
+    - Additional reading: Section 5.4 Summary of External Evidence of [@spiegelhalter2003]
     
+
+- Meta-analysis is a very useful tool for evidence synthesis in clinical research
+    - **Juan Pablo** will give us a guest lecture on Bayesian meta-analysis after reading week!
+    - We can directly use published meta-analysis results to construct priors
+    - if not available, one can also complete a meta-analysis to synthesis evidence for prior construction
+- These types of prior are called data-derived priors. 
+    - For example, in the Bayesian reanalysis of the EOLIA trial, data-derived priors are constructed from a Bayesian meta-analysis of published relevant studies.
+    - The posterior distribution (updated belief) of treatment effect is produced by combining data-derived prior with data from the current study.
+    
+**Downweighting**: 
+
+To reflect concerns about possible differences between the current and previous studies, the **variance** of the past studies can be inflated to receive less weight in the analysis on the pooled estimate of effect.
+
+
+**Data-derived prior from the Bayesian reanalysis of the EOLIA trial**[@goligher2018extracorporeal]
+
+- Data-derived prior was developed based on three relevant studies from a meta-analysis of ECMO for ARDS [@munshi2014extracorporeal]
+- Three studies are:[@peek2009efficacy], [@pham2013extracorporeal], and [@noah2011referral]
+
+```{r echo=FALSE, fig.cap="In-hospital mortality. Forest plot showing pooled analysis of four randomized controlled trials and six observational studies comparing extracorporeal life support (ECLS) to conventional mechanical ventilation (MV) from Munshi et al 2014.", fig.align='center'}
+knitr::include_graphics("images/ecmo_meta.JPG")
+```
+
+
+- After fitting a random effect model, the pooled RR is estimated as 0.64 with 95% CI (0.38 - 1.06).
+- We now express this prior as a normal likelihood on the log(RR) scale and consider three scenarios of "downweighting" (10%, 50% and 100%).
+
+<div class="fold s">
+```{r fig.height=3, fig.width=5,fig.align='center', warning=FALSE}
+CI.normal <- log(c(0.38, 1.06))
+sigma <- (CI.normal[2] - CI.normal[1])/(2*1.96)
+mu <- log(0.64)
+
+xlabs <- c(0.2, 0.4, 0.6, 0.8, 1, 3)
+
+noweight <- dnorm(log(seq(0.1,3, length=201)), mu, sigma)
+weight50 <- dnorm(log(seq(0.1,3, length=201)), mu, sigma/sqrt(0.5))
+weight10 <- dnorm(log(seq(0.1,3, length=201)), mu, sigma/sqrt(0.1))
+
+d <- data.frame(logrr.range = rep(log(seq(0.1,3, length=201)),3),
+                plog.rr = c(noweight, weight50, weight10),
+                Weighting = rep(c("100% weight","50% weight","10% weight"),each=201)) 
+
+ggplot(d, aes(logrr.range, plog.rr,colour=Weighting))+
+  geom_line(size = 1)+
+     xlab("RR")+
+     ylab("probability density")+
+     ylim(c(0,2))+
+     scale_x_continuous(breaks = log(xlabs),labels=xlabs, limits=c(log(0.1), log(3)))+
+     scale_colour_manual(values=c("goldenrod","steelblue","black"))+
+  theme_bw()+
+  ggtitle("Data-derived priors")
+
+```
+<div>
+
+
+```{r echo=FALSE, include=FALSE}
+
+
+# dmeta <- tibble(
+#   study = c("Peek 2009", "Noah 2011", "Pham 2013"),
+#   event.e = c(25,18,35),
+#   n.e = c(68,75,98),
+#   event.c = c(44,38,54),
+#   n.c = c(90,75,98)
+# )
+# 
+# library(meta)
+# m.bin <- metabin(event.e = event.e,
+#                  n.e = n.e,
+#                  event.c = event.c,
+#                  n.c = n.c,
+#                  studlab = study,
+#                  data = dmeta,
+#                  sm = "RR",
+#                  method = "MH",
+#                  MH.exact = TRUE,
+#                  fixed = FALSE,
+#                  random = TRUE,
+#                  method.tau = "PM",
+#                  hakn = TRUE,
+#                  title = "Mortality")
+# summary(m.bin)
+#                          RR           95%-CI     t p-value
+# Random effects model 0.6323 [0.3732; 1.0711] -3.74  0.0646
+
+# m.bin_update <- update.meta(m.bin, method.tau = "REML")
+# summary(m.bin_update)
+# 
+#                          RR           95%-CI     t p-value
+# Random effects model 0.6353 [0.3805; 1.0607] -3.81  0.0626
+
+# # Peek 2009;
+# y <- c(rep(1, 25), rep(0, 68 - 25), rep(1, 44), rep(0, 90 - 44))
+# trt <- c(rep(1, 68), rep(0, 90))
+# study <- rep("Peek 2009", length(trt))
+# 
+# # Noah 2011;
+# y <- c(y, rep(1, 18), rep(0, 75-18), rep(1, 38), rep(1, 75-38))
+# trt <- c(trt, rep(1, 75), rep(0, 75))
+# study <- c(study, rep("Noah 2011", length(trt) - length(study)))
+# 
+# # Pham 2013;
+# y <- c(y, rep(1, 35), rep(0, 98 - 35), rep(1, 54), rep(0, 98 - 54))
+# trt <- c(trt, rep(1, 98), rep(0, 98))
+# study <- c(study, rep("Pham 2013", length(trt) - length(study)))
+# 
+# dmeta2<-tibble(y, trt, study)
+
+
+
+```
+
+
+## Hierarchical priors and shrinkage priors
+
+- Don't necessarily have information about the value of a parameter
+- Expresses knowledge, for example, that a several of parameters, $\mu_1, \ldots, \mu_k$ have a common mean, without saying what that mean is
+
+\[\mu_i \sim N(\mu_0, \sigma^2) \]
+
+- The Bayesian posterior means for $\mu_i$ will be "shrunk" towards the overall mean $\mu_0$ - (this is called formally as exchangeability)
+- By sharing information this way, individual estimates have smaller variances - A way of avoiding overfitting
+
+- These are priors on higher level parameters (variances and random effects are the most common)
+
+**Example prior distribution for variance - Gamma Distribution**
+
+```{r echo=FALSE}
+# plot.invgamma <- function(a, b){
+#   d <- tibble(theta=seq(0,0.5, length=201),
+#               density=dinvgamma(theta, alpha =a, beta=b))
+#   p <- ggplot(data=d, aes(theta, density))+
+#       geom_line(col="orange")+
+#         xlab("Variance")+
+#       ylab("Probability Density")+
+#         ggtitle(paste0("IG(",a,",",b,")"))+
+#       expand_limits(y=0)+
+#       theme_bw()
+# p
+# }
+
+# ggarrange(plot.invgamma(1,0.1),
+#           plot.invgamma(0.1,0.1), 
+#           plot.invgamma(0.01,0.01), 
+#           plot.invgamma(0.001,0.001), 
+#           nrow = 2,
+#           ncol = 2)
+
+plot.gamma <- function(a, b){
+     d <- tibble(theta=seq(0,0.5, length=201),
+                 density=dgamma(theta, shape =a, scale=b))
+     p <- ggplot(data=d, aes(theta, density))+
+         geom_line(col="orange")+
+         xlab("Precision")+
+         ylab("Density")+
+         ggtitle(paste0("Gamma(",a,",",b,")"))+
+         expand_limits(y=0)+
+         theme_bw()
+     p
+ }
+
+ggarrange(plot.gamma(0.1,0.1), 
+           plot.gamma(0.01,0.01), 
+           plot.gamma(0.001,0.001), 
+           plot.gamma(1,0.1),
+           nrow = 2,
+           ncol = 2)
+
+
+```
+
+
+- Shrinkage priors in Bayesian penalization aim to shrink small effects to zero while maintaining true large effects.
+
+- The horseshoe prior is a member of the family of multivariate scale mixtures of normals, and is therefore closely related to widely used approaches for sparse Bayesian learning, including, among others, Laplace priors (e.g. the LASSO) and Student-t priors.
+
+**Example horseshoe prior**
+
+- Consider a linear regression model with covariates $X = (x_1, \ldots, x_p)$. $\beta$ is a $1\times p$ vector of regression coefficient and i index number of subject.
+
+\[y_i = \beta^TX_i + \epsilon_i, \ e_i \sim N(0,\sigma^2), \ i = 1, \ldots, n\]
+
+- The horseshoe prior (hierarchical) is given as:
+\[beta_j \mid \lambda_j, \tau, \sim N(0, \lambda_j^2 \tau^2)\]
+\[\lambda_j \sim halfCauchy(0,1), j = 1, \ldots, p.\]
+
+- $\lambda_j$ is called local shrinkage parameter - enable some $\beta$ to escape the shrinkage
+- $\tau$ is the global shrinkage parameter - shrink all $\beta$ towards zero, thus removing the corresponding covariate from the regression model.
+
+```{r}
+# Visually compare normal, student_t, cauchy, laplace, and product_normal
+compare_priors <- function(scale = 1, df_t = 2, xlim = c(-10, 10)) {
+  dt_loc_scale <- function(x, df, location, scale) {
+    1/scale * dt((x - location)/scale, df)
+  }
+  dlaplace <- function(x, location, scale) {
+    0.5 / scale * exp(-abs(x - location) / scale)
+  }
+  dproduct_normal <- function(x, scale) {
+    besselK(abs(x) / scale ^ 2, nu = 0) / (scale ^ 2 * pi)
+  }
+  stat_dist <- function(dist, ...) {
+    ggplot2::stat_function(ggplot2::aes_(color = dist), ...)
+  }
+  ggplot2::ggplot(data.frame(x = xlim), ggplot2::aes(x)) +
+    stat_dist("normal", size = .75, fun = dnorm,
+              args = list(mean = 0, sd = scale)) +
+    stat_dist("student_t", size = .75, fun = dt_loc_scale,
+              args = list(df = df_t, location = 0, scale = scale)) +
+    stat_dist("cauchy", size = .75, linetype = 2, fun = dcauchy,
+              args = list(location = 0, scale = scale)) +
+    stat_dist("laplace", size = .75, linetype = 2, fun = dlaplace,
+              args = list(location = 0, scale = scale)) +
+    stat_dist("product_normal", size = .75, linetype = 2, fun = dproduct_normal,args = list(scale = 1))+theme_bw()
+}
+# Cauchy has fattest tails, followed by student_t, laplace, and normal
+compare_priors()
+
+
+
+```
+

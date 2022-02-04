@@ -151,7 +151,6 @@ pool <- w[1]*p1+w[2]*p2+w[3]*p3+w[4]*p4
 
 r  <- 1.2*max(c(p1,p2,p3,p4, pool))
 
-# pdf("S:\\Documents\\Bayes\\2019\\Notes\\Priors\\mixture.pdf")
 
 plot(theta,p1,col=gray(0.5),lwd=2,ylim=c(0,r),type="l",
      xlab=expression(theta),ylab="Prior",
@@ -163,6 +162,21 @@ lines(theta,pool,col=gray(0),lwd=2)
 legend("topleft",c("Experts","Mixture of experts"),lwd=2,col=gray(c(0.5,0)),
        bty="n",cex=1.5)
 
-# dev.off()
+
+### get median q1 and 3-rd quartile q2 of p
+fn <- function(par){
+  a <- par[1]
+  b <- par[2]
+  return(sum((pbeta(c(0.1, 0.9), a, b) - c(0.025, 0.975))^2))
+}
+
+optim(c(1, 1), fn)
+
+fn2 <- function(par){
+  a <- par[1]
+  b <- par[2]
+  return(sum((extraDistr::pbbinom(c(10, 90), 100, a, b) - c(0.025, 0.975))^2))
+}
+optim(c(1, 1), fn2)
 
 
