@@ -85,3 +85,5 @@ hierarchical-models-and-convergence
 BayesReg2
 models-for-binary-data
 models-for-count-data
+fig:unnamed-chunk-6
+evaluating-priors

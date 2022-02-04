@@ -285,15 +285,6 @@ knitr::kable(res, row.names = F,
 - These issues resolve somewhat with larger data sets
 - With a precise likelihood (e.g., large sample size or large number of events), data rescues you from allowing implausible values.
 
-
-**Evaluating Priors?**
-1. Section 5.8 [@spiegelhalter2003] introduced a Box approach to comparing priors with subsequent data in assessing the ability of the chosen subjective prior to predict the true benefit of intervention
-    - The prior is used to derive a predictive distribution for future observations, and thus to calculate the chance of a result with lower predictive ordinate than that actually observed: 
-    - when the predictive distribution is symmetric and unimodal, this is analagous to a traditional two-sided P-value in measuring the predictive probability of getting a result at least as extreme as that observed.
-    - this assessment can be used to evaluate prior distributions parameter values
-
-2. When we have several candidate prior distributions (e.g. lognormal, beta, normal, etc), we can use goodness-of-fit statistics like Kolmogorov-Smirnov, Cramer-von Mises, and Anderson-Darl to evaluate which distribution best fit the prior belief density.
-    - [fitdistrplus:  An R Package for Fitting Distributions](https://cran.r-project.org/web/packages/fitdistrplus/vignettes/paper2JSS.pdf)
     
     
 
@@ -391,13 +382,18 @@ ggarrange(p1,p2,nrow=1)
 
 **Example from EOLIA trial**[@goligher2018extracorporeal]
 
-- MCID for 60-day mortality in RR comparing between ECOMO and Rescue Lung Injury in Severe ARDS is 0.67, log(0.4/0.6) = -0.405.
-- Let P(RR<0.67) = P(log(RR)< -0.405) = 0.05, that is saying the probability of the ECOMO being effective beyond MCID is only 5%, we have
+- MCID for 60-day mortality in RR comparing between ECMO and Rescue Lung Injury in Severe ARDS is 0.67, log(0.4/0.6) = -0.405.
+- 0 (null, RR=1) will be the mean of the skeptical prior!
+- Let P(RR<0.67) = P(log(RR)< -0.405) = 0.05, that is saying the probability of the ECOMO being effective beyond MCID is only 5%.
+- Employee z transformation on normal distribution, we have
 
-\[1.6445 \times \sigma = MCID = |-0.405| = 0.405\]
-\[\sigma = \frac{0.405}{1.6445} = 0.242\]
+\[ P(log(RR)< -0.405) = P(\frac{log(RR)-0}{\sigma} < \frac{(-0.405) - 0}{\sigma}) = P(z < \frac{-0.405}{\sigma}) =0.05\]
 
-- yielding a candidate skeptical prior on log(RR) ~ $N(0,0.242^2)$
+
+\[ qnorm(0.05,0,1) \times \sigma = -0.405 \]
+\[\sigma = \frac{0.405}{qnorm(0.05,0,1)} = 0.246\]
+
+- yielding a candidate skeptical prior on log(RR) ~ $N(0,0.246^2)$
 
 :::
 
@@ -407,8 +403,43 @@ ggarrange(p1,p2,nrow=1)
 - This is centred at the MCID and a 95% CR extends to no effect
 - Optimistic Prior will move observed results towards the MCID
 - If a optimist is convinced that there is no effect, the evidence for no effect is strong
-- For the reanalysis of the EOLIA trial, the strongly enthusiastic prior is defined as log(RR) ~ $N(0.67, 0.25^2)$.
 
+<!-- - For the reanalysis of the EOLIA trial, the strongly enthusiastic prior is defined as log(RR) ~ $N(0.67, 0.25^2)$. -->
+
+- Spiegelhater suggested an "enthusiastic" prior centred on the althernative hypothesis (meeting MCID) and with a low chance (say 5% probability) that the true treatment benefit is negative!
+     
+::: {.workedexample data-latex=""}
+
+**Example from EOLIA trial**[@goligher2018extracorporeal]
+
+- MCID for 60-day mortality in RR comparing between ECOMO and Rescue Lung Injury in Severe ARDS is 0.67, log(0.4/0.6) = -0.405. 
+- -0.405 will be the mean of the enthusiastic prior!
+
+- Let P(RR>1) = P(log(RR)> 0) = 0.05, that is saying the probability of the ECMO not being effective is 5%.
+
+- Employee z transformation on normal distribution, we have
+
+\[ P(log(RR)> 0) = P(\frac{log(RR)-(-0.405)}{\sigma}> \frac{0-(-0.405)}{\sigma}) = P(z > \frac{0.405}{\sigma}) =0.05\]
+\[P(z < \frac{0.405}{\sigma}) = 1- 0.05 = 0.95\]
+\[qnorm(0.95,0,1) \times \sigma = 0.405\]
+\[\sigma = \frac{0.405}{qnorm(0.95,0,1)} = 0.246\]
+
+- yielding a candidate enthusiastic prior on log(RR) ~ $N(-0.405,0.246^2)$
+
+:::
+
+
+### Evaluating Priors?
+
+1. Section 5.8 [@spiegelhalter2003] introduced a Box approach to comparing priors with subsequent data in assessing the ability of the chosen subjective prior to predict the true benefit of intervention
+    - The prior is used to derive a predictive distribution for future observations, and thus to calculate the chance of a result with lower predictive ordinate than that actually observed: 
+    - when the predictive distribution is symmetric and unimodal, this is analagous to a traditional two-sided P-value in measuring the predictive probability of getting a result at least as extreme as that observed.
+    - this assessment can be used to evaluate prior distributions parameter values
+
+2. When we have several candidate prior distributions (e.g. lognormal, beta, normal, etc), we can use goodness-of-fit statistics like Kolmogorov-Smirnov, Cramer-von Mises, and Anderson-Darl to evaluate which distribution best fit the prior belief density.
+    - [fitdistrplus:  An R Package for Fitting Distributions](https://cran.r-project.org/web/packages/fitdistrplus/vignettes/paper2JSS.pdf)
+    
+    
 
 ## Historical data (meta-analysis)
 
