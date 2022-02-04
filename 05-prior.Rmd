@@ -16,6 +16,7 @@
 library(tidyverse)
 library(ggpubr)
 library(SHELF)
+library(MCMCpack)
 
 options(scipen = 999)
 ```
@@ -120,13 +121,280 @@ Research Assistant and ShinyApp Developer: [Jingxian (Phebe) Lan](https://www.li
 :::
 
 
-
-
-
-
 ## Default clincial priors
 
+Section 5.5 Default Priors of [@spiegelhalter2003]
 
+### "Non-informative" or "reference" priors
+
+- (Pros) It is attractive to seek a “noninformative”
+prior to use as a baseline analysis
+    - "such analyses have been suggested as a way of making probability statements about parameters without being explicitly Bayesian" [@spiegelhalter2004incorporating]
+    
+- (Cons) However, ninformative priors are nonsensical and can lead to inference problems, especially in smaller samples
+    - can have a strong impact particularly when events are rare.
+    
+- Prior Choice Recommendations and Wiki developed by the stan team, https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
+     - this guide is written by statisticians, thus, recommendations are primary for non-informative, vague, and weakly informative priors
+     - General principle on this guide provides a start
+
+::: {.workedexample data-latex=""}
+
+**1. Noninformative Prior on Proportion**
+
+Suppose you are estimating the 30-day mortality after elective non-cardiac surgery, what is an uninformative prior for the proportion dying?
+
+- An "off the shelf" uninformative priors for binomial model are
+    1. $\theta \sim U(0,1) \equiv Beta(1,1)$
+    2. Jeffreys prior, $\theta \sim Beta(0.5,0.5)$
+
+```{r echo=FALSE, fig.height=3}
+
+plot.beta <- function(a, b){
+  d <- tibble(theta=seq(0,1, length=1001),
+              density=dbeta(theta, shape1 =a, shape2=b))
+  p <- ggplot(data=d, aes(theta, density))+
+      geom_line(col="black")+
+      geom_segment(aes(x = qbeta(0.025,a,b), 
+                       y = 0, 
+                       xend = qbeta(0.025,a,b), 
+                       yend = density[theta == round(qbeta(0.025,a,b),3)],colour = "segment"), data=d)+
+      geom_segment(aes(x = qbeta(0.5,a,b), 
+                       y = 0, 
+                       xend = qbeta(0.5,a,b), 
+                       yend = density[theta == round(qbeta(0.5,a,b),3)], colour = "segment"), data=d)+
+      geom_segment(aes(x = qbeta(0.975,a,b), 
+                       y = 0, 
+                       xend = qbeta(0.975,a,b), 
+                       yend = density[theta == round(qbeta(0.975,a,b),3)],colour = "segment"), data=d)+
+      xlab(expression(theta))+
+      ylab(expression(p(theta)))+
+        ggtitle(paste0("Beta(",a,",",b,") density"))+
+      expand_limits(y=0)+
+      theme_bw()
+p
+
+}
+
+ggarrange(plot.beta(1,1), 
+          plot.beta(0.5,0.5), 
+          nrow = 1, legend = "none")
+
+cutoff <- c(0.25,0.5,0.75)
+
+res <- c("Beta(1,1)",round(qbeta(c(0.5, 0.025, 0.975), 1, 1),3), round(pbeta(cutoff, 1, 1),3))
+res <- rbind(res, c("Beta(0.5,0.5)", round(qbeta(c(0.5, 0.025, 0.975), 0.5, 0.5),3), round(pbeta(cutoff, 0.5, 0.5),3)))
+
+
+knitr::kable(res, row.names = F,
+             col.names = c("Prior","median","q2.5","q97.5",paste0("Pr(", "$\\theta$", "< ",cutoff,")")))
+```
+
+
+**2. Noninformative Prior on log-relative risk**
+
+- Suppose you want to estimate the relative risk for death in a clinical trial
+- Relative risk modelling works with the log-relative risk (as it has an approximately normal likelihood)
+- An "off the shelf" uninformative prior with a large variance might be
+\[\log(RR) = \theta \sim N(0, \sigma^2 = 10^2)\]
+
+- Prior 95% Credible Interval for log(RR) is -19.6 to 19.6
+- Prior 95% Credible Interval for RR is $3 \times 10^{-9}$ to $3 \times 10^{9}$
+- A more sensible choice, $N(0,5^2)$, for log scale OR, RR, and HR.
+
+
+```{r echo=FALSE, fig.height=7}
+
+plot.norm <- function(mu, sd){
+  d <- tibble(mu.plot=seq(-25,25, by=0.01),
+              density=dnorm(mu.plot, mu,sd))
+  p <- ggplot(data=d, aes(mu.plot, density))+
+      geom_line(col="black")+
+      geom_segment(aes(x = qnorm(0.025,mu,sd), 
+                       y = 0, 
+                       xend = qnorm(0.025,mu,sd), 
+                       yend = dnorm(qnorm(0.025,mu,sd), mu,sd),colour = "segment"))+
+      geom_segment(aes(x = qnorm(0.5,mu,sd), 
+                       y = 0, 
+                       xend = qnorm(0.5,mu,sd), 
+                       yend = dnorm(qnorm(0.5,mu,sd), mu,sd),colour = "segment"))+
+      geom_segment(aes(x = qnorm(0.975,mu,sd), 
+                       y = 0, 
+                       xend = qnorm(0.975,mu,sd), 
+                       yend = dnorm(qnorm(0.975,mu,sd), mu,sd),colour = "segment"))+
+      xlab(expression(mu))+
+      ylab(expression(p(mu)))+
+        ggtitle(paste0("N(",mu,",",sd^2,") density"))+
+      expand_limits(y=c(0,0.15))+
+      theme_bw()
+p
+
+}
+
+ggarrange(plot.norm(0,10), 
+          plot.norm(0,5),
+          plot.norm(0,4),
+          plot.norm(0,3),
+          nrow = 2,ncol=2, legend = "none")
+
+res <- c("N(0,100)",
+         round(qnorm(c(0.5, 0.025, 0.975), 0, 10),3), 
+         round(exp(qnorm(0.025, 0, 10)),10),
+         round(exp(qnorm(0.975, 0, 10)),2))
+
+res <- rbind(res, c("N(0,25)", 
+                  round(qnorm(c(0.5, 0.025, 0.975), 0, 5),3), 
+                  round(exp(qnorm(0.025, 0, 5)),10),
+                  round(exp(qnorm(0.975, 0, 5)),2))
+             )
+
+res <- rbind(res, c("N(0,16)", 
+                  round(qnorm(c(0.5, 0.025, 0.975), 0, 4),3), 
+                  round(exp(qnorm(0.025, 0, 4)),10),
+                  round(exp(qnorm(0.975, 0, 4)),2))
+             )
+
+res <- rbind(res, c("N(0,9)", 
+                  round(qnorm(c(0.5, 0.025, 0.975), 0, 3),3), 
+                  round(exp(qnorm(0.025, 0, 3)),10),
+                  round(exp(qnorm(0.975, 0, 3)),2))
+             )
+
+res <- rbind(res, c("N(0,4)", 
+                  round(qnorm(c(0.5, 0.025, 0.975), 0, 2),3), 
+                  round(exp(qnorm(0.025, 0, 2)),10),
+                  round(exp(qnorm(0.975, 0, 2)),2))
+             )
+
+res <- rbind(res, c("N(0,1)", 
+                  round(qnorm(c(0.5, 0.025, 0.975), 0, 1),3), 
+                  round(exp(qnorm(0.025, 0, 1)),10),
+                  round(exp(qnorm(0.975, 0, 1)),2))
+             )
+
+knitr::kable(res, row.names = F,
+             col.names = c("Prior log(RR)","median log(RR)","q2.5 log(RR)","q97.5 log(RR)","q2.5 RR","q97. RR"))
+```
+
+:::
+
+**Quick Summary**
+
+- Posterior could land on implausible values with small numbers of deaths in one group or other. 
+- These issues resolve somewhat with larger data sets
+- With a precise likelihood (e.g., large sample size or large number of events), data rescues you from allowing implausible values.
+
+::: {.guidedexercise data-latex=""}
+
+**1. ISSUE with Uniform Priors** uniform priors on one scale are not uniform on a transformed scale
+  
+Suppose we set prior $\theta \sim U(0,1)$ as an uninformative prior on the parameter quantifying risk of adverse event, probability $\theta$
+
+- Prior distribution on log($\frac{\theta}{1-\theta}$), which is also called the logit of $\theta$ is no longer uniformly distributed
+
+```{r echo=FALSE, fig.height=3}
+
+d <- tibble(theta=rbeta(10000,1,1),
+            logit.theta = log(theta/(1-theta)))
+
+p1<- ggplot(data=d, aes(theta))+
+      geom_histogram(col="black", fill="white", bins = 50)+
+      xlab(expression(theta))+
+        ggtitle("Distribution of theta")+
+      ylab("Frequency")+
+      expand_limits(y=c(0,1000))+
+      theme_bw()
+
+p2<- ggplot(data=d, aes(logit.theta))+
+      geom_histogram(col="black", fill="white", bins = 50)+
+      xlab(expression(logit(theta)))+
+        ggtitle("Distribution of log-odds")+
+      expand_limits(y=c(0,1000))+
+      ylab("Frequency")+
+      theme_bw()
+
+ggarrange(p1,p2,nrow=1)
+
+```
+
+
+
+
+**2. Using large variance normal distribution as non-informative prior**
+
+- How is a normal distribution N(0,$100^2$), with its bell-shape, uninformative?
+- It does not put equal density on all points, as the density drops off from zero in each direction
+- The key is that it is locally uniform
+- In the region where a parameter is likely to lie, the normal distribution is flat.
+
+```{r echo=FALSE, fig.height=3, warning=FALSE}
+
+d <- tibble(mu.plot=seq(-500,500, by=0.01),
+              density=dnorm(mu.plot, 0,100))
+p1 <- ggplot(data=d, aes(mu.plot, density))+
+      geom_line(col="black")+
+      xlab(expression(mu))+
+      ylab(expression(p(mu)))+
+        ggtitle("Bell shape")+
+      theme_bw()
+
+p2 <- ggplot(data=d, aes(mu.plot, density))+
+      geom_line(col="black")+
+      xlab(expression(mu))+
+      ylab(expression(p(mu)))+
+        ggtitle("Approximate Flat")+
+      xlim(x=c(-10,10))+
+      theme_bw()
+
+ggarrange(p1,p2,nrow=1)
+      
+```
+
+
+:::
+
+### Minimally informative prior
+
+- Use substantive knowledge to put most prior weight on possible values, without being too restrictive
+    - From example, a RR for mortality in a trial, a prior with most weight on values of 0.66 to 1.5, a N(0,1) prior would be considered suitable.
+
+    - For the between-person standard deviation of a 0-40 quality of life instrument, a prior with most weight on values under 10, a possible prior would be Gamma(0.1,0.1) on the precision.
+
+### Skeptical Prior
+
+- priors that express doubts about large effects
+
+- Mathematically speaking, a sceptical prior about a treatment effect will have a mean of zero and a shape chosen to include plausible treatment differences which determines the degree of scepticism.
+    - This is centred at no effect and a 95% CR extends to a minimally clinically important difference (MCID)
+    
+- Skeptical prior will "shrink" back observed results towards the null effect
+- If under the skeptical prior, the posterior results support conclusion of effectiveness (results suggest departure from null), the skeptic is convinced!
+
+
+- Spiegelhater suggested a reasonable degree of scepticism maybe feeling that the study has been designed around an alternative hypothesis that is optimistic,
+     - formalized by a prior with only a small probability say 5% that the effect is as large as the optimistic alternative
+
+::: {.workedexample data-latex=""}
+
+**Example from EOLIA trial**[@goligher2018extracorporeal]
+
+- MCID for 60-day mortality in RR comparing between ECOMO and Rescue Lung Injury in Severe ARDS is 0.67, log(0.4/0.6) = -0.405.
+- Let P(RR<0.67) = P(log(RR)< -0.405) = 0.05, that is saying the probability of the ECOMO being effective beyond MCID is only 5%, we have
+
+\[1.645 \times \sigma = MCID = |-0.405| = 0.405\]
+\[\sigma = \frac{0.405}{1.645} = 0.246\]
+
+- yielding a candidate skeptical prior on log(RR) ~ $N(0,0.245^2)$
+
+:::
+
+
+### Optimistic/enthusiastic Prior
+
+- This is centred at the MCID and a 95% CR extends to no effect
+- Optimistic Prior will move observed results towards the MCID
+- If a optimist is convinced that there is no effect, the evidence for no effect is strong
+- For the reanalysis of the EOLIA trial, the strongly enthusiastic prior is defined as log(RR) ~ $N(0.67, 0.25^2)$.
 
 
 ## Historical data (meta-analysis)

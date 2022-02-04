@@ -188,7 +188,13 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="4.1.1" data-path="Prior.html"><a href="Prior.html#eliciting-priors-from-experts"><i class="fa fa-check"></i><b>4.1.1</b> Eliciting priors from experts</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors</a></li>
+<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="Prior.html"><a href="Prior.html#non-informative-or-reference-priors"><i class="fa fa-check"></i><b>4.2.1</b> “Non-informative” or “reference” priors</a></li>
+<li class="chapter" data-level="4.2.2" data-path="Prior.html"><a href="Prior.html#minimally-informative-prior"><i class="fa fa-check"></i><b>4.2.2</b> Minimally informative prior</a></li>
+<li class="chapter" data-level="4.2.3" data-path="Prior.html"><a href="Prior.html#skeptical-prior"><i class="fa fa-check"></i><b>4.2.3</b> Skeptical Prior</a></li>
+<li class="chapter" data-level="4.2.4" data-path="Prior.html"><a href="Prior.html#optimisticenthusiastic-prior"><i class="fa fa-check"></i><b>4.2.4</b> Optimistic/enthusiastic Prior</a></li>
+</ul></li>
 <li class="chapter" data-level="4.3" data-path="Prior.html"><a href="Prior.html#historical-data-meta-analysis"><i class="fa fa-check"></i><b>4.3</b> Historical data (meta-analysis)</a></li>
 <li class="chapter" data-level="4.4" data-path="Prior.html"><a href="Prior.html#hierarchical-priors"><i class="fa fa-check"></i><b>4.4</b> Hierarchical priors</a></li>
 <li class="chapter" data-level="4.5" data-path="Prior.html"><a href="Prior.html#shrinkage-priors"><i class="fa fa-check"></i><b>4.5</b> Shrinkage priors</a></li>
@@ -352,6 +358,213 @@ reliability, responsiveness, and feasibility (lacking in exisiting work).</li>
 </div>
 <div id="default-clincial-priors" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Default clincial priors</h2>
+<p>Section 5.5 Default Priors of <span class="citation">(<a href="#ref-spiegelhalter2003" role="doc-biblioref">David J. Spiegelhalter, Abrams, and Myles 2003</a>)</span></p>
+<div id="non-informative-or-reference-priors" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> “Non-informative” or “reference” priors</h3>
+<ul>
+<li>(Pros) It is attractive to seek a “noninformative”
+prior to use as a baseline analysis
+<ul>
+<li>“such analyses have been suggested as a way of making probability statements about parameters without being explicitly Bayesian” <span class="citation">(<a href="#ref-spiegelhalter2004incorporating" role="doc-biblioref">David J. Spiegelhalter 2004</a>)</span></li>
+</ul></li>
+<li>(Cons) However, ninformative priors are nonsensical and can lead to inference problems, especially in smaller samples
+<ul>
+<li>can have a strong impact particularly when events are rare.</li>
+</ul></li>
+<li>Prior Choice Recommendations and Wiki developed by the stan team, <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>
+<ul>
+<li>this guide is written by statisticians, thus, recommendations are primary for non-informative, vague, and weakly informative priors</li>
+<li>General principle on this guide provides a start</li>
+</ul></li>
+</ul>
+<div class="workedexample">
+<p><strong>1. Noninformative Prior on Proportion</strong></p>
+<p>Suppose you are estimating the 30-day mortality after elective non-cardiac surgery, what is an uninformative prior for the proportion dying?</p>
+<ul>
+<li>An “off the shelf” uninformative priors for binomial model are
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\theta \sim U(0,1) \equiv Beta(1,1)\)</span></li>
+<li>Jeffreys prior, <span class="math inline">\(\theta \sim Beta(0.5,0.5)\)</span></li>
+</ol></li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Prior</th>
+<th align="left">median</th>
+<th align="left">q2.5</th>
+<th align="left">q97.5</th>
+<th align="left">Pr(<span class="math inline">\(\theta\)</span>&lt; 0.25)</th>
+<th align="left">Pr(<span class="math inline">\(\theta\)</span>&lt; 0.5)</th>
+<th align="left">Pr(<span class="math inline">\(\theta\)</span>&lt; 0.75)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Beta(1,1)</td>
+<td align="left">0.5</td>
+<td align="left">0.025</td>
+<td align="left">0.975</td>
+<td align="left">0.25</td>
+<td align="left">0.5</td>
+<td align="left">0.75</td>
+</tr>
+<tr class="even">
+<td align="left">Beta(0.5,0.5)</td>
+<td align="left">0.5</td>
+<td align="left">0.002</td>
+<td align="left">0.998</td>
+<td align="left">0.333</td>
+<td align="left">0.5</td>
+<td align="left">0.667</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2. Noninformative Prior on log-relative risk</strong></p>
+<ul>
+<li><p>Suppose you want to estimate the relative risk for death in a clinical trial</p></li>
+<li><p>Relative risk modelling works with the log-relative risk (as it has an approximately normal likelihood)</p></li>
+<li><p>An “off the shelf” uninformative prior with a large variance might be
+<span class="math display">\[\log(RR) = \theta \sim N(0, \sigma^2 = 10^2)\]</span></p></li>
+<li><p>Prior 95% Credible Interval for log(RR) is -19.6 to 19.6</p></li>
+<li><p>Prior 95% Credible Interval for RR is <span class="math inline">\(3 \times 10^{-9}\)</span> to <span class="math inline">\(3 \times 10^{9}\)</span></p></li>
+<li><p>A more sensible choice, <span class="math inline">\(N(0,5^2)\)</span>, for log scale OR, RR, and HR.</p></li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Prior log(RR)</th>
+<th align="left">median log(RR)</th>
+<th align="left">q2.5 log(RR)</th>
+<th align="left">q97.5 log(RR)</th>
+<th align="left">q2.5 RR</th>
+<th align="left">q97. RR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">N(0,100)</td>
+<td align="left">0</td>
+<td align="left">-19.6</td>
+<td align="left">19.6</td>
+<td align="left">0.0000000031</td>
+<td align="left">325098849.19</td>
+</tr>
+<tr class="even">
+<td align="left">N(0,25)</td>
+<td align="left">0</td>
+<td align="left">-9.8</td>
+<td align="left">9.8</td>
+<td align="left">0.0000554616</td>
+<td align="left">18030.5</td>
+</tr>
+<tr class="odd">
+<td align="left">N(0,16)</td>
+<td align="left">0</td>
+<td align="left">-7.84</td>
+<td align="left">7.84</td>
+<td align="left">0.0003937258</td>
+<td align="left">2539.84</td>
+</tr>
+<tr class="even">
+<td align="left">N(0,9)</td>
+<td align="left">0</td>
+<td align="left">-5.88</td>
+<td align="left">5.88</td>
+<td align="left">0.0027950873</td>
+<td align="left">357.77</td>
+</tr>
+<tr class="odd">
+<td align="left">N(0,4)</td>
+<td align="left">0</td>
+<td align="left">-3.92</td>
+<td align="left">3.92</td>
+<td align="left">0.019842524</td>
+<td align="left">50.4</td>
+</tr>
+<tr class="even">
+<td align="left">N(0,1)</td>
+<td align="left">0</td>
+<td align="left">-1.96</td>
+<td align="left">1.96</td>
+<td align="left">0.1408634941</td>
+<td align="left">7.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Quick Summary</strong></p>
+<ul>
+<li>Posterior could land on implausible values with small numbers of deaths in one group or other.</li>
+<li>These issues resolve somewhat with larger data sets</li>
+<li>With a precise likelihood (e.g., large sample size or large number of events), data rescues you from allowing implausible values.</li>
+</ul>
+<div class="guidedexercise">
+<p><strong>1. ISSUE with Uniform Priors</strong> uniform priors on one scale are not uniform on a transformed scale</p>
+<p>Suppose we set prior <span class="math inline">\(\theta \sim U(0,1)\)</span> as an uninformative prior on the parameter quantifying risk of adverse event, probability <span class="math inline">\(\theta\)</span></p>
+<ul>
+<li>Prior distribution on log(<span class="math inline">\(\frac{\theta}{1-\theta}\)</span>), which is also called the logit of <span class="math inline">\(\theta\)</span> is no longer uniformly distributed</li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><strong>2. Using large variance normal distribution as non-informative prior</strong></p>
+<ul>
+<li>How is a normal distribution N(0,<span class="math inline">\(100^2\)</span>), with its bell-shape, uninformative?</li>
+<li>It does not put equal density on all points, as the density drops off from zero in each direction</li>
+<li>The key is that it is locally uniform</li>
+<li>In the region where a parameter is likely to lie, the normal distribution is flat.</li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="minimally-informative-prior" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Minimally informative prior</h3>
+<ul>
+<li>Use substantive knowledge to put most prior weight on possible values, without being too restrictive
+<ul>
+<li><p>From example, a RR for mortality in a trial, a prior with most weight on values of 0.66 to 1.5, a N(0,1) prior would be considered suitable.</p></li>
+<li><p>For the between-person standard deviation of a 0-40 quality of life instrument, a prior with most weight on values under 10, a possible prior would be Gamma(0.1,0.1) on the precision.</p></li>
+</ul></li>
+</ul>
+</div>
+<div id="skeptical-prior" class="section level3" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Skeptical Prior</h3>
+<ul>
+<li><p>priors that express doubts about large effects</p></li>
+<li><p>Mathematically speaking, a sceptical prior about a treatment effect will have a mean of zero and a shape chosen to include plausible treatment differences which determines the degree of scepticism.</p>
+<ul>
+<li>This is centred at no effect and a 95% CR extends to a minimally clinically important difference (MCID)</li>
+</ul></li>
+<li><p>Skeptical prior will “shrink” back observed results towards the null effect</p></li>
+<li><p>If under the skeptical prior, the posterior results support conclusion of effectiveness (results suggest departure from null), the skeptic is convinced!</p></li>
+<li><p>Spiegelhater suggested a reasonable degree of scepticism maybe feeling that the study has been designed around an alternative hypothesis that is optimistic,</p>
+<ul>
+<li>formalized by a prior with only a small probability say 5% that the effect is as large as the optimistic alternative</li>
+</ul></li>
+</ul>
+<div class="workedexample">
+<p><strong>Example from EOLIA trial</strong><span class="citation">(<a href="#ref-goligher2018extracorporeal" role="doc-biblioref">Goligher et al. 2018</a>)</span></p>
+<ul>
+<li>MCID for 60-day mortality in RR comparing between ECOMO and Rescue Lung Injury in Severe ARDS is 0.67, log(0.4/0.6) = -0.405.</li>
+<li>Let P(RR&lt;0.67) = P(log(RR)&lt; -0.405) = 0.05, that is saying the probability of the ECOMO being effective beyond MCID is only 5%, we have</li>
+</ul>
+<p><span class="math display">\[1.645 \times \sigma = MCID = |-0.405| = 0.405\]</span>
+<span class="math display">\[\sigma = \frac{0.405}{1.645} = 0.246\]</span></p>
+<ul>
+<li>yielding a candidate skeptical prior on log(RR) ~ <span class="math inline">\(N(0,0.245^2)\)</span></li>
+</ul>
+</div>
+</div>
+<div id="optimisticenthusiastic-prior" class="section level3" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Optimistic/enthusiastic Prior</h3>
+<ul>
+<li>This is centred at the MCID and a 95% CR extends to no effect</li>
+<li>Optimistic Prior will move observed results towards the MCID</li>
+<li>If a optimist is convinced that there is no effect, the evidence for no effect is strong</li>
+<li>For the reanalysis of the EOLIA trial, the strongly enthusiastic prior is defined as log(RR) ~ <span class="math inline">\(N(0.67, 0.25^2)\)</span>.</li>
+</ul>
+</div>
 </div>
 <div id="historical-data-meta-analysis" class="section level2" number="4.3">
 <h2><span class="header-section-number">4.3</span> Historical data (meta-analysis)</h2>
@@ -369,6 +582,9 @@ reliability, responsiveness, and feasibility (lacking in exisiting work).</li>
 <div id="ref-cooke1991experts" class="csl-entry">
 Cooke, Roger et al. 1991. <em>Experts in Uncertainty: Opinion and Subjective Probability in Science</em>. Oxford University Press on Demand.
 </div>
+<div id="ref-goligher2018extracorporeal" class="csl-entry">
+Goligher, Ewan C, George Tomlinson, David Hajage, Duminda N Wijeysundera, Eddy Fan, Peter Jüni, Daniel Brodie, Arthur S Slutsky, and Alain Combes. 2018. <span>“Extracorporeal Membrane Oxygenation for Severe Acute Respiratory Distress Syndrome and Posterior Probability of Mortality Benefit in a Post Hoc Bayesian Analysis of a Randomized Clinical Trial.”</span> <em>Jama</em> 320 (21): 2251–59.
+</div>
 <div id="ref-johnson2010methods" class="csl-entry">
 Johnson, Sindhu R, George A Tomlinson, Gillian A Hawker, John T Granton, and Brian M Feldman. 2010. <span>“Methods to Elicit Beliefs for Bayesian Priors: A Systematic Review.”</span> <em>Journal of Clinical Epidemiology</em> 63 (4): 355–69.
 </div>
@@ -377,6 +593,12 @@ Johnson, Sindhu R, George A Tomlinson, Gillian A Hawker, John T Granton, Haddas 
 </div>
 <div id="ref-o2006uncertain" class="csl-entry">
 O’Hagan, Anthony, Caitlin E Buck, Alireza Daneshkhah, J Richard Eiser, Paul H Garthwaite, David J Jenkinson, Jeremy E Oakley, and Tim Rakow. 2006. <span>“Uncertain Judgements: Eliciting Experts’ Probabilities.”</span>
+</div>
+<div id="ref-spiegelhalter2004incorporating" class="csl-entry">
+Spiegelhalter, David J. 2004. <span>“Incorporating Bayesian Ideas into Health-Care Evaluation.”</span> <em>Statistical Science</em> 19 (1): 156–74.
+</div>
+<div id="ref-spiegelhalter2003" class="csl-entry">
+Spiegelhalter, David J., Keith R. Abrams, and Jonathan P. Myles. 2003. <em>Bayesian Approaches to Clinical Trials and Health-Care Evaluation</em>. John Wiley &amp; Sons, Ltd. <a href="https://doi.org/10.1002/0470092602">https://doi.org/10.1002/0470092602</a>.
 </div>
 </div>
             </section>
@@ -444,6 +666,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

@@ -83,3 +83,8 @@ default-clincial-priors
 historical-data-meta-analysis
 hierarchical-priors
 shrinkage-priors
+non-informative-or-reference-priors
+minimally-informative-prior
+skeptical-prior
+optimistic-prior
+optimisticenthusiastic-prior

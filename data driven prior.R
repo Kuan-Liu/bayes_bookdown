@@ -134,3 +134,35 @@ colMeans(exp(beta.samples))
 apply(beta.samples, 2, sd)
 
 
+
+
+a1 <- 2;b1 <- 8
+a2 <- 3;b2 <- 7
+a3 <- 5;b3 <- 5
+a4 <- 8;b4 <- 2
+
+w  <- c(1/4,1/4,1/4, 1/4)
+theta <- seq(0,1,0.01)
+p1 <- dbeta(theta,a1,b1)
+p2 <- dbeta(theta,a2,b2)
+p3 <- dbeta(theta,a3,b3)
+p4 <- dbeta(theta,a4,b4)
+pool <- w[1]*p1+w[2]*p2+w[3]*p3+w[4]*p4
+
+r  <- 1.2*max(c(p1,p2,p3,p4, pool))
+
+# pdf("S:\\Documents\\Bayes\\2019\\Notes\\Priors\\mixture.pdf")
+
+plot(theta,p1,col=gray(0.5),lwd=2,ylim=c(0,r),type="l",
+     xlab=expression(theta),ylab="Prior",
+     cex.lab=1.5,cex.axis=1.5)
+lines(theta,p2,col=gray(0.5),lwd=2)
+lines(theta,p3,col=gray(0.5),lwd=2)
+lines(theta,p4,col=gray(0.5),lwd=2)
+lines(theta,pool,col=gray(0),lwd=2)
+legend("topleft",c("Experts","Mixture of experts"),lwd=2,col=gray(c(0.5,0)),
+       bty="n",cex=1.5)
+
+# dev.off()
+
+

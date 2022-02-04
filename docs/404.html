@@ -188,7 +188,13 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="4.1.1" data-path="Prior.html"><a href="Prior.html#eliciting-priors-from-experts"><i class="fa fa-check"></i><b>4.1.1</b> Eliciting priors from experts</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors</a></li>
+<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="Prior.html"><a href="Prior.html#non-informative-or-reference-priors"><i class="fa fa-check"></i><b>4.2.1</b> “Non-informative” or “reference” priors</a></li>
+<li class="chapter" data-level="4.2.2" data-path="Prior.html"><a href="Prior.html#minimally-informative-prior"><i class="fa fa-check"></i><b>4.2.2</b> Minimally informative prior</a></li>
+<li class="chapter" data-level="4.2.3" data-path="Prior.html"><a href="Prior.html#skeptical-prior"><i class="fa fa-check"></i><b>4.2.3</b> Skeptical Prior</a></li>
+<li class="chapter" data-level="4.2.4" data-path="Prior.html"><a href="Prior.html#optimisticenthusiastic-prior"><i class="fa fa-check"></i><b>4.2.4</b> Optimistic/enthusiastic Prior</a></li>
+</ul></li>
 <li class="chapter" data-level="4.3" data-path="Prior.html"><a href="Prior.html#historical-data-meta-analysis"><i class="fa fa-check"></i><b>4.3</b> Historical data (meta-analysis)</a></li>
 <li class="chapter" data-level="4.4" data-path="Prior.html"><a href="Prior.html#hierarchical-priors"><i class="fa fa-check"></i><b>4.4</b> Hierarchical priors</a></li>
 <li class="chapter" data-level="4.5" data-path="Prior.html"><a href="Prior.html#shrinkage-priors"><i class="fa fa-check"></i><b>4.5</b> Shrinkage priors</a></li>
@@ -309,6 +315,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
