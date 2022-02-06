@@ -1,18 +1,37 @@
 # Bayesian estimation with MCMC {#BayesMCMC}
 
+::: {.chapterintro data-latex=""}
+
+- Introduction to MCMC and two common MCMC algorithm
+- MCMC in action with brms on Bayesian modelling
+- Learn about Markov chain diagnostics
+
+:::
+
 ## Introduction to Markov Chain Monte Carlo Methods
 
 ### Metropolis-Hastings
 
 ### Gibbs sampling
 
-## MCMC demo with brms
+## MCMC diganostics
+
+## Example Bayesian modelling with brms
 
 ### Beta-Binomial example
 
 ### Normal-normal example
 
+### Bayesian linear regression
 
-## MCMC diganostics
+### Bayesian generalized linear regression
+
+### Bayesian meta-analysis example
+
+### Bayesian longtiduinal data anlaysis example
+
+
+
+
 
 
