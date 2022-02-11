@@ -593,9 +593,76 @@ two or more chains (and 4 chains are generally recommended nowadays),
 
 ## Example Bayesian modelling with brms
 
-### Bayesian linear regression
+### Example Bayesian logistic regression model
 
-### Bayesian generalized linear regression
+In this example, we will conduct an analysis using a Bayesian logistic regression model. 
+
+- Data come from a cross-sectional study of 1,225 smokers over the age of 40.
+
+- Each participant was assessed for chronic obstructive pulmonary disease (COPD), and characteristics of the type of cigarette they most frequently smoke were recorded. 
+
+- The objective of the study was to identify associations between COPD diagnosis and cigarette characteristics
+
+We will use the following variables from this data set:
+
+- TYPE: Type of cigarette, 1 = Menthol, 0 = Regular
+
+- NIC: Nicotine content, in mg
+
+- TAR: Tar content, in mg
+
+- LEN: Length of cigarette, in mm
+
+- FLTR: 1 = Filter, 0 = No Vlter
+
+- copd: 1 = COPD diagnosis, 0 = no COPD diagnosis
+
+
+
+```{r echo=F}
+copd <- read.csv("data/copd.csv", header = T)
+knitr::kable(head(copd))
+```
+
+- We fit a simple logistic regression, predicting the risk of Copd by Type of cigarette, Nicotine content, and Filter status.
+
+- We specify uninformative prior on log.odds, $N(0,10)$
+
+```{r echo=T, message=FALSE, warning=FALSE}
+m1_bern <- brm(copd ~ TYPE + NIC + FLTR, 
+               data = copd, 
+               family = bernoulli(link = "logit"), 
+               prior = c(prior(normal(0,10), class = "b"), 
+                         prior(normal(0,10), class = "Intercept")),
+               seed = 123, silent = 2, refresh = 0)
+
+summary(m1_bern)
+
+# Directly from the posterior of exp(beta):
+draws_beta_TYPE <- as.matrix(m1_bern, pars = "b_TYPE")
+exp_beta_TYPE <- exp(draws_beta_TYPE)
+quantile(exp_beta_TYPE, probs = c(.025, 0.5, .975))
+```
+
+```{r echo = T, fig.cap="Posterior Distribution + Trace plot combining all chains", fig.align='center'}
+plot(m1_bern)
+```
+
+- Good mixing from trace plot
+- Rhats' are all less then 1.01, convergence!
+- Other diagnostic plots below
+
+```{r echo = T, fig.cap="Posterior density plot by chain", fig.align='center'}
+mcmc_dens_overlay(m1_bern, pars = c("b_Intercept", "b_TYPE", "b_NIC", "b_FLTR"))
+```
+
+```{r echo = T, fig.cap="Rank plot of multiple chains", fig.align='center'}
+mcmc_rank_hist(m1_bern, pars = c("b_Intercept", "b_TYPE", "b_NIC", "b_FLTR"))
+```
+
+```{r echo = T, fig.cap="Autocorrelation plot by chain", fig.align='center'}
+mcmc_acf_bar(m1_bern, pars = c("b_Intercept", "b_TYPE", "b_NIC", "b_FLTR"))
+```
 
 
 ### R Session information {-}
