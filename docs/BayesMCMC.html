@@ -271,17 +271,18 @@ div.csl-indent {
 <li class="chapter" data-level="5.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#introduction-to-markov-chain-monte-carlo-methods"><i class="fa fa-check"></i><b>5.1</b> Introduction to Markov Chain Monte Carlo Methods</a>
 <ul>
 <li class="chapter" data-level="5.1.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#gibbs-sampling"><i class="fa fa-check"></i><b>5.1.1</b> Gibbs sampling</a></li>
-<li class="chapter" data-level="5.1.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#metropolis-hastings"><i class="fa fa-check"></i><b>5.1.2</b> Metropolis-Hastings</a></li>
+<li class="chapter" data-level="5.1.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#metropolis-algorithm"><i class="fa fa-check"></i><b>5.1.2</b> Metropolis algorithm</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#mcmc-diganostics"><i class="fa fa-check"></i><b>5.2</b> MCMC diganostics</a></li>
+<li class="chapter" data-level="5.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#mcmc-diganostics---assess-convergence"><i class="fa fa-check"></i><b>5.2</b> MCMC diganostics - assess convergence</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#acceptance-rate"><i class="fa fa-check"></i><b>5.2.1</b> Acceptance Rate</a></li>
+<li class="chapter" data-level="5.2.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#diagnostics-using-multiple-chains"><i class="fa fa-check"></i><b>5.2.2</b> Diagnostics Using Multiple Chains</a></li>
+</ul></li>
 <li class="chapter" data-level="5.3" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-modelling-with-brms"><i class="fa fa-check"></i><b>5.3</b> Example Bayesian modelling with brms</a>
 <ul>
-<li class="chapter" data-level="5.3.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#beta-binomial-example"><i class="fa fa-check"></i><b>5.3.1</b> Beta-Binomial example</a></li>
-<li class="chapter" data-level="5.3.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#normal-normal-example"><i class="fa fa-check"></i><b>5.3.2</b> Normal-normal example</a></li>
-<li class="chapter" data-level="5.3.3" data-path="BayesMCMC.html"><a href="BayesMCMC.html#bayesian-linear-regression"><i class="fa fa-check"></i><b>5.3.3</b> Bayesian linear regression</a></li>
-<li class="chapter" data-level="5.3.4" data-path="BayesMCMC.html"><a href="BayesMCMC.html#bayesian-generalized-linear-regression"><i class="fa fa-check"></i><b>5.3.4</b> Bayesian generalized linear regression</a></li>
-<li class="chapter" data-level="5.3.5" data-path="BayesMCMC.html"><a href="BayesMCMC.html#bayesian-meta-analysis-example"><i class="fa fa-check"></i><b>5.3.5</b> Bayesian meta-analysis example</a></li>
-<li class="chapter" data-level="5.3.6" data-path="BayesMCMC.html"><a href="BayesMCMC.html#bayesian-longtiduinal-data-anlaysis-example"><i class="fa fa-check"></i><b>5.3.6</b> Bayesian longtiduinal data anlaysis example</a></li>
+<li class="chapter" data-level="5.3.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#bayesian-linear-regression"><i class="fa fa-check"></i><b>5.3.1</b> Bayesian linear regression</a></li>
+<li class="chapter" data-level="5.3.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#bayesian-generalized-linear-regression"><i class="fa fa-check"></i><b>5.3.2</b> Bayesian generalized linear regression</a></li>
+<li class="chapter" data-level="" data-path="BayesMCMC.html"><a href="BayesMCMC.html#r-session-information-4"><i class="fa fa-check"></i>R Session information</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="BayesReg1.html"><a href="BayesReg1.html"><i class="fa fa-check"></i><b>6</b> Bayesian Regression I</a>
@@ -364,9 +365,9 @@ div.csl-indent {
 <li>INLA (Iteratively Nested Laplace Approximation, this is not MC)</li>
 </ul></li>
 </ul></li>
-<li>In this session, we will introduce two MCMC algorithms: Metropolis-Hastings algorithm (HMC) and Gibbs sampler.
+<li>In this session, we will introduce two MCMC algorithms: Metropolis algorithm and Gibbs sampler.
 <ul>
-<li>brms package uses stan which samples following Hamiltonian Monte Carlo algorithm and No-U-Turn Sampler (NUTS)</li>
+<li>brms package uses stan which samples following Hamiltonian Monte Carlo (HMC) algorithm and No-U-Turn Sampler (NUTS)</li>
 <li>HMC is a bit more complex, we will not cover the algorithm in this session, for those who are interested see <a href="http://www.mcmchandbook.net/HandbookChapter5.pdf" class="uri">http://www.mcmchandbook.net/HandbookChapter5.pdf</a> and <span class="citation">(<a href="#ref-hoffman2014no" role="doc-biblioref">Hoffman, Gelman, et al. 2014</a>)</span></li>
 <li>HMC is documented to be more efficient then Gibbs and Metropolis algorithm (less iterations are needed).</li>
 </ul></li>
@@ -374,7 +375,7 @@ div.csl-indent {
 </ul>
 <div id="gibbs-sampling" class="section level3" number="5.1.1">
 <h3><span class="header-section-number">5.1.1</span> Gibbs sampling</h3>
-<p>As a simple example, suppose we want to estimate mean <span class="math inline">\(mu\)</span> and precision <span class="math inline">\(\tau = 1/\sigma^2\)</span> of a normal distribution. We place the priors <span class="math inline">\(\mu \sim N(0,1)\)</span> and <span class="math inline">\(\tau \sim Gamma(1,1)\)</span>.</p>
+<p>As a simple example, suppose we want to estimate mean <span class="math inline">\(\mu\)</span> and precision <span class="math inline">\(\tau = 1/\sigma^2\)</span> of a normal distribution. We place the priors <span class="math inline">\(\mu \sim N(0,1)\)</span> and <span class="math inline">\(\tau \sim Gamma(1,1)\)</span>.</p>
 <p><span class="math display">\[ Y \mid \mu, \tau \sim N(\mu, \frac{1}{\tau})\]</span>
 <span class="math display">\[\mu \sim N(0,1)\]</span>
 <span class="math display">\[\tau \sim Gamma(1,1)\]</span></p>
@@ -386,9 +387,9 @@ div.csl-indent {
 <li><p>Let’s simulate <span class="math inline">\(n=100\)</span> data, <span class="math inline">\(Y\)</span>, from N(10,1). The true data mean <span class="math inline">\(\mu = 10\)</span> and <span class="math inline">\(\tau = 1\)</span>, our posterior distribution of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> should approximate the true value</p></li>
 <li><p>First, let’s complete Gibbs sampling with 10 draws</p>
 <ol style="list-style-type: decimal">
-<li>we specify an initial value of <span class="math inline">\((\mu^{(1)}, \tau^{(1)}) = (0,1)\)</span> to start our chain</li>
+<li>we specify an initial value of <span class="math inline">\((\mu^{(1)}, \tau^{(1)}) = (1,1)\)</span> to start our chain</li>
 <li>Given <span class="math inline">\(\tau^{(1)} = 1\)</span>, plug in this value to <span class="math inline">\(P( \mu \mid \tau, Y) \propto N(\frac{ \sum_{i=1}^{100} y_i}{1 + 100 },\frac{1}{1+100})\)</span>, now <strong>we draw 1 sample of <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\mu^{(2)}\)</span> from P( , Y)</strong></li>
-<li>Given <span class="math inline">\(\mu^{(1)} = 0\)</span> plug in this value to <span class="math inline">\(P( \tau \mid \mu, Y) \propto Gamma(1 + \frac{100}{2}, 1+\frac{\sum_{i=1}^{100} (y_i-0)^2}{2})\)</span>, now <strong>we draw 1 sample of <span class="math inline">\(\tau\)</span>, $ from <span class="math inline">\(P( \tau \mid \mu, Y)\)</span></strong></li>
+<li>Given <span class="math inline">\(\mu^{(1)} = 1\)</span> plug in this value to <span class="math inline">\(P( \tau \mid \mu, Y) \propto Gamma(1 + \frac{100}{2}, 1+\frac{\sum_{i=1}^{100} (y_i-1)^2}{2})\)</span>, now <strong>we draw 1 sample of <span class="math inline">\(\tau\)</span>, $ from <span class="math inline">\(P( \tau \mid \mu, Y)\)</span></strong></li>
 <li>we repeat sample 2 and 3 and construct a posterior set of <span class="math inline">\((\mu^{(1)}, \tau^{(1)}, \ldots, (\mu^{(10)}, \tau^{(10)}))\)</span></li>
 </ol></li>
 </ul>
@@ -416,7 +417,7 @@ div.csl-indent {
 <span id="cb1-20"><a href="BayesMCMC.html#cb1-20" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, num_sample)</span>
 <span id="cb1-21"><a href="BayesMCMC.html#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-22"><a href="BayesMCMC.html#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize values on mu and tau</span></span>
-<span id="cb1-23"><a href="BayesMCMC.html#cb1-23" aria-hidden="true" tabindex="-1"></a>mu[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span> </span>
+<span id="cb1-23"><a href="BayesMCMC.html#cb1-23" aria-hidden="true" tabindex="-1"></a>mu[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
 <span id="cb1-24"><a href="BayesMCMC.html#cb1-24" aria-hidden="true" tabindex="-1"></a>tau[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb1-25"><a href="BayesMCMC.html#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-26"><a href="BayesMCMC.html#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>num_sample){</span>
@@ -464,13 +465,13 @@ div.csl-indent {
 <span id="cb2-3"><a href="BayesMCMC.html#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> <span class="fu">stat</span>(count) <span class="sc">/</span> <span class="fu">sum</span>(count)),</span>
 <span id="cb2-4"><a href="BayesMCMC.html#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb2-5"><a href="BayesMCMC.html#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb2-6"><a href="BayesMCMC.html#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">quantile</span>(posterior<span class="sc">$</span>mu, <span class="fl">0.025</span>)), </span>
+<span id="cb2-6"><a href="BayesMCMC.html#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">quantile</span>(posterior[(burnin<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>num_sample,<span class="dv">2</span>], <span class="fl">0.025</span>)), </span>
 <span id="cb2-7"><a href="BayesMCMC.html#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
 <span id="cb2-8"><a href="BayesMCMC.html#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
 <span id="cb2-9"><a href="BayesMCMC.html#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="dv">10</span>), </span>
 <span id="cb2-10"><a href="BayesMCMC.html#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
 <span id="cb2-11"><a href="BayesMCMC.html#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb2-12"><a href="BayesMCMC.html#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">quantile</span>(posterior<span class="sc">$</span>mu, <span class="fl">0.975</span>)), </span>
+<span id="cb2-12"><a href="BayesMCMC.html#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">quantile</span>(posterior[(burnin<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>num_sample,<span class="dv">2</span>], <span class="fl">0.975</span>)), </span>
 <span id="cb2-13"><a href="BayesMCMC.html#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
 <span id="cb2-14"><a href="BayesMCMC.html#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&#39;Posterior distribution - Relative frequency&#39;</span>) <span class="sc">+</span></span>
 <span id="cb2-15"><a href="BayesMCMC.html#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(mu)) <span class="sc">+</span></span>
@@ -481,13 +482,13 @@ div.csl-indent {
 <span id="cb2-20"><a href="BayesMCMC.html#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> tau, <span class="at">y =</span> <span class="fu">stat</span>(count) <span class="sc">/</span> <span class="fu">sum</span>(count)), </span>
 <span id="cb2-21"><a href="BayesMCMC.html#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb2-22"><a href="BayesMCMC.html#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb2-23"><a href="BayesMCMC.html#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">quantile</span>(posterior<span class="sc">$</span>tau, <span class="fl">0.025</span>)), </span>
+<span id="cb2-23"><a href="BayesMCMC.html#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">quantile</span>(posterior[(burnin<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>num_sample,<span class="dv">3</span>], <span class="fl">0.025</span>)), </span>
 <span id="cb2-24"><a href="BayesMCMC.html#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
 <span id="cb2-25"><a href="BayesMCMC.html#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
 <span id="cb2-26"><a href="BayesMCMC.html#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="dv">1</span>), </span>
 <span id="cb2-27"><a href="BayesMCMC.html#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
 <span id="cb2-28"><a href="BayesMCMC.html#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb2-29"><a href="BayesMCMC.html#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">quantile</span>(posterior<span class="sc">$</span>tau, <span class="fl">0.975</span>)), </span>
+<span id="cb2-29"><a href="BayesMCMC.html#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">quantile</span>(posterior[(burnin<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>num_sample,<span class="dv">3</span>], <span class="fl">0.975</span>)), </span>
 <span id="cb2-30"><a href="BayesMCMC.html#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
 <span id="cb2-31"><a href="BayesMCMC.html#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&#39;Posterior distribution - Relative frequency&#39;</span>) <span class="sc">+</span></span>
 <span id="cb2-32"><a href="BayesMCMC.html#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(tau)) <span class="sc">+</span></span>
@@ -528,38 +529,280 @@ div.csl-indent {
 <li>Generally, samples from the beginning of the chain (the burn-in period) may not accurately represent the desired distribution and are usually discarded</li>
 </ul>
 </div>
-<div id="metropolis-hastings" class="section level3" number="5.1.2">
-<h3><span class="header-section-number">5.1.2</span> Metropolis-Hastings</h3>
+<div id="metropolis-algorithm" class="section level3" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Metropolis algorithm</h3>
+<ul>
+<li><p>Metropolis algorithm is an adaptation of a random walk with an acceptance/rejection rule to converge to a specified distribution</p></li>
+<li><p>The algorithm generally follows the following steps (following the Gibbs’ example):</p></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li><p>We specify an initial value of <span class="math inline">\((\mu^{(1)}, \tau^{(1)}) = (1,1)\)</span> to start our chain</p></li>
+<li><p>Sample from a proposal joint distribution values for <span class="math inline">\((\mu^{(propose)}, \tau^{(propose)})\)</span></p></li>
+<li><p>Calculate the ratio (r) of the densities</p></li>
+</ol>
+<p><span class="math display">\[r = \frac{P(\mu^{(propose)}, \tau^{(propose)} \mid y)}{P((\mu^{(1)}, \tau^{(1)} \mid y)} = \frac{P(y \mid \mu^{(propose)}, \tau^{(propose)}) P(\mu^{(propose)}) P(\tau^{(propose)})}{P(y \mid \mu^{(1)}, \tau^{(1)}) P(\mu^{(1)}) P(\tau^{(1)})}\]</span>
+- for this step, we can format the ratio in its log scale for easy calculation, log(r)!</p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Sample “u” from an uniform distribution, <span class="math inline">\(u \sim Unif(0,1)\)</span></p></li>
+<li><p>accept the proposed values, <span class="math inline">\((\mu^{(2)}, \tau^{(2)}) = (\mu^{(propose)}, \tau^{(propose)})\)</span> if <span class="math inline">\(u &lt; \min(1,r)\)</span>, otherwise reject the proposed values, keep <span class="math inline">\((\mu^{(2)}, \tau^{(2)}) = (\mu^{(1)}, \tau^{(1)})\)</span></p></li>
+<li><p>repeat step 2 to 5 for multiple iterations, forming our posterior draws!</p></li>
+</ol>
+<ul>
+<li>For this demonstration, we complete 10,000 iterations with first 5000 draws as burn-in</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="BayesMCMC.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################</span></span>
+<span id="cb4-2"><a href="BayesMCMC.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">##Joint distribution of mu and tau</span></span>
+<span id="cb4-3"><a href="BayesMCMC.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">###########################</span></span>
+<span id="cb4-4"><a href="BayesMCMC.html#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="BayesMCMC.html#cb4-5" aria-hidden="true" tabindex="-1"></a>loglikelihood<span class="ot">&lt;-</span><span class="cf">function</span>(data,mu,sigma){</span>
+<span id="cb4-6"><a href="BayesMCMC.html#cb4-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-7"><a href="BayesMCMC.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  loglikelihoodValue<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb4-8"><a href="BayesMCMC.html#cb4-8" aria-hidden="true" tabindex="-1"></a>  loglikelihoodValue<span class="ot">=</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(data,<span class="at">mean=</span>mu,<span class="at">sd=</span>sigma,<span class="at">log=</span><span class="cn">TRUE</span>))</span>
+<span id="cb4-9"><a href="BayesMCMC.html#cb4-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-10"><a href="BayesMCMC.html#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(loglikelihoodValue)</span>
+<span id="cb4-11"><a href="BayesMCMC.html#cb4-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-12"><a href="BayesMCMC.html#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-13"><a href="BayesMCMC.html#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="BayesMCMC.html#cb4-14" aria-hidden="true" tabindex="-1"></a>priormu <span class="ot">&lt;-</span> <span class="cf">function</span>(mu){</span>
+<span id="cb4-15"><a href="BayesMCMC.html#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">dnorm</span>(mu,<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">log=</span><span class="cn">TRUE</span>))</span>
+<span id="cb4-16"><a href="BayesMCMC.html#cb4-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-17"><a href="BayesMCMC.html#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="BayesMCMC.html#cb4-18" aria-hidden="true" tabindex="-1"></a>priorsigma2 <span class="ot">&lt;-</span> <span class="cf">function</span>(sigma2){</span>
+<span id="cb4-19"><a href="BayesMCMC.html#cb4-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-20"><a href="BayesMCMC.html#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">dunif</span>(sigma2,<span class="at">min=</span><span class="dv">0</span>,<span class="at">max=</span><span class="dv">100</span>,<span class="at">log=</span><span class="cn">TRUE</span>))</span>
+<span id="cb4-21"><a href="BayesMCMC.html#cb4-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-22"><a href="BayesMCMC.html#cb4-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-23"><a href="BayesMCMC.html#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="BayesMCMC.html#cb4-24" aria-hidden="true" tabindex="-1"></a>joint <span class="ot">&lt;-</span> <span class="cf">function</span>(mu,sigma){</span>
+<span id="cb4-25"><a href="BayesMCMC.html#cb4-25" aria-hidden="true" tabindex="-1"></a>  data<span class="ot">=</span>Y</span>
+<span id="cb4-26"><a href="BayesMCMC.html#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> (<span class="fu">loglikelihood</span>(data,mu,sigma) <span class="sc">+</span> <span class="fu">priormu</span>(mu)<span class="sc">+</span><span class="fu">priorsigma2</span>(sigma<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb4-27"><a href="BayesMCMC.html#cb4-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-28"><a href="BayesMCMC.html#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="BayesMCMC.html#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="BayesMCMC.html#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#Defining the Metropolis Algorithm as a function</span></span>
+<span id="cb4-31"><a href="BayesMCMC.html#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#the arguments of the functions are the initial values for mu and sigma passed as a vector (startvalue) and the total number of iterations.</span></span>
+<span id="cb4-32"><a href="BayesMCMC.html#cb4-32" aria-hidden="true" tabindex="-1"></a>run_Metropolis <span class="ot">&lt;-</span> <span class="cf">function</span>(startvalue, iterations){</span>
+<span id="cb4-33"><a href="BayesMCMC.html#cb4-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-34"><a href="BayesMCMC.html#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#Matrix to save the 2 parameters of the chain </span></span>
+<span id="cb4-35"><a href="BayesMCMC.html#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of rows= number of iterations +1 and number of columns equals to the number of parameters.(2)</span></span>
+<span id="cb4-36"><a href="BayesMCMC.html#cb4-36" aria-hidden="true" tabindex="-1"></a>chain <span class="ot">=</span> <span class="fu">array</span>(<span class="at">dim =</span> <span class="fu">c</span>(iterations<span class="sc">+</span><span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb4-37"><a href="BayesMCMC.html#cb4-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-38"><a href="BayesMCMC.html#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">#Initialize the first row of the chain matrix with the initial values for the parameters.</span></span>
+<span id="cb4-39"><a href="BayesMCMC.html#cb4-39" aria-hidden="true" tabindex="-1"></a>chain[<span class="dv">1</span>,] <span class="ot">=</span> startvalue</span>
+<span id="cb4-40"><a href="BayesMCMC.html#cb4-40" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-41"><a href="BayesMCMC.html#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">#variables that save the number of accepted and rejected values</span></span>
+<span id="cb4-42"><a href="BayesMCMC.html#cb4-42" aria-hidden="true" tabindex="-1"></a>naceito<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb4-43"><a href="BayesMCMC.html#cb4-43" aria-hidden="true" tabindex="-1"></a>nrejeitado<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb4-44"><a href="BayesMCMC.html#cb4-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-45"><a href="BayesMCMC.html#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">#Loop with Metropolis Algorithm</span></span>
+<span id="cb4-46"><a href="BayesMCMC.html#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>iterations){</span>
+<span id="cb4-47"><a href="BayesMCMC.html#cb4-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-48"><a href="BayesMCMC.html#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">#Proposal value for mu. This is a sample from a normal distribution with mean equals to the mu value of the previous step of the chain and standard deviation equals to 1.</span></span>
+<span id="cb4-49"><a href="BayesMCMC.html#cb4-49" aria-hidden="true" tabindex="-1"></a>proposalmu<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">1</span>,<span class="at">mean=</span> chain[i,<span class="dv">1</span>],<span class="at">sd=</span><span class="fl">0.1</span>)</span>
+<span id="cb4-50"><a href="BayesMCMC.html#cb4-50" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-51"><a href="BayesMCMC.html#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">#Proposal value for sigma. This is a sample from an uniform distribution with tuning adjustment;</span></span>
+<span id="cb4-52"><a href="BayesMCMC.html#cb4-52" aria-hidden="true" tabindex="-1"></a>proposalsigma<span class="ot">=</span>chain[i,<span class="dv">2</span>]<span class="sc">+</span><span class="fu">runif</span>(<span class="dv">1</span>,<span class="at">min=</span><span class="sc">-</span><span class="fl">0.5</span>,<span class="at">max=</span><span class="fl">0.5</span>)</span>
+<span id="cb4-53"><a href="BayesMCMC.html#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-54"><a href="BayesMCMC.html#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">#Log of the Acceptance ratio for Metropolis Algorithm</span></span>
+<span id="cb4-55"><a href="BayesMCMC.html#cb4-55" aria-hidden="true" tabindex="-1"></a>razao<span class="ot">=</span><span class="fu">joint</span>(proposalmu,proposalsigma)<span class="sc">-</span><span class="fu">joint</span>(chain[i,<span class="dv">1</span>],chain[i,<span class="dv">2</span>])</span>
+<span id="cb4-56"><a href="BayesMCMC.html#cb4-56" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-57"><a href="BayesMCMC.html#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">#Error treatment. If for some reason the ratio results in a not a number value then we keep the same value of the current step for the next step of the chain.</span></span>
+<span id="cb4-58"><a href="BayesMCMC.html#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">exp</span>(razao) <span class="sc">==</span> <span class="st">&quot;NaN&quot;</span>){</span>
+<span id="cb4-59"><a href="BayesMCMC.html#cb4-59" aria-hidden="true" tabindex="-1"></a>      chain[i<span class="sc">+</span><span class="dv">1</span>,]<span class="ot">=</span>chain[i,]</span>
+<span id="cb4-60"><a href="BayesMCMC.html#cb4-60" aria-hidden="true" tabindex="-1"></a>      nrejeitado<span class="ot">=</span>nrejeitado<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb4-61"><a href="BayesMCMC.html#cb4-61" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-62"><a href="BayesMCMC.html#cb4-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-63"><a href="BayesMCMC.html#cb4-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb4-64"><a href="BayesMCMC.html#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw a number between 0 and 1 and compare it with the calculated ratio of acceptance. Once we used the log of the ratio, we need to power it to &quot;e&quot; exponent to recover the correct scale of the real ratio.      </span></span>
+<span id="cb4-65"><a href="BayesMCMC.html#cb4-65" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb4-66"><a href="BayesMCMC.html#cb4-66" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">runif</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>)<span class="sc">&lt;</span><span class="fu">min</span>(<span class="dv">1</span>,<span class="fu">exp</span>(razao))){</span>
+<span id="cb4-67"><a href="BayesMCMC.html#cb4-67" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-68"><a href="BayesMCMC.html#cb4-68" aria-hidden="true" tabindex="-1"></a>        chain[i<span class="sc">+</span><span class="dv">1</span>,]<span class="ot">=</span><span class="fu">c</span>(proposalmu,proposalsigma)</span>
+<span id="cb4-69"><a href="BayesMCMC.html#cb4-69" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-70"><a href="BayesMCMC.html#cb4-70" aria-hidden="true" tabindex="-1"></a>        <span class="co">#counting acceptance</span></span>
+<span id="cb4-71"><a href="BayesMCMC.html#cb4-71" aria-hidden="true" tabindex="-1"></a>        naceito<span class="ot">=</span>naceito<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb4-72"><a href="BayesMCMC.html#cb4-72" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb4-73"><a href="BayesMCMC.html#cb4-73" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-74"><a href="BayesMCMC.html#cb4-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>{</span>
+<span id="cb4-75"><a href="BayesMCMC.html#cb4-75" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb4-76"><a href="BayesMCMC.html#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="co">#Rejecting the proposal value and keeping the current parameters value to the next step of the chain.</span></span>
+<span id="cb4-77"><a href="BayesMCMC.html#cb4-77" aria-hidden="true" tabindex="-1"></a>      chain[i<span class="sc">+</span><span class="dv">1</span>,] <span class="ot">=</span> chain[i,]</span>
+<span id="cb4-78"><a href="BayesMCMC.html#cb4-78" aria-hidden="true" tabindex="-1"></a>      nrejeitado<span class="ot">=</span>nrejeitado<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb4-79"><a href="BayesMCMC.html#cb4-79" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb4-80"><a href="BayesMCMC.html#cb4-80" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-81"><a href="BayesMCMC.html#cb4-81" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-82"><a href="BayesMCMC.html#cb4-82" aria-hidden="true" tabindex="-1"></a> <span class="co">#Creates and returns a list with the chain with all parameters values, the number of accepted and rejected values</span></span>
+<span id="cb4-83"><a href="BayesMCMC.html#cb4-83" aria-hidden="true" tabindex="-1"></a>  lista<span class="ot">=</span><span class="fu">list</span>(chain,naceito,nrejeitado)</span>
+<span id="cb4-84"><a href="BayesMCMC.html#cb4-84" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-85"><a href="BayesMCMC.html#cb4-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(lista)</span>
+<span id="cb4-86"><a href="BayesMCMC.html#cb4-86" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-87"><a href="BayesMCMC.html#cb4-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-88"><a href="BayesMCMC.html#cb4-88" aria-hidden="true" tabindex="-1"></a><span class="co">#Running the model</span></span>
+<span id="cb4-89"><a href="BayesMCMC.html#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="co">#Setting the number of iterations</span></span>
+<span id="cb4-90"><a href="BayesMCMC.html#cb4-90" aria-hidden="true" tabindex="-1"></a>iterations<span class="ot">=</span><span class="dv">10000</span></span>
+<span id="cb4-91"><a href="BayesMCMC.html#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="co">#Setting the initial values for mu and sigma</span></span>
+<span id="cb4-92"><a href="BayesMCMC.html#cb4-92" aria-hidden="true" tabindex="-1"></a>startvalue<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb4-93"><a href="BayesMCMC.html#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-94"><a href="BayesMCMC.html#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="co">#Calling Metropolis function and saving the output in resultsM variable</span></span>
+<span id="cb4-95"><a href="BayesMCMC.html#cb4-95" aria-hidden="true" tabindex="-1"></a>resultsM<span class="ot">=</span><span class="fu">run_Metropolis</span>(startvalue,iterations)</span>
+<span id="cb4-96"><a href="BayesMCMC.html#cb4-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-97"><a href="BayesMCMC.html#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing the acceptance rate</span></span>
+<span id="cb4-98"><a href="BayesMCMC.html#cb4-98" aria-hidden="true" tabindex="-1"></a>acptRate<span class="ot">=</span>resultsM[[<span class="dv">2</span>]]<span class="sc">/</span>(resultsM[[<span class="dv">3</span>]])</span>
+<span id="cb4-99"><a href="BayesMCMC.html#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;acceptance rate:&quot;</span>, <span class="fu">round</span>(acptRate,<span class="dv">2</span>))) </span></code></pre></div>
+<pre><code>## [1] &quot;acceptance rate: 0.22&quot;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="BayesMCMC.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Recording the chain for mu and sigma</span></span>
+<span id="cb6-2"><a href="BayesMCMC.html#cb6-2" aria-hidden="true" tabindex="-1"></a>chainM<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">order =</span> <span class="dv">1</span><span class="sc">:</span>(iterations<span class="sc">+</span><span class="dv">1</span>),</span>
+<span id="cb6-3"><a href="BayesMCMC.html#cb6-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mu =</span> resultsM[[<span class="dv">1</span>]][,<span class="dv">1</span>],</span>
+<span id="cb6-4"><a href="BayesMCMC.html#cb6-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sigma =</span> resultsM[[<span class="dv">1</span>]][,<span class="dv">2</span>])</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /><img src="bayes_bookdown_files/figure-html/unnamed-chunk-7-2.png" width="768" style="display: block; margin: auto;" />
+<strong>Summary</strong></p>
+<ul>
+<li><p>Metropolis-Hastings (MH) generalizes Metropolis algorithm to non-symmetric proposal distributions while maintaining detailed balance.</p></li>
+<li><p>Metropolis algorithm requires us to specify a proposal distribution involving some tuning, this can be tricky to set-up. A “bad” tuning parameter can result in lower acceptance rate (i.e., proposed value keeps getting rejected).</p></li>
+<li><p>Metropolis algorithm generates a Markov chain of samples, each of which is correlated with nearby samples.</p>
+<ul>
+<li>in the example here, the next proposed value for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> is sampled from the proposal distribution using the previous draw!</li>
+</ul></li>
+<li><p>Again, it’s a good practice to disgard begining of the chain!</p></li>
+</ul>
 </div>
 </div>
-<div id="mcmc-diganostics" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> MCMC diganostics</h2>
+<div id="mcmc-diganostics---assess-convergence" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> MCMC diganostics - assess convergence</h2>
+<ul>
+<li><p>What does a good Markov chain look like?</p></li>
+<li><p>How can we tell if our Markov chain sample produces a reasonable approximation of the posterior?</p></li>
+<li><p>How big should our Markov chain sample size be? How many iterations to run?</p></li>
+<li><p>In this section, we provide a few diagnostic rules and principles</p></li>
+<li><p>A good reference paper on Bayesian workflow: <a href="https://arxiv.org/pdf/2011.01808.pdf" class="uri">https://arxiv.org/pdf/2011.01808.pdf</a>, <span class="citation">(<a href="#ref-gelman2020bayesian" role="doc-biblioref">Gelman et al. 2020</a>)</span></p></li>
+</ul>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-8"></span>
+<img src="images/bayes_workflow.JPG" alt="Bayesian workflow - Figure 1 from Gelman at al 2020" width="410" />
+<p class="caption">
+Figure 5.1: Bayesian workflow - Figure 1 from Gelman at al 2020
+</p>
+</div>
+<p><strong>1. Choose good initial values and discard early iterations</strong></p>
+<p><strong>2. Assessing convergence in long-run</strong></p>
+<ul>
+<li><p>A commonly used numerical index in diagnosing convergence is <span class="math inline">\(\hat{R}\)</span>, also
+called the potential scale reduction factor, proposed by Gelman and Rubin (1992)
+and later an extension for multivariate distributions by Brooks and Gelman
+(1997).</p></li>
+<li><p><span class="math inline">\(\hat{R}\)</span> measures the ratio of the total variability combining multiple
+chains to the within-chain variability.</p>
+<ul>
+<li>recall in ANOVA, the <span class="math inline">\(F\)</span>-ratio is a measure of</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[F = \frac{\text{Between-group difference} + \text{error}}{\text{error}}\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat{R}\)</span> has a very similar meaning conceptually, with <code>error</code> meaning the
+within-chain variance.
+<ul>
+<li>after the chains converge, there should be no differences between the chains, and so<span class="math inline">\(\hat{R}\)</span> should be very close to 1.0.</li>
+</ul></li>
+<li>It’s recommended an <span class="math inline">\(\hat{R}\)</span> less than 1.1 for acceptable convergence of the Markov chains, but more recently a more stringent cutoff of 1.01 is proposed.</li>
+</ul>
+<p><strong>Good Mixing - trace plot and auto-correlation plot</strong></p>
+<ul>
+<li><p>One thing you should look at to diagnose the convergence of a Markov chain is the trace plot.</p></li>
+<li><p>Good mixing behaviour as it explores the region with most of the density smoothly and bounces from one point to another quickly.</p></li>
+<li><p>Bad mixing:</p>
+<ul>
+<li>although in every iteration a jump is made to a new value, the jump to the new value is relatively small, so it gonna takes a long time to get from one end of the distribution to another end,</li>
+<li>and it rarely explores all regions, therefore, if you stop the chain “early,” you can get a biased representation of the posterior distribution.</li>
+</ul></li>
+</ul>
+<p><strong>Dependence of the iterations</strong></p>
+<ul>
+<li><p>Autocorrelation provides another metric by which to evaluate whether our Markov chain sufficiently mimics the behaviour of an independent sample.</p></li>
+<li><p><strong>Strong autocorrelation</strong> or dependence is a bad thing – it goes hand in hand with small effective sample size ratios, and thus provides a warning sign that our resulting posterior approximations might be unreliable.</p></li>
+<li><p>Autocorrelation</p>
+<ul>
+<li>Lag 1 autocorrelation measures the correlation between pairs of Markov chain values that are one “step” apart</li>
+<li>Lag k autocorrelation measures the correlation between pairs of Markov chain values that are k “steps” apart</li>
+<li>we can look at ACF plot for diagnostics, in R this can be examined using acf() function!</li>
+</ul></li>
+</ul>
+<div class="fold s">
+
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="BayesMCMC.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gibbs example;</span></span>
+<span id="cb7-2"><a href="BayesMCMC.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(posterior[(<span class="dv">1000</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span><span class="fu">length</span>(posterior<span class="sc">$</span>mu),<span class="dv">2</span>], <span class="at">main=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;Gibbs example &quot;</span>,mu)))</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="BayesMCMC.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(posterior[(<span class="dv">1000</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span><span class="fu">length</span>(posterior<span class="sc">$</span>tau),<span class="dv">3</span>], <span class="at">main=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;Gibbs example &quot;</span>,tau)))</span></code></pre></div>
+<img src="bayes_bookdown_files/figure-html/unnamed-chunk-9-2.png" width="672" />
+<div>
+
+<p><strong>Thinning</strong></p>
+<ul>
+<li>we can perform thinning to achieve faster convergence!
+<ul>
+<li>thinning the MCMC by keeping every kth simulation draw and discarding the rest</li>
+<li>for example, thin = 5, referring to keeping the 5th, 10th, …, draws only! If the total MCMC iteration is 2000, for thin = 5, we will end-up with a posterior sample distribution of size = 2000/5 = 400.</li>
+</ul></li>
+</ul>
+<div id="acceptance-rate" class="section level3" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Acceptance Rate</h3>
+<ul>
+<li><p>If you’re using the Metropolis/MH algorithm, you want to monitor the acceptance
+rate and make sure it is within optimal range.</p></li>
+<li><p>If you accept almost every time, that tells you that each time the chain only jumps a very small step (so that the acceptance ratio is close to 1 every time), which will make the algorithm slow in converging to the stationary distribution.</p></li>
+<li><p>If the acceptance rate is very low, then that says that the chain got stuck to just a few locations and it takes hundreds of iterations for it to make one jump.</p></li>
+<li><p>For the Metropolis/MH algorithm, an optimal acceptance rate would be something between 10% to 60%.</p></li>
+</ul>
+</div>
+<div id="diagnostics-using-multiple-chains" class="section level3" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> Diagnostics Using Multiple Chains</h3>
+<ul>
+<li><p>Another important thing to check is to see the convergence with multiple chains.</p></li>
+<li><p>So far we’ve been just talking about one chain, but it is common practice to use
+two or more chains (and 4 chains are generally recommended nowadays),</p>
+<ul>
+<li>each starting at a different, preferably more extreme, place, and see whether they explore a similar region.</li>
+</ul></li>
+</ul>
+</div>
 </div>
 <div id="example-bayesian-modelling-with-brms" class="section level2" number="5.3">
 <h2><span class="header-section-number">5.3</span> Example Bayesian modelling with brms</h2>
-<div id="beta-binomial-example" class="section level3" number="5.3.1">
-<h3><span class="header-section-number">5.3.1</span> Beta-Binomial example</h3>
+<div id="bayesian-linear-regression" class="section level3" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Bayesian linear regression</h3>
 </div>
-<div id="normal-normal-example" class="section level3" number="5.3.2">
-<h3><span class="header-section-number">5.3.2</span> Normal-normal example</h3>
+<div id="bayesian-generalized-linear-regression" class="section level3" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> Bayesian generalized linear regression</h3>
 </div>
-<div id="bayesian-linear-regression" class="section level3" number="5.3.3">
-<h3><span class="header-section-number">5.3.3</span> Bayesian linear regression</h3>
-</div>
-<div id="bayesian-generalized-linear-regression" class="section level3" number="5.3.4">
-<h3><span class="header-section-number">5.3.4</span> Bayesian generalized linear regression</h3>
-</div>
-<div id="bayesian-meta-analysis-example" class="section level3" number="5.3.5">
-<h3><span class="header-section-number">5.3.5</span> Bayesian meta-analysis example</h3>
-</div>
-<div id="bayesian-longtiduinal-data-anlaysis-example" class="section level3" number="5.3.6">
-<h3><span class="header-section-number">5.3.6</span> Bayesian longtiduinal data anlaysis example</h3>
+<div id="r-session-information-4" class="section level3 unnumbered">
+<h3>R Session information</h3>
+<pre><code>## R version 4.0.5 (2021-03-31)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19042)
+## 
+## Matrix products: 
+## 
+## locale:
+## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
+## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
+## [5] LC_TIME=English_Canada.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] invgamma_1.1    bayesplot_1.8.1 MCMCpack_1.6-0  MASS_7.3-53.1  
+##  [5] coda_0.19-4     ggmcmc_1.5.1.1  brms_2.16.3     Rcpp_1.0.7     
+##  [9] ggpubr_0.4.0    forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7    
+## [13] purrr_0.3.4     readr_2.1.1     tidyr_1.1.4     tibble_3.1.6   
+## [17] ggplot2_3.3.5   tidyverse_1.3.1</code></pre>
 
 </div>
 </div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-gelman2020bayesian" class="csl-entry">
+Gelman, Andrew, Aki Vehtari, Daniel Simpson, Charles C Margossian, Bob Carpenter, Yuling Yao, Lauren Kennedy, Jonah Gabry, Paul-Christian Bürkner, and Martin Modrák. 2020. <span>“Bayesian Workflow.”</span> <em>arXiv Preprint arXiv:2011.01808</em>.
+</div>
 <div id="ref-hoffman2014no" class="csl-entry">
 Hoffman, Matthew D, Andrew Gelman, et al. 2014. <span>“The No-u-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo.”</span> <em>J. Mach. Learn. Res.</em> 15 (1): 1593–623.
 </div>

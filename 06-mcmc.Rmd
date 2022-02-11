@@ -17,7 +17,9 @@ library(tidyverse)
 library(ggpubr)
 library(brms)
 library(ggmcmc)
+library(MCMCpack)
 library(bayesplot)
+library(invgamma)
 options(scipen = 999)
 ```
 
@@ -60,8 +62,8 @@ options(scipen = 999)
         - INLA (Iteratively Nested Laplace Approximation, this is not MC)
 
         
-- In this session, we will introduce two MCMC algorithms: Metropolis-Hastings algorithm (HMC) and Gibbs sampler.
-    - brms package uses stan which samples following Hamiltonian Monte Carlo algorithm and No-U-Turn Sampler (NUTS)
+- In this session, we will introduce two MCMC algorithms: Metropolis algorithm and Gibbs sampler.
+    - brms package uses stan which samples following Hamiltonian Monte Carlo (HMC) algorithm and No-U-Turn Sampler (NUTS)
     - HMC is a bit more complex, we will not cover the algorithm in this session, for those who are interested see http://www.mcmchandbook.net/HandbookChapter5.pdf and [@hoffman2014no]
     - HMC is documented to be more efficient then Gibbs and Metropolis algorithm (less iterations are needed).
 
@@ -70,7 +72,7 @@ options(scipen = 999)
 
 ### Gibbs sampling
 
-As a simple example, suppose we want to estimate mean $mu$ and precision $\tau = 1/\sigma^2$ of a normal distribution. We place the priors $\mu \sim N(0,1)$ and $\tau \sim Gamma(1,1)$. 
+As a simple example, suppose we want to estimate mean $\mu$ and precision $\tau = 1/\sigma^2$ of a normal distribution. We place the priors $\mu \sim N(0,1)$ and $\tau \sim Gamma(1,1)$. 
 
 \[ Y \mid \mu, \tau \sim N(\mu, \frac{1}{\tau})\]
 \[\mu \sim N(0,1)\]
@@ -87,9 +89,9 @@ We want to alternate between sampling from these two conditional posteriors.
 - Let's simulate $n=100$ data, $Y$,  from N(10,1). The true data mean $\mu = 10$ and $\tau = 1$, our posterior distribution of $\mu$ and $\tau$ should approximate the true value
 
 - First, let's complete Gibbs sampling with 10 draws
-    1. we specify an initial value of $(\mu^{(1)}, \tau^{(1)}) = (0,1)$ to start our chain
+    1. we specify an initial value of $(\mu^{(1)}, \tau^{(1)}) = (1,1)$ to start our chain
     2. Given $\tau^{(1)} = 1$, plug in this value to $P( \mu \mid \tau, Y) \propto N(\frac{ \sum_{i=1}^{100} y_i}{1 + 100 },\frac{1}{1+100})$, now **we draw 1 sample of $\mu$, $\mu^{(2)}$ from P( \mu \mid \tau, Y)**
-    3. Given $\mu^{(1)} = 0$ plug in this value to $P( \tau \mid \mu, Y) \propto Gamma(1 + \frac{100}{2}, 1+\frac{\sum_{i=1}^{100} (y_i-0)^2}{2})$, now **we draw 1 sample of $\tau$, $\tau{(2)} from $P( \tau \mid \mu, Y)$**
+    3. Given $\mu^{(1)} = 1$ plug in this value to $P( \tau \mid \mu, Y) \propto Gamma(1 + \frac{100}{2}, 1+\frac{\sum_{i=1}^{100} (y_i-1)^2}{2})$, now **we draw 1 sample of $\tau$, $\tau{(2)} from $P( \tau \mid \mu, Y)$**
     4. we repeat sample 2 and 3 and construct a posterior set of $(\mu^{(1)}, \tau^{(1)}, \ldots, (\mu^{(10)}, \tau^{(10)}))$
     
 <div class="fold s">
@@ -116,7 +118,7 @@ mu <- rep(NA, num_sample)
 tau <- rep(NA, num_sample)
 
 #initialize values on mu and tau
-mu[1] <- 0 
+mu[1] <- 1 
 tau[1] <- 1
 
 for(i in 2:num_sample){
@@ -165,7 +167,7 @@ mu <- rep(NA, num_sample)
 tau <- rep(NA, num_sample)
 
 #initialize values on mu and tau
-mu[1] <- 0 
+mu[1] <- 1 
 tau[1] <- 1
 
 for(i in 2:num_sample){
@@ -218,13 +220,13 @@ p3 <- ggplot(posterior[(burnin+1):num_sample,]) +
     aes(x = mu, y = stat(count) / sum(count)),
     alpha = 0.5) +
   geom_vline(
-    aes(xintercept = quantile(posterior$mu, 0.025)), 
+    aes(xintercept = quantile(posterior[(burnin+1):num_sample,2], 0.025)), 
     color = 'red') +
   geom_vline(
     aes(xintercept = 10), 
     color = 'red') +
   geom_vline(
-    aes(xintercept = quantile(posterior$mu, 0.975)), 
+    aes(xintercept = quantile(posterior[(burnin+1):num_sample,2], 0.975)), 
     color = 'red') +
   ylab('Posterior distribution - Relative frequency') +
   xlab(expression(mu)) +
@@ -235,13 +237,13 @@ p4 <- ggplot(posterior[(burnin+1):num_sample,]) +
     aes(x = tau, y = stat(count) / sum(count)), 
     alpha = 0.5) +
   geom_vline(
-    aes(xintercept = quantile(posterior$tau, 0.025)), 
+    aes(xintercept = quantile(posterior[(burnin+1):num_sample,3], 0.025)), 
     color = 'red') +
   geom_vline(
     aes(xintercept = 1), 
     color = 'red') +
   geom_vline(
-    aes(xintercept = quantile(posterior$tau, 0.975)), 
+    aes(xintercept = quantile(posterior[(burnin+1):num_sample,3], 0.975)), 
     color = 'red') +
   ylab('Posterior distribution - Relative frequency') +
   xlab(expression(tau)) +
@@ -284,28 +286,323 @@ ggarrange(p5, p6, nrow = 2)
     - in the example here, the next draw is sampled from posterior calculated using the previous draw!
 - Generally, samples from the beginning of the chain (the burn-in period) may not accurately represent the desired distribution and are usually discarded
 
-### Metropolis-Hastings
+### Metropolis algorithm
+
+- Metropolis algorithm is an adaptation of a random walk with an acceptance/rejection rule to converge to a specified distribution
+
+- The algorithm generally follows the following steps (following the Gibbs' example):
+
+1. We specify an initial value of $(\mu^{(1)}, \tau^{(1)}) = (1,1)$ to start our chain
+
+2. Sample from a proposal joint distribution values for $(\mu^{(propose)}, \tau^{(propose)})$
+
+3. Calculate the ratio (r) of the densities
+
+\[r = \frac{P(\mu^{(propose)}, \tau^{(propose)} \mid y)}{P((\mu^{(1)}, \tau^{(1)} \mid y)} = \frac{P(y \mid \mu^{(propose)}, \tau^{(propose)}) P(\mu^{(propose)}) P(\tau^{(propose)})}{P(y \mid \mu^{(1)}, \tau^{(1)}) P(\mu^{(1)}) P(\tau^{(1)})}\]
+    - for this step, we can format the ratio in its log scale for easy calculation, log(r)! 
+    
+4. Sample “u” from an uniform distribution, $u \sim Unif(0,1)$
+
+5. accept the proposed values, $(\mu^{(2)}, \tau^{(2)}) = (\mu^{(propose)}, \tau^{(propose)})$ if $u < \min(1,r)$, otherwise reject the proposed values, keep $(\mu^{(2)}, \tau^{(2)}) = (\mu^{(1)}, \tau^{(1)})$
+
+6. repeat step 2 to 5 for multiple iterations, forming our posterior draws!
 
 
+- For this demonstration, we complete 10,000 iterations with first 5000 draws as burn-in
 
-## MCMC diganostics
+```{r echo = T, warning=FALSE, message=FALSE}
+############################
+##Joint distribution of mu and tau
+###########################
+
+loglikelihood<-function(data,mu,sigma){
+  
+  loglikelihoodValue=0
+  loglikelihoodValue=sum(dnorm(data,mean=mu,sd=sigma,log=TRUE))
+  
+  return(loglikelihoodValue)
+  
+}
+
+priormu <- function(mu){
+  return(dnorm(mu,0,1,log=TRUE))
+}
+
+priorsigma2 <- function(sigma2){
+  
+  return(dunif(sigma2,min=0,max=100,log=TRUE))
+  
+}
+
+joint <- function(mu,sigma){
+  data=Y
+  return (loglikelihood(data,mu,sigma) + priormu(mu)+priorsigma2(sigma^2))
+}
+
+
+#Defining the Metropolis Algorithm as a function
+#the arguments of the functions are the initial values for mu and sigma passed as a vector (startvalue) and the total number of iterations.
+run_Metropolis <- function(startvalue, iterations){
+  
+#Matrix to save the 2 parameters of the chain 
+#Number of rows= number of iterations +1 and number of columns equals to the number of parameters.(2)
+chain = array(dim = c(iterations+1,2))
+  
+#Initialize the first row of the chain matrix with the initial values for the parameters.
+chain[1,] = startvalue
+  
+#variables that save the number of accepted and rejected values
+naceito=0
+nrejeitado=0
+  
+#Loop with Metropolis Algorithm
+for (i in 1:iterations){
+    
+#Proposal value for mu. This is a sample from a normal distribution with mean equals to the mu value of the previous step of the chain and standard deviation equals to 1.
+proposalmu=rnorm(1,mean= chain[i,1],sd=0.1)
+  
+#Proposal value for sigma. This is a sample from an uniform distribution with tuning adjustment;
+proposalsigma=chain[i,2]+runif(1,min=-0.5,max=0.5)
+
+#Log of the Acceptance ratio for Metropolis Algorithm
+razao=joint(proposalmu,proposalsigma)-joint(chain[i,1],chain[i,2])
+    
+#Error treatment. If for some reason the ratio results in a not a number value then we keep the same value of the current step for the next step of the chain.
+if (exp(razao) == "NaN"){
+      chain[i+1,]=chain[i,]
+      nrejeitado=nrejeitado+1
+    }
+    
+    else
+# Draw a number between 0 and 1 and compare it with the calculated ratio of acceptance. Once we used the log of the ratio, we need to power it to "e" exponent to recover the correct scale of the real ratio.      
+      
+      if(runif(1,0,1)<min(1,exp(razao))){
+        
+        chain[i+1,]=c(proposalmu,proposalsigma)
+        
+        #counting acceptance
+        naceito=naceito+1
+      }
+    
+    else{
+      
+#Rejecting the proposal value and keeping the current parameters value to the next step of the chain.
+      chain[i+1,] = chain[i,]
+      nrejeitado=nrejeitado+1
+      
+    }
+  }
+ #Creates and returns a list with the chain with all parameters values, the number of accepted and rejected values
+  lista=list(chain,naceito,nrejeitado)
+  
+  return(lista)
+}
+
+#Running the model
+#Setting the number of iterations
+iterations=10000
+#Setting the initial values for mu and sigma
+startvalue=c(1,1)
+
+#Calling Metropolis function and saving the output in resultsM variable
+resultsM=run_Metropolis(startvalue,iterations)
+
+#Computing the acceptance rate
+acptRate=resultsM[[2]]/(resultsM[[3]])
+print(paste("acceptance rate:", round(acptRate,2))) 
+
+#Recording the chain for mu and sigma
+chainM=data.frame(order = 1:(iterations+1),
+                  mu = resultsM[[1]][,1],
+                  sigma = resultsM[[1]][,2])
+
+```
+
+```{r echo=F, fig.align='center', message=FALSE, warning=FALSE, fig.width=8}
+
+burnin <- 5000
+
+p1 <- ggplot(chainM[(burnin+1):(iterations+1),]) +
+  geom_line(
+    aes(x = order, y = mu)) +
+  geom_hline(
+    aes(yintercept = 10), 
+    color = 'red') +
+  ylab(expression(mu)) +
+  xlab('posterior draws') +
+  ggtitle(bquote('Trace plot with 5000 burn-in of' ~ mu))
+
+p2 <- ggplot(chainM[(burnin+1):(iterations+1),]) +
+  geom_line(
+    aes(x = order, y = sigma)) +
+  geom_hline(
+    aes(yintercept = 1), 
+    color = 'red') +
+  ylab(expression(sigma)) +
+  xlab('posterior draws') +
+  ggtitle(bquote('Trace plot with 5000 burn-in of' ~ sigma))
+
+ggarrange(p1, p2, nrow = 2)
+
+
+p3 <- ggplot(chainM[(burnin+1):(iterations+1),]) +
+  geom_histogram(
+    aes(x = mu, y = stat(count) / sum(count)),
+    alpha = 0.5) +
+  geom_vline(
+    aes(xintercept = quantile(chainM[(burnin+1):(iterations+1),2], 0.025)), 
+    color = 'red') +
+  geom_vline(
+    aes(xintercept = 10), 
+    color = 'red') +
+  geom_vline(
+    aes(xintercept = quantile(chainM[(burnin+1):(iterations+1),2], 0.975)), 
+    color = 'red') +
+  ylab('Posterior distribution - Relative frequency') +
+  xlab(expression(mu)) +
+  ggtitle(bquote('With burn-in, 95% credible interval of ' ~ mu))
+
+p4 <- ggplot(chainM[(burnin+1):(iterations+1),]) +
+  geom_histogram(
+    aes(x = sigma, y = stat(count) / sum(count)), 
+    alpha = 0.5) +
+  geom_vline(
+    aes(xintercept = quantile(chainM[(burnin+1):(iterations+1),3], 0.025)), 
+    color = 'red') +
+  geom_vline(
+    aes(xintercept = 1), 
+    color = 'red') +
+  geom_vline(
+    aes(xintercept = quantile(chainM[(burnin+1):(iterations+1),3], 0.975)), 
+    color = 'red') +
+  ylab('Posterior distribution - Relative frequency') +
+  xlab(expression(sigma)) +
+  ggtitle(bquote('With burn-in, 95% credible interval of ' ~ sigma))
+
+ggarrange(p3, p4, nrow = 1)
+
+```
+**Summary**
+
+- Metropolis-Hastings (MH) generalizes Metropolis algorithm to non-symmetric proposal distributions while maintaining detailed balance. 
+
+- Metropolis algorithm requires us to specify a proposal distribution involving some tuning, this can be tricky to set-up. A "bad" tuning parameter can result in lower acceptance rate (i.e., proposed value keeps getting rejected).
+
+- Metropolis algorithm generates a Markov chain of samples, each of which is correlated with nearby samples.
+    - in the example here, the next proposed value for $\mu$ and $\sigma$ is sampled from the proposal distribution using the previous draw!
+
+- Again, it's a good practice to disgard begining of the chain!
+
+
+## MCMC diganostics - assess convergence
+
+- What does a good Markov chain look like?
+- How can we tell if our Markov chain sample produces a reasonable approximation of the posterior?
+- How big should our Markov chain sample size be? How many iterations to run?
+
+- In this section, we provide a few diagnostic rules and principles
+
+- A good reference paper on Bayesian workflow: https://arxiv.org/pdf/2011.01808.pdf, [@gelman2020bayesian]
+
+```{r echo=FALSE, fig.cap="Bayesian workflow - Figure 1 from Gelman at al 2020", fig.align='center', fig.width=9}
+knitr::include_graphics("images/bayes_workflow.JPG")
+```
+
+
+**1. Choose good initial values and discard early iterations**
+
+**2. Assessing convergence in long-run**
+
+- A commonly used numerical index in diagnosing convergence is $\hat{R}$, also
+called the potential scale reduction factor, proposed by Gelman and Rubin (1992)
+and later an extension for multivariate distributions by Brooks and Gelman
+(1997).
+
+- $\hat{R}$ measures the ratio of the total variability combining multiple
+chains to the within-chain variability. 
+    - recall in ANOVA, the $F$-ratio is a measure of
+    
+\[F = \frac{\text{Between-group difference} + \text{error}}{\text{error}}\]
+
+- $\hat{R}$ has a very similar meaning conceptually, with `error` meaning the
+within-chain variance. 
+    - after the  chains converge, there should be no differences between the chains, and so$\hat{R}$ should be very close to 1.0. 
+- It's recommended an $\hat{R}$ less than 1.1 for acceptable convergence of the Markov chains, but more recently a more stringent cutoff of 1.01 is proposed.
+
+ 
+ 
+**Good Mixing - trace plot and auto-correlation plot**
+
+- One thing you should look at to diagnose the convergence of a Markov chain is the trace plot. 
+
+- Good mixing behaviour as it explores the region with most of the density smoothly and bounces from one point to another quickly. 
+
+- Bad mixing: 
+    - although in every iteration a jump is made to a new value, the jump to the new value is relatively small, so it gonna takes a long time to get from one end of the distribution to another end, 
+    - and it rarely explores all regions, therefore, if you stop the chain "early", you can get a biased representation of the posterior distribution.
+
+
+**Dependence of the iterations**
+
+- Autocorrelation provides another metric by which to evaluate whether our Markov chain sufficiently mimics the behaviour of an independent sample.
+
+- **Strong autocorrelation** or dependence is a bad thing – it goes hand in hand with small effective sample size ratios, and thus provides a warning sign that our resulting posterior approximations might be unreliable.
+
+- Autocorrelation
+    - Lag 1 autocorrelation measures the correlation between pairs of Markov chain values that are one “step” apart 
+    - Lag k autocorrelation measures the correlation between pairs of Markov chain values that are k “steps” apart 
+    - we can look at ACF plot for diagnostics, in R this can be examined using acf() function!
+
+<div class="fold s">
+```{r echo=T, warning=FALSE, message=FALSE}
+# Gibbs example;
+acf(posterior[(1000+1):length(posterior$mu),2], main=expression(paste("Gibbs example ",mu)))
+acf(posterior[(1000+1):length(posterior$tau),3], main=expression(paste("Gibbs example ",tau)))
+
+
+```
+<div>
+
+**Thinning**
+
+- we can perform thinning to achieve faster convergence!
+    - thinning the MCMC by keeping every kth simulation draw and discarding the rest
+    - for example, thin = 5, referring to keeping the 5th, 10th, ..., draws only! If the total MCMC iteration is 2000, for thin = 5, we will end-up with a posterior sample distribution of size = 2000/5 = 400.
+    
+    
+### Acceptance Rate
+
+- If you're using the Metropolis/MH algorithm, you want to monitor the acceptance
+rate and make sure it is within optimal range. 
+
+- If you accept almost every time, that tells you that each time the chain only jumps a very small step (so that the acceptance ratio is close to 1 every time), which will make the algorithm slow in converging to the stationary distribution. 
+
+- If the acceptance rate is very low, then that says that the chain got stuck to just a few locations and it takes hundreds of iterations for it to make one jump. 
+
+- For the Metropolis/MH algorithm, an optimal acceptance rate would be something between 10% to 60%. 
+
+### Diagnostics Using Multiple Chains
+
+- Another important thing to check is to see the convergence with multiple chains.
+
+- So far we've been just talking about one chain, but it is common practice to use
+two or more chains (and 4 chains are generally recommended nowadays), 
+    - each starting at a different, preferably more extreme, place, and see whether they explore a similar region.
+
+
 
 ## Example Bayesian modelling with brms
-
-### Beta-Binomial example
-
-### Normal-normal example
 
 ### Bayesian linear regression
 
 ### Bayesian generalized linear regression
 
-### Bayesian meta-analysis example
 
-### Bayesian longtiduinal data anlaysis example
+### R Session information {-}
 
-
-
+```{r echo=F}
+getS3method("print","sessionInfo")(sessionInfo()[c(1:7)])
+```
 
 
 

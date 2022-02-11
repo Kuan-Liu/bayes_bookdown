@@ -92,3 +92,11 @@ bayesian-linear-regression
 bayesian-generalized-linear-regression
 bayesian-meta-analysis-example
 bayesian-longtiduinal-data-anlaysis-example
+metropolis-algorithm
+mcmc-diganostics---assess-convergence
+mixing
+acceptance-rate
+diagnostics-using-multiple-chains
+hatr-a.k.a-potential-scale-reduction-factor
+discard-early-iterations---burn-in
+fig:unnamed-chunk-8
