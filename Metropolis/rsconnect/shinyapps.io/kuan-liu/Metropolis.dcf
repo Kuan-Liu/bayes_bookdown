@@ -1,0 +1,13 @@
+name: Metropolis
+title: Metropolis
+username:
+account: kuan-liu
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5636175
+bundleId: 5570289
+url: https://kuan-liu.shinyapps.io/Metropolis/
+when: 1644609507.35502
+lastSyncTime: 1644609507.35502
+asMultiple: FALSE
+asStatic: FALSE
