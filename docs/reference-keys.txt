@@ -87,3 +87,8 @@ models-for-binary-data
 models-for-count-data
 fig:unnamed-chunk-6
 evaluating-priors
+example-bayesian-modelling-with-brms
+bayesian-linear-regression
+bayesian-generalized-linear-regression
+bayesian-meta-analysis-example
+bayesian-longtiduinal-data-anlaysis-example

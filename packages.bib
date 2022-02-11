@@ -7,6 +7,14 @@
   url = {https://www.R-project.org/},
 }
 
+@Manual{R-bayesplot,
+  title = {bayesplot: Plotting for Bayesian Models},
+  author = {Jonah Gabry and Tristan Mahr},
+  year = {2021},
+  note = {R package version 1.8.1},
+  url = {https://mc-stan.org/bayesplot/},
+}
+
 @Manual{R-bookdown,
   title = {bookdown: Authoring Books and Technical Documents with R Markdown},
   author = {Yihui Xie},
@@ -15,12 +23,12 @@
   url = {https://CRAN.R-project.org/package=bookdown},
 }
 
-@Manual{R-coda,
-  title = {coda: Output Analysis and Diagnostics for MCMC},
-  author = {Martyn Plummer and Nicky Best and Kate Cowles and Karen Vines and Deepayan Sarkar and Douglas Bates and Russell Almond and Arni Magnusson},
-  year = {2020},
-  note = {R package version 0.19-4},
-  url = {https://CRAN.R-project.org/package=coda},
+@Manual{R-brms,
+  title = {brms: Bayesian Regression Models using Stan},
+  author = {Paul-Christian Bürkner},
+  year = {2021},
+  note = {R package version 2.16.3},
+  url = {https://CRAN.R-project.org/package=brms},
 }
 
 @Manual{R-dplyr,
@@ -39,20 +47,20 @@
   url = {https://github.com/rstudio/DT},
 }
 
-@Manual{R-extraDistr,
-  title = {extraDistr: Additional Univariate and Multivariate Distributions},
-  author = {Tymoteusz Wolodzko},
-  year = {2020},
-  note = {R package version 1.9.1},
-  url = {https://github.com/twolodzko/extraDistr},
-}
-
 @Manual{R-forcats,
   title = {forcats: Tools for Working with Categorical Variables (Factors)},
   author = {Hadley Wickham},
   year = {2021},
   note = {R package version 0.5.1},
   url = {https://CRAN.R-project.org/package=forcats},
+}
+
+@Manual{R-ggmcmc,
+  title = {ggmcmc: Tools for Analyzing MCMC Simulations from Bayesian Inference},
+  author = {Xavier {Fernández i Marín}},
+  year = {2021},
+  note = {R package version 1.5.1.1},
+  url = {https://CRAN.R-project.org/package=ggmcmc},
 }
 
 @Manual{R-ggplot2,
@@ -87,22 +95,6 @@
   url = {https://yihui.org/knitr/},
 }
 
-@Manual{R-MASS,
-  title = {MASS: Support Functions and Datasets for Venables and Ripley's MASS},
-  author = {Brian Ripley},
-  year = {2021},
-  note = {R package version 7.3-53.1},
-  url = {http://www.stats.ox.ac.uk/pub/MASS4/},
-}
-
-@Manual{R-MCMCpack,
-  title = {MCMCpack: Markov Chain Monte Carlo (MCMC) Package},
-  author = {Andrew D. Martin and Kevin M. Quinn and Jong Hee Park and Ghislain Vieilledent and Michael Malecki and Matthew Blackwell and Keith Poole and Craig Reed and Ben Goodrich and Qiushi Yu and Ross Ihaka and The R Development Core Team and The R Foundation and Pierre L'Ecuyer and Makoto Matsumoto and Takuji Nishimura},
-  year = {2021},
-  note = {R package version 1.6-0},
-  url = {https://CRAN.R-project.org/package=MCMCpack},
-}
-
 @Manual{R-miniUI,
   title = {miniUI: Shiny UI Widgets for Small Screens},
   author = {Joe Cheng},
@@ -117,6 +109,14 @@
   year = {2020},
   note = {R package version 0.3.4},
   url = {https://CRAN.R-project.org/package=purrr},
+}
+
+@Manual{R-Rcpp,
+  title = {Rcpp: Seamless R and C++ Integration},
+  author = {Dirk Eddelbuettel and Romain Francois and JJ Allaire and Kevin Ushey and Qiang Kou and Nathan Russell and Inaki Ucar and Douglas Bates and John Chambers},
+  year = {2021},
+  note = {R package version 1.0.7},
+  url = {https://CRAN.R-project.org/package=Rcpp},
 }
 
 @Manual{R-readr,
@@ -141,14 +141,6 @@
   year = {2021},
   note = {R package version 0.24},
   url = {https://github.com/yihui/servr},
-}
-
-@Manual{R-SHELF,
-  title = {SHELF: Tools to Support the Sheffield Elicitation Framework},
-  author = {Jeremy Oakley},
-  year = {2021},
-  note = {R package version 1.8.0},
-  url = {https://github.com/OakleyJ/SHELF},
 }
 
 @Manual{R-stringr,
@@ -191,6 +183,17 @@
   url = {https://github.com/wch/webshot/},
 }
 
+@Article{bayesplot2019,
+  title = {Visualization in Bayesian workflow},
+  author = {Jonah Gabry and Daniel Simpson and Aki Vehtari and Michael Betancourt and Andrew Gelman},
+  year = {2019},
+  journal = {J. R. Stat. Soc. A},
+  volume = {182},
+  issue = {2},
+  pages = {389-402},
+  doi = {10.1111/rssa.12378},
+}
+
 @Book{bookdown2016,
   title = {bookdown: Authoring Books and Technical Documents with {R} Markdown},
   author = {Yihui Xie},
@@ -201,16 +204,51 @@
   url = {https://bookdown.org/yihui/bookdown},
 }
 
-@Article{coda2006,
-  title = {CODA: Convergence Diagnosis and Output Analysis for MCMC},
-  author = {Martyn Plummer and Nicky Best and Kate Cowles and Karen Vines},
-  journal = {R News},
-  year = {2006},
-  volume = {6},
+@Article{brms2017,
+  title = {{brms}: An {R} Package for {Bayesian} Multilevel Models Using {Stan}},
+  author = {Paul-Christian Bürkner},
+  journal = {Journal of Statistical Software},
+  year = {2017},
+  volume = {80},
   number = {1},
-  pages = {7--11},
-  url = {https://journal.r-project.org/archive/},
-  pdf = {https://www.r-project.org/doc/Rnews/Rnews_2006-1.pdf},
+  pages = {1--28},
+  doi = {10.18637/jss.v080.i01},
+  encoding = {UTF-8},
+}
+
+@Article{brms2018,
+  title = {Advanced {Bayesian} Multilevel Modeling with the {R} Package {brms}},
+  author = {Paul-Christian Bürkner},
+  journal = {The R Journal},
+  year = {2018},
+  volume = {10},
+  number = {1},
+  pages = {395--411},
+  doi = {10.32614/RJ-2018-017},
+  encoding = {UTF-8},
+}
+
+@Article{brms2021,
+  title = {Bayesian Item Response Modeling in {R} with {brms} and {Stan}},
+  author = {Paul-Christian Bürkner},
+  journal = {Journal of Statistical Software},
+  year = {2021},
+  volume = {100},
+  number = {5},
+  pages = {1--54},
+  doi = {10.18637/jss.v100.i05},
+  encoding = {UTF-8},
+}
+
+@Article{ggmcmc2016,
+  title = {{ggmcmc}: Analysis of {MCMC} Samples and {B}ayesian Inference},
+  author = {Xavier Fern{\'a}ndez-i-Mar{\'i}n},
+  journal = {Journal of Statistical Software},
+  year = {2016},
+  volume = {70},
+  number = {9},
+  pages = {1--20},
+  doi = {10.18637/jss.v070.i09},
 }
 
 @Book{ggplot22016,
@@ -244,26 +282,38 @@
   url = {http://www.crcpress.com/product/isbn/9781466561595},
 }
 
-@Book{MASS2002,
-  title = {Modern Applied Statistics with S},
-  author = {W. N. Venables and B. D. Ripley},
-  publisher = {Springer},
-  edition = {Fourth},
-  address = {New York},
-  year = {2002},
-  note = {ISBN 0-387-95457-0},
-  url = {https://www.stats.ox.ac.uk/pub/MASS4/},
-}
-
-@Article{MCMCpack2011,
-  title = {{MCMCpack}: Markov Chain Monte Carlo in {R}},
-  author = {Andrew D. Martin and Kevin M. Quinn and Jong Hee Park},
+@Article{Rcpp2011,
+  title = {{Rcpp}: Seamless {R} and {C++} Integration},
+  author = {Dirk Eddelbuettel and Romain Fran\c{c}ois},
   journal = {Journal of Statistical Software},
   year = {2011},
-  volume = {42},
-  number = {9},
-  pages = {22},
-  doi = {10.18637/jss.v042.i09},
+  volume = {40},
+  number = {8},
+  pages = {1--18},
+  url = {https://www.jstatsoft.org/v40/i08/},
+  doi = {10.18637/jss.v040.i08},
+}
+
+@Book{Rcpp2013,
+  title = {Seamless {R} and {C++} Integration with {Rcpp}},
+  author = {Dirk Eddelbuettel},
+  publisher = {Springer},
+  address = {New York},
+  year = {2013},
+  note = {ISBN 978-1-4614-6867-7},
+  doi = {10.1007/978-1-4614-6868-4},
+}
+
+@Article{Rcpp2018,
+  title = {{Extending 	extit{R} with 	extit{C++}: A Brief Introduction to 	extit{Rcpp}}},
+  author = {Dirk Eddelbuettel and James Joseph Balamuta},
+  journal = {The American Statistician},
+  year = {2018},
+  volume = {72},
+  number = {1},
+  pages = {28-36},
+  url = {https://doi.org/10.1080/00031305.2017.1375990},
+  doi = {10.1080/00031305.2017.1375990},
 }
 
 @Book{rmarkdown2018,
