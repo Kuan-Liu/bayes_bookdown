@@ -60,6 +60,7 @@ options(scipen = 999)
         - OpenBUGS, WinBUGS, JAGS; 
         - STAN; 
         - INLA (Iteratively Nested Laplace Approximation, this is not MC)
+        - PyMC (via Python)
 
         
 - In this session, we will introduce two MCMC algorithms: Metropolis algorithm and Gibbs sampler.
@@ -90,8 +91,8 @@ We want to alternate between sampling from these two conditional posteriors.
 
 - First, let's complete Gibbs sampling with 10 draws
     1. we specify an initial value of $(\mu^{(1)}, \tau^{(1)}) = (1,1)$ to start our chain
-    2. Given $\tau^{(1)} = 1$, plug in this value to $P( \mu \mid \tau, Y) \propto N(\frac{ \sum_{i=1}^{100} y_i}{1 + 100 },\frac{1}{1+100})$, now **we draw 1 sample of $\mu$, $\mu^{(2)}$ from P( \mu \mid \tau, Y)**
-    3. Given $\mu^{(1)} = 1$ plug in this value to $P( \tau \mid \mu, Y) \propto Gamma(1 + \frac{100}{2}, 1+\frac{\sum_{i=1}^{100} (y_i-1)^2}{2})$, now **we draw 1 sample of $\tau$, $\tau{(2)} from $P( \tau \mid \mu, Y)$**
+    2. Given $\tau^{(1)} = 1$, plug in this value to $P( \mu \mid \tau, Y) \propto N(\frac{ \sum_{i=1}^{100} y_i}{1 + 100 },\frac{1}{1+100})$, now **we draw 1 sample of $\mu$, $\mu^{(2)}$ from $P( \mu \mid \tau, Y)$**
+    3. Given $\mu^{(1)} = 1$ plug in this value to $P( \tau \mid \mu, Y) \propto Gamma(1 + \frac{100}{2}, 1+\frac{\sum_{i=1}^{100} (y_i-1)^2}{2})$, now **we draw 1 sample of $\tau$, $\tau{(2)}$ from $P( \tau \mid \mu, Y)$**
     4. we repeat sample 2 and 3 and construct a posterior set of $(\mu^{(1)}, \tau^{(1)}, \ldots, (\mu^{(10)}, \tau^{(10)}))$
     
 <div class="fold s">
@@ -298,7 +299,7 @@ ggarrange(p5, p6, nrow = 2)
 
 3. Calculate the ratio (r) of the densities
 
-\[r = \frac{P(\mu^{(propose)}, \tau^{(propose)} \mid y)}{P((\mu^{(1)}, \tau^{(1)} \mid y)} = \frac{P(y \mid \mu^{(propose)}, \tau^{(propose)}) P(\mu^{(propose)}) P(\tau^{(propose)})}{P(y \mid \mu^{(1)}, \tau^{(1)}) P(\mu^{(1)}) P(\tau^{(1)})}\]
+\[r = \frac{P(\mu^{(propose)}, \tau^{(propose)} \mid y)}{P(\mu^{(1)}, \tau^{(1)} \mid y)} = \frac{P(y \mid \mu^{(propose)}, \tau^{(propose)}) P(\mu^{(propose)}) P(\tau^{(propose)})}{P(y \mid \mu^{(1)}, \tau^{(1)}) P(\mu^{(1)}) P(\tau^{(1)})}\]
     - for this step, we can format the ratio in its log scale for easy calculation, log(r)! 
     
 4. Sample “u” from an uniform distribution, $u \sim Unif(0,1)$
@@ -491,7 +492,7 @@ ggarrange(p3, p4, nrow = 1)
 - Metropolis algorithm generates a Markov chain of samples, each of which is correlated with nearby samples.
     - in the example here, the next proposed value for $\mu$ and $\sigma$ is sampled from the proposal distribution using the previous draw!
 
-- Again, it's a good practice to disgard begining of the chain!
+- Again, it's a good practice to discard beginning of the chain!
 
 
 ## MCMC diganostics - assess convergence
