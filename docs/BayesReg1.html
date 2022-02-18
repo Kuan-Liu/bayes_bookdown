@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-02-11" />
+<meta name="date" content="2022-02-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,8 +287,15 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="BayesReg1.html"><a href="BayesReg1.html"><i class="fa fa-check"></i><b>6</b> Bayesian Regression I</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="BayesReg1.html"><a href="BayesReg1.html#normal-models-and-linear-regression"><i class="fa fa-check"></i><b>6.1</b> Normal Models and Linear Regression</a></li>
-<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models-and-convergence"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models and convergence</a></li>
+<li class="chapter" data-level="6.1" data-path="BayesReg1.html"><a href="BayesReg1.html#normal-models-and-linear-regression"><i class="fa fa-check"></i><b>6.1</b> Normal Models and Linear Regression</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="BayesReg1.html"><a href="BayesReg1.html#one-sample-and-two-sample-normal-regression"><i class="fa fa-check"></i><b>6.1.1</b> One-sample and two-sample normal regression</a></li>
+<li class="chapter" data-level="6.1.2" data-path="BayesReg1.html"><a href="BayesReg1.html#linear-regression"><i class="fa fa-check"></i><b>6.1.2</b> Linear regression</a></li>
+<li class="chapter" data-level="6.1.3" data-path="BayesReg1.html"><a href="BayesReg1.html#model-diagnostics"><i class="fa fa-check"></i><b>6.1.3</b> Model diagnostics</a></li>
+<li class="chapter" data-level="6.1.4" data-path="BayesReg1.html"><a href="BayesReg1.html#model-comparision"><i class="fa fa-check"></i><b>6.1.4</b> Model comparision</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models</a></li>
+<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization-and-variable-selection"><i class="fa fa-check"></i><b>6.3</b> Regression regularization and variable selection</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II</a>
 <ul>
@@ -318,12 +325,1395 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="BayesReg1" class="section level1" number="6">
 <h1><span class="header-section-number">Session 6</span> Bayesian Regression I</h1>
+<div class="chapterintro">
+<ul>
+<li>Learn how to fit linear regression model with brms</li>
+<li>Understand how to interpret and report regression posterior results</li>
+<li>Learn how to fit clustered data with brms</li>
+<li>Learn how to conduct model diagnostics, model comparison, and variable selection</li>
+</ul>
+</div>
+<script src="hideOutput.js"></script>
+<p></br></p>
+<p><strong>What is regression?</strong> <span class="citation">(<a href="#ref-mcelreath2018statistical" role="doc-biblioref">McElreath 2018</a>)</span></p>
+<ul>
+<li><p>using one or more predictor variables to model the distribution of one or more outcome variables</p></li>
+<li><p>For a continuous outcome, we typically fit a linear regression model.</p>
+<ul>
+<li>Of course the relationship between outcome and predictors can be non-linear, in this case, we would consider fitting polynomial regression models or splines.</li>
+</ul></li>
+<li><p>For a categorical outcome, we will fit a generalized linear regression. We will cover this topic in future sessions.</p></li>
+<li><p>For a repeatedly measured outcome, we can fit a linear mixed-effect model (continuous outcome) or a generalized linear mixed-effect model (categorical outcome).</p></li>
+</ul>
 <div id="normal-models-and-linear-regression" class="section level2" number="6.1">
 <h2><span class="header-section-number">6.1</span> Normal Models and Linear Regression</h2>
+<div class="important">
+<p><strong>Conditional normal model</strong></p>
+<ul>
+<li>Given its mean and variance, an observation has a normal distribution</li>
+</ul>
+<p><span class="math display">\[ Y_i \mid \mu_i, \sigma^2_i \sim N( \mu_i, \sigma^2_i) \]</span></p>
+<ul>
+<li>This is equivalent to the following statements</li>
+</ul>
+<p><span class="math display">\[ Y_i = \mu_i + e_i , \ e_i \sim N(0, \sigma^2)\]</span></p>
+<ul>
+<li><p>We do not assume the collection of <span class="math inline">\(Y_i, i=1, \ldots, n\)</span> have a normal distribution</p></li>
+<li><p>Instead we assume the error term is normally distributed - a lesser assumption!</p></li>
+<li><p>In case of multiple predictors, <span class="math inline">\(\mu_i\)</span> becomes a weighted average of the <span class="math inline">\(\beta_j\)</span> values, the regression coefficient with <span class="math inline">\(x_{ij}\)</span> denoting the predictors. For example, for two covariates we have</p></li>
+</ul>
+<p><span class="math display">\[ E(y_i) = \mu_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} \]</span></p>
+<ul>
+<li>A polynomial regression model of 2 degrees on <span class="math inline">\(x_{i1}\)</span></li>
+</ul>
+<p><span class="math display">\[ \mu_i = \beta_0 + \beta_1 x_{i1} +  \beta_2 x_{i2} + \beta_3 x_{i1}^2 \]</span></p>
+<ul>
+<li>Assumptions of linear regression models
+<ol style="list-style-type: decimal">
+<li><strong>Independent observations</strong></li>
+<li><strong>Linear relationship</strong> We can check this assumption by examining marginal plots comparing the model predicted relationship between outcome and each continuous predictor and by examining the residual plot.</li>
+<li><strong>Normality of the residuals</strong></li>
+<li><strong>Homoscedasticity</strong> Homoscedasticity in a model means that the residual is constant along the values of the dependent variable.</li>
+<li><strong>Multidisciplinary</strong> Multicollinearity is the phenomenon when a number of the explanatory variables are strongly correlated.</li>
+<li><strong>Correctly specified regression model</strong> This means that all relevant predictors for the response variable have been included in the model. This is often difficult to verify, but we can use posterior predictive distribution to check for regression fit.</li>
+</ol></li>
+</ul>
 </div>
-<div id="hierarchical-models-and-convergence" class="section level2" number="6.2">
-<h2><span class="header-section-number">6.2</span> Hierarchical models and convergence</h2>
+<div id="one-sample-and-two-sample-normal-regression" class="section level3" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> One-sample and two-sample normal regression</h3>
+<p><strong>1. One-sample</strong></p>
+<ul>
+<li>If all observations have the same mean and variance, the likelihood is</li>
+</ul>
+<p><span class="math display">\[ Y_i \mid \mu, \sigma^2 \sim N(\mu, \sigma^2)\]</span></p>
+<ul>
+<li>Good candidate priors for <span class="math inline">\(mu\)</span> and <span class="math inline">\(\sigma\)</span> are
+<ul>
+<li><span class="math inline">\(\mu \sim N(\text{sample mean}, \text{sample sd})\)</span> or Student-T distributions (to handle heavy tails)</li>
+<li><span class="math inline">\(\sigma \sim \text{half-t}(mean = 0, sd = \text{sample sd}, df = 3)\)</span></li>
+</ul></li>
+</ul>
+<p><strong>Modelling height - Textbook example on the Howell data</strong></p>
+<p>Suppose we want to fit a one-sample model on height using a dataset of anthropological measurements on a foraging people taken in the 1960s.</p>
+<ul>
+<li>First let’s examine the summary statistics of variable height</li>
+</ul>
+<div class="fold s">
 
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="BayesReg1.html#cb81-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/Howell.txt&quot;</span>,<span class="at">header=</span>T, <span class="at">sep=</span><span class="st">&quot;;&quot;</span>)</span>
+<span id="cb81-2"><a href="BayesReg1.html#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="BayesReg1.html#cb81-3" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> <span class="fu">tbl_summary</span>(</span>
+<span id="cb81-4"><a href="BayesReg1.html#cb81-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">list</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">&quot;{mean} ({sd})&quot;</span>,</span>
+<span id="cb81-5"><a href="BayesReg1.html#cb81-5" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">all_categorical</span>() <span class="sc">~</span> <span class="st">&quot;{n} / {N} ({p}%)&quot;</span>),</span>
+<span id="cb81-6"><a href="BayesReg1.html#cb81-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="dv">2</span>)</span></code></pre></div>
+<div id="srpwkuzlti" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#srpwkuzlti .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#srpwkuzlti .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#srpwkuzlti .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#srpwkuzlti .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#srpwkuzlti .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#srpwkuzlti .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#srpwkuzlti .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#srpwkuzlti .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#srpwkuzlti .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#srpwkuzlti .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#srpwkuzlti .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#srpwkuzlti .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#srpwkuzlti .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#srpwkuzlti .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#srpwkuzlti .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#srpwkuzlti .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#srpwkuzlti .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#srpwkuzlti .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#srpwkuzlti .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#srpwkuzlti .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#srpwkuzlti .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#srpwkuzlti .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#srpwkuzlti .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#srpwkuzlti .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#srpwkuzlti .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#srpwkuzlti .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#srpwkuzlti .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#srpwkuzlti .gt_left {
+  text-align: left;
+}
+
+#srpwkuzlti .gt_center {
+  text-align: center;
+}
+
+#srpwkuzlti .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#srpwkuzlti .gt_font_normal {
+  font-weight: normal;
+}
+
+#srpwkuzlti .gt_font_bold {
+  font-weight: bold;
+}
+
+#srpwkuzlti .gt_font_italic {
+  font-style: italic;
+}
+
+#srpwkuzlti .gt_super {
+  font-size: 65%;
+}
+
+#srpwkuzlti .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N = 544</strong><sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">height</td>
+<td class="gt_row gt_center">138.26 (27.60)</td></tr>
+    <tr><td class="gt_row gt_left">weight</td>
+<td class="gt_row gt_center">35.61 (14.72)</td></tr>
+    <tr><td class="gt_row gt_left">age</td>
+<td class="gt_row gt_center">29.34 (20.75)</td></tr>
+    <tr><td class="gt_row gt_left">male</td>
+<td class="gt_row gt_center">257 / 544 (47%)</td></tr>
+  </tbody>
+  
+  <tfoot>
+    <tr class="gt_footnotes">
+      <td colspan="2">
+        <p class="gt_footnote">
+          <sup class="gt_footnote_marks">
+            <em>1</em>
+          </sup>
+           
+          Mean (SD); n / N (%)
+          <br />
+        </p>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="BayesReg1.html#cb82-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="fu">everything</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb82-2"><a href="BayesReg1.html#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">factor</span>(name, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;height&quot;</span>, <span class="st">&quot;weight&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;male&quot;</span>))) <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value)) <span class="sc">+</span></span>
+<span id="cb82-3"><a href="BayesReg1.html#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">10</span>,<span class="at">fill=</span><span class="st">&quot;#008BB0&quot;</span>,<span class="at">colour=</span><span class="st">&quot;#002A5C&quot;</span>) <span class="sc">+</span></span>
+<span id="cb82-4"><a href="BayesReg1.html#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb82-5"><a href="BayesReg1.html#cb82-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<img src="bayes_bookdown_files/figure-html/unnamed-chunk-90-1.png" width="672" style="display: block; margin: auto;" />
+<div>
+
+<ul>
+<li>We specify our model with the following priors
+<span class="math display">\[ heights_i \sim N (\mu, \sigma)\]</span>
+<span class="math display">\[\mu \sim N(138, 28)\]</span>
+<span class="math display">\[\sigma \sim \text{half-t}(0, 28, df = 3)\]</span></li>
+</ul>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-91"></span>
+<img src="bayes_bookdown_files/figure-html/unnamed-chunk-91-1.png" alt="Prior distributions" width="480" />
+<p class="caption">
+Figure 6.1: Prior distributions
+</p>
+</div>
+<ul>
+<li>we now fit this model in brms</li>
+</ul>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="BayesReg1.html#cb83-1" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb83-2"><a href="BayesReg1.html#cb83-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb83-3"><a href="BayesReg1.html#cb83-3" aria-hidden="true" tabindex="-1"></a>             height <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb83-4"><a href="BayesReg1.html#cb83-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">138</span>, <span class="dv">28</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb83-5"><a href="BayesReg1.html#cb83-5" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">prior</span>(<span class="fu">student_t</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">28</span>), <span class="at">class =</span> sigma)),</span>
+<span id="cb83-6"><a href="BayesReg1.html#cb83-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">10000</span>, </span>
+<span id="cb83-7"><a href="BayesReg1.html#cb83-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">5000</span>, </span>
+<span id="cb83-8"><a href="BayesReg1.html#cb83-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb83-9"><a href="BayesReg1.html#cb83-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb83-10"><a href="BayesReg1.html#cb83-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb83-11"><a href="BayesReg1.html#cb83-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb83-12"><a href="BayesReg1.html#cb83-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb83-13"><a href="BayesReg1.html#cb83-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-14"><a href="BayesReg1.html#cb83-14" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS(fit0, &quot;data/chap7_onesample_example&quot;)</span></span></code></pre></div>
+<ul>
+<li>Summarizing posterior results</li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: height ~ 1 
+##    Data: dat (Number of observations: 544) 
+##   Draws: 4 chains, each with iter = 10000; warmup = 5000; thin = 1;
+##          total post-warmup draws = 20000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept   138.25      1.18   135.94   140.58 1.00    18944    14350
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma    27.64      0.84    26.06    29.35 1.00    18557    13633
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<ul>
+<li>Geweke index and R-hat <span class="citation">(<a href="#ref-geweke1991evaluating" role="doc-biblioref">Geweke et al. 1991</a>)</span> to check for MCMC convergence</li>
+</ul>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="BayesReg1.html#cb85-1" aria-hidden="true" tabindex="-1"></a>modelposterior <span class="ot">&lt;-</span> <span class="fu">as_draws_matrix</span>(fit0)</span>
+<span id="cb85-2"><a href="BayesReg1.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geweke.diag</span>(modelposterior)</span></code></pre></div>
+<pre><code>## 
+## Fraction in 1st window = 0.1
+## Fraction in 2nd window = 0.5 
+## 
+## b_Intercept       sigma        lp__ 
+##      0.4570      0.2874      0.9759</code></pre>
+<ul>
+<li>Posterior predictive graphic check for model fit
+<ul>
+<li>we can see here there is some skewness not captured in the model, this model is not a good fit to the data.</li>
+<li>we will revisit the height model in the linear regression section where we add covariates to the model to improve the fit.</li>
+</ul></li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-95-1.png" width="432" style="display: block; margin: auto;" /></p>
+<div class="guidedexercise">
+<p><strong>What is the posterior evidence that mean height is greater than 140cm?</strong></p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="BayesReg1.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hypothesis</span>(fit0, <span class="st">&#39;Intercept &gt; 140&#39;</span> , <span class="at">alpha =</span> <span class="fl">0.025</span>)</span>
+<span id="cb87-2"><a href="BayesReg1.html#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="BayesReg1.html#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="co"># proportion of posterior samples on the mean (intercept) </span></span>
+<span id="cb87-4"><a href="BayesReg1.html#cb87-4" aria-hidden="true" tabindex="-1"></a><span class="co"># with value &gt; 140, combining 4 chains;</span></span>
+<span id="cb87-5"><a href="BayesReg1.html#cb87-5" aria-hidden="true" tabindex="-1"></a>modelposterior2<span class="ot">&lt;-</span> <span class="fu">posterior_samples</span>(fit0)</span>
+<span id="cb87-6"><a href="BayesReg1.html#cb87-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(modelposterior2[,<span class="dv">1</span>]<span class="sc">&gt;</span><span class="dv">140</span>)<span class="sc">/</span><span class="fu">length</span>(modelposterior2[,<span class="dv">1</span>])</span></code></pre></div>
+</div>
+<p><strong>2. Two-sample</strong></p>
+<ul>
+<li>Simple extension of the one-sample problem</li>
+<li>Observations within the each group have the same mean and variance, yielding the following likelihood
+<span class="math display">\[ Y_{ji} \mid \mu_j, \sigma^2_j \sim N(\mu_j, \sigma^2_j)\]</span></li>
+<li>Similar candidate prior as in one-sample model
+<ul>
+<li>using normal or student-t dist and observed summary statistics</li>
+<li>within-group variance should be smaller than the variance when we ignore groups</li>
+</ul></li>
+<li>We can assume equal variance <span class="math inline">\(\sigma_1^2 = \sigma_2^2\)</span> or allow them to be estimated seperately</li>
+<li>These two approaches are analogous to the equal-variance and unequal-variance t-tests</li>
+<li>In brms, this is easy to specify</li>
+</ul>
+<p><strong>Modelling hours of sleep comparing between two drugs</strong></p>
+<ul>
+<li><p>Data which show the effect of two medication (within-patient increase in
+hours of sleep) on groups consisting of 10 patients each.</p></li>
+<li><p>Source: <a href="https://www.jstor.org/stable/2331554?seq=1#metadata_info_tab_contents">Student (1908)</a> The probable error of a mean. <span class="citation">(<a href="#ref-student1908probable" role="doc-biblioref">Student 1908</a>)</span></p></li>
+<li><p>First examine the summary statistics by group</p></li>
+</ul>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="BayesReg1.html#cb88-1" aria-hidden="true" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">extra =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="sc">-</span><span class="fl">1.6</span>, <span class="sc">-</span><span class="fl">0.2</span>, <span class="sc">-</span><span class="fl">1.2</span>, <span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">3.4</span>, <span class="fl">3.7</span>, <span class="fl">0.8</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="fl">1.9</span>, <span class="fl">0.8</span>, <span class="fl">1.1</span>, <span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">4.4</span>, <span class="fl">5.5</span>, <span class="fl">1.6</span>, <span class="fl">4.6</span>, <span class="fl">3.4</span>), </span>
+<span id="cb88-2"><a href="BayesReg1.html#cb88-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">group =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb88-3"><a href="BayesReg1.html#cb88-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-4"><a href="BayesReg1.html#cb88-4" aria-hidden="true" tabindex="-1"></a>sleep <span class="sc">%&gt;%</span> </span>
+<span id="cb88-5"><a href="BayesReg1.html#cb88-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">recode_factor</span>(group,  <span class="st">&#39;1&#39;</span><span class="ot">=</span><span class="st">&quot;Drug A&quot;</span>, <span class="st">&#39;2&#39;</span><span class="ot">=</span><span class="st">&quot;Drug B&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb88-6"><a href="BayesReg1.html#cb88-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
+<span id="cb88-7"><a href="BayesReg1.html#cb88-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> group,</span>
+<span id="cb88-8"><a href="BayesReg1.html#cb88-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">&quot;{mean} ({sd})&quot;</span>,</span>
+<span id="cb88-9"><a href="BayesReg1.html#cb88-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb88-10"><a href="BayesReg1.html#cb88-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>()</span></code></pre></div>
+<div id="vlzwkqlpnq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#vlzwkqlpnq .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#vlzwkqlpnq .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vlzwkqlpnq .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#vlzwkqlpnq .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#vlzwkqlpnq .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vlzwkqlpnq .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vlzwkqlpnq .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#vlzwkqlpnq .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#vlzwkqlpnq .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#vlzwkqlpnq .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#vlzwkqlpnq .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#vlzwkqlpnq .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vlzwkqlpnq .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vlzwkqlpnq .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#vlzwkqlpnq .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#vlzwkqlpnq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#vlzwkqlpnq .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#vlzwkqlpnq .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vlzwkqlpnq .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#vlzwkqlpnq .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vlzwkqlpnq .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#vlzwkqlpnq .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#vlzwkqlpnq .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vlzwkqlpnq .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vlzwkqlpnq .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#vlzwkqlpnq .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vlzwkqlpnq .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#vlzwkqlpnq .gt_left {
+  text-align: left;
+}
+
+#vlzwkqlpnq .gt_center {
+  text-align: center;
+}
+
+#vlzwkqlpnq .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#vlzwkqlpnq .gt_font_normal {
+  font-weight: normal;
+}
+
+#vlzwkqlpnq .gt_font_bold {
+  font-weight: bold;
+}
+
+#vlzwkqlpnq .gt_font_italic {
+  font-style: italic;
+}
+
+#vlzwkqlpnq .gt_super {
+  font-size: 65%;
+}
+
+#vlzwkqlpnq .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Overall</strong>, N = 20<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Drug A</strong>, N = 10<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Drug B</strong>, N = 10<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">extra</td>
+<td class="gt_row gt_center">1.54 (2.02)</td>
+<td class="gt_row gt_center">0.75 (1.79)</td>
+<td class="gt_row gt_center">2.33 (2.00)</td></tr>
+  </tbody>
+  
+  <tfoot>
+    <tr class="gt_footnotes">
+      <td colspan="4">
+        <p class="gt_footnote">
+          <sup class="gt_footnote_marks">
+            <em>1</em>
+          </sup>
+           
+          Mean (SD)
+          <br />
+        </p>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<ul>
+<li>Fitting two-sample model in brms using default brms prior
+<ul>
+<li>student_t(3, 1, 2.5) for mean (same for each group)</li>
+<li>student_t(3, 0, 2.5) for sigma (same for each group for unequal variance model)</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="BayesReg1.html#cb89-1" aria-hidden="true" tabindex="-1"></a>fit_eq <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> sleep,</span>
+<span id="cb89-2"><a href="BayesReg1.html#cb89-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb89-3"><a href="BayesReg1.html#cb89-3" aria-hidden="true" tabindex="-1"></a>             extra <span class="sc">~</span> group, <span class="co">#mean depends on group and one sigma</span></span>
+<span id="cb89-4"><a href="BayesReg1.html#cb89-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">10000</span>, </span>
+<span id="cb89-5"><a href="BayesReg1.html#cb89-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">5000</span>, </span>
+<span id="cb89-6"><a href="BayesReg1.html#cb89-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb89-7"><a href="BayesReg1.html#cb89-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb89-8"><a href="BayesReg1.html#cb89-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb89-9"><a href="BayesReg1.html#cb89-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb89-10"><a href="BayesReg1.html#cb89-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb89-11"><a href="BayesReg1.html#cb89-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-12"><a href="BayesReg1.html#cb89-12" aria-hidden="true" tabindex="-1"></a>fit_uneq <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> sleep,</span>
+<span id="cb89-13"><a href="BayesReg1.html#cb89-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb89-14"><a href="BayesReg1.html#cb89-14" aria-hidden="true" tabindex="-1"></a>             <span class="fu">bf</span>(extra <span class="sc">~</span> group, <span class="co">#mean depends on group</span></span>
+<span id="cb89-15"><a href="BayesReg1.html#cb89-15" aria-hidden="true" tabindex="-1"></a>             sigma <span class="sc">~</span> group), <span class="co">#sigma just has one value</span></span>
+<span id="cb89-16"><a href="BayesReg1.html#cb89-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">10000</span>, </span>
+<span id="cb89-17"><a href="BayesReg1.html#cb89-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">5000</span>, </span>
+<span id="cb89-18"><a href="BayesReg1.html#cb89-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb89-19"><a href="BayesReg1.html#cb89-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb89-20"><a href="BayesReg1.html#cb89-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb89-21"><a href="BayesReg1.html#cb89-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb89-22"><a href="BayesReg1.html#cb89-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb89-23"><a href="BayesReg1.html#cb89-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-24"><a href="BayesReg1.html#cb89-24" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS(fit_eq, &quot;data/chap7_twosample_eq&quot;)</span></span>
+<span id="cb89-25"><a href="BayesReg1.html#cb89-25" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS(fit_uneq, &quot;data/chap7_twosample_uneq&quot;)</span></span></code></pre></div>
+<ul>
+<li>Summarizing posterior results from equal variance model</li>
+</ul>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: extra ~ group 
+##    Data: sleep (Number of observations: 20) 
+##   Draws: 4 chains, each with iter = 10000; warmup = 5000; thin = 1;
+##          total post-warmup draws = 20000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     0.73      0.63    -0.55     1.98 1.00    16492    13222
+## group2        1.57      0.91    -0.22     3.38 1.00    16232    12475
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     2.00      0.35     1.44     2.79 1.00    13907    12976
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<ul>
+<li>Question: What is the probability that there is more increase in sleep with
+drug A? (under equal-variance model)</li>
+</ul>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="BayesReg1.html#cb91-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">posterior_samples</span>(fit_eq)</span>
+<span id="cb91-2"><a href="BayesReg1.html#cb91-2" aria-hidden="true" tabindex="-1"></a>difference <span class="ot">&lt;-</span> samples[,<span class="st">&quot;b_group2&quot;</span>]</span>
+<span id="cb91-3"><a href="BayesReg1.html#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="co">#summarize the difference</span></span>
+<span id="cb91-4"><a href="BayesReg1.html#cb91-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">Prob =</span> <span class="fu">mean</span>(difference <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">Mean =</span> <span class="fu">mean</span>(difference), <span class="at">lowCrI =</span> <span class="fu">quantile</span>(difference, <span class="fl">0.025</span>), <span class="at">highCrI =</span> <span class="fu">quantile</span>(difference, <span class="dv">1</span><span class="fl">-0.025</span>))</span></code></pre></div>
+<pre><code>##          Prob          Mean   lowCrI.2.5% highCrI.97.5% 
+##     0.9591500     1.5713935    -0.2217899     3.3785453</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="BayesReg1.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co">#we can also use hypothesis function to evaluate this</span></span>
+<span id="cb93-2"><a href="BayesReg1.html#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hypothesis</span>(fit_eq, <span class="st">&quot;group2 &gt; 0&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.025</span>)</span></code></pre></div>
+<pre><code>## Hypothesis Tests for class b:
+##     Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob Star
+## 1 (group2) &gt; 0     1.57      0.91    -0.22     3.38      23.48      0.96     
+## ---
+## &#39;CI&#39;: 95%-CI for one-sided and 97.5%-CI for two-sided hypotheses.
+## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 97.5%;
+## for two-sided hypotheses, the value tested against lies outside the 97.5%-CI.
+## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+<ul>
+<li>Summarizing posterior results from unequal variance model and evaluate the same hypothesis</li>
+</ul>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="BayesReg1.html#cb95-1" aria-hidden="true" tabindex="-1"></a>fit_uneq <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/chap7_twosample_uneq&quot;</span>)</span>
+<span id="cb95-2"><a href="BayesReg1.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_uneq)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = log 
+## Formula: extra ~ group 
+##          sigma ~ group
+##    Data: sleep (Number of observations: 20) 
+##   Draws: 4 chains, each with iter = 10000; warmup = 5000; thin = 1;
+##          total post-warmup draws = 20000
+## 
+## Population-Level Effects: 
+##                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept           0.73      0.63    -0.54     1.97 1.00    15554    10549
+## sigma_Intercept     0.63      0.25     0.20     1.17 1.00    15707    11003
+## group2              1.57      0.94    -0.27     3.47 1.00    15377    12395
+## sigma_group2        0.11      0.35    -0.57     0.80 1.00    14749    11864
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="BayesReg1.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hypothesis</span>(fit_uneq, <span class="st">&quot;group2 &gt; 0&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.025</span>)</span></code></pre></div>
+<pre><code>## Hypothesis Tests for class b:
+##     Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob Star
+## 1 (group2) &gt; 0     1.57      0.94    -0.27     3.47         21      0.95     
+## ---
+## &#39;CI&#39;: 95%-CI for one-sided and 97.5%-CI for two-sided hypotheses.
+## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 97.5%;
+## for two-sided hypotheses, the value tested against lies outside the 97.5%-CI.
+## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+<p><strong>How to determine equal variance or not?</strong></p>
+<ul>
+<li>Approach 1, visually examine the conditional mean by group.</li>
+<li>Approach 2, comparing models using information criteria (WAIC) or leave-one-out cross validation (LOO) <span class="citation">(<a href="#ref-vehtari2017practical" role="doc-biblioref">Vehtari, Gelman, and Gabry 2017</a>)</span></li>
+<li><strong>Both approaches confirm the equal variance model is the best model!</strong></li>
+</ul>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="BayesReg1.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(fit_uneq), <span class="at">points =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-102-1.png" width="288" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="BayesReg1.html#cb100-1" aria-hidden="true" tabindex="-1"></a>waic1 <span class="ot">&lt;-</span> <span class="fu">waic</span>(fit_eq)</span>
+<span id="cb100-2"><a href="BayesReg1.html#cb100-2" aria-hidden="true" tabindex="-1"></a>waic2 <span class="ot">&lt;-</span> <span class="fu">waic</span>(fit_uneq)</span>
+<span id="cb100-3"><a href="BayesReg1.html#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_ic</span>(waic1, waic2) <span class="co">#equal var best model;</span></span></code></pre></div>
+<pre><code>##                    WAIC   SE
+## fit_eq            85.98 4.25
+## fit_uneq          87.57 4.54
+## fit_eq - fit_uneq -1.59 0.60</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="BayesReg1.html#cb102-1" aria-hidden="true" tabindex="-1"></a>loo1 <span class="ot">&lt;-</span> <span class="fu">loo</span>(fit_eq)</span>
+<span id="cb102-2"><a href="BayesReg1.html#cb102-2" aria-hidden="true" tabindex="-1"></a>loo2 <span class="ot">&lt;-</span> <span class="fu">loo</span>(fit_uneq)</span>
+<span id="cb102-3"><a href="BayesReg1.html#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="fu">loo_compare</span>(loo1, loo2) <span class="co">#equal var best model;</span></span></code></pre></div>
+<pre><code>##          elpd_diff se_diff
+## fit_eq    0.0       0.0   
+## fit_uneq -0.9       0.3</code></pre>
+</div>
+<div id="linear-regression" class="section level3" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Linear regression</h3>
+<ul>
+<li>The two-sample model is a special case of regression</li>
+</ul>
+<p><span class="math display">\[\mu_i = \beta_0 + \beta_1 x_i\]</span></p>
+<ul>
+<li>Where <span class="math inline">\(x_i = 0\)</span> for group 1 and <span class="math inline">\(x_i = 1\)</span> for group 2
+<ul>
+<li>For group 1, <span class="math inline">\(\mu_i = \beta_0\)</span>, the intercept</li>
+<li>For group 2, <span class="math inline">\(\mu_i = \beta_0 + \beta_1\)</span></li>
+</ul></li>
+<li>brms takes care of creating dummy variables!</li>
+<li>but be aware of what the reference group is and what the coefficients mean</li>
+<li>levels will be by default in alphabetical order - use the factor() statement to make a variable with the desired order</li>
+</ul>
+<div class="guidedexercise">
+<p><strong>Try fitting the two-sample sleep data without the intercept</strong></p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="BayesReg1.html#cb104-1" aria-hidden="true" tabindex="-1"></a>fit_eq2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> sleep,</span>
+<span id="cb104-2"><a href="BayesReg1.html#cb104-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb104-3"><a href="BayesReg1.html#cb104-3" aria-hidden="true" tabindex="-1"></a>             extra <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> group, <span class="co">#mean depends on group and one sigma</span></span>
+<span id="cb104-4"><a href="BayesReg1.html#cb104-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">10000</span>, </span>
+<span id="cb104-5"><a href="BayesReg1.html#cb104-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">5000</span>, </span>
+<span id="cb104-6"><a href="BayesReg1.html#cb104-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb104-7"><a href="BayesReg1.html#cb104-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb104-8"><a href="BayesReg1.html#cb104-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb104-9"><a href="BayesReg1.html#cb104-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb104-10"><a href="BayesReg1.html#cb104-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb104-11"><a href="BayesReg1.html#cb104-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_eq2)</span></code></pre></div>
+</div>
+<ul>
+<li>In general, for a regression model</li>
+</ul>
+<p><span class="math display">\[ y_i \mid \mu_i, \sigma^2_i \sim N(\mu_i, \sigma^2_i)\]</span>
+<span class="math display">\[ \mu_i = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}\]</span>
+- where the <span class="math inline">\(x_{ij}\)</span> can be continuous variables or “dummy” variables
+- the usual assumption on the variance is <span class="math inline">\(\sigma_i^2 = \sigma^2\)</span> for all subjects (Homoscedasticity - equal variance assumption)
+- <strong>We can seen that is technically easier to relax this assumption in a Bayesian model!</strong> (two-sample unequal variance example)</p>
+<ul>
+<li>Predictions
+<ul>
+<li>We can get the predictions fro the mean value at a given value of the predictors. For example, in simple linear regression model we have</li>
+</ul>
+<span class="math display">\[E(Y\mid X=x) = \beta_0 + \beta_1 x\]</span>
+<ul>
+<li>but recall that both <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> have posterior distributions</li>
+<li>For each posterior draws of <span class="math inline">\((\beta_0, \beta_1)^s, s= 1, \ldots, S\)</span>, we have a different predicted mean</li>
+</ul>
+<span class="math display">\[E(Y\mid X=x, S=s) = \beta_0^s + \beta_1^s x\]</span>
+<ul>
+<li>The set of values of these predictions across all sampled values give the posterior for the predicted mean</li>
+</ul></li>
+</ul>
+<p><strong>Modelling height - Howell data revisit</strong></p>
+<ul>
+<li>Let’s descriptively examine the height distribution by weight, age, and sex
+<ul>
+<li>We can see that the relationship between age and height is not linear</li>
+<li>we consider the following model</li>
+</ul>
+<span class="math display">\[heights_i \sim N(\mu_i, \sigma)\]</span>
+<span class="math display">\[\mu_i = \beta_0 + \beta_1 \ weight_i + \beta_2 \ age_i + \beta_3 \ age_i^2 +\beta_4 \ \text{I(sex=male)}\]</span></li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-104-1.png" width="672" style="display: block; margin: auto;" /></p>
+<ul>
+<li>we consider the following prior distributions (diffuse normal on regression parameter and exponential distribution for <span class="math inline">\(\sigma\)</span>)
+<span class="math display">\[\beta_0 \sim N(0, 100) \]</span>
+<span class="math display">\[\beta_1 \sim N(0, 10) \]</span>
+<span class="math display">\[\beta_2 \sim N(0, 10) \]</span>
+<span class="math display">\[\beta_3 \sim N(0, 10) \]</span>
+<span class="math display">\[\beta_4 \sim N(0, 10) \]</span>
+<span class="math display">\[ \sigma \sim Gamma(1, 0.01) \]</span></li>
+</ul>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-105"></span>
+<img src="bayes_bookdown_files/figure-html/unnamed-chunk-105-1.png" alt="Prior distributions" width="768" />
+<p class="caption">
+Figure 6.2: Prior distributions
+</p>
+</div>
+<ul>
+<li>we now fit this model in brms</li>
+</ul>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="BayesReg1.html#cb105-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
+<span id="cb105-2"><a href="BayesReg1.html#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">male =</span> <span class="fu">factor</span>(male, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>)))</span>
+<span id="cb105-3"><a href="BayesReg1.html#cb105-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-4"><a href="BayesReg1.html#cb105-4" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb105-5"><a href="BayesReg1.html#cb105-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb105-6"><a href="BayesReg1.html#cb105-6" aria-hidden="true" tabindex="-1"></a>             height <span class="sc">~</span> weight <span class="sc">+</span> age <span class="sc">+</span> <span class="fu">I</span>(age<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> male,</span>
+<span id="cb105-7"><a href="BayesReg1.html#cb105-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb105-8"><a href="BayesReg1.html#cb105-8" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># set for all &quot;b&quot; coefficients</span></span>
+<span id="cb105-9"><a href="BayesReg1.html#cb105-9" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> b),</span>
+<span id="cb105-10"><a href="BayesReg1.html#cb105-10" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">prior</span>(<span class="fu">gamma</span>(<span class="dv">1</span>, <span class="fl">0.01</span>), <span class="at">class =</span> sigma)),</span>
+<span id="cb105-11"><a href="BayesReg1.html#cb105-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">20000</span>,</span>
+<span id="cb105-12"><a href="BayesReg1.html#cb105-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">18000</span>,</span>
+<span id="cb105-13"><a href="BayesReg1.html#cb105-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>,</span>
+<span id="cb105-14"><a href="BayesReg1.html#cb105-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb105-15"><a href="BayesReg1.html#cb105-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb105-16"><a href="BayesReg1.html#cb105-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb105-17"><a href="BayesReg1.html#cb105-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb105-18"><a href="BayesReg1.html#cb105-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-19"><a href="BayesReg1.html#cb105-19" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS(fit1, &quot;data/chap7_reg_example&quot;)</span></span></code></pre></div>
+<ul>
+<li>Summarizing posterior results</li>
+</ul>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: height ~ weight + age + I(age^2) + male 
+##    Data: dat (Number of observations: 544) 
+##   Draws: 4 chains, each with iter = 20000; warmup = 18000; thin = 1;
+##          total post-warmup draws = 8000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept    75.53      1.01    73.52    77.50 1.00     8716     6882
+## weight        1.26      0.06     1.15     1.37 1.00     3406     4486
+## age           1.06      0.11     0.84     1.29 1.00     3169     4137
+## IageE2       -0.01      0.00    -0.01    -0.01 1.00     3297     4224
+## malemale      1.86      0.80     0.33     3.41 1.00     5375     4740
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     8.70      0.27     8.20     9.23 1.00     6501     5373
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<ul>
+<li>Using the posterior mean, we have the following regression line</li>
+</ul>
+<p><span class="math display">\[\hat{height}_i =  75.53 + 1.26 \ weight_i + 1.06 \ age_i -0.01 \ age_i^2 + 1.86 \ \text{I(sex=male)}\]</span></p>
+<ul>
+<li><p>Comparing between male and female of the same weight and age, the expected difference on height is estimated at 1.86cm with 95% CI[0.33, 3.41].</p></li>
+<li><p>What is the posterior evidence that there’s a positive association between height and sex?</p></li>
+</ul>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="BayesReg1.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hypothesis</span>(fit1, <span class="st">&#39;malemale &gt; 0&#39;</span> , <span class="at">alpha =</span> <span class="fl">0.025</span>)</span></code></pre></div>
+<pre><code>## Hypothesis Tests for class b:
+##       Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob Star
+## 1 (malemale) &gt; 0     1.86       0.8     0.33     3.41         99      0.99    *
+## ---
+## &#39;CI&#39;: 95%-CI for one-sided and 97.5%-CI for two-sided hypotheses.
+## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 97.5%;
+## for two-sided hypotheses, the value tested against lies outside the 97.5%-CI.
+## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+<ul>
+<li>we can visualize conditional effect of each continuous covariates on the response variable
+<ul>
+<li>one might consider fitting <span class="math inline">\(weight^2\)</span>!</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="BayesReg1.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(fit1, <span class="st">&quot;weight&quot;</span>),<span class="at">points =</span> <span class="cn">TRUE</span>, <span class="at">point_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-109-1.png" width="288" /></p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="BayesReg1.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(fit1, <span class="st">&quot;age&quot;</span>),<span class="at">points =</span> <span class="cn">TRUE</span>, <span class="at">point_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-109-2.png" width="288" /></p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="BayesReg1.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(fit1, <span class="st">&quot;male&quot;</span>))</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-109-3.png" width="288" /></p>
+<ul>
+<li>Coefficient of determination <span class="math inline">\(R^2\)</span> is the proportion of the variation in the dependent variable that is predictable from the independent variable(s).
+<ul>
+<li>The estimated <span class="math inline">\(R^2\)</span> is about 0.9. Really good! About 90% of the variance on height is explained by our model.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="BayesReg1.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bayes_R2</span>(fit1)</span></code></pre></div>
+<pre><code>##     Estimate   Est.Error      Q2.5     Q97.5
+## R2 0.9010756 0.002608764 0.8953755 0.9055377</code></pre>
+<ul>
+<li>predictive intervals
+<ul>
+<li>predicting height for a female, 33 years of age and weighting 60kg</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="BayesReg1.html#cb114-1" aria-hidden="true" tabindex="-1"></a>ind_predic <span class="ot">&lt;-</span> <span class="fu">posterior_predict</span>(fit1, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">weight =</span> <span class="dv">60</span>, <span class="at">age =</span> <span class="dv">33</span>, <span class="at">male =</span> <span class="st">&quot;female&quot;</span>))</span>
+<span id="cb114-2"><a href="BayesReg1.html#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mean of the predicted heights</span></span>
+<span id="cb114-3"><a href="BayesReg1.html#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ind_predic)</span></code></pre></div>
+<pre><code>## [1] 174.3464</code></pre>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="BayesReg1.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct a 95% posterior credible interval</span></span>
+<span id="cb116-2"><a href="BayesReg1.html#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">posterior_interval</span>(ind_predic, <span class="at">prob =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>##          2.5%    97.5%
+## [1,] 157.0509 191.5679</code></pre>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="BayesReg1.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior predictive probability of height &gt; 164</span></span>
+<span id="cb118-2"><a href="BayesReg1.html#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(ind_predic<span class="sc">&gt;</span><span class="dv">164</span>)<span class="sc">/</span><span class="fu">length</span>(ind_predic)</span></code></pre></div>
+<pre><code>## [1] 0.88075</code></pre>
+</div>
+<div id="model-diagnostics" class="section level3" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Model diagnostics</h3>
+<ul>
+<li>Geweke index and R-hat <span class="citation">(<a href="#ref-geweke1991evaluating" role="doc-biblioref">Geweke et al. 1991</a>)</span> to check for MCMC convergence</li>
+</ul>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="BayesReg1.html#cb120-1" aria-hidden="true" tabindex="-1"></a>modelposterior<span class="ot">&lt;-</span> <span class="fu">as_draws_matrix</span>(fit1)</span>
+<span id="cb120-2"><a href="BayesReg1.html#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geweke.diag</span>(modelposterior)</span></code></pre></div>
+<pre><code>## 
+## Fraction in 1st window = 0.1
+## Fraction in 2nd window = 0.5 
+## 
+## b_Intercept    b_weight       b_age    b_IageE2  b_malemale       sigma 
+##     1.10099    -0.36665     0.04242    -0.04991    -0.05772    -0.37171 
+##        lp__ 
+##     1.16552</code></pre>
+<ul>
+<li>Posterior predictive graphic check for model fit</li>
+<li>A “good” Bayesian model produces posterior predicted sets of response values with features similar to the original data.
+<ul>
+<li>It appears our model can be improved! One suggestion is to fit a non-linear term for weight variable.</li>
+<li>sometime, people also consider data transformation, e.g., log(height)</li>
+<li>we can also try using student-t distribution not normal distribution to fit the mean!</li>
+<li>the observed min and max height is not covered in our posterior predictive samples…</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="BayesReg1.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pp_check</span>(fit1, <span class="at">ndraws =</span> <span class="dv">50</span>)</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-113-1.png" width="432" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="BayesReg1.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pp_check</span>(fit1, <span class="at">type =</span> <span class="st">&quot;stat_2d&quot;</span>, <span class="at">stat =</span> <span class="fu">c</span>(<span class="st">&quot;max&quot;</span>, <span class="st">&quot;min&quot;</span>))</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-113-2.png" width="432" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Residual plot by continuous variables - checking for linearity assumption</li>
+</ul>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="BayesReg1.html#cb124-1" aria-hidden="true" tabindex="-1"></a>res_df <span class="ot">&lt;-</span> fit1<span class="sc">$</span>data <span class="sc">%&gt;%</span> </span>
+<span id="cb124-2"><a href="BayesReg1.html#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predict_y =</span> <span class="fu">predict</span>(fit1)[ , <span class="st">&quot;Estimate&quot;</span>], </span>
+<span id="cb124-3"><a href="BayesReg1.html#cb124-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">std_resid =</span> <span class="fu">residuals</span>(fit1, <span class="at">type =</span> <span class="st">&quot;pearson&quot;</span>)[ , <span class="st">&quot;Estimate&quot;</span>])</span>
+<span id="cb124-4"><a href="BayesReg1.html#cb124-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(res_df, </span>
+<span id="cb124-5"><a href="BayesReg1.html#cb124-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(predict_y, std_resid)) <span class="sc">+</span> </span>
+<span id="cb124-6"><a href="BayesReg1.html#cb124-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Standardized residuals&quot;</span>) <span class="sc">+</span></span>
+<span id="cb124-7"><a href="BayesReg1.html#cb124-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-114-1.png" width="288" style="display: block; margin: auto;" /></p>
+<ul>
+<li>multicollinearity
+<ul>
+<li>If some coefficients are particularly strongly correlated, you may need to think about using a stronger prior or combining some predictors.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="BayesReg1.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(fit1, <span class="at">pars =</span> <span class="st">&quot;b&quot;</span>, </span>
+<span id="cb125-2"><a href="BayesReg1.html#cb125-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">off_diag_args =</span>  <span class="co"># arguments of the scatterplots</span></span>
+<span id="cb125-3"><a href="BayesReg1.html#cb125-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="at">size =</span> <span class="fl">0.5</span>,  <span class="co"># point size</span></span>
+<span id="cb125-4"><a href="BayesReg1.html#cb125-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.25</span>))  <span class="co"># transparency</span></span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-115-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="model-comparision" class="section level3" number="6.1.4">
+<h3><span class="header-section-number">6.1.4</span> Model comparision</h3>
+<div class="important">
+<p><strong>Watanabe-Akaike Information Criteria (WAIC)</strong></p>
+<ul>
+<li>WAIC <span class="citation">(<a href="#ref-watanabe2010asymptotic" role="doc-biblioref">Watanabe and Opper 2010</a>)</span> is an alternative approach to DIC in estimating the expected log point-wise predictive density</li>
+<li>The smaller the better!</li>
+<li>WAIC incorporates prior information, and the use of point-wise likelihood makes it more robust when the posterior distributions deviate from normality.</li>
+<li>In general, WAIC is a better estimate of the out-of-sample deviance than AIC and DIC.</li>
+<li>In R under brms package we can use <code>waic()</code> function to obtain WAIC.</li>
+</ul>
+<p><strong>Bayesian Leave-one-out cross-validation</strong></p>
+<ul>
+<li><p>The idea of cross-validation is to split the sample so that it imitates the scenario of estimating the parameters in part of the data and predicting the remaining part.</p>
+<ul>
+<li>data that are used for estimation is called the training set, and data that are used for prediction is called the validation set.</li>
+</ul></li>
+<li><p>Leave-one-out information criteria (LOO-IC) based on posterior predictive distribution</p>
+<ul>
+<li>means that one uses <span class="math inline">\(n-1\)</span> observations as the training set and 1 observation as the validation sample, repeat the process <span class="math inline">\(n\)</span> times so that each time a different observation is being predicted</li>
+</ul></li>
+<li><p>LOO-IC requires fitting the model <span class="math inline">\(n\)</span> times, it is generally very computational intensive</p></li>
+<li><p>WAIC can be treated as a fast approximation of LOO-IC, although LOO-IC is more robust and will be a better estimate of out-of-sample deviance</p></li>
+<li><p>In R under brms package we can use <code>loo()</code> function to obtain LOO-IC.</p></li>
+</ul>
+</div>
+<div class="guidedexercise">
+<p><strong>Comparing model with <span class="math inline">\(weight^2\)</span> </strong></p>
+<ul>
+<li>fitting the new model on height, adjusting for age, sex, weight, <span class="math inline">\(age^2\)</span> and <span class="math inline">\(weight^2\)</span></li>
+<li>comparing this model to the regression model adjusted for age, <span class="math inline">\(age^2\)</span>, sex, and weight using WAIC and LOO.</li>
+</ul>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="BayesReg1.html#cb126-1" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb126-2"><a href="BayesReg1.html#cb126-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb126-3"><a href="BayesReg1.html#cb126-3" aria-hidden="true" tabindex="-1"></a>             height <span class="sc">~</span> weight <span class="sc">+</span> <span class="fu">I</span>(weight<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> age <span class="sc">+</span> <span class="fu">I</span>(age<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> male, </span>
+<span id="cb126-4"><a href="BayesReg1.html#cb126-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb126-5"><a href="BayesReg1.html#cb126-5" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> b),</span>
+<span id="cb126-6"><a href="BayesReg1.html#cb126-6" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">prior</span>(<span class="fu">gamma</span>(<span class="dv">1</span>, <span class="fl">0.01</span>), <span class="at">class =</span> sigma)),</span>
+<span id="cb126-7"><a href="BayesReg1.html#cb126-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">20000</span>, </span>
+<span id="cb126-8"><a href="BayesReg1.html#cb126-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">18000</span>, </span>
+<span id="cb126-9"><a href="BayesReg1.html#cb126-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb126-10"><a href="BayesReg1.html#cb126-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb126-11"><a href="BayesReg1.html#cb126-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb126-12"><a href="BayesReg1.html#cb126-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb126-13"><a href="BayesReg1.html#cb126-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb126-14"><a href="BayesReg1.html#cb126-14" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(fit2, <span class="st">&quot;data/chp7_height2&quot;</span>)</span>
+<span id="cb126-15"><a href="BayesReg1.html#cb126-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-16"><a href="BayesReg1.html#cb126-16" aria-hidden="true" tabindex="-1"></a>waic1 <span class="ot">&lt;-</span> <span class="fu">waic</span>(fit1)</span>
+<span id="cb126-17"><a href="BayesReg1.html#cb126-17" aria-hidden="true" tabindex="-1"></a>waic2 <span class="ot">&lt;-</span> <span class="fu">waic</span>(fit2)</span>
+<span id="cb126-18"><a href="BayesReg1.html#cb126-18" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_ic</span>(waic1, waic2) </span>
+<span id="cb126-19"><a href="BayesReg1.html#cb126-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-20"><a href="BayesReg1.html#cb126-20" aria-hidden="true" tabindex="-1"></a>loo1 <span class="ot">&lt;-</span> <span class="fu">loo</span>(fit1)</span>
+<span id="cb126-21"><a href="BayesReg1.html#cb126-21" aria-hidden="true" tabindex="-1"></a>loo2 <span class="ot">&lt;-</span> <span class="fu">loo</span>(fit2)</span>
+<span id="cb126-22"><a href="BayesReg1.html#cb126-22" aria-hidden="true" tabindex="-1"></a><span class="fu">loo_compare</span>(loo1, loo2)</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="BayesReg1.html#cb127-1" aria-hidden="true" tabindex="-1"></a>fit2<span class="ot">&lt;-</span><span class="fu">readRDS</span>(<span class="st">&quot;data/chp7_height2&quot;</span>)</span>
+<span id="cb127-2"><a href="BayesReg1.html#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pp_check</span>(fit2, <span class="at">ndraws =</span> <span class="dv">50</span>)</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-117-1.png" width="432" /></p>
+</div>
+</div>
+</div>
+<div id="hierarchical-models" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Hierarchical models</h2>
+</div>
+<div id="regression-regularization-and-variable-selection" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Regression regularization and variable selection</h2>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-geweke1991evaluating" class="csl-entry">
+Geweke, John F et al. 1991. <span>“Evaluating the Accuracy of Sampling-Based Approaches to the Calculation of Posterior Moments.”</span> Federal Reserve Bank of Minneapolis.
+</div>
+<div id="ref-mcelreath2018statistical" class="csl-entry">
+McElreath, Richard. 2018. <em>Statistical Rethinking: A Bayesian Course with Examples in r and Stan</em>. Chapman; Hall/CRC.
+</div>
+<div id="ref-student1908probable" class="csl-entry">
+Student. 1908. <span>“The Probable Error of a Mean.”</span> <em>Biometrika</em>, 1–25.
+</div>
+<div id="ref-vehtari2017practical" class="csl-entry">
+Vehtari, Aki, Andrew Gelman, and Jonah Gabry. 2017. <span>“Practical Bayesian Model Evaluation Using Leave-One-Out Cross-Validation and WAIC.”</span> <em>Statistics and Computing</em> 27 (5): 1413–32.
+</div>
+<div id="ref-watanabe2010asymptotic" class="csl-entry">
+Watanabe, Sumio, and Manfred Opper. 2010. <span>“Asymptotic Equivalence of Bayes Cross Validation and Widely Applicable Information Criterion in Singular Learning Theory.”</span> <em>Journal of Machine Learning Research</em> 11 (12).
 </div>
 </div>
             </section>

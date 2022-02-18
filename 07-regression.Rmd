@@ -1,5 +1,616 @@
 # Bayesian Regression I {#BayesReg1}
 
+::: {.chapterintro data-latex=""}
+
+- Learn how to fit linear regression model with brms
+- Understand how to interpret and report regression posterior results
+- Learn how to fit clustered data with brms
+- Learn how to conduct model diagnostics, model comparison, and variable selection
+
+:::
+
+<script src="hideOutput.js"></script>
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+# Every chapter, we will load all the library we will use at the beginning
+# of the chapter. 
+library(tidyverse)
+library(ggpubr)
+library(brms)
+library(ggmcmc)
+library(MCMCpack)
+library(bayesplot)
+library(gtsummary)
+library(coda)
+library(extraDistr)
+options(scipen = 999)
+```
+
+</br>
+
+**What is regression?** [@mcelreath2018statistical]
+
+- using one or more predictor variables to model the distribution of one or more outcome variables
+
+- For a continuous outcome, we typically fit a linear regression model. 
+    - Of course the relationship between outcome and predictors can be non-linear, in this case, we would consider fitting polynomial regression models or splines.
+    
+- For a categorical outcome, we will fit a generalized linear regression. We will cover this topic in future sessions.
+
+- For a repeatedly measured outcome, we can fit a linear mixed-effect model (continuous outcome) or a generalized linear mixed-effect model (categorical outcome).
+
+
 ## Normal Models and Linear Regression
 
-## Hierarchical models and convergence
+::: {.important data-latex=""}
+**Conditional normal model**
+
+- Given its mean and variance, an observation has a normal distribution
+
+\[ Y_i \mid \mu_i, \sigma^2_i \sim N( \mu_i, \sigma^2_i) \]
+
+- This is equivalent to the following statements
+
+\[ Y_i = \mu_i + e_i , \ e_i \sim N(0, \sigma^2)\]
+
+- We do not assume the collection of $Y_i, i=1, \ldots, n$ have a normal distribution
+- Instead we assume the error term is normally distributed - a lesser assumption!
+
+- In case of multiple predictors, $\mu_i$ becomes a weighted average of the $\beta_j$ values, the regression coefficient with $x_{ij}$ denoting the predictors. For example, for two covariates we have
+
+\[ E(y_i) = \mu_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} \]
+
+- A polynomial regression model of 2 degrees on $x_{i1}$
+
+\[ \mu_i = \beta_0 + \beta_1 x_{i1} +  \beta_2 x_{i2} + \beta_3 x_{i1}^2 \]
+
+- Assumptions of linear regression models
+    1. **Independent observations** 
+    2. **Linear relationship** We can check this assumption by examining marginal plots comparing the model predicted relationship between outcome and each continuous predictor and by examining the residual plot.
+    3. **Normality of the residuals**
+    4. **Homoscedasticity** Homoscedasticity in a model means that the residual is constant along the values of the dependent variable.
+    5. **Multidisciplinary** Multicollinearity is the phenomenon when a number of the explanatory variables are strongly correlated.
+    6. **Correctly specified regression model** This means that all relevant predictors for the response variable have been included in the model. This is often difficult to verify, but we can use posterior predictive distribution to check for regression fit.
+    
+:::
+
+### One-sample and two-sample normal regression
+
+**1. One-sample**
+
+- If all observations have the same mean and variance, the likelihood is
+
+\[ Y_i \mid \mu, \sigma^2 \sim N(\mu, \sigma^2)\]
+
+- Good candidate priors for $mu$ and $\sigma$ are
+    - $\mu \sim N(\text{sample mean}, \text{sample sd})$ or Student-T distributions (to handle heavy tails)
+    - $\sigma \sim \text{half-t}(mean = 0, sd = \text{sample sd}, df = 3)$
+
+**Modelling height - Textbook example on the Howell data** 
+
+Suppose we want to fit a one-sample model on height using a dataset of anthropological measurements on a foraging people taken in the 1960s.
+
+- First let's examine the summary statistics of variable height
+
+<div class="fold s">
+```{r echo=T, fig.align='center',fig.height=9, warning=FALSE, message=FALSE}
+
+dat <- read.table("data/Howell.txt",header=T, sep=";")
+
+dat %>% tbl_summary(
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n} / {N} ({p}%)"),
+    digits = all_continuous() ~ 2)
+
+dat %>% pivot_longer(everything()) %>% 
+  mutate(name = factor(name, levels = c("height", "weight", "age", "male"))) %>% ggplot(aes(x = value)) +
+  geom_histogram(bins = 10,fill="#008BB0",colour="#002A5C") +
+  facet_wrap(~name, scales = "free", ncol = 1) +
+  theme_bw()
+
+```
+<div>
+
+- We specify our model with the following priors 
+\[ heights_i \sim N (\mu, \sigma)\]
+\[\mu \sim N(138, 28)\]
+\[\sigma \sim \text{half-t}(0, 28, df = 3)\]
+
+```{r echo=F, fig.cap="Prior distributions", fig.align='center', message=FALSE, warning=FALSE, fig.height=3, fig.width=5}
+
+p1 <- tibble(x = seq(from = 60, to = 220, by = .1)) %>% 
+  ggplot(aes(x = x, y = dnorm(x, mean = 138, sd = 28))) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(from = 60, to = 220, by = 40)) +
+  labs(title = "mu ~ dnorm(138, 28)",
+       y = "density",
+       x = "height")
+
+p2 <- tibble(x = seq(from = 0, to = 100, by = .1)) %>% 
+  ggplot(aes(x = x, y = dht(x, nu=3, sigma = 28))) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 10)) +
+  labs(title = "sigma ~ dht(3, 28)",
+       y = "density",
+       x = "sigma")
+
+ggarrange(p1,p2, nrow = 1)
+```
+
+- we now fit this model in brms
+
+```{r echo=T, message=FALSE, warning=FALSE, eval=FALSE}
+fit0 <- brm(data = dat,
+             family = gaussian,
+             height ~ 1, 
+             prior = c(prior(normal(138, 28), class = Intercept),
+                       prior(student_t(3, 0, 28), class = sigma)),
+             iter = 10000, 
+             warmup = 5000, 
+             chains = 4, 
+             cores = 4, #instructions on MCMC
+             seed = 123, # random number seed to make results reproducible
+             silent = 2,
+             refresh = 0)
+
+# saveRDS(fit0, "data/chap7_onesample_example")
+```
+
+- Summarizing posterior results
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+fit0 <- readRDS("data/chap7_onesample_example")
+plot(fit0)
+print(fit0)
+```
+
+- Geweke index and R-hat [@geweke1991evaluating] to check for MCMC convergence
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+modelposterior <- as_draws_matrix(fit0)
+geweke.diag(modelposterior)
+```
+
+- Posterior predictive graphic check for model fit
+    - we can see here there is some skewness not captured in the model, this model is not a good fit to the data.
+    - we will revisit the height model in the linear regression section where we add covariates to the model to improve the fit.
+
+```{r echo=0, message=FALSE, warning=FALSE, fig.align='center', fig.height=3, fig.width=4.5}
+pp_check(fit0, nsamples = 100)
+```
+
+::: {.guidedexercise data-latex=""}
+**What is the posterior evidence that mean height is greater than 140cm?** 
+```{r echo=TRUE, eval=FALSE}
+hypothesis(fit0, 'Intercept > 140' , alpha = 0.025)
+
+# proportion of posterior samples on the mean (intercept) 
+# with value > 140, combining 4 chains;
+modelposterior2<- posterior_samples(fit0)
+sum(modelposterior2[,1]>140)/length(modelposterior2[,1])
+```
+:::
+
+
+**2. Two-sample**
+
+-  Simple extension of the one-sample problem
+-  Observations within the each group have the same mean and variance, yielding the following likelihood
+\[ Y_{ji} \mid \mu_j, \sigma^2_j \sim N(\mu_j, \sigma^2_j)\]
+-  Similar candidate prior as in one-sample model
+    - using normal or student-t dist and observed summary statistics
+    - within-group variance should be smaller than the variance when we ignore groups
+    
+- We can assume equal variance $\sigma_1^2 = \sigma_2^2$ or allow them to be estimated seperately
+- These two approaches are analogous to the equal-variance and unequal-variance t-tests
+- In brms, this is easy to specify
+
+**Modelling hours of sleep comparing between two drugs**
+
+- Data which show the effect of two medication (within-patient increase in
+hours of sleep) on groups consisting of 10 patients each.
+- Source: [Student (1908)](https://www.jstor.org/stable/2331554?seq=1#metadata_info_tab_contents) The probable error of a mean. [@student1908probable]
+
+- First examine the summary statistics by group
+
+```{r echo=TRUE}
+sleep <- data.frame(extra = c(0.7, -1.6, -0.2, -1.2, -0.1, 3.4, 3.7, 0.8, 0, 2, 1.9, 0.8, 1.1, 0.1, -0.1, 4.4, 5.5, 1.6, 4.6, 3.4), 
+                group = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2))
+
+sleep %>% 
+  mutate(group = recode_factor(group,  '1'="Drug A", '2'="Drug B")) %>%
+  tbl_summary(
+    by = group,
+    statistic = all_continuous() ~ "{mean} ({sd})",
+    digits = all_continuous() ~ 2) %>%
+  add_overall()
+```
+
+- Fitting two-sample model in brms using default brms prior
+    - student_t(3, 1, 2.5) for mean (same for each group)
+    - student_t(3, 0, 2.5) for sigma (same for each group for unequal variance model)
+
+```{r echo=T, message=FALSE, warning=FALSE, eval=FALSE}
+
+fit_eq <- brm(data = sleep,
+             family = gaussian,
+             extra ~ group, #mean depends on group and one sigma
+             iter = 10000, 
+             warmup = 5000, 
+             chains = 4, 
+             cores = 4, #instructions on MCMC
+             seed = 123, # random number seed to make results reproducible
+             silent = 2,
+             refresh = 0)
+
+fit_uneq <- brm(data = sleep,
+             family = gaussian,
+             bf(extra ~ group, #mean depends on group
+             sigma ~ group), #sigma just has one value
+             iter = 10000, 
+             warmup = 5000, 
+             chains = 4, 
+             cores = 4, #instructions on MCMC
+             seed = 123, # random number seed to make results reproducible
+             silent = 2,
+             refresh = 0)
+
+# saveRDS(fit_eq, "data/chap7_twosample_eq")
+# saveRDS(fit_uneq, "data/chap7_twosample_uneq")
+```
+
+- Summarizing posterior results from equal variance model
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+fit_eq <- readRDS("data/chap7_twosample_eq")
+summary(fit_eq)
+```
+
+- Question: What is the probability that there is more increase in sleep with
+drug A? (under equal-variance model)
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+samples <- posterior_samples(fit_eq)
+difference <- samples[,"b_group2"]
+#summarize the difference
+c(Prob = mean(difference > 0), Mean = mean(difference), lowCrI = quantile(difference, 0.025), highCrI = quantile(difference, 1-0.025))
+
+#we can also use hypothesis function to evaluate this
+hypothesis(fit_eq, "group2 > 0", alpha = 0.025)
+```
+
+- Summarizing posterior results from unequal variance model and evaluate the same hypothesis
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+fit_uneq <- readRDS("data/chap7_twosample_uneq")
+summary(fit_uneq)
+hypothesis(fit_uneq, "group2 > 0", alpha = 0.025)
+```
+
+**How to determine equal variance or not?**
+
+-  Approach 1, visually examine the conditional mean by group.
+-  Approach 2, comparing models using information criteria (WAIC) or leave-one-out cross validation (LOO) [@vehtari2017practical]
+-  **Both approaches confirm the equal variance model is the best model!**
+
+```{r, echo = T, fig.align='center', fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+plot(conditional_effects(fit_uneq), points = TRUE)
+
+waic1 <- waic(fit_eq)
+waic2 <- waic(fit_uneq)
+compare_ic(waic1, waic2) #equal var best model;
+
+loo1 <- loo(fit_eq)
+loo2 <- loo(fit_uneq)
+loo_compare(loo1, loo2) #equal var best model;
+```
+
+### Linear regression
+
+-  The two-sample model is a special case of regression
+
+\[\mu_i = \beta_0 + \beta_1 x_i\]
+
+-  Where $x_i = 0$ for group 1 and $x_i = 1$ for group 2
+    - For group 1, $\mu_i = \beta_0$, the intercept
+    - For group 2, $\mu_i = \beta_0 + \beta_1$
+
+-  brms takes care of creating dummy variables!
+-  but be aware of what the reference group is and what the coefficients mean
+-  levels will be by default in alphabetical order - use the factor() statement to make a variable with the desired order
+
+::: {.guidedexercise data-latex=""}
+
+**Try fitting the two-sample sleep data without the intercept** 
+
+```{r echo=TRUE, eval=FALSE}
+fit_eq2 <- brm(data = sleep,
+             family = gaussian,
+             extra ~ -1 + group, #mean depends on group and one sigma
+             iter = 10000, 
+             warmup = 5000, 
+             chains = 4, 
+             cores = 4, #instructions on MCMC
+             seed = 123, # random number seed to make results reproducible
+             silent = 2,
+             refresh = 0)
+summary(fit_eq2)
+```
+:::
+
+-  In general, for a regression model
+
+\[ y_i \mid \mu_i, \sigma^2_i \sim N(\mu_i, \sigma^2_i)\]
+\[ \mu_i = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}\]
+    -  where the $x_{ij}$ can be continuous variables or "dummy" variables
+    -  the usual assumption on the variance is $\sigma_i^2 = \sigma^2$ for all subjects (Homoscedasticity - equal variance assumption)
+    -  **We can seen that is technically easier to relax this assumption in a Bayesian model!** (two-sample unequal variance example)
+
+-  Predictions
+    -  We can get the predictions fro the mean value at a given value of the predictors. For example, in simple linear regression model we have
+    
+    \[E(Y\mid X=x) = \beta_0 + \beta_1 x\]
+    - but recall that both $\beta_0$ and $\beta_1$ have posterior distributions
+    - For each posterior draws of $(\beta_0, \beta_1)^s, s= 1, \ldots, S$, we have a different predicted mean
+    
+    \[E(Y\mid X=x, S=s) = \beta_0^s + \beta_1^s x\]
+    - The set of values of these predictions across all sampled values give the posterior for the predicted mean
+    
+**Modelling height - Howell data revisit** 
+
+- Let's descriptively examine the height distribution by weight, age, and sex
+    - We can see that the relationship between age and height is not linear
+    - we consider the following model
+    
+    \[heights_i \sim N(\mu_i, \sigma)\]
+    \[\mu_i = \beta_0 + \beta_1 \ weight_i + \beta_2 \ age_i + \beta_3 \ age_i^2 +\beta_4 \ \text{I(sex=male)}\]
+
+```{r echo=FALSE, fig.align='center',fig.height=3, warning=FALSE, message=FALSE}
+p1 <- ggplot(aes(x = weight, y = height), data = dat) + 
+  geom_point(size = 0.7) +  # add a layer with the points
+  geom_smooth()
+
+p2 <- ggplot(aes(x = age, y = height), data = dat) + 
+  geom_point(size = 0.7) +  # add a layer with the points
+  geom_smooth()
+
+p3 <- ggplot(aes(x = factor(male), y = height), data = dat) + 
+  geom_boxplot()  # add a layer with a boxplot
+
+ggarrange(p1, p2, p3, nrow = 1)
+
+```
+
+- we consider the following prior distributions (diffuse normal on regression parameter and exponential distribution for $\sigma$)
+    \[\beta_0 \sim N(0, 100) \]
+    \[\beta_1 \sim N(0, 10) \]
+    \[\beta_2 \sim N(0, 10) \]
+    \[\beta_3 \sim N(0, 10) \]
+    \[\beta_4 \sim N(0, 10) \]
+    \[ \sigma \sim Gamma(1, 0.01) \]
+    
+```{r echo=F, fig.cap="Prior distributions", fig.align='center', message=FALSE, warning=FALSE, fig.height=3, fig.width=8}
+
+p1 <- tibble(x = seq(from = -350, to = 350, by = .2)) %>% 
+  ggplot(aes(x = x, y = dnorm(x, mean = 0, sd = 100))) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(from = -300, to = 300, by = 100)) +
+  labs(title = "N(0, 100)",
+       y = "density",
+       x = "Intercept")
+
+p3 <- tibble(x = seq(from = -35, to = 35, by = .1)) %>% 
+  ggplot(aes(x = x, y = dnorm(x, mean = 0, sd = 10))) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(from = -35, to = 35, by = 5)) +
+  labs(title = "N(0, 10)",
+       y = "density",
+       x = expression(beta))
+
+p2 <- tibble(x = seq(from = 0, to = 1000, by = 0.2)) %>% 
+  ggplot(aes(x = x, y = dgamma(x, shape = 1, rate = 0.01))) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(from = 0, to = 1000, by = 200)) +
+  labs(title = "Gamma(1, 0.01)",
+       y = "density",
+       x = "sigma")
+
+ggarrange(p1,p2,p3, nrow = 1)
+
+```
+    
+
+- we now fit this model in brms
+
+```{r echo=T, message=FALSE, warning=FALSE, eval=FALSE}
+dat <- dat %>% 
+  mutate(male = factor(male, labels = c("female", "male")))
+
+fit1 <- brm(data = dat,
+             family = gaussian,
+             height ~ weight + age + I(age^2) + male,
+             prior = c(prior(normal(0, 100), class = Intercept),
+                       # set for all "b" coefficients
+                       prior(normal(0, 10), class = b),
+                       prior(gamma(1, 0.01), class = sigma)),
+             iter = 20000,
+             warmup = 18000,
+             chains = 4,
+             cores = 4, #instructions on MCMC
+             seed = 123, # random number seed to make results reproducible
+             silent = 2,
+             refresh = 0)
+
+# saveRDS(fit1, "data/chap7_reg_example")
+```
+
+- Summarizing posterior results
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+fit1 <- readRDS("data/chap7_reg_example")
+print(fit1)
+```
+
+- Using the posterior mean, we have the following regression line
+
+\[\hat{height}_i =  75.53 + 1.26 \ weight_i + 1.06 \ age_i -0.01 \ age_i^2 + 1.86 \ \text{I(sex=male)}\]
+
+- Comparing between male and female of the same weight and age, the expected difference on height is estimated at 1.86cm with 95% CI[0.33, 3.41].
+
+- What is the posterior evidence that there’s a positive association between height and sex?
+
+```{r}
+hypothesis(fit1, 'malemale > 0' , alpha = 0.025)
+```
+
+
+- we can visualize conditional effect of each continuous covariates on the response variable 
+    - one might consider fitting $weight^2$!
+
+```{r echo=TRUE, fig.height=3, fig.width=3}
+plot(conditional_effects(fit1, "weight"),points = TRUE, point_args = list(size = 0.5))
+plot(conditional_effects(fit1, "age"),points = TRUE, point_args = list(size = 0.5))
+plot(conditional_effects(fit1, "male"))
+```
+
+
+- Coefficient of determination $R^2$ is the proportion of the variation in the dependent variable that is predictable from the independent variable(s).
+    - The estimated $R^2$ is about 0.9. Really good! About 90% of the variance on height is explained by our model.
+
+```{r echo=T}
+bayes_R2(fit1)
+```
+
+
+- predictive intervals
+    - predicting height for a female, 33 years of age and weighting 60kg
+
+```{r echo = T}
+ind_predic <- posterior_predict(fit1, newdata = data.frame(weight = 60, age = 33, male = "female"))
+# mean of the predicted heights
+mean(ind_predic)
+# Construct a 95% posterior credible interval
+posterior_interval(ind_predic, prob = 0.95)
+# Posterior predictive probability of height > 164
+sum(ind_predic>164)/length(ind_predic)
+```
+
+
+### Model diagnostics
+
+- Geweke index and R-hat [@geweke1991evaluating] to check for MCMC convergence
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+modelposterior<- as_draws_matrix(fit1)
+geweke.diag(modelposterior)
+```
+
+- Posterior predictive graphic check for model fit
+- A "good" Bayesian model produces posterior predicted sets of response values with features similar to the original data.
+    - It appears our model can be improved! One suggestion is to fit a non-linear term for weight variable.
+    - sometime, people also consider data transformation, e.g., log(height)
+    - we can also try using student-t distribution not normal distribution to fit the mean!
+    - the observed min and max height is not covered in our posterior predictive samples...
+ 
+
+```{r echo=T, message=FALSE, warning=FALSE, fig.align='center', fig.height=3, fig.width=4.5}
+pp_check(fit1, ndraws = 50)
+pp_check(fit1, type = "stat_2d", stat = c("max", "min"))
+```
+
+- Residual plot by continuous variables - checking for linearity assumption
+    
+```{r echo=T, message=FALSE, warning=FALSE, fig.align='center',fig.height=3, fig.width=3}
+res_df <- fit1$data %>% 
+  mutate(predict_y = predict(fit1)[ , "Estimate"], 
+         std_resid = residuals(fit1, type = "pearson")[ , "Estimate"])
+ggplot(res_df, 
+       aes(predict_y, std_resid)) + 
+  labs(y="Standardized residuals") +
+  geom_point(size = 0.8) + stat_smooth(se = FALSE) + theme_bw()
+```
+
+-  multicollinearity
+    - If some coefficients are particularly strongly correlated, you may need to think about using a stronger prior or combining some predictors.
+
+```{r echo=T, message=FALSE, warning=FALSE, fig.align='center'}
+pairs(fit1, pars = "b", 
+      off_diag_args =  # arguments of the scatterplots
+        list(size = 0.5,  # point size
+             alpha = 0.25))  # transparency
+```
+
+
+### Model comparision
+
+::: {.important data-latex=""}
+
+**Watanabe-Akaike Information Criteria (WAIC)**
+
+-  WAIC [@watanabe2010asymptotic]  is an alternative approach to DIC in estimating the expected log point-wise predictive density
+-  The smaller the better!
+-  WAIC incorporates prior information, and the use of point-wise likelihood makes it more robust when the posterior distributions deviate from normality.
+-  In general, WAIC is a better estimate of the out-of-sample deviance than AIC and DIC.
+-  In R under brms package we can use `waic()` function to obtain WAIC.
+
+**Bayesian Leave-one-out cross-validation**
+
+-  The idea of cross-validation is to split the sample so that it imitates the scenario of estimating the parameters in part of the data and predicting the remaining part.
+    -  data that are used for estimation is called the training set, and data that are used for prediction is called the validation set.
+
+-  Leave-one-out information criteria (LOO-IC) based on posterior predictive distribution
+    -  means that one uses $n-1$ observations as the training set and 1 observation as the validation sample, repeat the process $n$ times so that each time a different observation is being predicted
+
+-  LOO-IC requires fitting the model $n$ times, it is generally very computational intensive
+
+- WAIC can be treated as a fast approximation of LOO-IC, although LOO-IC is more robust and will be a better estimate of out-of-sample deviance
+
+-  In R under brms package we can use `loo()` function to obtain LOO-IC.
+
+:::
+
+::: {.guidedexercise data-latex=""}
+
+**Comparing model with $weight^2$ ** 
+
+- fitting the new model on height, adjusting for age, sex, weight, $age^2$ and $weight^2$
+- comparing this model to the regression model adjusted for age, $age^2$,  sex, and weight using WAIC and LOO.
+
+```{r echo=TRUE, eval=FALSE}
+fit2 <- brm(data = dat,
+             family = gaussian,
+             height ~ weight + I(weight^2) + age + I(age^2) + male, 
+             prior = c(prior(normal(0, 100), class = Intercept),
+                       prior(normal(0, 10), class = b),
+                       prior(gamma(1, 0.01), class = sigma)),
+             iter = 20000, 
+             warmup = 18000, 
+             chains = 4, 
+             cores = 4, #instructions on MCMC
+             seed = 123, # random number seed to make results reproducible
+             silent = 2,
+             refresh = 0)
+saveRDS(fit2, "data/chp7_height2")
+
+waic1 <- waic(fit1)
+waic2 <- waic(fit2)
+compare_ic(waic1, waic2) 
+
+loo1 <- loo(fit1)
+loo2 <- loo(fit2)
+loo_compare(loo1, loo2)
+```
+
+```{r echo=TRUE, fig.height=3, fig.width=4.5}
+fit2<-readRDS("data/chp7_height2")
+pp_check(fit2, ndraws = 50)
+```
+
+:::
+
+
+## Hierarchical models
+
+
+## Regression regularization and variable selection
+

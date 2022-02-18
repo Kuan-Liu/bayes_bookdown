@@ -629,7 +629,7 @@ knitr::kable(head(copd))
 
 - We specify uninformative prior on log.odds, $N(0,10)$
 
-```{r echo=T, message=FALSE, warning=FALSE}
+```{r echo=T, message=FALSE, warning=FALSE, eval=FALSE}
 m1_bern <- brm(copd ~ TYPE + NIC + FLTR, 
                data = copd, 
                family = bernoulli(link = "logit"), 
@@ -637,6 +637,11 @@ m1_bern <- brm(copd ~ TYPE + NIC + FLTR,
                          prior(normal(0,10), class = "Intercept")),
                seed = 123, silent = 2, refresh = 0)
 
+saveRDS(m1_bern, file="data/chp6_logistic")
+```
+
+```{r echo=T, message=FALSE, warning=FALSE}
+m1_bern <- readRDS("data/chp6_logistic")
 summary(m1_bern)
 
 # Directly from the posterior of exp(beta):
