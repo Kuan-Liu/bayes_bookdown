@@ -99,3 +99,4 @@ regression-regularization-and-variable-selection
 BayesReg2
 models-for-binary-data
 models-for-count-data
+fig:unnamed-chunk-3

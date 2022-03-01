@@ -167,7 +167,9 @@ print(fit0)
 - Geweke index and R-hat [@geweke1991evaluating] to check for MCMC convergence
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
-modelposterior <- as_draws_matrix(fit0)
+# modelposterior <- as.mcmc(fit0)
+# geweke.plot(modelposterior)
+modelposterior <- posterior_samples(fit0)
 geweke.diag(modelposterior)
 ```
 
@@ -235,6 +237,9 @@ sleep %>%
 fit_eq <- brm(data = sleep,
              family = gaussian,
              extra ~ group, #mean depends on group and one sigma
+             prior = c(prior(normal(0, 10), class = Intercept),
+                       prior(normal(0,10), class = b),
+                       prior(student_t(3, 0, 2), class = sigma)),
              iter = 10000, 
              warmup = 5000, 
              chains = 4, 
@@ -243,10 +248,16 @@ fit_eq <- brm(data = sleep,
              silent = 2,
              refresh = 0)
 
+prior_summary(fit_eq)
+
 fit_uneq <- brm(data = sleep,
              family = gaussian,
              bf(extra ~ group, #mean depends on group
-             sigma ~ group), #sigma just has one value
+             sigma ~ group), #sigma differ by group
+             prior = c(prior(normal(0, 10), class = Intercept), #prior for intercept of the extra ~ group model;
+                       prior(normal(0, 10), class = b), #prior for coefficients of the extra ~ group model;
+                       prior(student_t(3, 0, 2), class = Intercept, dpar = "sigma"), #prior for intercept of the sigma ~ group model;
+                       prior(student_t(3, 0, 2), class = b, dpar = "sigma")), #prior for coefficients of the sigma ~ group model;
              iter = 10000, 
              warmup = 5000, 
              chains = 4, 
@@ -254,6 +265,8 @@ fit_uneq <- brm(data = sleep,
              seed = 123, # random number seed to make results reproducible
              silent = 2,
              refresh = 0)
+
+prior_summary(fit_uneq)
 
 # saveRDS(fit_eq, "data/chap7_twosample_eq")
 # saveRDS(fit_uneq, "data/chap7_twosample_uneq")
