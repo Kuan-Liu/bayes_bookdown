@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-02-18" />
+<meta name="date" content="2022-03-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.21/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -294,8 +302,16 @@ div.csl-indent {
 <li class="chapter" data-level="6.1.3" data-path="BayesReg1.html"><a href="BayesReg1.html#model-diagnostics"><i class="fa fa-check"></i><b>6.1.3</b> Model diagnostics</a></li>
 <li class="chapter" data-level="6.1.4" data-path="BayesReg1.html"><a href="BayesReg1.html#model-comparision"><i class="fa fa-check"></i><b>6.1.4</b> Model comparision</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models</a></li>
-<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization-and-variable-selection"><i class="fa fa-check"></i><b>6.3</b> Regression regularization and variable selection</a></li>
+<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="BayesReg1.html"><a href="BayesReg1.html#clustered-data-multi-level"><i class="fa fa-check"></i><b>6.2.1</b> Clustered data (Multi-level)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization"><i class="fa fa-check"></i><b>6.3</b> Regression regularization</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="BayesReg1.html"><a href="BayesReg1.html#shrinkage-priors-in-action"><i class="fa fa-check"></i><b>6.3.1</b> Shrinkage Priors in action</a></li>
+<li class="chapter" data-level="6.3.2" data-path="BayesReg1.html"><a href="BayesReg1.html#bayesian-logistic-regression-model-cope-example-revisit"><i class="fa fa-check"></i><b>6.3.2</b> Bayesian logistic regression model (COPE example revisit)</a></li>
+<li class="chapter" data-level="" data-path="BayesReg1.html"><a href="BayesReg1.html#r-session-information-5"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II</a>
 <ul>
@@ -370,10 +386,16 @@ Johnson, Sindhu R, George A Tomlinson, Gillian A Hawker, John T Granton, and Bri
 Johnson, Sindhu R, George A Tomlinson, Gillian A Hawker, John T Granton, Haddas A Grosbein, and Brian M Feldman. 2010. <span>“A Valid and Reliable Belief Elicitation Method for Bayesian Priors.”</span> <em>Journal of Clinical Epidemiology</em> 63 (4): 370–83.
 </div>
 <div class="csl-entry">
+Lewandowski, Daniel, Dorota Kurowicka, and Harry Joe. 2009. <span>“Generating Random Correlation Matrices Based on Vines and Extended Onion Method.”</span> <em>Journal of Multivariate Analysis</em> 100 (9): 1989–2001.
+</div>
+<div class="csl-entry">
 McElreath, Richard. 2018. <em>Statistical Rethinking: A Bayesian Course with Examples in r and Stan</em>. Chapman; Hall/CRC.
 </div>
 <div class="csl-entry">
 Munshi, Laveena, Teagan Telesnicki, Allan Walkey, and Eddy Fan. 2014. <span>“Extracorporeal Life Support for Acute Respiratory Failure. A Systematic Review and Metaanalysis.”</span> <em>Annals of the American Thoracic Society</em> 11 (5): 802–10.
+</div>
+<div class="csl-entry">
+Nakagawa, Shinichi, Paul CD Johnson, and Holger Schielzeth. 2017. <span>“The Coefficient of Determination r 2 and Intra-Class Correlation Coefficient from Generalized Linear Mixed-Effects Models Revisited and Expanded.”</span> <em>Journal of the Royal Society Interface</em> 14 (134): 20170213.
 </div>
 <div class="csl-entry">
 Noah, Moronke A, Giles J Peek, Simon J Finney, Mark J Griffiths, David A Harrison, Richard Grieve, M Zia Sadique, et al. 2011. <span>“Referral to an Extracorporeal Membrane Oxygenation Center and Mortality Among Patients with Severe 2009 Influenza a (H1n1).”</span> <em>Jama</em> 306 (15): 1659–68.
@@ -386,6 +408,9 @@ Peek, Giles J, Miranda Mugford, Ravindranath Tiruvoipati, Andrew Wilson, Elizabe
 </div>
 <div class="csl-entry">
 Pham, Tài, Alain Combes, Hadrien Rozé, Sylvie Chevret, Alain Mercat, Antoine Roch, Bruno Mourvillier, et al. 2013. <span>“Extracorporeal Membrane Oxygenation for Pandemic Influenza a (H1n1)–Induced Acute Respiratory Distress Syndrome: A Cohort Study and Propensity-Matched Analysis.”</span> <em>American Journal of Respiratory and Critical Care Medicine</em> 187 (3): 276–85.
+</div>
+<div class="csl-entry">
+Price, Catherine J, Carole A Kimmel, Rochelle W Tyl, and Melissa C Marr. 1985. <span>“The Developmental Toxicity of Ethylene Glycol in Rats and Mice.”</span> <em>Toxicology and Applied Pharmacology</em> 81 (1): 113–27.
 </div>
 <div class="csl-entry">
 Spiegelhalter, David J. 2004. <span>“Incorporating Bayesian Ideas into Health-Care Evaluation.”</span> <em>Statistical Science</em> 19 (1): 156–74.

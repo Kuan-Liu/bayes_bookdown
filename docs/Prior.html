@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-02-18" />
+<meta name="date" content="2022-03-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.21/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -294,8 +302,16 @@ div.csl-indent {
 <li class="chapter" data-level="6.1.3" data-path="BayesReg1.html"><a href="BayesReg1.html#model-diagnostics"><i class="fa fa-check"></i><b>6.1.3</b> Model diagnostics</a></li>
 <li class="chapter" data-level="6.1.4" data-path="BayesReg1.html"><a href="BayesReg1.html#model-comparision"><i class="fa fa-check"></i><b>6.1.4</b> Model comparision</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models</a></li>
-<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization-and-variable-selection"><i class="fa fa-check"></i><b>6.3</b> Regression regularization and variable selection</a></li>
+<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="BayesReg1.html"><a href="BayesReg1.html#clustered-data-multi-level"><i class="fa fa-check"></i><b>6.2.1</b> Clustered data (Multi-level)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization"><i class="fa fa-check"></i><b>6.3</b> Regression regularization</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="BayesReg1.html"><a href="BayesReg1.html#shrinkage-priors-in-action"><i class="fa fa-check"></i><b>6.3.1</b> Shrinkage Priors in action</a></li>
+<li class="chapter" data-level="6.3.2" data-path="BayesReg1.html"><a href="BayesReg1.html#bayesian-logistic-regression-model-cope-example-revisit"><i class="fa fa-check"></i><b>6.3.2</b> Bayesian logistic regression model (COPE example revisit)</a></li>
+<li class="chapter" data-level="" data-path="BayesReg1.html"><a href="BayesReg1.html#r-session-information-5"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II</a>
 <ul>
@@ -815,7 +831,7 @@ Figure 4.1: In-hospital mortality. Forest plot showing pooled analysis of four r
 <h3>R Session information</h3>
 <pre><code>## R version 4.0.5 (2021-03-31)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19042)
+## Running under: Windows 10 x64 (build 19044)
 ## 
 ## Matrix products: 
 ## 
@@ -834,8 +850,8 @@ Figure 4.1: In-hospital mortality. Forest plot showing pooled analysis of four r
 ##  [7] ggmcmc_1.5.1.1      truncnorm_1.0-8     ggpubr_0.4.0       
 ## [10] tweenr_1.0.2        gganimate_1.0.7     VennDiagram_1.7.1  
 ## [13] futile.logger_1.4.3 brms_2.16.3         Rcpp_1.0.7         
-## [16] forcats_0.5.1       stringr_1.4.0       dplyr_1.0.7        
-## [19] purrr_0.3.4         readr_2.1.1         tidyr_1.1.4        
+## [16] forcats_0.5.1       stringr_1.4.0       dplyr_1.0.8        
+## [19] purrr_0.3.4         readr_2.1.2         tidyr_1.2.0        
 ## [22] tibble_3.1.6        ggplot2_3.3.5       tidyverse_1.3.1</code></pre>
 
 </div>

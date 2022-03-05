@@ -23,6 +23,7 @@ library(bayesplot)
 library(gtsummary)
 library(coda)
 library(extraDistr)
+library(DT)
 options(scipen = 999)
 ```
 
@@ -624,6 +625,649 @@ pp_check(fit2, ndraws = 50)
 
 ## Hierarchical models
 
+-  Often models have more complex structures than the ones described by likelihood
+and priors and simple relationships between data and parameters
 
-## Regression regularization and variable selection
+-  In these models data and parameters participate in relationships of hierarchical
+fashion
+    -  e.g., Correlated and clustering data structures, such as measures within patients, patients within clinics etc.
+    
+-  Bayesian models deal with hierarchical models in a natural and intuitive way [@burkner2017advanced]
+
+-  Source of correlation in clustered (or longitudinal) data
+    - between-individual heterogeneity on i) mean and ii) velocity (rate of change; slop)
+    - Within-individual/cluster homogeneity  
+
+::: {.important data-latex=""}
+**Bayesian Hierarchical Models**
+
+-  Often Bayesian models can we written in the following layers of
+the hierarchy
+    1. **Data Layer** $Y \mid \theta$, the likelihood for the observed data $Y$ given model parameters $\theta$.
+    2. **Adaptive/Structural Priors** $\theta \mid \alpha, \beta$, the model for parameter $\theta$ that defined by the latent data generating process governed by the hyperparameters $\alpha$ and $\beta$
+    3. **Hyper Priors** $\alpha$ and $\beta$ as hyper parameters.
+    
+:::
+
+Let's look at a hospital mortality study as an example. This data capture hospital mortality for a specific condition at 20 different hospitals. There is also a variable that describes the average severity of patients at each hospital.
+
+-  First let's examine the data
+
+```{r echo=T, message=FALSE, warning=FALSE}
+dat <- read.table("data/HospitalMortality.csv",sep=",", header=T)
+
+dat <- dat %>% 
+  mutate(Hospital = factor(Hospital),
+         Prop.Dead = round(Deaths/N,3))
+
+dat %>% datatable(
+  rownames = FALSE,
+  options = list(
+    columnDefs = list(list(className = 'dt-center', 
+                      targets = 0:4))))
+
+dat %>% select(Severity, Prop.Dead) %>% tbl_summary()
+```
+
+**1. First model - considering independent between hospital mortality**
+
+-  We are modelling \[Deaths_i \sim Bin(p_i, n_i)\], where $i = 1, \ldots, 25$ and $p_i$ represent the risk of death for the $i$ hospital with a beta(1,1) prior on all $p_i$s
+-  This model is saying that there is nothing to link mortality in hospital 1 to mortality in any other hospital
+    -  We are essentially estimating the risk of mortality for each hospital
+
+```{r echo=T, message=FALSE, warning=FALSE, eval=FALSE}
+fit1 <- brm(data = dat,
+            family= binomial,
+            Deaths | trials(N) ~ 0 + Hospital,  
+            iter = 10000,
+            warmup = 8000,
+            chains = 4,
+            cores = 4, 
+            seed = 123, 
+            silent = 2,
+            refresh = 0)
+# saveRDS(fit1, "data/chap7_h_example1")
+```
+
+- Summarizing posterior results
+
+```{r echo=T, message=FALSE, warning=FALSE}
+fit1 <- readRDS("data/chap7_h_example1")
+#posterior summary of risk (table);
+round(exp(fixef(fit1)),3)
+#posterior summary of risk (visual);
+mcmc_intervals(fit1, transformations = "plogis")
+```
+
+**2. Second model - shared parameters on hospital mortality (complete pooling)**
+
+-  Suppose that these were 25 hospitals in the same city
+    -  Similar practices, populations, shared staff in some cases
+-  How can we treat them as one big hospital with exactly the same mortality?
+    -  Easy - specify in the model that they share the same probability $p$
+
+-  Parameterizing using odds
+    -  Odds are the basis for logistic regression, where we model log(odds)
+    -  $0 \leq p \leq 1 \Rightarrow - \infty \leq \log(Odds) \leq \infty$ 
+    -  Suggests an normal uninformative prior on log odds with a sufficient variance (ie sd = 10) 
+    
+    \[ \log(Odds) \sim N(0,\sigma^2)\]
+
+-  Assume a common odds between all 25 hospitals, we run a pooled model such that \[Deaths_i \sim Bin(p, n_i)\]. This is a complete pooling model.
+
+-  We are essentially modelling the average population risk of mortality pooling information from all 25 hospitals.
+
+```{r echo=T, message=FALSE, warning=FALSE, eval=FALSE}
+fit1.p <- brm(data = dat,
+            family= binomial,
+            Deaths | trials(N) ~ 1,  
+            iter = 10000,
+            warmup = 8000,
+            chains = 4,
+            cores = 4, 
+            seed = 123, 
+            silent = 2,
+            refresh = 0)
+# saveRDS(fit1.p, "data/chap7_h_example1p")
+```
+
+- Summarizing posterior results
+
+```{r echo=F, message=FALSE, warning=FALSE}
+fit1.p <- readRDS("data/chap7_h_example1p")
+#posterior summary of risk overall;
+round(exp(fixef(fit1.p)),3)
+```
+
+-  Drawbacks of a complete pooling approach
+
+There are two main drawbacks to taking a complete pooling approach to analyze group structured data:
+
+-  in case of clustered and correlated data, we violate the assumption of independence
+-  misleading conclusions about the relationship between and across subjects
+
+**3. third model - shared parameters on hospital mortality (partial pooling)**
+
+-  Suppose that these were 25 hospitals in the same city
+    -  Similar (but **not same**) practices and patient populations; partly shared staff
+-  How can we treat them as similar
+    -  with a common underlying true mortality
+    -  with **random variation** from hospital to hospital in the true mortality!
+    
+-  Need to introduce two parameters representing
+    -  Common mortality (mean log odds)
+    -  Hospital-to-hospital variation (sd of log odds)
+    
+-  This introduces an **hierarchical structure** in the model!
+
+-  Specifically, we have
+    1. **Data Layer** $y_i \mid p_i \sim P(y_i \mid p_i)$
+    2. **Adaptive/Structural Priors** $logit(p_i) \mid \theta, \sigma^2 \sim P(logit(p_i) \mid \theta, \sigma^2)$
+    3. **Hyper Priors** $\theta \sim P(\theta)$ and $\sigma^2 ~ P(\sigma^2)$ as hyper parameters.
+
+-  A Bayesian random intercept model!
+
+```{r echo=T, message=FALSE, warning=FALSE, eval=FALSE}
+fit1.ri <- brm(data = dat,
+            family= binomial,
+            Deaths | trials(N) ~ 1 + (1|Hospital),  
+            iter = 10000,
+            warmup = 8000,
+            chains = 4,
+            cores = 4, 
+            seed = 123, 
+            silent = 2,
+            refresh = 0)
+# saveRDS(fit1.ri, "data/chap7_h_example1ri")
+```
+
+- Summarizing posterior results on risk and between-hospital standard deviation of the intercept
+
+```{r echo=T, message=FALSE, warning=FALSE}
+fit1.ri <- readRDS("data/chap7_h_example1ri")
+summary(fit1.ri)
+
+#posterior summary of risk overall (table);
+round(exp(fixef(fit1.ri)),3)
+
+s1 <- posterior_samples(fit1.ri)
+sigma <- s1[,"sd_Hospital__Intercept"]
+qs <- quantile(sigma,c(0.025, 0.975))
+
+temp <- density(sigma,n = 1024)
+dp1 <- data.frame(sigma=temp$x, density=temp$y, area=cut(temp$x, c(0,qs,10), include.lowest = T))
+
+ggplot(dp1, aes(x=sigma, y=density))+geom_area(aes(fill=area), show.legend=FALSE)+
+    theme_bw()+
+    geom_line(color="orange")+
+    ggtitle(paste0("Mean sigma= ", round(mean(sigma),2),"; 95% CrI: ", round(qs[1],1),
+                   " to ",round(qs[2],2)))+
+    scale_fill_manual(values=c("orange","white","orange"))
+
+```
+
+
+-  Hospitals, ranked best to worst by posterior odds of mortality (median ranking on mortality, along with a 95% CrI)
+
+```{r echo = T}
+h <- s1[,grep(",Intercept",names(s1))]
+r <- apply(h,1,rank)
+rankings <- t(apply(r,1,quantile, c(0.5, c(0.025, 0.975))))
+row.names(rankings) <- paste("Hospital",1:25)
+colnames(rankings)[1] <- "Median"
+rankings <- data.frame(rankings, ObservedProportion=round(dat$Deaths/dat$N,3), n=dat$N)
+rankings <- rankings[order(rankings[,1]),]
+knitr::kable(rankings, caption="Hospitals, ranked best to worst by posterior odds of mortality")
+```
+
+
+
+### Clustered data (Multi-level)
+
+-  Example: Developmental toxicity study of ethylene glycol (EG) [@price1985developmental]
+
+-  The data are from a development toxicity study of ethylene glycol (EG). 
+
+-  Ethylene glycol is a high-volume industrial chemical used in many applications. 
+
+-  In a study of laboratory mice conducted through the National Toxicology Program (NTP), EG  was administered  at doses of 0, 750, 1500, or 3000 mg/kg/day to 94 pregnant mice (dams) over the period of major organogenesis, beginning just after implantation. 
+
+- Following sacrifice, fetal weight and evidence of malformations were recorded 
+
+-  Let's first read in the data
+    -  This data set is in a long format
+    -  we can see each row represents a mouse.
+    -  Mice are nested within the litter. **We have a two-level data!**
+    
+<div class="fold s">
+```{r echo = T}
+ntp <- read.table("data/ntp-data.txt", header = TRUE)
+colnames(ntp) <- c("Litter", "Dose", "Weight", "Malformation")
+ntp <- ntp %>%
+  group_by(Litter) %>%
+  mutate(Litid = row_number()) %>% # seq id for each litter
+  mutate(FetalID = paste0(Litter, ".", Litid)) %>% # FetalID = LitID.tempid
+  select(-Litid) # remove tempid from toxic2
+knitr::kable(head(ntp), row.names = F)
+```
+<div>
+
+-  Number of doses in each group and number of fetuses in each litter
+
+```{r echo = T}
+cluster <- ntp %>% group_by(Dose) %>%
+  summarize(nlitter = n_distinct(Litter), nfetal = n_distinct(FetalID))
+cluster %>% datatable(
+  rownames = FALSE,
+  options = list(
+    columnDefs = list(list(className = 'dt-center', 
+                      targets = 0:2))))
+
+clustersize <- ntp %>% group_by(Litter) %>% summarise(csize = n_distinct(FetalID))
+# clustersize %>% datatable(
+#   rownames = FALSE,
+#   options = list(
+#     columnDefs = list(list(className = 'dt-center', 
+#                       targets = 0:1))))
+
+clustersize %>%
+ggplot(aes(x = Litter, y = csize)) +
+geom_bar(stat = "identity", fill = "black", color = "snow1")+
+  theme_bw()
+
+```
+
+-  Visualize relationship between fetal malformation and dose
+```{r message=FALSE, warning=FALSE}
+ntp %>%
+  group_by(Dose, Litter) %>%
+  summarise(fmalprop = mean(Malformation)) %>%
+  ggplot(aes(x = Litter, y = fmalprop)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  ylab("Proportion of Malformation")+
+  facet_wrap(~Dose)+
+  theme_bw()
+```
+
+
+-  Visualize relationship between fetal weight and dose
+```{r message=FALSE, warning=FALSE}
+ntp %>%
+  ggplot(aes(x = Litter, y = Weight)) +
+  geom_boxplot(aes(group = Litter), color = "steelblue") +
+  facet_wrap(~Dose)+
+  theme_bw()
+
+ntp <- ntp %>% 
+  mutate(Dose = factor(Dose, levels = c("0","750","1500","3000")))
+```
+
+-  Suppose we are interested to assess the effect of dose on fetal weight.
+-  The data on fetal weight from this experiment are clustered, with observations on the fetuses nested within litters.
+
+-  **First model - Normal hierarchical model with random intercept**
+
+-  data structure: model of fetal weight within each litter (index by j)
+\[ Y_{ij} \mid \mu_j, \sigma_y \sim N(\mu_j, \sigma_y^2)\]
+
+-  adaptive priors on litter-level mean
+
+\[\mu_j \mid \mu, \sigma_\mu \sim N(\mu, \sigma_u^2)\]
+
+-  hyperparameter priors on $\mu$, $\sigma_u$ as well as global prior for $\sigma_y$
+
+
+-  Variability within litter by dose
+    -  in this model, only $\beta_{0j}$ depends on litter 
+    -  $\beta_{1}$ is shared across all litter $j$, the expected change in fetal weight comparing between various dosage to reference level (dose = 0)
+    -  $\sigma_y$ measures **Within-group variability** around the mean regression model $\beta_{0j} + \beta_{1} \ dose_{ij}$
+
+\[\mu_{ij} = \beta_{0j} + \beta_{1} \ dose_{ij}\]
+
+-  specifying our hierarchical random intercepts model (update with $\beta$):
+
+\[ Y_{ij} \mid \beta_{0j}, \beta_{1}, \sigma_y \sim N(\beta_{0j} + \beta_{1} \ dose_{ij}, \sigma_y^2) \]
+
+\[\beta_{0j} \mid \beta_{0}, \sigma_0^2\]
+
+\[\beta_{0} \sim N(0,10)\]
+\[\beta_{1} \sim N(0,10)\]
+\[\sigma_y \sim HalfCauchy(10)\]
+\[\sigma_0 \sim HalfCauchy(10)\]
+
+
+```{r echo=TRUE, eval=FALSE}
+fit2 <- brm(data = ntp,
+            family= gaussian(),
+            Weight ~ Dose + (1|Litter),  
+            prior = c(prior(normal(0, 10), class = Intercept),
+                      prior(normal(0, 10), class = b),
+                      prior(cauchy(0, 10), class = sd),
+                      prior(cauchy(0, 10), class = sigma)),
+            iter = 10000,
+            warmup = 8000,
+            chains = 4,
+            cores = 4, 
+            seed = 123, 
+            silent = 2,
+            refresh = 0)
+# saveRDS(fit2, "data/chap7_h_example2")
+```
+
+
+```{r echo = T, fig.align='center', fig.height=9}
+fit2 <- readRDS("data/chap7_h_example2")
+summary(fit2)
+# checking traceplot
+# fit2 %>% plot( combo = c("hist", "trace"), widths = c(1, 1.5),
+#       theme = theme_bw(base_size = 10))
+conditional_effects(fit2)
+```
+
+
+-  The adjusted ICC represents the proportion of variance of the outcome that are due to between-level (e.g., between-group, between-person) differences
+    -  **Does not consider fixed effect!** In this case, adjusted ICC does not feature variation caused by dose.
+
+\[\rho_{adj} = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}\]
+
+-  where $\sigma_0^2$ is the between-level SD, which is the SD of cluster means (i.e., variability between litters) and $\sigma$ is the observation-specific SD (i.e., variability within a litter)
+
+-  The conditional ICC considers variation with fixed effect, in this case dose.
+
+\[\rho_{c} = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2 + \sigma_f^2}\]
+
+\[\sigma_f^2 = var(\sum_{m=1}^p \beta_m x_{mij}), p \text{ # of coefficients exclude } \beta_0\]
+
+-  reference: [@nakagawa2017coefficient] [doi: 10.1098/rsif.2017.0213](https://royalsocietypublishing.org/doi/10.1098/rsif.2017.0213)
+
+-  We can use the posterior draws of the two SD to compute the posterior for the adjusted ICC:
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+# Computing ICC
+# 1. Obtain posterior draws of tau and sigma
+sd_m2 <- VarCorr(fit2, summary = FALSE)
+draws_tau <- sd_m2$Litter$sd[ , "Intercept"]  # tau
+draws_sigma <- sd_m2$residual__$sd[ , 1]  #sigma
+# 2. Compute draws for adjusted ICC
+draws_icc <- draws_tau^2 / (draws_tau^2 + draws_sigma^2)
+# quantile of posterior adjusted ICC
+quantile(draws_icc, p=c(0.5, 0.025,0.975))   
+
+# Plot the adjusted ICC
+qplot(draws_icc, geom = "density", xlab = "ICC adjust", bw = "SJ")
+```
+
+-  It was estimated that 56%, 95% CI [48%, 65%] of the variations in fetal weight was attributed to between-litter differences.
+
+
+-  We can use the posterior draws of b_Dose750, b_Dose1500, and b_Dose3000 (fix effects) to compute the posterior for the conditional ICC:
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+# sjstats::icc(fit2) point estimate of adjusted and conditional ICC;
+# Intraclass Correlation Coefficient
+# 
+#      Adjusted ICC: 0.565
+#   Conditional ICC: 0.317
+
+# calculating conditional ICC
+post_par <- colMeans(posterior_samples(fit2, pars = c("b_Dose750","b_Dose1500","b_Dose3000")))
+dummy <- with(ntp, outer(Dose, levels(Dose), `==`)*1)[,-1] #dummy matrix removing dose0 level;
+sigma_f2 <- var(dummy%*%post_par)
+draws_icc_conditional <- (draws_tau^2) / (draws_tau^2 + sigma_f2+ draws_sigma^2)
+# quantile of posterior conditional ICC
+quantile(draws_icc_conditional, p=c(0.5, 0.025,0.975)) 
+# Plot the adjusted ICC
+qplot(draws_icc_conditional, geom = "density", xlab = "ICC conditional", bw = "SJ")
+```
+
+
+-  It was estimated that 31%, 95% CI [25%, 40%] of the variations in fetal weight was attributed to between-litter differences given fix effects.
+
+
+-  **Second model - Normal hierarchical model with varying intercept and slope**
+
+-  Variability in "velocity" between individual, dose the effect of dose on weight also vary by litter?
+
+-  We want to build a model which recognizes that in the relationship between feta weight and dose, 
+    -  where the intercept (i.e., baseline weight) 
+    -  and slope (i.e., rate at which weight changes with dose) might vary from mouse to mouse.
+-  A random intercept and slope model!
+
+-  Variability within litter by dose
+    -  in this model, $\beta_{0j}$ and $\beta_{1j}$ depend on litter 
+  
+-  specifying our hierarchical random intercept and slope model :
+
+\[ Y_{ij} \mid \beta_{0j}, \beta_{1j}, \sigma_y \sim N(\beta_{0j} + \beta_{1j} \ dose_{ij}, \sigma_y^2) \]
+
+\[\beta_{0j} \mid \beta_{0}, \sigma_0^2\]
+\[\beta_{1j} \mid \beta_{1}, \sigma_1^2\]
+
+-  In this model $\beta_{0j}$ and $\beta_{1j}$ working together to describe the model for litter $j$, and thus are **correlated**!
+
+-  Let $\rho \in [-1,1]$ represents the correlation between $\beta_{0j}$ and $\beta_{1j}$. We can assign a **joint Normal model** of $\beta_{0j}$ and $\beta_{1j}$ where
+
+\[
+\begin{pmatrix}
+\beta_{0j}\\
+\beta_{1j}
+\end{pmatrix} \mid \beta_{0}, \beta_{1}, \sigma_0, \sigma_1 \sim N(\begin{pmatrix}
+\beta_{0}\\
+\beta_{1}
+\end{pmatrix}, \begin{pmatrix}
+\sigma_0^2 & \rho \sigma_0\sigma_1 \\
+\rho \sigma_0\sigma_1 & \sigma_1^2 
+\end{pmatrix}).
+\]
+
+\[\beta_{0} \sim N(0,10)\]
+\[\beta_{1} \sim N(0,10)\]
+\[\sigma_y \sim HalfCauchy(10)\]
+\[\sigma_0 \sim HalfCauchy(10)\]
+\[\sigma_1 \sim HalfCauchy(10)\]
+\[\mathbf{R} \sim LKJcorr(2)\]
+
+-  where $\mathbf{R}$ is the correlation matrix $$\begin{pmatrix}
+1 & \rho  \\
+\rho  & 1 
+\end{pmatrix}$$
+
+-  LKJ-correlation prior [@lewandowski2009generating] with one parameter ($\zeta$) that controls the strength of the correlation.
+
+```{r echo=T, fig.cap="LKJ prior for different values of the shape paramete", fig.align='center', fig.width=9, warning=FALSE, message=FALSE}
+dlkjcorr2 <- function(rho, eta = 1, log = FALSE) {
+  # Function to compute the LKJ density given a correlation
+  out <- (eta - 1) * log(1 - rho^2) - 
+    1 / 2 * log(pi) - lgamma(eta) + lgamma(eta + 1 / 2)
+  if (!log) out <- exp(out)
+  out
+}
+ggplot(tibble(rho = c(-1, 1)), aes(x = rho)) + 
+  stat_function(fun = dlkjcorr2, args = list(eta = 0.1), 
+                aes(col = "0.1"), n = 501) + 
+  stat_function(fun = dlkjcorr2, args = list(eta = 0.5), 
+                aes(col = "0.5"), n = 501) + 
+  stat_function(fun = dlkjcorr2, args = list(eta = 1), 
+                aes(col = "1"), n = 501) + 
+  stat_function(fun = dlkjcorr2, args = list(eta = 2), 
+                aes(col = "2"), n = 501) + 
+  stat_function(fun = dlkjcorr2, args = list(eta = 10), 
+                aes(col = "10"), n = 501) + 
+  stat_function(fun = dlkjcorr2, args = list(eta = 100), 
+                aes(col = "100"), n = 501) + 
+  labs(col = expression(eta), x = expression(rho), y = "Density")+
+  theme_bw()
+```
+
+
+```{r echo=TRUE, eval=FALSE}
+fit3 <- brm(data = ntp,
+            family= gaussian(),
+            Weight ~ Dose + (Dose|Litter),  
+            prior = c(prior(normal(0, 10), class = Intercept),
+                      prior(normal(0, 10), class = b),
+                      prior(cauchy(0, 10), class = sd),
+                      prior(cauchy(0, 10), class = sigma),
+                      prior(lkj(2), class = cor)),
+            iter = 11000,
+            warmup = 10000,
+            chains = 3,
+            cores = 4, 
+            control = list(adapt_delta = .9), 
+            seed = 123, 
+            silent = 2,
+            refresh = 0)
+# saveRDS(fit3, "data/chap7_h_example3")
+```
+
+-  Posterior summary
+
+```{r echo = T, warning=FALSE, message = FALSE, fig.align='center', fig.height=9}
+fit3 <- readRDS("data/chap7_h_example3")
+summary(fit3)
+fit3 %>% plot( combo = c("hist", "trace"), widths = c(1, 1.5),
+      theme = theme_bw(base_size = 10))
+conditional_effects(fit3)
+```
+
+-  Interpretations
+
+```{r}
+round(VarCorr(fit3)$Litter$sd, 3)
+```
+
+
+
+-  Comparing between the two models (both models are really similar)
+
+```{r message=FALSE, warning=FALSE}
+loo(fit2, fit3)
+
+waic1 <- waic(fit2)
+waic2 <- waic(fit3)
+compare_ic(waic1, waic2) 
+
+```
+
+
+## Regression regularization
+
+### Shrinkage Priors in action
+
+-  When the number of parameters to be estimated is large relative to sample size, estimation using non-informative or weakly informative priors tend to overfit.
+
+-  One way to avoid overfitting is to perform regularization, that is, to shrink some of the parameters to closer to zero. This makes the model fit less well to the existing data, but will be much more generalizable to an independent data set.
+
+-  Sparsity-Inducing Priors
+
+-  The horseshoe prior is a type of hierarchical prior for regression models by introducing a global scale and local scale parameters on the priors for the regression coefficients. 
+
+-  Specifically, with $p$ predictors
+
+\[Y_i \sim N(\mu_i, \sigma^2)\]
+\[\mu_i = \beta_0 + \sum_{m=1}^p\beta_m X_m\]
+\[\beta_0 \sim N(0,10)\]
+\[\beta_m \sim N(0,\tau\lambda_m)\]
+\[\lambda_m \sim Cauchy(10)\]
+\[\tau \sim Cauchy(\tau_0)\]
+
+-  local scale $\lambda_m$ can flexibly shrink the coefficient to close to zero.
+
+```{r warning=FALSE,message=FALSE, fig.align='center'}
+dhs <- Vectorize(
+  function(y, df = 1) {
+  ff <- function(lam) dnorm(y, 0, sd = lam) * dt(lam, df) * 2
+  if (y != 0) integrate(ff, lower = 0, upper = Inf)$value
+  else Inf
+  }
+)
+ggplot(data.frame(x = c(-6, 6)), aes(x = x)) +
+  stat_function(fun = dhs, args = list(df = 1), n = 501,
+                aes(col = "HS"), linetype = 1) +
+  stat_function(fun = dnorm, n = 501, 
+                aes(col = "norm"), linetype = 2) +
+  scale_color_manual("", values = c("steelblue", "black"),
+                     labels = c("horseshoe(1)", "N(0, 1)")) +
+    xlab("y") + ylab("density") + ylim(0, 0.75)+
+  theme_bw()
+```
+
+
+### Bayesian logistic regression model (COPE example revisit)
+
+- Data come from a cross-sectional study of 1,225 smokers over the age of 40.
+
+- Each participant was assessed for chronic obstructive pulmonary disease (COPD), and characteristics of the type of cigarette they most frequently smoke were recorded. 
+
+- The objective of the study was to identify associations between COPD diagnosis and cigarette characteristics
+
+We will use the following variables from this data set:
+
+- NIC: Nicotine content, in mg
+
+- TAR: Tar content, in mg
+
+- LEN: Length of cigarette, in mm
+
+- copd: 1 = COPD diagnosis, 0 = no COPD diagnosis
+
+```{r echo=F}
+copd <- read.csv("data/copd.csv", header = T)
+copd <- copd %>% select("NIC","TAR","LEN","copd")
+knitr::kable(head(copd))
+```
+
+- We fit a simple logistic regression, predicting the risk of copd by all covariates as well as all interaction effects
+
+```{r echo=T, message=FALSE, warning=FALSE, eval=FALSE}
+fit4.1 <- brm(copd ~ (.)^2, 
+               data = copd, 
+               family = bernoulli(link = "logit"), 
+               prior = c(
+                 prior(normal(0,10), class = "Intercept"),
+                 # Prior guess of 25% of the terms are non-zero
+                 prior(horseshoe(par_ratio = 2 / 8), class = "b")),
+            iter = 7500,
+            warmup = 5000,
+            chains = 4,
+            cores = 5, 
+            seed = 123, 
+            silent = 2, 
+            refresh = 0)
+
+fit4.2 <- brm(copd ~ (.)^2, 
+               data = copd, 
+               family = bernoulli(link = "logit"), 
+               prior = c(
+                 prior(normal(0,10), class = "Intercept"),
+                 prior(normal(0,10), class = "b")),
+            iter = 7500,
+            warmup = 5000,
+            chains = 4,
+            cores = 5, 
+            seed = 123, 
+            silent = 2, 
+            refresh = 0)
+# saveRDS(fit4.1, file="data/chap7_h_example4.1")
+# saveRDS(fit4.2, file="data/chap7_h_example4.2")
+```
+
+```{r echo=T, message=FALSE, warning=FALSE}
+fit4.1 <- readRDS("data/chap7_h_example4.1")
+fit4.2 <- readRDS("data/chap7_h_example4.2")
+
+summary(fit4.2)
+summary(fit4.1)
+```
+
+
+-  An arbitrary cutoff is to select only coefficients with posterior means larger than .02, in which case only NIC and TAR and their interaction were supported by the data.
+
+### R Session information {-}
+
+```{r echo=F}
+getS3method("print","sessionInfo")(sessionInfo()[c(1:7)])
+```
+
+
 
