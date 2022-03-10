@@ -1,10 +1,12 @@
 # don't push local rendered files in master branch
 
 _bookdown_files/
+data/
 
 # R and Rstudio specific files
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-data/chap7_h_example3
+
+
