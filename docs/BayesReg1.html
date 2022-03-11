@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-03-04" />
+<meta name="date" content="2022-03-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -389,7 +389,7 @@ div.csl-indent {
 <li><strong>Linear relationship</strong> We can check this assumption by examining marginal plots comparing the model predicted relationship between outcome and each continuous predictor and by examining the residual plot.</li>
 <li><strong>Normality of the residuals</strong></li>
 <li><strong>Homoscedasticity</strong> Homoscedasticity in a model means that the residual is constant along the values of the dependent variable.</li>
-<li><strong>Multidisciplinary</strong> Multicollinearity is the phenomenon when a number of the explanatory variables are strongly correlated.</li>
+<li><strong>Multicollinearity</strong> Multicollinearity is the phenomenon when a number of the explanatory variables are strongly correlated.</li>
 <li><strong>Correctly specified regression model</strong> This means that all relevant predictors for the response variable have been included in the model. This is often difficult to verify, but we can use posterior predictive distribution to check for regression fit.</li>
 </ol></li>
 </ul>
@@ -421,12 +421,12 @@ div.csl-indent {
 <span id="cb1-4"><a href="BayesReg1.html#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">list</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">&quot;{mean} ({sd})&quot;</span>,</span>
 <span id="cb1-5"><a href="BayesReg1.html#cb1-5" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">all_categorical</span>() <span class="sc">~</span> <span class="st">&quot;{n} / {N} ({p}%)&quot;</span>),</span>
 <span id="cb1-6"><a href="BayesReg1.html#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="dv">2</span>)</span></code></pre></div>
-<div id="pywauzslwl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="tgavhyjhgi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#pywauzslwl .gt_table {
+#tgavhyjhgi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -451,7 +451,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_heading {
+#tgavhyjhgi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -463,7 +463,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_title {
+#tgavhyjhgi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -475,7 +475,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#pywauzslwl .gt_subtitle {
+#tgavhyjhgi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -487,13 +487,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#pywauzslwl .gt_bottom_border {
+#tgavhyjhgi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_col_headings {
+#tgavhyjhgi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -508,7 +508,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_col_heading {
+#tgavhyjhgi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -528,7 +528,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#pywauzslwl .gt_column_spanner_outer {
+#tgavhyjhgi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -540,15 +540,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#pywauzslwl .gt_column_spanner_outer:first-child {
+#tgavhyjhgi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pywauzslwl .gt_column_spanner_outer:last-child {
+#tgavhyjhgi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pywauzslwl .gt_column_spanner {
+#tgavhyjhgi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -560,7 +560,7 @@ div.csl-indent {
   width: 100%;
 }
 
-#pywauzslwl .gt_group_heading {
+#tgavhyjhgi .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -585,7 +585,7 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#pywauzslwl .gt_empty_group_heading {
+#tgavhyjhgi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -600,15 +600,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#pywauzslwl .gt_from_md > :first-child {
+#tgavhyjhgi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pywauzslwl .gt_from_md > :last-child {
+#tgavhyjhgi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pywauzslwl .gt_row {
+#tgavhyjhgi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -627,7 +627,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#pywauzslwl .gt_stub {
+#tgavhyjhgi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -640,7 +640,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#pywauzslwl .gt_stub_row_group {
+#tgavhyjhgi .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -654,11 +654,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#pywauzslwl .gt_row_group_first td {
+#tgavhyjhgi .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pywauzslwl .gt_summary_row {
+#tgavhyjhgi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -668,16 +668,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#pywauzslwl .gt_first_summary_row {
+#tgavhyjhgi .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_first_summary_row.thick {
+#tgavhyjhgi .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pywauzslwl .gt_last_summary_row {
+#tgavhyjhgi .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -687,7 +687,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_grand_summary_row {
+#tgavhyjhgi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -697,7 +697,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#pywauzslwl .gt_first_grand_summary_row {
+#tgavhyjhgi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -707,11 +707,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_striped {
+#tgavhyjhgi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pywauzslwl .gt_table_body {
+#tgavhyjhgi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -720,7 +720,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_footnotes {
+#tgavhyjhgi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -734,7 +734,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_footnote {
+#tgavhyjhgi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -743,7 +743,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#pywauzslwl .gt_sourcenotes {
+#tgavhyjhgi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -757,7 +757,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#pywauzslwl .gt_sourcenote {
+#tgavhyjhgi .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -765,60 +765,60 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#pywauzslwl .gt_left {
+#tgavhyjhgi .gt_left {
   text-align: left;
 }
 
-#pywauzslwl .gt_center {
+#tgavhyjhgi .gt_center {
   text-align: center;
 }
 
-#pywauzslwl .gt_right {
+#tgavhyjhgi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pywauzslwl .gt_font_normal {
+#tgavhyjhgi .gt_font_normal {
   font-weight: normal;
 }
 
-#pywauzslwl .gt_font_bold {
+#tgavhyjhgi .gt_font_bold {
   font-weight: bold;
 }
 
-#pywauzslwl .gt_font_italic {
+#tgavhyjhgi .gt_font_italic {
   font-style: italic;
 }
 
-#pywauzslwl .gt_super {
+#tgavhyjhgi .gt_super {
   font-size: 65%;
 }
 
-#pywauzslwl .gt_footnote_marks {
+#tgavhyjhgi .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#pywauzslwl .gt_asterisk {
+#tgavhyjhgi .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pywauzslwl .gt_slash_mark {
+#tgavhyjhgi .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#pywauzslwl .gt_fraction_numerator {
+#tgavhyjhgi .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#pywauzslwl .gt_fraction_denominator {
+#tgavhyjhgi .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -970,12 +970,12 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
 <span id="cb8-8"><a href="BayesReg1.html#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">&quot;{mean} ({sd})&quot;</span>,</span>
 <span id="cb8-9"><a href="BayesReg1.html#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb8-10"><a href="BayesReg1.html#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>()</span></code></pre></div>
-<div id="rleroriony" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="coatpoetqy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rleroriony .gt_table {
+#coatpoetqy .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1000,7 +1000,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-left-color: #D3D3D3;
 }
 
-#rleroriony .gt_heading {
+#coatpoetqy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1012,7 +1012,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-right-color: #D3D3D3;
 }
 
-#rleroriony .gt_title {
+#coatpoetqy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1024,7 +1024,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-bottom-width: 0;
 }
 
-#rleroriony .gt_subtitle {
+#coatpoetqy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1036,13 +1036,13 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-top-width: 0;
 }
 
-#rleroriony .gt_bottom_border {
+#coatpoetqy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rleroriony .gt_col_headings {
+#coatpoetqy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1057,7 +1057,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-right-color: #D3D3D3;
 }
 
-#rleroriony .gt_col_heading {
+#coatpoetqy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1077,7 +1077,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   overflow-x: hidden;
 }
 
-#rleroriony .gt_column_spanner_outer {
+#coatpoetqy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1089,15 +1089,15 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   padding-right: 4px;
 }
 
-#rleroriony .gt_column_spanner_outer:first-child {
+#coatpoetqy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rleroriony .gt_column_spanner_outer:last-child {
+#coatpoetqy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rleroriony .gt_column_spanner {
+#coatpoetqy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1109,7 +1109,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   width: 100%;
 }
 
-#rleroriony .gt_group_heading {
+#coatpoetqy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1134,7 +1134,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   vertical-align: middle;
 }
 
-#rleroriony .gt_empty_group_heading {
+#coatpoetqy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1149,15 +1149,15 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   vertical-align: middle;
 }
 
-#rleroriony .gt_from_md > :first-child {
+#coatpoetqy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rleroriony .gt_from_md > :last-child {
+#coatpoetqy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rleroriony .gt_row {
+#coatpoetqy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1176,7 +1176,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   overflow-x: hidden;
 }
 
-#rleroriony .gt_stub {
+#coatpoetqy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1189,7 +1189,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   padding-right: 5px;
 }
 
-#rleroriony .gt_stub_row_group {
+#coatpoetqy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1203,11 +1203,11 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   vertical-align: top;
 }
 
-#rleroriony .gt_row_group_first td {
+#coatpoetqy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rleroriony .gt_summary_row {
+#coatpoetqy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1217,16 +1217,16 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   padding-right: 5px;
 }
 
-#rleroriony .gt_first_summary_row {
+#coatpoetqy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rleroriony .gt_first_summary_row.thick {
+#coatpoetqy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rleroriony .gt_last_summary_row {
+#coatpoetqy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1236,7 +1236,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-bottom-color: #D3D3D3;
 }
 
-#rleroriony .gt_grand_summary_row {
+#coatpoetqy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1246,7 +1246,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   padding-right: 5px;
 }
 
-#rleroriony .gt_first_grand_summary_row {
+#coatpoetqy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1256,11 +1256,11 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-top-color: #D3D3D3;
 }
 
-#rleroriony .gt_striped {
+#coatpoetqy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rleroriony .gt_table_body {
+#coatpoetqy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1269,7 +1269,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-bottom-color: #D3D3D3;
 }
 
-#rleroriony .gt_footnotes {
+#coatpoetqy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1283,7 +1283,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-right-color: #D3D3D3;
 }
 
-#rleroriony .gt_footnote {
+#coatpoetqy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1292,7 +1292,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   padding-right: 5px;
 }
 
-#rleroriony .gt_sourcenotes {
+#coatpoetqy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1306,7 +1306,7 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   border-right-color: #D3D3D3;
 }
 
-#rleroriony .gt_sourcenote {
+#coatpoetqy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1314,60 +1314,60 @@ hours of sleep) on groups consisting of 10 patients each.</p></li>
   padding-right: 5px;
 }
 
-#rleroriony .gt_left {
+#coatpoetqy .gt_left {
   text-align: left;
 }
 
-#rleroriony .gt_center {
+#coatpoetqy .gt_center {
   text-align: center;
 }
 
-#rleroriony .gt_right {
+#coatpoetqy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rleroriony .gt_font_normal {
+#coatpoetqy .gt_font_normal {
   font-weight: normal;
 }
 
-#rleroriony .gt_font_bold {
+#coatpoetqy .gt_font_bold {
   font-weight: bold;
 }
 
-#rleroriony .gt_font_italic {
+#coatpoetqy .gt_font_italic {
   font-style: italic;
 }
 
-#rleroriony .gt_super {
+#coatpoetqy .gt_super {
   font-size: 65%;
 }
 
-#rleroriony .gt_footnote_marks {
+#coatpoetqy .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#rleroriony .gt_asterisk {
+#coatpoetqy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rleroriony .gt_slash_mark {
+#coatpoetqy .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#rleroriony .gt_fraction_numerator {
+#coatpoetqy .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#rleroriony .gt_fraction_denominator {
+#coatpoetqy .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1709,14 +1709,14 @@ Figure 6.2: Prior distributions
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="BayesReg1.html#cb34-1" aria-hidden="true" tabindex="-1"></a>ind_predic <span class="ot">&lt;-</span> <span class="fu">posterior_predict</span>(fit1, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">weight =</span> <span class="dv">60</span>, <span class="at">age =</span> <span class="dv">33</span>, <span class="at">male =</span> <span class="st">&quot;female&quot;</span>))</span>
 <span id="cb34-2"><a href="BayesReg1.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mean of the predicted heights</span></span>
 <span id="cb34-3"><a href="BayesReg1.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ind_predic)</span></code></pre></div>
-<pre><code>## [1] 174.3085</code></pre>
+<pre><code>## [1] 174.2372</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="BayesReg1.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct a 95% posterior credible interval</span></span>
 <span id="cb36-2"><a href="BayesReg1.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">posterior_interval</span>(ind_predic, <span class="at">prob =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##          2.5%    97.5%
-## [1,] 157.0682 191.3222</code></pre>
+## [1,] 157.7736 190.5966</code></pre>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="BayesReg1.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior predictive probability of height &gt; 164</span></span>
 <span id="cb38-2"><a href="BayesReg1.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(ind_predic<span class="sc">&gt;</span><span class="dv">164</span>)<span class="sc">/</span><span class="fu">length</span>(ind_predic)</span></code></pre></div>
-<pre><code>## [1] 0.881375</code></pre>
+<pre><code>## [1] 0.879125</code></pre>
 </div>
 <div id="model-diagnostics" class="section level3" number="6.1.3">
 <h3><span class="header-section-number">6.1.3</span> Model diagnostics</h3>
@@ -1874,15 +1874,15 @@ the hierarchy
 <span id="cb48-9"><a href="BayesReg1.html#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
 <span id="cb48-10"><a href="BayesReg1.html#cb48-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-center&#39;</span>, </span>
 <span id="cb48-11"><a href="BayesReg1.html#cb48-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>))))</span></code></pre></div>
-<div id="htmlwidget-d80132035bee7ea910f5" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d80132035bee7ea910f5">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],[4.2,4.3,3.3,2.3,2.7,3.9,4.1,3.3,4,-0.2,4.6,5.8,3.6,4.9,3.9,6.9,7.2,3.6,4.5,4.6,4.9,4.3,3.6,2.9,4.6],[5,2,13,3,1,7,1,3,4,12,10,8,25,22,7,23,62,5,9,15,9,17,7,3,9],[209,24,319,109,60,164,32,57,89,340,196,65,250,290,153,92,267,140,138,192,142,211,196,149,203],[0.024,0.083,0.041,0.028,0.017,0.043,0.031,0.053,0.045,0.035,0.051,0.123,0.1,0.076,0.046,0.25,0.232,0.036,0.065,0.078,0.063,0.081,0.036,0.02,0.044]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Hospital<\/th>\n      <th>Severity<\/th>\n      <th>Deaths<\/th>\n      <th>N<\/th>\n      <th>Prop.Dead<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-53a92ecf27c27d023e59" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-53a92ecf27c27d023e59">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],[4.2,4.3,3.3,2.3,2.7,3.9,4.1,3.3,4,-0.2,4.6,5.8,3.6,4.9,3.9,6.9,7.2,3.6,4.5,4.6,4.9,4.3,3.6,2.9,4.6],[5,2,13,3,1,7,1,3,4,12,10,8,25,22,7,23,62,5,9,15,9,17,7,3,9],[209,24,319,109,60,164,32,57,89,340,196,65,250,290,153,92,267,140,138,192,142,211,196,149,203],[0.024,0.083,0.041,0.028,0.017,0.043,0.031,0.053,0.045,0.035,0.051,0.123,0.1,0.076,0.046,0.25,0.232,0.036,0.065,0.078,0.063,0.081,0.036,0.02,0.044]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Hospital<\/th>\n      <th>Severity<\/th>\n      <th>Deaths<\/th>\n      <th>N<\/th>\n      <th>Prop.Dead<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="BayesReg1.html#cb49-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> <span class="fu">select</span>(Severity, Prop.Dead) <span class="sc">%&gt;%</span> <span class="fu">tbl_summary</span>()</span></code></pre></div>
-<div id="ybsdojqvng" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="tjophcczxn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ybsdojqvng .gt_table {
+#tjophcczxn .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1907,7 +1907,7 @@ the hierarchy
   border-left-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_heading {
+#tjophcczxn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1919,7 +1919,7 @@ the hierarchy
   border-right-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_title {
+#tjophcczxn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1931,7 +1931,7 @@ the hierarchy
   border-bottom-width: 0;
 }
 
-#ybsdojqvng .gt_subtitle {
+#tjophcczxn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1943,13 +1943,13 @@ the hierarchy
   border-top-width: 0;
 }
 
-#ybsdojqvng .gt_bottom_border {
+#tjophcczxn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_col_headings {
+#tjophcczxn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1964,7 +1964,7 @@ the hierarchy
   border-right-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_col_heading {
+#tjophcczxn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1984,7 +1984,7 @@ the hierarchy
   overflow-x: hidden;
 }
 
-#ybsdojqvng .gt_column_spanner_outer {
+#tjophcczxn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1996,15 +1996,15 @@ the hierarchy
   padding-right: 4px;
 }
 
-#ybsdojqvng .gt_column_spanner_outer:first-child {
+#tjophcczxn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ybsdojqvng .gt_column_spanner_outer:last-child {
+#tjophcczxn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ybsdojqvng .gt_column_spanner {
+#tjophcczxn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2016,7 +2016,7 @@ the hierarchy
   width: 100%;
 }
 
-#ybsdojqvng .gt_group_heading {
+#tjophcczxn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2041,7 +2041,7 @@ the hierarchy
   vertical-align: middle;
 }
 
-#ybsdojqvng .gt_empty_group_heading {
+#tjophcczxn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2056,15 +2056,15 @@ the hierarchy
   vertical-align: middle;
 }
 
-#ybsdojqvng .gt_from_md > :first-child {
+#tjophcczxn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ybsdojqvng .gt_from_md > :last-child {
+#tjophcczxn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ybsdojqvng .gt_row {
+#tjophcczxn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2083,7 +2083,7 @@ the hierarchy
   overflow-x: hidden;
 }
 
-#ybsdojqvng .gt_stub {
+#tjophcczxn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2096,7 +2096,7 @@ the hierarchy
   padding-right: 5px;
 }
 
-#ybsdojqvng .gt_stub_row_group {
+#tjophcczxn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2110,11 +2110,11 @@ the hierarchy
   vertical-align: top;
 }
 
-#ybsdojqvng .gt_row_group_first td {
+#tjophcczxn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ybsdojqvng .gt_summary_row {
+#tjophcczxn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2124,16 +2124,16 @@ the hierarchy
   padding-right: 5px;
 }
 
-#ybsdojqvng .gt_first_summary_row {
+#tjophcczxn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_first_summary_row.thick {
+#tjophcczxn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ybsdojqvng .gt_last_summary_row {
+#tjophcczxn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2143,7 +2143,7 @@ the hierarchy
   border-bottom-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_grand_summary_row {
+#tjophcczxn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2153,7 +2153,7 @@ the hierarchy
   padding-right: 5px;
 }
 
-#ybsdojqvng .gt_first_grand_summary_row {
+#tjophcczxn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2163,11 +2163,11 @@ the hierarchy
   border-top-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_striped {
+#tjophcczxn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ybsdojqvng .gt_table_body {
+#tjophcczxn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2176,7 +2176,7 @@ the hierarchy
   border-bottom-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_footnotes {
+#tjophcczxn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2190,7 +2190,7 @@ the hierarchy
   border-right-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_footnote {
+#tjophcczxn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2199,7 +2199,7 @@ the hierarchy
   padding-right: 5px;
 }
 
-#ybsdojqvng .gt_sourcenotes {
+#tjophcczxn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2213,7 +2213,7 @@ the hierarchy
   border-right-color: #D3D3D3;
 }
 
-#ybsdojqvng .gt_sourcenote {
+#tjophcczxn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2221,60 +2221,60 @@ the hierarchy
   padding-right: 5px;
 }
 
-#ybsdojqvng .gt_left {
+#tjophcczxn .gt_left {
   text-align: left;
 }
 
-#ybsdojqvng .gt_center {
+#tjophcczxn .gt_center {
   text-align: center;
 }
 
-#ybsdojqvng .gt_right {
+#tjophcczxn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ybsdojqvng .gt_font_normal {
+#tjophcczxn .gt_font_normal {
   font-weight: normal;
 }
 
-#ybsdojqvng .gt_font_bold {
+#tjophcczxn .gt_font_bold {
   font-weight: bold;
 }
 
-#ybsdojqvng .gt_font_italic {
+#tjophcczxn .gt_font_italic {
   font-style: italic;
 }
 
-#ybsdojqvng .gt_super {
+#tjophcczxn .gt_super {
   font-size: 65%;
 }
 
-#ybsdojqvng .gt_footnote_marks {
+#tjophcczxn .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ybsdojqvng .gt_asterisk {
+#tjophcczxn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ybsdojqvng .gt_slash_mark {
+#tjophcczxn .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#ybsdojqvng .gt_fraction_numerator {
+#tjophcczxn .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#ybsdojqvng .gt_fraction_denominator {
+#tjophcczxn .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2796,8 +2796,8 @@ the hierarchy
 <span id="cb64-5"><a href="BayesReg1.html#cb64-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
 <span id="cb64-6"><a href="BayesReg1.html#cb64-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-center&#39;</span>, </span>
 <span id="cb64-7"><a href="BayesReg1.html#cb64-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>))))</span></code></pre></div>
-<div id="htmlwidget-8d46d2a12386aaa9d0fb" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8d46d2a12386aaa9d0fb">{"x":{"filter":"none","vertical":false,"data":[[0,750,1500,3000],[25,24,22,23],[296,276,229,226]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Dose<\/th>\n      <th>nlitter<\/th>\n      <th>nfetal<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-176d4482cb7855e974ca" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-176d4482cb7855e974ca">{"x":{"filter":"none","vertical":false,"data":[[0,750,1500,3000],[25,24,22,23],[296,276,229,226]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Dose<\/th>\n      <th>nlitter<\/th>\n      <th>nfetal<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="BayesReg1.html#cb65-1" aria-hidden="true" tabindex="-1"></a>clustersize <span class="ot">&lt;-</span> ntp <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Litter) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">csize =</span> <span class="fu">n_distinct</span>(FetalID))</span>
 <span id="cb65-2"><a href="BayesReg1.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="co"># clustersize %&gt;% datatable(</span></span>
 <span id="cb65-3"><a href="BayesReg1.html#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   rownames = FALSE,</span></span>

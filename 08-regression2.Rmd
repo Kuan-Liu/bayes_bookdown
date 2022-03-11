@@ -1,5 +1,827 @@
 # Bayesian Regression II {#BayesReg2}
 
+::: {.chapterintro data-latex=""}
+
+- Learn how to fit and interpret Bayesian logistic regression
+- Learn how to fit and interpret Bayesian poisson and negative binomial regression
+- Reviewing hierarchical model: generalized mixed-effect models
+
+:::
+
+<script src="hideOutput.js"></script>
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+# Every chapter, we will load all the library we will use at the beginning
+# of the chapter. 
+library(tidyverse)
+library(ggpubr)
+library(brms)
+library(tidybayes)
+library(ggmcmc)
+library(MCMCpack)
+library(bayesplot)
+library(gtsummary)
+library(coda)
+library(extraDistr)
+library(DT)
+options(scipen = 999)
+```
+
+</br>
+
+
+
 ## Models for Binary Data
 
+- For binary outcome Y, we are interested to model the probability of $\pi_i = P(Y_i=1)$, $i=1, \ldots, n$
+
+\[Y_i \mid \pi_i \sim Bern(\pi_i)\]
+\[ E(Y_i \mid \pi_i) = \pi_i\]
+\[logit( \pi_i) = \beta_0 + \beta_1 X_{i1}\]
+
+
+- **logistic regression model** featuring logit link that connects binary outcome to a conventional linear regression format, is part of the broader class of **generalized linear models**
+
+- Logit link convert probabilities to log odds.
+
+\[\log(\frac{\pi_i}{1-\pi_i}) = \log(\frac{P(Y_i=1)}{1- P(Y_i=1)})\]
+
+\[\log(\frac{\pi_i}{1-\pi_i}) = \beta_0 + \beta_1 X_{i1}\]
+
+```{r echo=FALSE, fig.align='center', fig.height=4}
+p1<-ggplot(data.frame(x = c(0, 1)), aes(x)) + 
+  stat_function(fun = qlogis, n = 501) + 
+  xlab(expression(pi)) + 
+  ylab(expression(logit(pi))) + 
+  ggtitle("logit function")+
+  theme_bw()
+p2<- ggplot(data.frame(x = c(-5, 5)), aes(x)) + 
+  stat_function(fun = plogis, n = 501) + 
+  ylab(expression(pi)) +
+  xlab(expression(logit(pi)))+
+  ggtitle("logit function")+
+  theme_bw()
+ggarrange(p1, p2, nrow = 1)
+```
+
+
+::: {.important data-latex=""}
+**Logistic regression model**
+
+- Consider the logistic regression model $Y$ with covariates $X_i, \ldots, X_p$:
+
+\[ \log(\frac{\pi_i}{1-\pi_i}) =  \beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip} \]
+
+- logistic regression coefficients is interpreted as log odds ratio!
+
+- Furthermore, we can recalculate probability using the inverse logit function (aka, expit function)
+
+\[\pi_i = \frac{\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip})}{1+\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip})}\]
+
+
+- Assumptions of logistic regression models
+    1. **Independent observations**. This assumption can be modified if working with clustered data.
+    2. **Linear relationship between continous covariates and log-odds** We can check this assumption by examining marginal plots comparing the model predicted relationship between outcome (log-odds or logit-probability) and each continuous covariates.
+    3. **Multicollinearity** Multicollinearity is the phenomenon when a number of the explanatory variables are strongly correlated.
+    4. **Correctly specified regression model** This means that all relevant predictors for the response variable have been included in the model. This is often difficult to verify, but we can use posterior predictive distribution to check for regression fit. We can also use WAIC and LOO to compare different models.
+
+- Comparing to linear regression model we no-longer require the residuals to be normally distributed and homoscedasticity.
+
+:::
+
+**Diagnostic Sensitivity Example**
+
+-  10 studies taken from [@bastos2020diagnostic] on [Diagnostic accuracy of serological tests for covid-19: systematic review and meta-analysis. BMJ. 2020](https://www.bmj.com/content/370/bmj.m2516)
+
+-  Each study reports observed positive chemiluminescent immunoassa (CLIA, $r_i$) and number having positive reference standard reverse transcriptase polymerase chain  reaction (RT-PCR, $n_i$)
+
+-  Interest lies in summarizing this collection of values
+
+```{r echo=FALSE}
+dat <- read.table("data/COVIDtest.txt", 
+                  sep = "",
+                  header=T)
+dat <- dat %>% 
+  mutate(r = TP,
+         n = TP + FN,
+         age = round(rnorm(10, 70*sqrt(TP/(TP + FN)), 8)))
+
+
+dat %>% 
+  select(Study, r, n, age) %>%
+  datatable(
+  rownames = T,
+  class = "compact",
+  options = list(
+    dom = 't',
+    ordering = FALSE,
+    paging = FALSE,
+    searching = FALSE,
+    columnDefs = list(list(className = 'dt-center', 
+                      targets = 0:3))))
+
+      
+```
+**Unpooled**
+
+-  recall from last week, We can assume a binomial likelihood for each study (unpooled),
+
+\[r_i \sim Bin(p_i, n_i)  \]
+
+-  we can assume that the 10 true sensitivities $p_i$ are independent by fitting different prior to each one:
+\[p_i \sim Beta(1,1)\]
+
+-  we will obtain 10 separate posteriors $P(p_i \mid r_i, n_i)$
+    -  For example, we do not assume that $p_1$ tells us anything about the value of $p_2$
+
+**Pooled**
+
+-  Suppose we wanted to estimate the overall sensitivity of the CLIA test
+    -  We do not want 10 separate estimates but a single estimate
+-  If we thought that the studies all had the same true sensitivity p0, we could fit a model like this:
+
+1. Assume a binomial likelihood for each study
+
+\[r_i \sim Bin(p_i, n_i) \]
+
+2. Assume that all studies have the same true sensitivity, $p_0$:
+\[ p_i = p_0\]
+
+3. Put a prior on $p_0$: $p_0 \sim Beta(1,1)$
+
+
+**Different prior on $p_0$**
+
+-  The beta prior is useful for models with little additional structure
+    -  e.g., estimating a single proportion; estimating a collection of proportions
+    
+-  It is difficult to use it to a model, where we want to include predictors of $p_i$
+
+-  For most modelling approaches to binary data, we will use
+    - the logit transformation of $p_i$
+    - normal priors for parameters on this logit scale (e.g., normal prior for log-odds)
+
+
+**Logistic models**
+
+-  We still have the same likelihood $r_i \sim Bin(p_i, n_i)$
+
+-  We define a new parameter using the logit transformation function:
+
+\[logit(p_i) = log(\frac{p_i}{1-p_i}) = \alpha_i\]
+\[p_i = \frac{\exp(\alpha_i)}{1+\exp(\alpha_i)}\]
+
+-  $0<p_i<1 \Rightarrow -\infty < \alpha_i < \infty$
+
+-  Thus, it's quite reasonable to use normal prior to characterize $\alpha_i$
+
+
+::: {.guidedexercise data-latex=""}
+
+**1. Pooled model with non-informative prior**
+
+\[r_i \mid p_i, n_i \sim Bin(p_i, n_i)\]
+\[log(\frac{p_i}{1-p_i}) = \alpha\]
+\[\alpha \sim N(0, \sigma = 5)\]
+
+```{r echo = T, eval=F}
+fit1 <- brm(r | trials(n) ~ 1,
+  data = dat,
+  prior = prior(normal(0,5), class=Intercept),
+  family = binomial,
+  seed = 123)
+```
+
+**2. Unpooled model with non-informative prior**
+
+\[r_i \mid p_i, n_i \sim Bin(p_i, n_i)\]
+\[log(\frac{p_i}{1-p_i}) = \alpha + \beta \ \text{Study}_i\]
+\[\alpha \sim N(0, \sigma = 5)\]
+\[\beta \sim N(0, \sigma = 5)\]
+
+```{r echo = T, eval=F}
+fit2 <- brm(r | trials(n) ~ Study,
+  data = dat,
+  prior =  c(prior(normal(0, 5), class = Intercept),
+             prior(normal(0, 5), class = b)),
+  family = binomial,
+  seed = 123)
+```
+
+:::
+
+
+**Generalized linear models**
+
+We can specify the type of model by two features
+    - Family: type of outcome (binomial, normal, Poisson, gamma)
+    - Link: relationship between mean parameter and predictor (identity, logic, log)
+
+- we have models in the form
+
+\[ Y_i \sim Dist(\mu_i, \tau)\]
+\[g(\mu_i) = \beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip}\]
+
+- $g()$ is called the link function
+- Distributions family ([exponential family](https://en.wikipedia.org/wiki/Exponential_family)) can be specified as Normal, Poisson, Binomial, Bernoulli, etc.
+
+-  Usually, we use the logit for binary data and gets odds ratios (logistic model)
+    -  If we use the log link, we can estimate relative risks
+    
+    
+::: {.workedexample data-latex=""}
+
+**Sample from priors in brms**
+
+-  We can specify in brms to generate samples from our specified prior as part of the output
+
+-  we can use these prior samples 
+    1.  to compare with the posteriors to see how much the prior is updated by the data 
+    2.  to check what information is in the prior
+
+-  using the pooled model as an example
+
+\[r_i \mid p_i, n_i \sim Bin(p_i, n_i)\]
+\[log(\frac{p_i}{1-p_i}) = \alpha\]
+\[\alpha \sim  N(0, \sigma = 5)\]
+
+```{r echo = T, eval=FALSE}
+fit1 <- brm(r | trials(n) ~ 1,
+  data = dat,
+  prior = prior(normal(0,5), class=Intercept),
+  family = binomial,
+  sample_prior = T, #asking brms to generate prior sample!
+  seed = 123)
+
+# saveRDS(fit1, "data/chap8_binary_1")
+```
+
+-  checking posterior results
+    -  computing posterior predicted probability of event (in this case the sensitivity of the CLIA test)
+
+```{r echo = T, warning=FALSE, message=FALSE}
+fit1 <- readRDS("data/chap8_binary_1")
+#posterior draws of log-odds estimate - the intercept;
+posterior <- posterior_samples(fit1)
+
+#posterior predicted probability of event;
+prob.pooled <- exp(posterior$b_Intercept)/(1+exp(posterior$b_Intercept))
+
+mean(prob.pooled)
+quantile(prob.pooled, c(0.025, 0.975))
+```
+
+-  what does the posterior output look like?
+
+```{r echo = F, message=FALSE, warning=FALSE}
+#checking brms posterior output;
+head(posterior) %>% 
+  datatable(
+  rownames = T,
+  class = "compact",
+  options = list(
+    dom = 't',
+    ordering = FALSE,
+    paging = FALSE,
+    searching = FALSE,
+    columnDefs = list(list(className = 'dt-center', 
+                      targets = 0:2))))
+```
+
+
+-  comparing prior and posterior distribution visually
+
+```{r echo = T, fig.align='center'}
+data.frame(Probability = c(inv_logit_scaled(posterior[,"b_Intercept"]),
+                inv_logit_scaled(posterior[,"prior_Intercept"])),
+           Type=rep(c("Posterior","Prior"),each=nrow(posterior))) %>%
+  ggplot(aes(x=Probability,fill=Type))+
+  geom_density(size=1,alpha=0.5)+
+  labs(title="Prior: alpha ~ N(0,5); probability = exp(alpha)/(1+exp(alpha))")+
+  theme_bw()+
+  scale_fill_manual(values=c("goldenrod","steelblue"))
+```
+:::
+
+### Logistic regression with predictor
+
+- Adding one predictor, age, for each study in modelling CLIA sensitivity
+
+- We have the following Bayesian model
+
+\[r_i \mid p_i, n_i \sim Bin(p_i, n_i)\]
+\[log(\frac{p_i}{1-p_i}) = \alpha + \beta \ age_i\]
+\[\alpha \sim  N(0, \sigma = 5)\]
+\[\beta \sim  N(0, \sigma = 5)\]
+
+-  $\beta$ is interpreted as the changes on the log-OR associate 1 unit increase in age.
+
+```{r echo = T, eval=FALSE}
+fit3 <- brm(r | trials(n) ~ age,
+  data = dat,
+  prior = c(prior(normal(0, 5), class = Intercept),
+             prior(normal(0, 5), class = b)),
+  family = binomial,
+  iter = 10000,
+  warmup = 8000,
+  cores = 4,
+  seed = 123)
+
+# saveRDS(fit3, "data/chap8_binary_3")
+```
+
+
+-  checking posterior results
+    -  computing posterior predicted probability of event (in this case the sensitivity of the CLIA test)
+
+
+```{r echo = T, warning=FALSE, message=FALSE}
+fit3 <- readRDS("data/chap8_binary_3")
+
+#posterior draws of log-odds estimate - the intercept;
+posterior <- posterior_samples(fit3)
+
+# beta posterior summary
+exp(mean(posterior$b_age))
+exp(quantile(posterior$b_age, c(0.025, 0.975)))
+
+#posterior predicted probability testing positive for each study;
+pp<-posterior_predict(fit3)
+mean.pp<-colMeans(pp)/dat$n
+lci.pp<- apply(pp, 2, function(x) quantile(x, 0.025))/dat$n
+uci.pp<- apply(pp, 2, function(x) quantile(x, 0.975))/dat$n
+
+pp.table <- data.frame(Study = dat$Study, 
+                       r = dat$r, 
+                       n = dat$n,
+                       Prob_obs = round(dat$r/dat$n,2),
+                       Prob_post = round(mean.pp,2),
+                       CI_post = paste0("(",round(lci.pp,2),",",round(uci.pp,2),")"))
+
+pp.table %>% 
+  datatable(
+  rownames = F,
+  class = "compact",
+  options = list(
+    dom = 't',
+    ordering = FALSE,
+    paging = FALSE,
+    searching = FALSE,
+    columnDefs = list(list(className = 'dt-center', 
+                      targets = 0:5))))
+```
+
+### Centring continous variable
+
+-  our model says that sensitivity is different across studies according to the average age
+
+\[P(\text{test positive}) = \frac{\exp(\alpha + \beta \ age)}{1+ \exp(\alpha + \beta \ age)}\]
+
+-  We could obtain a prediction at the average of the ages `mean(dat$age)` across the studies
+
+\[P(\text{test positive}) = \frac{\exp(\alpha + \beta \times mean( age)}{1+ \exp(\alpha + \beta \times mean( age))}\]
+
+
+-  We could "centre" age at its average so that the intercept refers to the probability at the average age
+
+\[r_i \mid p_i, n_i \sim Bin(p_i, n_i)\]
+\[log(\frac{p_i}{1-p_i}) = \alpha + \beta (\ age_i - mean(age))\]
+\[\alpha \sim  N(0, \sigma = 5)\]
+\[\beta \sim  N(0, \sigma = 5)\]
+
+-  Using a centred predictor also reduces correlation between intercept and slope. **This can speed up MCMC convergence in some models (computationally more efficient).**
+
+```{r echo=T, eval=FALSE}
+#centring variable age;
+dat$age.c <- dat$age - mean(dat$age)
+
+fit3c <- brm(r | trials(n) ~ age.c,
+            data=dat,
+            prior = c(prior(normal(0, 5), class = Intercept),
+                      prior(normal(0, 5), class = b)),
+            family = binomial,
+            iter = 5000,
+            warmup = 3000,
+            cores = 4,
+            seed = 123)
+
+# saveRDS(fit3c, "data/chap8_binary_3c")
+```
+
+-  comparing posterior distribution between centred and uncentred models
+
+```{r echo = T, warning=FALSE, message=FALSE}
+fit3c <- readRDS("data/chap8_binary_3c")
+
+#posterior draws of log-odds estimate - the intercept;
+posteriorc <- posterior_samples(fit3c)
+
+# beta posterior summary
+exp(mean(posteriorc$b_age))
+exp(quantile(posteriorc$b_age, c(0.025, 0.975)))
+```
+
+- posterior predicted probability testing positive for each study comparing between the centred and uncentred models
+
+- we can see the results are almost *identical* and we achieved this with only 5000 iterations for the centred model.
+
+```{r echo = F}
+#posterior predicted probability testing positive for each study;
+ppc<-posterior_predict(fit3c)
+
+pp.table <- data.frame(pp.table[,c(1,4:6)],
+                       c_Prob_post = round(colMeans(ppc)/dat$n,2),
+                       c_CI_post = paste0("(",round(apply(ppc, 2, function(x) quantile(x, 0.025))/dat$n,2),",",round(apply(ppc, 2, function(x) quantile(x, 0.975))/dat$n,2),")"))
+
+pp.table %>% 
+  datatable(
+  rownames = F,
+  class = "compact",
+  options = list(
+    dom = 't',
+    ordering = FALSE,
+    paging = FALSE,
+    searching = FALSE,
+    columnDefs = list(list(className = 'dt-center', 
+                      targets = 0:5))))
+```
+
+- we can investigate the correlation between two posterior regression parameters, $\alpha$ (intercept) and $\beta$ (log-OR for age).
+
+- The two parameters should be uncorrelated by model assumption! If you see visible correlation, you can consider thinning your MCMC or run more iterations.
+
+```{r echo = T, fig.align='center'}
+p1 <- ggplot(posterior, 
+             aes(b_Intercept, b_age))+
+  geom_point(alpha=.1)+
+  theme_bw()+
+  ggtitle("Uncentred age")
+
+p2 <- ggplot(posteriorc, aes(b_Intercept, b_age.c))+
+  geom_point(alpha=0.25)+
+  theme_bw()+
+  ggtitle("Centred age")
+
+ggarrange(p1,p2, nrow=1)
+
+```
+
+-  Model diagnostics
+
+1. Posterior predictive graphic check for model fit
+
+```{r echo = T, message=FALSE, warning=FALSE, fig.height=5, fig.align='center'}
+p1<-pp_check(fit3c, ndraws = 50)
+p2<-pp_check(fit3c, type = "stat_2d", stat = c("max", "min"))
+ggarrange(p1,p2, nrow = 1)
+```
+
+2. Checking for model fitted marginal effect of age on probability of testing positive versus crude observed probability of testing positive
+
+```{r echo = T, message=FALSE, warning=FALSE, fig.width=5, fig.height=5, fig.align='center'}
+plot.dat <- fit3c$data
+post_mu <- fitted(fit3c, scale = "response")
+colnames(post_mu) <- c("mu", "mu_se", "lwr_ci", "upr_ci")
+df_plot <- data.frame(plot.dat, post_mu)
+df_plot <- df_plot %>%
+           mutate(prob_obs = r/n,
+                  prob_est = mu/n,
+                  prob_lwr_ci = lwr_ci/n,
+                  prob_upr_ci = upr_ci/n)
+x_sd <- sd(df_plot$age.c)
+
+p <- ggplot(aes_string(x = "age.c",  y = "prob_obs"), data = df_plot) + 
+    # Add a layer of predictive intervals
+    geom_ribbon(aes(ymin = predict(loess(prob_lwr_ci~age.c, data = df_plot)), 
+                    ymax = predict(loess(prob_upr_ci ~age.c, data = df_plot))), fill = "skyblue", alpha = 0.3) + 
+    geom_smooth(aes(y = prob_est, col = "Model"), se = FALSE, 
+                method = "loess") + 
+    geom_smooth(aes(y = prob_obs, col = "Data"), se = FALSE, linetype = "dashed", 
+                method = "loess") + 
+    theme(legend.position = "bottom") + 
+    scale_color_manual(values = c("red", "blue"), name = "")
+
+p + theme_bw()
+
+```
+
+
+### hierarchical model revisit
+
+- Suppose that we do not believe that the sensitivity values are all the same
+
+- But we also believe that they are related, in the sense that they share a common underlying proportion but with deviations
+
+- Suppose also that our labelling of the studies is arbitrary (we would not worry if we had mixed the labels up)
+
+- Then the outcomes on the studies are exchangeable
+
+- We can treat them the same in the model, even though they are different studies
+
+**Exchangeable proportions**
+
+-  We can assume the following model
+
+\[logit(p_i) = \alpha_i = \alpha_0 + \epsilon_i\]
+
+-  where $\epsilon_i \sim N(0,\sigma^2)$
+-  this is equivalent as $\alpha_i \sim N(\alpha_0,\sigma^2)$
+
+-  The logit for study $i$ is near the average, but differs from it by some random amount $\epsilon_i$, where $\epsilon_i$ are restricted to be centred at zero with a normal distribution
+
+-  The logit for study $i$ is near the average, but varies with variance $\sigma^2$
+
+-  $\sigma^2$ can be estimated from the data and the model
+
+-  It answers the question: how much do the logit proportions vary around their average?
+
+-  We will often use this sort of prior structure for $\sigma$ 
+    1. half-t, $\sigma \sim T_3(0, scale)$
+    2. half-normal, $\sigma \sim N(0, scale)$
+
+-  We pick scale to be some smallish number (1,2,3)
+    - It favours small values, but allows values that are relatively large
+
+-  This is hierarchical random intercept model!
+-  Data level, $r_i \mid p_i, n_i \sim Bin(p_i(\alpha_i), n_i)$
+-  Structure prior, Parameters directly governing the observed data are one level up, $\alpha_i = \alpha_0 + \epsilon_i$
+-  hyperparameter, $\alpha_0 \sim  N(0, 10)$ and $\sigma ~ N(0, \sigma = 2)$
+
+-  By assuming that the $\alpha_i$ values come from a common distribution, we improve the precision of each estimate
+
+-  small scale specification of the prior can gain precision
+-  Imprecise sample estimates are "shrunk" towards the overall average
+    -  This shrinkage reflects the assumption that the estimates share the same overall mean
+    
+-  When there is less data for an estimate, it "borrows" more information from the overall mean
+
+-  Posterior means of each of the $\alpha_i$ in a random effect model are "shrunk" towards their overall mean $\alpha_0$ at the rate of $\sigma$
+
+-  The overall mean $\alpha_0$ contains information about the values of all the other $\alpha_i$.
+    -  The consequence: the posterior means of the $\alpha_i$ are influenced by all the other $\alpha_i$
+    -  Because of this correlation, Bayesian estimates are closer to the population mean than the observed sample
+    
+-  In the COVID testing example, this means that the posterior mean for study 1 depends to some extent on the data from all the other studies.
+    
+-  The Bayesian estimate can be seen as a compromise between
+    -  A fixed effects estimate where all studies estimate share exactly the same common logit proportion $\alpha_0$
+    -  A complete independence model, where the studies each estimate completely different logit proportion $\alpha_i$, based entirely on the observed data in that study
+    
+-  The posterior precision is higher than the sample precision (in other words, the posterior variance is smaller than the sample variance)
+    -  The \closer together " the studies (smaller $\sigma$), the more borrowing of strength
+    -  The \further apart" the studies (larger $\sigma$), the less borrowing of strength
+
+::: {.guidedexercise data-latex=""}
+
+**Run a random intercept model using brms** 
+
+```{r echo=T, eval=FALSE}
+
+fit4 <- brm(r | trials(n) ~ (1| Study) ,
+            data=dat,
+            prior = c(prior(normal(0,10), class=Intercept),
+                      prior(normal(0,2), class=sd)),
+            iter=10000,
+            warmup=8000,
+            cores = 4,
+            seed = 123,
+            family=binomial)
+
+# saveRDS(fit4, "data/chap8_binary_4")
+```
+
+-  comparing posterior distribution between centred and uncentred models
+
+```{r echo = T, warning=FALSE, message=FALSE}
+fit4 <- readRDS("data/chap8_binary_4")
+
+# posterior predicted sensitivity using fixed effect;
+s4 <- posterior_samples(fit4)
+predict(fit4)[,-2]/dat$n 
+
+# posterior predicted sensitivity including random effect
+
+# How would I predict the sensitivity in a NEW study
+# logit(p_i) = b_Intercept + e_i
+# e_i ~ N(0, sd_Study__Intercept))
+
+# logit(p_new) = b_Intercept + e_new
+# e_new ~ N(0, sd_Study__Intercept)
+
+newlogit <- s4$b_Intercept + rnorm(nrow(s4), 0, sd=s4$sd_Study__Intercept)
+averageLogit <- s4$b_Intercept
+hist(inv_logit_scaled(newlogit), nclass=50)
+quantile(inv_logit_scaled(newlogit), c(0.5, 0.025, 0.975))
+
+data.frame(Sensitivity=c(inv_logit_scaled(newlogit), #mixed effect;
+                         inv_logit_scaled(averageLogit)), #fixed effect;
+           Type=rep(c("New Study","Pooled Estimate"),each=nrow(s4))) %>%
+ggplot(aes(x=Sensitivity, fill=Type))+geom_density(alpha=0.25)+theme_bw()
+
+
+# Make plots of observed and fitted values
+Prob <- mean(inv_logit_scaled(s4[,"b_Intercept"]))
+CrI <- quantile(inv_logit_scaled(s4[,"b_Intercept"]), c(0.025, 0.975))
+Prob2 <-inv_logit_scaled(mean(s4[,"b_Intercept"]))
+data.frame(Size=dat$n, observed=dat$r/dat$n, 
+           posteriorCount=predict(fit4)[,1])%>%
+  mutate(PosteriorMean=posteriorCount/Size) %>%
+  mutate(SamplePrecision=Size/(observed*(1-observed))) %>%
+  ggplot(aes(observed, PosteriorMean,size=SamplePrecision))+
+  geom_point(alpha=0.5)+
+  geom_abline(slope=1, intercept=0,lty=3,col="blue")+
+  ylim(c(0.4,1))+
+  xlim(c(0.4,1))+
+  theme(aspect.ratio = 1)+
+  geom_hline(yintercept=Prob,lty=2,col="red",size=1)+
+  theme_bw()
+
+```
+
+:::
+
+
+**Seeds example**
+
+- Concerns the proportion of seeds that germinated on each of 21 plates
+
+- Plates are arranged according to a 2 by 2 factorial layout by seed and type of root extract.
+
+- $r_i$ and $n_i$ are the number of those germinated and the total number of seeds on the $i$th plate, $i=1, \ldots,21$.
+
+```{r echo=FALSE, fig.cap="Seed example data summary", fig.align='center'}
+knitr::include_graphics("images/seed_data.PNG")
+```
+
+-  There are two factors: seed and root extract
+
+-  A fixed effects model would simply be ($i$ index plate)
+
+\[logit(p_i) = \beta_0 + \beta_1 SEED_i + \beta_2 ROOT_i\]
+\[r_i \sim Bin(n_i, p_i)\]
+
+-  The mean (probability) depends entirely on the `treatment' received
+-  Variation in the $r_i$ are only due to binomial distribution variability
+
+**The table of expected values for logits for each seed/root combination**
+
+
+|        | ROOT = 0            | ROOT=1                       |
+|--------|---------------------|------------------------------|
+| SEED=0 | $\beta_0$           | $\beta_0 + \beta_2$          |
+| SEED=1 | $\beta_0 + \beta_1$ | $\beta_0 + \beta_1 + \beta_2$|
+
+
+-  Why might this not be sufficient?
+    - There could be additional unmeasured variables
+    - e.g., the plates are not identical, growing condition could be different, seeds might be from different parents, etc
+
+-  One solution is to introduce a random intercept $b_i$
+
+-  This is additional 'noise' that is added to each predicted logit(probability)
+
+\[logit(p_i) = \beta_0 + \beta_1 SEED_i + \beta_2 ROOT_i + b_i\]
+\[r_i \sim Bin(n_i, p_i)\]
+\[b_i \sim N(0, \sigma_b)\]
+
+-  The SEED and ROOT tell you what the expected value of the logit(p) is
+-  The random effect accounts for deviations from this expected value
+-  Some plates are higher than expected and some are lower
+
+-  The table of expected values for logits for each seed/root combination (remain the same!)
+
+-  We put a prior on the random effect $b_i \sim N(0,\sigma_b)$
+
+-  We put a prior on $\sigma_b$ (hyperparameter), since we do not know what amount of between-plate variation exists
+
+-  We estimate the between-plate variation by finding a posterior distribution for $\sigma_b$
+
+
+-  We have two levels of variation
+    -  Within-plate (binomial variation with parameter $p_i$)
+    -  Between-plate (on $logit(p_i)$ scale)
+    -  Some of the latter is explained by the predictors
+    -  The remaining is modelled by the random effect (normal variation) - random intercept
+
+-  We have a hierarchical logistic regression model!
+
+**Verify fit of random effect model**
+
+-  Assess the degree of extra-binomial variation by looking at the standard deviation
+
+-  Look at the posterior density plot for $\sigma_b$
+    -  **Is the density of $\sigma_b$ away from zero?**
+    -  **What is the posterior mean of $\sigma_b$**
+    
+-  More formally to determine if the random effect model fits better than standard fixed effect model: use WAIC and/or loo.
+
+
+::: {.guidedexercise data-latex=""}
+
+**Fit Seed example using brms**
+
+```{r echo=F}
+d <- read.csv("data/roots.csv",header=T)
+d$Seed<-as.factor(d$Seed)
+d$Root<-as.factor(d$Root)
+d$Plate<-as.factor(d$Plate)
+d$y<-as.factor(d$y)
+summary(d)
+head(d)
+```
+
+
+```{r echo=T, message=FALSE, warning=FALSE, eval=FALSE}
+fit5.1 <- brm(y ~ Root+Seed ,
+            data=d,
+            prior = c(prior(normal(0,10),class=Intercept),
+                      prior(normal(0,2), class=b)),
+            family=bernoulli,
+            iter = 10000,
+            warmup = 8000,
+            chains = 4,
+            cores = 5, 
+            seed = 123)
+
+fit5.2 <- brm(y ~ Root+Seed+(1|Plate),
+            data=d,
+            prior = c(prior(normal(0,10),class=Intercept),
+                      prior(normal(0,2), class=b),
+                      prior(normal(0,2), class = sd)),
+            family=bernoulli,
+            iter = 20000,
+            warmup = 18000,
+            chains = 4,
+            cores = 5, 
+            seed = 123)
+
+# saveRDS(fit5.1, file="data/chap8_binary_5.1")
+# saveRDS(fit5.2, file="data/chap8_binary_5.2")
+```
+
+1. Quick posterior summary
+
+```{r echo=T, message=FALSE, warning=FALSE}
+fit5.1 <- readRDS("data/chap8_binary_5.1")
+fit5.2 <- readRDS("data/chap8_binary_5.2")
+
+summary(fit5.1)
+summary(fit5.2)
+
+
+exp(fixef(fit5.1)[,-2])
+exp(fixef(fit5.2)[,-2])
+```
+
+2. Visualize Parameter Effects
+
+```{r echo = T, message=FALSE, warning=FALSE, fig.align='center', fig.width=7.5, fig.height=10}
+p1<-d %>%
+  modelr::data_grid(Seed, Root) %>%
+  add_fitted_draws(fit5.1) %>%
+  ggplot(aes(x = .value, y = interaction(Seed, Root))) +
+  stat_pointinterval(.width = c(.68, .95)) +
+  coord_flip() +
+  xlab("predicted probability") +
+  scale_x_continuous(breaks = seq(0, 1, 0.1),limits = c(0, 1))+
+  theme_bw()
+
+p2<- d %>%
+  modelr::data_grid(Seed, Root, Plate) %>%
+  add_fitted_draws(fit5.2) %>%
+  ggplot(aes(x = .value, y = interaction(Seed, Root))) +
+  stat_pointinterval(.width = c(.68, .95)) +
+  coord_flip() +
+  xlab("predicted probability") +
+  scale_x_continuous(breaks = seq(0, 1, 0.1),limits = c(0, 1))+
+  theme_bw()
+ggarrange(p1,p2, nrow = 2)
+```
+
+3. Compare models
+```{r echo = T, fig.align='center', fig.height=3.5}
+#checking sd posterior density;
+plot(fit5.2, variable = "sd_Plate__Intercept")
+```
+
+```{r echo = T, warning=FALSE, message=FALSE, eval=FALSE}
+waic1 <- waic(fit5.1)
+waic2 <- waic(fit5.2) #smaller wAIC better model!
+compare_ic(waic1, waic2)
+```
+
+:::
+
 ## Models for Count Data
+
+
+
+### R Session information {-}
+
+
+
+
+```{r echo=F}
+getS3method("print","sessionInfo")(sessionInfo()[c(1:7)])
+```
+

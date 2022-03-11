@@ -70,7 +70,7 @@ options(scipen = 999)
     2. **Linear relationship** We can check this assumption by examining marginal plots comparing the model predicted relationship between outcome and each continuous predictor and by examining the residual plot.
     3. **Normality of the residuals**
     4. **Homoscedasticity** Homoscedasticity in a model means that the residual is constant along the values of the dependent variable.
-    5. **Multidisciplinary** Multicollinearity is the phenomenon when a number of the explanatory variables are strongly correlated.
+    5. **Multicollinearity** Multicollinearity is the phenomenon when a number of the explanatory variables are strongly correlated.
     6. **Correctly specified regression model** This means that all relevant predictors for the response variable have been included in the model. This is often difficult to verify, but we can use posterior predictive distribution to check for regression fit.
     
 :::

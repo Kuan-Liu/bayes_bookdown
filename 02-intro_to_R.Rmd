@@ -42,8 +42,8 @@ To load the functions in a given package, we first have to install the package. 
 
 ```{r echo=T, warning=F, message=F}
   # install.packages(“tidyverse”, dependencies = T) #uncomment this line if you haven't installed this package;
-
-  library(tidyverse) # load package library
+  library(ggplot2) # load package library
+  library(dplyr)
 ```
 
 The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures (https://www.tidyverse.org/). The core packages are ggplot2 (data visualization), dplyr(dataframe manipulation), tidyr(data reshaping), readr(reading datasets), purrr (function and iterations) and tibble(dataframe).
