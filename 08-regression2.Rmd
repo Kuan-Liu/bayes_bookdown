@@ -70,13 +70,13 @@ ggarrange(p1, p2, nrow = 1)
 
 - Consider the logistic regression model $Y$ with covariates $X_i, \ldots, X_p$:
 
-\[ \log(\frac{\pi_i}{1-\pi_i}) =  \beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip} \]
+\[ \log(\frac{\pi_i}{1-\pi_i}) =  \beta_0 + \beta_1 X_{i1} + \ldots + \beta_p X_{ip} \]
 
 - logistic regression coefficients is interpreted as log odds ratio!
 
 - Furthermore, we can recalculate probability using the inverse logit function (aka, expit function)
 
-\[\pi_i = \frac{\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip})}{1+\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip})}\]
+\[\pi_i = \frac{\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip})}{1+\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_p X_{ip})}\]
 
 
 - Assumptions of logistic regression models
@@ -195,9 +195,9 @@ fit1 <- brm(r | trials(n) ~ 1,
 **2. Unpooled model with non-informative prior**
 
 \[r_i \mid p_i, n_i \sim Bin(p_i, n_i)\]
-\[log(\frac{p_i}{1-p_i}) = \alpha + \beta \ \text{Study}_i\]
+\[log(\frac{p_i}{1-p_i}) = \alpha + \beta_i \ \text{Study}_i\]
 \[\alpha \sim N(0, \sigma = 5)\]
-\[\beta \sim N(0, \sigma = 5)\]
+\[\beta_i \sim N(0, \sigma = 5)\]
 
 ```{r echo = T, eval=F}
 fit2 <- brm(r | trials(n) ~ Study,
@@ -379,7 +379,7 @@ pp.table %>%
 
 -  We could obtain a prediction at the average of the ages `mean(dat$age)` across the studies
 
-\[P(\text{test positive}) = \frac{\exp(\alpha + \beta \times mean( age)}{1+ \exp(\alpha + \beta \times mean( age))}\]
+\[P(\text{test positive}) = \frac{\exp(\alpha + \beta \times mean( age))}{1+ \exp(\alpha + \beta \times mean( age))}\]
 
 
 -  We could "centre" age at its average so that the intercept refers to the probability at the average age
@@ -535,21 +535,28 @@ p + theme_bw()
 
 -  It answers the question: how much do the logit proportions vary around their average?
 
+**Prior choice**
+
 -  We will often use this sort of prior structure for $\sigma$ 
     1. half-t, $\sigma \sim T_3(0, scale)$
     2. half-normal, $\sigma \sim N(0, scale)$
 
 -  We pick scale to be some smallish number (1,2,3)
     - It favours small values, but allows values that are relatively large
+    -  small scale specification of the prior can gain precision
+    
+    
+**Hierarchical model**
 
 -  This is hierarchical random intercept model!
 -  Data level, $r_i \mid p_i, n_i \sim Bin(p_i(\alpha_i), n_i)$
 -  Structure prior, Parameters directly governing the observed data are one level up, $\alpha_i = \alpha_0 + \epsilon_i$
 -  hyperparameter, $\alpha_0 \sim  N(0, 10)$ and $\sigma ~ N(0, \sigma = 2)$
 
--  By assuming that the $\alpha_i$ values come from a common distribution, we improve the precision of each estimate
+<!-- -  By assuming that the $\alpha_i$ values come from a common distribution, we improve the precision of each estimate -->
 
--  small scale specification of the prior can gain precision
+**Overall average and individual estimates**
+
 -  Imprecise sample estimates are "shrunk" towards the overall average
     -  This shrinkage reflects the assumption that the estimates share the same overall mean
     

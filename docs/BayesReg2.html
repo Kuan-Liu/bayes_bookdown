@@ -377,12 +377,12 @@ div.csl-indent {
 <ul>
 <li>Consider the logistic regression model <span class="math inline">\(Y\)</span> with covariates <span class="math inline">\(X_i, \ldots, X_p\)</span>:</li>
 </ul>
-<p><span class="math display">\[ \log(\frac{\pi_i}{1-\pi_i}) =  \beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip} \]</span></p>
+<p><span class="math display">\[ \log(\frac{\pi_i}{1-\pi_i}) =  \beta_0 + \beta_1 X_{i1} + \ldots + \beta_p X_{ip} \]</span></p>
 <ul>
 <li><p>logistic regression coefficients is interpreted as log odds ratio!</p></li>
 <li><p>Furthermore, we can recalculate probability using the inverse logit function (aka, expit function)</p></li>
 </ul>
-<p><span class="math display">\[\pi_i = \frac{\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip})}{1+\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip})}\]</span></p>
+<p><span class="math display">\[\pi_i = \frac{\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_1 X_{ip})}{1+\exp(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_p X_{ip})}\]</span></p>
 <ul>
 <li>Assumptions of logistic regression models
 <ol style="list-style-type: decimal">
@@ -400,8 +400,8 @@ div.csl-indent {
 <li><p>Each study reports observed positive chemiluminescent immunoassa (CLIA, <span class="math inline">\(r_i\)</span>) and number having positive reference standard reverse transcriptase polymerase chain reaction (RT-PCR, <span class="math inline">\(n_i\)</span>)</p></li>
 <li><p>Interest lies in summarizing this collection of values</p></li>
 </ul>
-<div id="htmlwidget-9fa2e5ea713cc515b420" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9fa2e5ea713cc515b420">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[65,209,158,44,46,13,15,144,432,69],[79,216,276,61,47,27,16,205,503,80],[71,65,52,62,73,52,68,55,60,48]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Study<\/th>\n      <th>r<\/th>\n      <th>n<\/th>\n      <th>age<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3]},{"className":"dt-right","targets":4},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-adbe3787190560df1d33" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-adbe3787190560df1d33">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[65,209,158,44,46,13,15,144,432,69],[79,216,276,61,47,27,16,205,503,80],[75,72,69,57,66,35,69,61,68,73]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Study<\/th>\n      <th>r<\/th>\n      <th>n<\/th>\n      <th>age<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3]},{"className":"dt-right","targets":4},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p><strong>Unpooled</strong></p>
 <ul>
 <li>recall from last week, We can assume a binomial likelihood for each study (unpooled),</li>
@@ -468,9 +468,9 @@ div.csl-indent {
 <span id="cb1-5"><a href="BayesReg2.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">123</span>)</span></code></pre></div>
 <p><strong>2. Unpooled model with non-informative prior</strong></p>
 <p><span class="math display">\[r_i \mid p_i, n_i \sim Bin(p_i, n_i)\]</span>
-<span class="math display">\[log(\frac{p_i}{1-p_i}) = \alpha + \beta \ \text{Study}_i\]</span>
+<span class="math display">\[log(\frac{p_i}{1-p_i}) = \alpha + \beta_i \ \text{Study}_i\]</span>
 <span class="math display">\[\alpha \sim N(0, \sigma = 5)\]</span>
-<span class="math display">\[\beta \sim N(0, \sigma = 5)\]</span></p>
+<span class="math display">\[\beta_i \sim N(0, \sigma = 5)\]</span></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="BayesReg2.html#cb2-1" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(r <span class="sc">|</span> <span class="fu">trials</span>(n) <span class="sc">~</span> Study,</span>
 <span id="cb2-2"><a href="BayesReg2.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
 <span id="cb2-3"><a href="BayesReg2.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span>  <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> Intercept),</span>
@@ -538,8 +538,8 @@ div.csl-indent {
 <ul>
 <li>what does the posterior output look like?</li>
 </ul>
-<div id="htmlwidget-cb8615d8472670961736" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cb8615d8472670961736">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],[1.34592609678414,1.28454906948583,1.34415950074388,1.39184540935794,1.39689495329276,1.32974744854582],[0.391327893705283,-7.03789425274545,-6.81959053190196,-3.49244487623223,4.67425712259199,-0.535442413567366],[-115.626854644715,-115.903290862193,-115.621618507106,-116.031592675718,-116.107345998752,-115.60785718242]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>b_Intercept<\/th>\n      <th>prior_Intercept<\/th>\n      <th>lp__<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2]},{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-67f600e9dee86d342926" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-67f600e9dee86d342926">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],[1.34592609678414,1.28454906948583,1.34415950074388,1.39184540935794,1.39689495329276,1.32974744854582],[0.391327893705283,-7.03789425274545,-6.81959053190196,-3.49244487623223,4.67425712259199,-0.535442413567366],[-115.626854644715,-115.903290862193,-115.621618507106,-116.031592675718,-116.107345998752,-115.60785718242]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>b_Intercept<\/th>\n      <th>prior_Intercept<\/th>\n      <th>lp__<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2]},{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
 <li>comparing prior and posterior distribution visually</li>
 </ul>
@@ -618,8 +618,8 @@ div.csl-indent {
 <span id="cb14-22"><a href="BayesReg2.html#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">searching =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb14-23"><a href="BayesReg2.html#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-center&#39;</span>, </span>
 <span id="cb14-24"><a href="BayesReg2.html#cb14-24" aria-hidden="true" tabindex="-1"></a>                      <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>))))</span></code></pre></div>
-<div id="htmlwidget-1ce1bb7c5632544e26e7" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1ce1bb7c5632544e26e7">{"x":{"filter":"none","vertical":false,"data":[["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[65,209,158,44,46,13,15,144,432,69],[79,216,276,61,47,27,16,205,503,80],[0.82,0.97,0.57,0.72,0.98,0.48,0.94,0.7,0.86,0.86],[0.84,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.72,0.83)","(0.54,0.7)","(0.64,0.85)","(0.64,0.89)","(0.48,0.85)","(0.62,1)","(0.72,0.83)","(0.84,0.92)","(0.84,0.98)"]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>r<\/th>\n      <th>n<\/th>\n      <th>Prob_obs<\/th>\n      <th>Prob_post<\/th>\n      <th>CI_post<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-dbdca761b72f64fb9075" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dbdca761b72f64fb9075">{"x":{"filter":"none","vertical":false,"data":[["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[65,209,158,44,46,13,15,144,432,69],[79,216,276,61,47,27,16,205,503,80],[0.82,0.97,0.57,0.72,0.98,0.48,0.94,0.7,0.86,0.86],[0.84,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.72,0.83)","(0.54,0.7)","(0.64,0.85)","(0.66,0.89)","(0.48,0.85)","(0.62,1)","(0.71,0.83)","(0.84,0.91)","(0.84,0.98)"]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>r<\/th>\n      <th>n<\/th>\n      <th>Prob_obs<\/th>\n      <th>Prob_post<\/th>\n      <th>CI_post<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="centring-continous-variable" class="section level3" number="7.1.2">
 <h3><span class="header-section-number">7.1.2</span> Centring continous variable</h3>
@@ -630,7 +630,7 @@ div.csl-indent {
 <ul>
 <li>We could obtain a prediction at the average of the ages <code>mean(dat$age)</code> across the studies</li>
 </ul>
-<p><span class="math display">\[P(\text{test positive}) = \frac{\exp(\alpha + \beta \times mean( age)}{1+ \exp(\alpha + \beta \times mean( age))}\]</span></p>
+<p><span class="math display">\[P(\text{test positive}) = \frac{\exp(\alpha + \beta \times mean( age))}{1+ \exp(\alpha + \beta \times mean( age))}\]</span></p>
 <ul>
 <li>We could “centre” age at its average so that the intercept refers to the probability at the average age</li>
 </ul>
@@ -673,8 +673,8 @@ div.csl-indent {
 <li><p>posterior predicted probability testing positive for each study comparing between the centred and uncentred models</p></li>
 <li><p>we can see the results are almost <em>identical</em> and we achieved this with only 5000 iterations for the centred model.</p></li>
 </ul>
-<div id="htmlwidget-e694095798ad2741b44e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e694095798ad2741b44e">{"x":{"filter":"none","vertical":false,"data":[["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[0.82,0.97,0.57,0.72,0.98,0.48,0.94,0.7,0.86,0.86],[0.84,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.72,0.83)","(0.54,0.7)","(0.64,0.85)","(0.64,0.89)","(0.48,0.85)","(0.62,1)","(0.72,0.83)","(0.84,0.92)","(0.84,0.98)"],[0.85,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.71,0.83)","(0.54,0.7)","(0.64,0.85)","(0.64,0.89)","(0.48,0.85)","(0.62,1)","(0.72,0.84)","(0.84,0.92)","(0.84,0.98)"]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>Prob_obs<\/th>\n      <th>Prob_post<\/th>\n      <th>CI_post<\/th>\n      <th>c_Prob_post<\/th>\n      <th>c_CI_post<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-d5c54896291edd62d50f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d5c54896291edd62d50f">{"x":{"filter":"none","vertical":false,"data":[["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[0.82,0.97,0.57,0.72,0.98,0.48,0.94,0.7,0.86,0.86],[0.84,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.72,0.83)","(0.54,0.7)","(0.64,0.85)","(0.66,0.89)","(0.48,0.85)","(0.62,1)","(0.71,0.83)","(0.84,0.91)","(0.84,0.98)"],[0.84,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.71,0.84)","(0.54,0.7)","(0.64,0.85)","(0.66,0.89)","(0.48,0.85)","(0.62,1)","(0.72,0.83)","(0.84,0.91)","(0.84,0.98)"]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>Prob_obs<\/th>\n      <th>Prob_post<\/th>\n      <th>CI_post<\/th>\n      <th>c_Prob_post<\/th>\n      <th>c_CI_post<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
 <li><p>we can investigate the correlation between two posterior regression parameters, <span class="math inline">\(\alpha\)</span> (intercept) and <span class="math inline">\(\beta\)</span> (log-OR for age).</p></li>
 <li><p>The two parameters should be uncorrelated by model assumption! If you see visible correlation, you can consider thinning your MCMC or run more iterations.</p></li>
@@ -751,21 +751,30 @@ div.csl-indent {
 <li><p>The logit for study <span class="math inline">\(i\)</span> is near the average, but varies with variance <span class="math inline">\(\sigma^2\)</span></p></li>
 <li><p><span class="math inline">\(\sigma^2\)</span> can be estimated from the data and the model</p></li>
 <li><p>It answers the question: how much do the logit proportions vary around their average?</p></li>
-<li><p>We will often use this sort of prior structure for <span class="math inline">\(\sigma\)</span></p>
+</ul>
+<p><strong>Prior choice</strong></p>
+<ul>
+<li>We will often use this sort of prior structure for <span class="math inline">\(\sigma\)</span>
 <ol style="list-style-type: decimal">
 <li>half-t, <span class="math inline">\(\sigma \sim T_3(0, scale)\)</span></li>
 <li>half-normal, <span class="math inline">\(\sigma \sim N(0, scale)\)</span></li>
 </ol></li>
-<li><p>We pick scale to be some smallish number (1,2,3)</p>
+<li>We pick scale to be some smallish number (1,2,3)
 <ul>
 <li>It favours small values, but allows values that are relatively large</li>
+<li>small scale specification of the prior can gain precision</li>
 </ul></li>
-<li><p>This is hierarchical random intercept model!</p></li>
-<li><p>Data level, <span class="math inline">\(r_i \mid p_i, n_i \sim Bin(p_i(\alpha_i), n_i)\)</span></p></li>
-<li><p>Structure prior, Parameters directly governing the observed data are one level up, <span class="math inline">\(\alpha_i = \alpha_0 + \epsilon_i\)</span></p></li>
-<li><p>hyperparameter, <span class="math inline">\(\alpha_0 \sim N(0, 10)\)</span> and <span class="math inline">\(\sigma ~ N(0, \sigma = 2)\)</span></p></li>
-<li><p>By assuming that the <span class="math inline">\(\alpha_i\)</span> values come from a common distribution, we improve the precision of each estimate</p></li>
-<li><p>small scale specification of the prior can gain precision</p></li>
+</ul>
+<p><strong>Hierarchical model</strong></p>
+<ul>
+<li>This is hierarchical random intercept model!</li>
+<li>Data level, <span class="math inline">\(r_i \mid p_i, n_i \sim Bin(p_i(\alpha_i), n_i)\)</span></li>
+<li>Structure prior, Parameters directly governing the observed data are one level up, <span class="math inline">\(\alpha_i = \alpha_0 + \epsilon_i\)</span></li>
+<li>hyperparameter, <span class="math inline">\(\alpha_0 \sim N(0, 10)\)</span> and <span class="math inline">\(\sigma ~ N(0, \sigma = 2)\)</span></li>
+</ul>
+<!-- -  By assuming that the $\alpha_i$ values come from a common distribution, we improve the precision of each estimate -->
+<p><strong>Overall average and individual estimates</strong></p>
+<ul>
 <li><p>Imprecise sample estimates are “shrunk” towards the overall average</p>
 <ul>
 <li>This shrinkage reflects the assumption that the estimates share the same overall mean</li>
@@ -811,16 +820,16 @@ div.csl-indent {
 <span id="cb24-4"><a href="BayesReg2.html#cb24-4" aria-hidden="true" tabindex="-1"></a>s4 <span class="ot">&lt;-</span> <span class="fu">posterior_samples</span>(fit4)</span>
 <span id="cb24-5"><a href="BayesReg2.html#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(fit4)[,<span class="sc">-</span><span class="dv">2</span>]<span class="sc">/</span>dat<span class="sc">$</span>n </span></code></pre></div>
 <pre><code>##        Estimate      Q2.5     Q97.5
-##  [1,] 0.8244351 0.6962025 0.9240506
-##  [2,] 0.9619751 0.9212963 0.9907407
-##  [3,] 0.5756834 0.4963768 0.6557971
-##  [4,] 0.7282049 0.5573770 0.8688525
-##  [5,] 0.9561250 0.8510638 1.0000000
-##  [6,] 0.5216759 0.2592593 0.7777778
-##  [7,] 0.9056953 0.6875000 1.0000000
-##  [8,] 0.7047762 0.6146341 0.7853659
-##  [9,] 0.8586953 0.8131213 0.9005964
-## [10,] 0.8602688 0.7500000 0.9500000</code></pre>
+##  [1,] 0.8234953 0.6962025 0.9240506
+##  [2,] 0.9621615 0.9212963 0.9907407
+##  [3,] 0.5757763 0.4927536 0.6557971
+##  [4,] 0.7290656 0.5573770 0.8688525
+##  [5,] 0.9562979 0.8510638 1.0000000
+##  [6,] 0.5206250 0.2592593 0.7777778
+##  [7,] 0.9052344 0.6875000 1.0000000
+##  [8,] 0.7040921 0.6146341 0.7853659
+##  [9,] 0.8588626 0.8151093 0.9005964
+## [10,] 0.8612969 0.7500000 0.9500000</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="BayesReg2.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior predicted sensitivity including random effect</span></span>
 <span id="cb26-2"><a href="BayesReg2.html#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="BayesReg2.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># How would I predict the sensitivity in a NEW study</span></span>
@@ -836,7 +845,7 @@ div.csl-indent {
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="BayesReg2.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="fu">inv_logit_scaled</span>(newlogit), <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##       50%      2.5%     97.5% 
-## 0.8391730 0.2288060 0.9908092</code></pre>
+## 0.8382078 0.2337679 0.9905348</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="BayesReg2.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">Sensitivity=</span><span class="fu">c</span>(<span class="fu">inv_logit_scaled</span>(newlogit), <span class="co">#mixed effect;</span></span>
 <span id="cb29-2"><a href="BayesReg2.html#cb29-2" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">inv_logit_scaled</span>(averageLogit)), <span class="co">#fixed effect;</span></span>
 <span id="cb29-3"><a href="BayesReg2.html#cb29-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">Type=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;New Study&quot;</span>,<span class="st">&quot;Pooled Estimate&quot;</span>),<span class="at">each=</span><span class="fu">nrow</span>(s4))) <span class="sc">%&gt;%</span></span>
