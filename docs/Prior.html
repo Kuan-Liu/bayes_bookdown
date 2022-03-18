@@ -24,7 +24,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-03-04" />
+<meta name="date" content="2022-03-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -55,7 +55,7 @@
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.21/datatables.js"></script>
+<script src="libs/datatables-binding-0.20/datatables.js"></script>
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
@@ -315,8 +315,27 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-binary-data"><i class="fa fa-check"></i><b>7.1</b> Models for Binary Data</a></li>
-<li class="chapter" data-level="7.2" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-count-data"><i class="fa fa-check"></i><b>7.2</b> Models for Count Data</a></li>
+<li class="chapter" data-level="7.1" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-binary-data"><i class="fa fa-check"></i><b>7.1</b> Models for Binary Data</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="BayesReg2.html"><a href="BayesReg2.html#logistic-regression-with-predictor"><i class="fa fa-check"></i><b>7.1.1</b> Logistic regression with predictor</a></li>
+<li class="chapter" data-level="7.1.2" data-path="BayesReg2.html"><a href="BayesReg2.html#centring-continous-variable"><i class="fa fa-check"></i><b>7.1.2</b> Centring continous variable</a></li>
+<li class="chapter" data-level="7.1.3" data-path="BayesReg2.html"><a href="BayesReg2.html#hierarchical-model-revisit"><i class="fa fa-check"></i><b>7.1.3</b> hierarchical model revisit</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-count-data"><i class="fa fa-check"></i><b>7.2</b> Models for Count Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="BayesReg2.html"><a href="BayesReg2.html#r-session-information-6"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="BayesMeta.html"><a href="BayesMeta.html"><i class="fa fa-check"></i><b>8</b> Bayesian Meta-Analysis</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="BayesMeta.html"><a href="BayesMeta.html#introduction"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+<li class="chapter" data-level="8.2" data-path="BayesMeta.html"><a href="BayesMeta.html#bayesian-inference-1"><i class="fa fa-check"></i><b>8.2</b> Bayesian inference</a></li>
+<li class="chapter" data-level="8.3" data-path="BayesMeta.html"><a href="BayesMeta.html#continuous-data"><i class="fa fa-check"></i><b>8.3</b> Continuous data</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="BayesMeta.html"><a href="BayesMeta.html#fitting-a-ma-with-brms"><i class="fa fa-check"></i><b>8.3.1</b> Fitting a MA with brms</a></li>
+<li class="chapter" data-level="8.3.2" data-path="BayesMeta.html"><a href="BayesMeta.html#meta-regression"><i class="fa fa-check"></i><b>8.3.2</b> Meta-regression</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="BayesMeta.html"><a href="BayesMeta.html#other-types-of-data"><i class="fa fa-check"></i><b>8.4</b> Other types of data</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -829,30 +848,33 @@ Figure 4.1: In-hospital mortality. Forest plot showing pooled analysis of four r
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
 <div id="r-session-information-3" class="section level3 unnumbered">
 <h3>R Session information</h3>
-<pre><code>## R version 4.0.5 (2021-03-31)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19044)
+<pre><code>## R version 4.1.2 (2021-11-01)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 20.04.3 LTS
 ## 
 ## Matrix products: 
 ## 
 ## locale:
-## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
-## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
-## [5] LC_TIME=English_Canada.1252    
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
 ## [1] grid      stats     graphics  grDevices utils     datasets  methods  
 ## [8] base     
 ## 
 ## other attached packages:
-##  [1] extraDistr_1.9.1    MCMCpack_1.6-0      MASS_7.3-53.1      
+##  [1] extraDistr_1.9.1    MCMCpack_1.6-1      MASS_7.3-54        
 ##  [4] coda_0.19-4         SHELF_1.8.0         bayesplot_1.8.1    
 ##  [7] ggmcmc_1.5.1.1      truncnorm_1.0-8     ggpubr_0.4.0       
 ## [10] tweenr_1.0.2        gganimate_1.0.7     VennDiagram_1.7.1  
-## [13] futile.logger_1.4.3 brms_2.16.3         Rcpp_1.0.7         
-## [16] forcats_0.5.1       stringr_1.4.0       dplyr_1.0.8        
-## [19] purrr_0.3.4         readr_2.1.2         tidyr_1.2.0        
-## [22] tibble_3.1.6        ggplot2_3.3.5       tidyverse_1.3.1</code></pre>
+## [13] futile.logger_1.4.3 forcats_0.5.1       stringr_1.4.0      
+## [16] purrr_0.3.4         readr_1.4.0         tidyr_1.2.0        
+## [19] tibble_3.1.6        tidyverse_1.3.1     brms_2.16.3        
+## [22] Rcpp_1.0.7          dplyr_1.0.8         ggplot2_3.3.5</code></pre>
 
 </div>
 </div>

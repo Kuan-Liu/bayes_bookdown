@@ -24,14 +24,14 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-03-04" />
+<meta name="date" content="2022-03-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="BayesReg2.html"/>
+<link rel="prev" href="BayesMeta.html"/>
 
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -55,7 +55,7 @@
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.21/datatables.js"></script>
+<script src="libs/datatables-binding-0.20/datatables.js"></script>
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
@@ -315,8 +315,27 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-binary-data"><i class="fa fa-check"></i><b>7.1</b> Models for Binary Data</a></li>
-<li class="chapter" data-level="7.2" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-count-data"><i class="fa fa-check"></i><b>7.2</b> Models for Count Data</a></li>
+<li class="chapter" data-level="7.1" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-binary-data"><i class="fa fa-check"></i><b>7.1</b> Models for Binary Data</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="BayesReg2.html"><a href="BayesReg2.html#logistic-regression-with-predictor"><i class="fa fa-check"></i><b>7.1.1</b> Logistic regression with predictor</a></li>
+<li class="chapter" data-level="7.1.2" data-path="BayesReg2.html"><a href="BayesReg2.html#centring-continous-variable"><i class="fa fa-check"></i><b>7.1.2</b> Centring continous variable</a></li>
+<li class="chapter" data-level="7.1.3" data-path="BayesReg2.html"><a href="BayesReg2.html#hierarchical-model-revisit"><i class="fa fa-check"></i><b>7.1.3</b> hierarchical model revisit</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-count-data"><i class="fa fa-check"></i><b>7.2</b> Models for Count Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="BayesReg2.html"><a href="BayesReg2.html#r-session-information-6"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="BayesMeta.html"><a href="BayesMeta.html"><i class="fa fa-check"></i><b>8</b> Bayesian Meta-Analysis</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="BayesMeta.html"><a href="BayesMeta.html#introduction"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+<li class="chapter" data-level="8.2" data-path="BayesMeta.html"><a href="BayesMeta.html#bayesian-inference-1"><i class="fa fa-check"></i><b>8.2</b> Bayesian inference</a></li>
+<li class="chapter" data-level="8.3" data-path="BayesMeta.html"><a href="BayesMeta.html#continuous-data"><i class="fa fa-check"></i><b>8.3</b> Continuous data</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="BayesMeta.html"><a href="BayesMeta.html#fitting-a-ma-with-brms"><i class="fa fa-check"></i><b>8.3.1</b> Fitting a MA with brms</a></li>
+<li class="chapter" data-level="8.3.2" data-path="BayesMeta.html"><a href="BayesMeta.html#meta-regression"><i class="fa fa-check"></i><b>8.3.2</b> Meta-regression</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="BayesMeta.html"><a href="BayesMeta.html#other-types-of-data"><i class="fa fa-check"></i><b>8.4</b> Other types of data</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -344,6 +363,9 @@ div.csl-indent {
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div class="csl-entry">
+Bastos, Mayara Lisboa, Gamuchirai Tavaziva, Syed Kunal Abidi, Jonathon R Campbell, Louis-Patrick Haraoui, James C Johnston, Zhiyi Lan, et al. 2020. <span>“Diagnostic Accuracy of Serological Tests for Covid-19: Systematic Review and Meta-Analysis.”</span> <em>Bmj</em> 370.
+</div>
+<div class="csl-entry">
 Bayes, Thomas. 1763. <span>“LII. An Essay Towards Solving a Problem in the Doctrine of Chances. By the Late Rev. Mr. Bayes, FRS Communicated by Mr. Price, in a Letter to John Canton, AMFR s.”</span> <em>Philosophical Transactions of the Royal Society of London</em>, no. 53: 370–418.
 </div>
 <div class="csl-entry">
@@ -353,7 +375,16 @@ Bürkner, Paul-Christian. 2017. <span>“Advanced Bayesian Multilevel Modeling w
 Cardinal, J Scott. 2019. <span>“Sets, Graphs, and Things We Can See: A Formal Combinatorial Ontology for Empirical Intra-Site Analysis.”</span> <em>Journal of Computer Applications in Archaeology</em> 2 (1).
 </div>
 <div class="csl-entry">
+Carlin, John B. 1992. <span>“Meta-Analysis for 2<span class="math inline">\(\times\)</span> 2 Tables: A Bayesian Approach.”</span> <em>Statistics in Medicine</em> 11 (2): 141–58.
+</div>
+<div class="csl-entry">
+Colditz, Graham A, Timothy F Brewer, Catherine S Berkey, Mary E Wilson, Elisabeth Burdick, Harvey V Fineberg, and Frederick Mosteller. 1994. <span>“Efficacy of BCG Vaccine in the Prevention of Tuberculosis: Meta-Analysis of the Published Literature.”</span> <em>Jama</em> 271 (9): 698–702.
+</div>
+<div class="csl-entry">
 Cooke, Roger et al. 1991. <em>Experts in Uncertainty: Opinion and Subjective Probability in Science</em>. Oxford University Press on Demand.
+</div>
+<div class="csl-entry">
+Dias, S, NJ Welton, AJ Sutton, and A Ades. 2011. <span>“A General Linear Modelling Framework for Pair-Wise and Network Meta-Analysis of Randomised Controlled Trials (Last Updated September 2016).”</span> NICE.
 </div>
 <div class="csl-entry">
 Evans, Michael J, and Jeffrey S Rosenthal. 2004. <em>Probability and Statistics: The Science of Uncertainty</em>. Macmillan.
@@ -372,6 +403,9 @@ Goligher, Ewan C, George Tomlinson, David Hajage, Duminda N Wijeysundera, Eddy F
 </div>
 <div class="csl-entry">
 Hernández, Glenn, Gustavo A Ospina-Tascón, Lucas Petri Damiani, Elisa Estenssoro, Arnaldo Dubin, Javier Hurtado, Gilberto Friedman, et al. 2019. <span>“Effect of a Resuscitation Strategy Targeting Peripheral Perfusion Status Vs Serum Lactate Levels on 28-Day Mortality Among Patients with Septic Shock: The ANDROMEDA-SHOCK Randomized Clinical Trial.”</span> <em>Jama</em> 321 (7): 654–64.
+</div>
+<div class="csl-entry">
+Higgins, Julian PT, Simon G Thompson, and David J Spiegelhalter. 2009. <span>“A Re-Evaluation of Random-Effects Meta-Analysis.”</span> <em>Journal of the Royal Statistical Society: Series A (Statistics in Society)</em> 172 (1): 137–59.
 </div>
 <div class="csl-entry">
 Hoffman, Matthew D, Andrew Gelman, et al. 2014. <span>“The No-u-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo.”</span> <em>J. Mach. Learn. Res.</em> 15 (1): 1593–623.
@@ -446,7 +480,7 @@ Wickham, Hadley. 2015. <em>R Packages: Organize, Test, Document, and Share Your 
           </div>
         </div>
       </div>
-<a href="BayesReg2.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="BayesMeta.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>

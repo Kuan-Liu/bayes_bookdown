@@ -97,7 +97,7 @@ ggarrange(p1, p2, nrow = 1)
 
 -  Interest lies in summarizing this collection of values
 
-```{r echo=FALSE}
+```{r echo=FALSE,eval=T}
 dat <- read.table("data/COVIDtest.txt", 
                   sep = "",
                   header=T)

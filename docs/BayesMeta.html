@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Session 8 Bayesian Meta-Analysis | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research</title>
+  <meta name="description" content="Course notes for HAD5314H Winter 2022" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Session 8 Bayesian Meta-Analysis | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://kuan-liu.github.io/bayes_bookdown/" />
+  
+  <meta property="og:description" content="Course notes for HAD5314H Winter 2022" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Session 8 Bayesian Meta-Analysis | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
+  
+  <meta name="twitter:description" content="Course notes for HAD5314H Winter 2022" />
+  
+
+<meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
+
+
+<meta name="date" content="2022-03-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="BayesReg2.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.20/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">HAD5314H - Winter 2022 </a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>University of Toronto Statement of Acknowledgment of Traditional Land</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html"><i class="fa fa-check"></i>Course Syllabus</a>
+<ul>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-info"><i class="fa fa-check"></i>Course Info</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-description"><i class="fa fa-check"></i>Course Description</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-textbook-and-structure"><i class="fa fa-check"></i>Course Textbook and Structure</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#calendar-and-outline"><i class="fa fa-check"></i>Calendar and Outline</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#accessibility-and-accommodations"><i class="fa fa-check"></i>Accessibility and Accommodations</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#academic-integrity"><i class="fa fa-check"></i>Academic Integrity</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#key-resources-and-supports-for-dslph-graduate-students"><i class="fa fa-check"></i>Key Resources and Supports for DSLPH Graduate Students</a></li>
+<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="into.html"><a href="into.html"><i class="fa fa-check"></i><b>1</b> Introduction to the course</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="into.html"><a href="into.html#about-me"><i class="fa fa-check"></i><b>1.1</b> About me</a></li>
+<li class="chapter" data-level="1.2" data-path="into.html"><a href="into.html#syllabus"><i class="fa fa-check"></i><b>1.2</b> Syllabus</a></li>
+<li class="chapter" data-level="1.3" data-path="into.html"><a href="into.html#some-history"><i class="fa fa-check"></i><b>1.3</b> Some history</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="into.html"><a href="into.html#bayesian-history"><i class="fa fa-check"></i><b>1.3.1</b> Bayesian history</a></li>
+<li class="chapter" data-level="1.3.2" data-path="into.html"><a href="into.html#history-of-this-course"><i class="fa fa-check"></i><b>1.3.2</b> History of this course</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="into.html"><a href="into.html#thinking-like-a-bayesian-using-the-concept-of-probability"><i class="fa fa-check"></i><b>1.4</b> Thinking like a Bayesian using the concept of probability</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="into.html"><a href="into.html#probability-is-not-unitary"><i class="fa fa-check"></i><b>1.4.1</b> Probability is not unitary</a></li>
+<li class="chapter" data-level="1.4.2" data-path="into.html"><a href="into.html#bayes-rule"><i class="fa fa-check"></i><b>1.4.2</b> Bayes’ Rule</a></li>
+<li class="chapter" data-level="1.4.3" data-path="into.html"><a href="into.html#the-scientific-method-in-steps"><i class="fa fa-check"></i><b>1.4.3</b> The Scientific Method in steps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html"><i class="fa fa-check"></i>Lab1 Getting started with R &amp; RStudio</a>
+<ul>
+<li class="chapter" data-level="1.5" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-and-rstudio-installation"><i class="fa fa-check"></i><b>1.5</b> R and RStudio Installation</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#windows-operating-system"><i class="fa fa-check"></i><b>1.5.1</b> Windows operating system</a></li>
+<li class="chapter" data-level="1.5.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#macos-operating-system"><i class="fa fa-check"></i><b>1.5.2</b> macOS operating system</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-packages"><i class="fa fa-check"></i><b>1.6</b> R Packages</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#bayesian-analysis-in-r-using-brms-package"><i class="fa fa-check"></i><b>1.6.1</b> Bayesian Analysis in R using brms package</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-in-rstudio"><i class="fa fa-check"></i><b>1.7</b> Working in RStudio</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#rstudio-layout"><i class="fa fa-check"></i><b>1.7.1</b> RStudio layout</a></li>
+<li class="chapter" data-level="1.7.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#customization"><i class="fa fa-check"></i><b>1.7.2</b> Customization</a></li>
+<li class="chapter" data-level="1.7.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-directory"><i class="fa fa-check"></i><b>1.7.3</b> Working directory</a></li>
+<li class="chapter" data-level="1.7.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#getting-help-with-r"><i class="fa fa-check"></i><b>1.7.4</b> Getting help with R</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#basic-r-a-crash-introduction"><i class="fa fa-check"></i><b>1.8</b> Basic R (a crash introduction)</a>
+<ul>
+<li class="chapter" data-level="1.8.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#arithmetic"><i class="fa fa-check"></i><b>1.8.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="1.8.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#vectors"><i class="fa fa-check"></i><b>1.8.2</b> Vectors</a></li>
+<li class="chapter" data-level="1.8.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#data-frame---the-titanic-dataset"><i class="fa fa-check"></i><b>1.8.3</b> Data frame - The Titanic dataset</a></li>
+<li class="chapter" data-level="1.8.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#simple-plots"><i class="fa fa-check"></i><b>1.8.4</b> Simple plots</a></li>
+<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-session-information"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="prob.html"><a href="prob.html"><i class="fa fa-check"></i><b>2</b> Probability, random variables and distributions</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="prob.html"><a href="prob.html#probability"><i class="fa fa-check"></i><b>2.1</b> Probability</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="prob.html"><a href="prob.html#venn-diagrams"><i class="fa fa-check"></i><b>2.1.1</b> Venn Diagrams</a></li>
+<li class="chapter" data-level="2.1.2" data-path="prob.html"><a href="prob.html#probability-rules"><i class="fa fa-check"></i><b>2.1.2</b> Probability Rules</a></li>
+<li class="chapter" data-level="2.1.3" data-path="prob.html"><a href="prob.html#how-to-define-and-assign-probabilities-in-general"><i class="fa fa-check"></i><b>2.1.3</b> How to define and assign probabilities in general?</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="prob.html"><a href="prob.html#probability-distributions"><i class="fa fa-check"></i><b>2.2</b> Probability Distributions</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="prob.html"><a href="prob.html#probability-density-functions"><i class="fa fa-check"></i><b>2.2.1</b> Probability density functions</a></li>
+<li class="chapter" data-level="2.2.2" data-path="prob.html"><a href="prob.html#discrete-distributions"><i class="fa fa-check"></i><b>2.2.2</b> Discrete Distributions</a></li>
+<li class="chapter" data-level="2.2.3" data-path="prob.html"><a href="prob.html#continous-distributions"><i class="fa fa-check"></i><b>2.2.3</b> Continous Distributions</a></li>
+<li class="chapter" data-level="" data-path="prob.html"><a href="prob.html#r-session-information-1"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>3</b> Introduction to Bayesian inference</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="bayes.html"><a href="bayes.html#classical-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> Classical frequentist approach</a></li>
+<li class="chapter" data-level="3.2" data-path="bayes.html"><a href="bayes.html#introduction-to-bayesian-approach"><i class="fa fa-check"></i><b>3.2</b> Introduction to Bayesian approach</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="bayes.html"><a href="bayes.html#review-from-session-1"><i class="fa fa-check"></i><b>3.2.1</b> Review from session 1</a></li>
+<li class="chapter" data-level="3.2.2" data-path="bayes.html"><a href="bayes.html#the-beta-binomial-model"><i class="fa fa-check"></i><b>3.2.2</b> The Beta-binomial model</a></li>
+<li class="chapter" data-level="3.2.3" data-path="bayes.html"><a href="bayes.html#the-normal-normal-model"><i class="fa fa-check"></i><b>3.2.3</b> The Normal-normal model</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="bayes.html"><a href="bayes.html#summary-of-conjugate-priors-models"><i class="fa fa-check"></i><b>3.3</b> Summary of Conjugate priors &amp; models</a></li>
+<li class="chapter" data-level="3.4" data-path="bayes.html"><a href="bayes.html#why-bayesian-statistical-estimation-revisit"><i class="fa fa-check"></i><b>3.4</b> Why Bayesian: Statistical Estimation Revisit</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="bayes.html"><a href="bayes.html#classic-frequentist-inference"><i class="fa fa-check"></i><b>3.4.1</b> Classic Frequentist Inference</a></li>
+<li class="chapter" data-level="3.4.2" data-path="bayes.html"><a href="bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>3.4.2</b> Bayesian Inference</a></li>
+<li class="chapter" data-level="" data-path="bayes.html"><a href="bayes.html#r-session-information-2"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="Prior.html"><a href="Prior.html"><i class="fa fa-check"></i><b>4</b> Prior Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="Prior.html"><a href="Prior.html#choosing-priors"><i class="fa fa-check"></i><b>4.1</b> Choosing priors</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="Prior.html"><a href="Prior.html#eliciting-priors-from-experts"><i class="fa fa-check"></i><b>4.1.1</b> Eliciting priors from experts</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="Prior.html"><a href="Prior.html#non-informative-or-reference-priors"><i class="fa fa-check"></i><b>4.2.1</b> “Non-informative” or “reference” priors</a></li>
+<li class="chapter" data-level="4.2.2" data-path="Prior.html"><a href="Prior.html#minimally-informative-prior"><i class="fa fa-check"></i><b>4.2.2</b> Minimally informative prior</a></li>
+<li class="chapter" data-level="4.2.3" data-path="Prior.html"><a href="Prior.html#skeptical-prior"><i class="fa fa-check"></i><b>4.2.3</b> Skeptical Prior</a></li>
+<li class="chapter" data-level="4.2.4" data-path="Prior.html"><a href="Prior.html#optimisticenthusiastic-prior"><i class="fa fa-check"></i><b>4.2.4</b> Optimistic/enthusiastic Prior</a></li>
+<li class="chapter" data-level="4.2.5" data-path="Prior.html"><a href="Prior.html#evaluating-priors"><i class="fa fa-check"></i><b>4.2.5</b> Evaluating Priors?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="Prior.html"><a href="Prior.html#historical-data-meta-analysis"><i class="fa fa-check"></i><b>4.3</b> Historical data (meta-analysis)</a></li>
+<li class="chapter" data-level="4.4" data-path="Prior.html"><a href="Prior.html#hierarchical-priors-and-shrinkage-priors"><i class="fa fa-check"></i><b>4.4</b> Hierarchical priors and shrinkage priors</a>
+<ul>
+<li class="chapter" data-level="" data-path="Prior.html"><a href="Prior.html#r-session-information-3"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="BayesMCMC.html"><a href="BayesMCMC.html"><i class="fa fa-check"></i><b>5</b> Bayesian estimation with MCMC</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#introduction-to-markov-chain-monte-carlo-methods"><i class="fa fa-check"></i><b>5.1</b> Introduction to Markov Chain Monte Carlo Methods</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#gibbs-sampling"><i class="fa fa-check"></i><b>5.1.1</b> Gibbs sampling</a></li>
+<li class="chapter" data-level="5.1.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#metropolis-algorithm"><i class="fa fa-check"></i><b>5.1.2</b> Metropolis algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#mcmc-diganostics---assess-convergence"><i class="fa fa-check"></i><b>5.2</b> MCMC diganostics - assess convergence</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#acceptance-rate"><i class="fa fa-check"></i><b>5.2.1</b> Acceptance Rate</a></li>
+<li class="chapter" data-level="5.2.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#diagnostics-using-multiple-chains"><i class="fa fa-check"></i><b>5.2.2</b> Diagnostics Using Multiple Chains</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-modelling-with-brms"><i class="fa fa-check"></i><b>5.3</b> Example Bayesian modelling with brms</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-logistic-regression-model"><i class="fa fa-check"></i><b>5.3.1</b> Example Bayesian logistic regression model</a></li>
+<li class="chapter" data-level="" data-path="BayesMCMC.html"><a href="BayesMCMC.html#r-session-information-4"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="BayesReg1.html"><a href="BayesReg1.html"><i class="fa fa-check"></i><b>6</b> Bayesian Regression I</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="BayesReg1.html"><a href="BayesReg1.html#normal-models-and-linear-regression"><i class="fa fa-check"></i><b>6.1</b> Normal Models and Linear Regression</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="BayesReg1.html"><a href="BayesReg1.html#one-sample-and-two-sample-normal-regression"><i class="fa fa-check"></i><b>6.1.1</b> One-sample and two-sample normal regression</a></li>
+<li class="chapter" data-level="6.1.2" data-path="BayesReg1.html"><a href="BayesReg1.html#linear-regression"><i class="fa fa-check"></i><b>6.1.2</b> Linear regression</a></li>
+<li class="chapter" data-level="6.1.3" data-path="BayesReg1.html"><a href="BayesReg1.html#model-diagnostics"><i class="fa fa-check"></i><b>6.1.3</b> Model diagnostics</a></li>
+<li class="chapter" data-level="6.1.4" data-path="BayesReg1.html"><a href="BayesReg1.html#model-comparision"><i class="fa fa-check"></i><b>6.1.4</b> Model comparision</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="BayesReg1.html"><a href="BayesReg1.html#clustered-data-multi-level"><i class="fa fa-check"></i><b>6.2.1</b> Clustered data (Multi-level)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization"><i class="fa fa-check"></i><b>6.3</b> Regression regularization</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="BayesReg1.html"><a href="BayesReg1.html#shrinkage-priors-in-action"><i class="fa fa-check"></i><b>6.3.1</b> Shrinkage Priors in action</a></li>
+<li class="chapter" data-level="6.3.2" data-path="BayesReg1.html"><a href="BayesReg1.html#bayesian-logistic-regression-model-cope-example-revisit"><i class="fa fa-check"></i><b>6.3.2</b> Bayesian logistic regression model (COPE example revisit)</a></li>
+<li class="chapter" data-level="" data-path="BayesReg1.html"><a href="BayesReg1.html#r-session-information-5"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-binary-data"><i class="fa fa-check"></i><b>7.1</b> Models for Binary Data</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="BayesReg2.html"><a href="BayesReg2.html#logistic-regression-with-predictor"><i class="fa fa-check"></i><b>7.1.1</b> Logistic regression with predictor</a></li>
+<li class="chapter" data-level="7.1.2" data-path="BayesReg2.html"><a href="BayesReg2.html#centring-continous-variable"><i class="fa fa-check"></i><b>7.1.2</b> Centring continous variable</a></li>
+<li class="chapter" data-level="7.1.3" data-path="BayesReg2.html"><a href="BayesReg2.html#hierarchical-model-revisit"><i class="fa fa-check"></i><b>7.1.3</b> hierarchical model revisit</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-count-data"><i class="fa fa-check"></i><b>7.2</b> Models for Count Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="BayesReg2.html"><a href="BayesReg2.html#r-session-information-6"><i class="fa fa-check"></i>R Session information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="BayesMeta.html"><a href="BayesMeta.html"><i class="fa fa-check"></i><b>8</b> Bayesian Meta-Analysis</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="BayesMeta.html"><a href="BayesMeta.html#introduction"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+<li class="chapter" data-level="8.2" data-path="BayesMeta.html"><a href="BayesMeta.html#bayesian-inference-1"><i class="fa fa-check"></i><b>8.2</b> Bayesian inference</a></li>
+<li class="chapter" data-level="8.3" data-path="BayesMeta.html"><a href="BayesMeta.html#continuous-data"><i class="fa fa-check"></i><b>8.3</b> Continuous data</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="BayesMeta.html"><a href="BayesMeta.html#fitting-a-ma-with-brms"><i class="fa fa-check"></i><b>8.3.1</b> Fitting a MA with brms</a></li>
+<li class="chapter" data-level="8.3.2" data-path="BayesMeta.html"><a href="BayesMeta.html#meta-regression"><i class="fa fa-check"></i><b>8.3.2</b> Meta-regression</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="BayesMeta.html"><a href="BayesMeta.html#other-types-of-data"><i class="fa fa-check"></i><b>8.4</b> Other types of data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a> <a href="https://www.kuan-liu.com/" target="blank">Developed by Kuan Liu</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="BayesMeta" class="section level1" number="8">
+<h1><span class="header-section-number">Session 8</span> Bayesian Meta-Analysis</h1>
+<div class="chapterintro">
+<ul>
+<li>Learn how to fit and interpret Bayesian Meta-Analysis (MA)</li>
+<li>Understand the relationship between generalised linear models and MA</li>
+</ul>
+</div>
+<script src="hideOutput.js"></script>
+<p></br></p>
+<div id="introduction" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> Introduction</h2>
+<ul>
+<li><p><strong>Meta-analysis</strong> (MA), the pooling of evidence from independent sources, especially randomised controlled trials (RCTs) is now common in the medical research literature.</p></li>
+<li><p>A “fixed-effect” model assumes that a single parameter value is common to all studies, and a “random-effects” model that parameters underlying studies follow some distribution <span class="citation">(<a href="#ref-higgins2009re" role="doc-biblioref">Higgins, Thompson, and Spiegelhalter 2009</a>)</span>.</p></li>
+<li><p>Software advances have contributed to the widespread use of meta-analytic techniques.</p></li>
+<li><p>In this lecture, we will adopt the framework of generalised linear modelling (GLM) in the context of MA. Moreover, we will we see that every meta-analytic model comes with an inherent hierarchical structure <span class="citation">(<a href="#ref-dias2011general" role="doc-biblioref">Dias et al. 2011</a>)</span>.</p></li>
+<li><p>GLM framework can, of course, be applied in either frequentist (maximizing the likelihood) or Bayesian contexts.</p></li>
+</ul>
+<div class="important">
+<p><strong>MA classical methods</strong></p>
+<ul>
+<li><p>The inverse variance method leads to two distinct approaches to data synthesis:</p>
+<ul>
+<li>Fixed-effect: <span class="math inline">\(\hat{\theta}=\frac{\sum Y_i W_i}{\sum W_i}\)</span> = and its estimated variance is <span class="math inline">\(\mathrm{var}(\hat{\theta})=\frac{1}{\sum W_i}=\frac{1}{\sum \frac{1}{V_i}}\)</span></li>
+<li>Random-effects: Same as before but using <span class="math inline">\(W_i^*=\frac{1}{V_i+\hat{\tau}^2}\)</span>. Note that these weights include the between-study variance estimate</li>
+</ul></li>
+<li><p>When choosing between both model, one view is that if there is heterogeneity, then it does not make sense to compute a pooled esimate.</p>
+<ul>
+<li>Only combine with fixed effets.</li>
+</ul></li>
+<li><p>Another view says that there is always heterogeneity.</p>
+<ul>
+<li>Always combine with random effects model.</li>
+</ul></li>
+<li><p>Not recommended (any more) to test for heterogeneity to make the decision.</p></li>
+</ul>
+</div>
+</div>
+<div id="bayesian-inference-1" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Bayesian inference</h2>
+<ul>
+<li>MCMC sampling procedures:
+<ul>
+<li>Gibbs sampling (see document)</li>
+<li>Gibbs sampling with slice sampler <code>JAGS</code> (see <a href="http://www.columbia.edu/~cjd11/charles_dimaggio/DIRE/styled-4/styled-11/code-9/">here</a>)</li>
+<li>Hybrid (Hamiltonian) Monte Carlo <code>Stan</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="continuous-data" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> Continuous data</h2>
+<ul>
+<li><p>Usually we will have effect sizes effect sizes <span class="math inline">\(Y_i\)</span> for each study <span class="math inline">\(i\)</span>.</p></li>
+<li><p>In a random-effects model, we assume that participants are nested within studies on a second level and that the true effect sizes <span class="math inline">\(\theta_i\)</span> of different studies in our meta-analysis follow their own distribution, where the variance of each study is known. This distribution of true effects has a mean <span class="math inline">\(\mu\)</span> (the pooled “true” effect we want to estimate) and variance <span class="math inline">\(\sigma^2_\theta\)</span>, representing the between-study heterogeneity (sometimes denoted as <span class="math inline">\(\tau^2_\theta=1/\sigma^2_\theta\)</span>.</p></li>
+<li><p>Therefore the generative model can be written as:</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{align*} 
+Y_{i} &amp;\sim  \mathcal{N}(\theta_{i},\sigma^2_{Y_i}) \\ 
+\theta_{i} &amp;\sim  \mathcal{N}(\mu,\sigma^2_\theta) \\
+\mu, \sigma^2_\theta &amp;\sim p(.)
+\end{align*}
+\]</span></p>
+<ul>
+<li><p>The fixed-effect model is simply a special case of this model in which we assume that <span class="math inline">\(\sigma^2_\theta=0\)</span>, meaning that there is no between-study heterogeneity, and that all studies share one single true effect size (i.e. that for all studies <span class="math inline">\(i:\quad \theta_i=\mu\)</span>).</p></li>
+<li><p>To run this model, we have to specify the prior distributions of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2_\theta\)</span>. Particularly when the number of studies is small, priors can have a considerable impact on the results.</p></li>
+<li><p>We will be using <code>brms</code> in this lecture. By default, <code>brms</code> use weakly informative priors (see <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations">here</a>).</p></li>
+<li><p>When we say this prior is “weakly informative,” it means that if there’s a reasonably large amount of data, the likelihood will dominate. On the other hand, if the data are weak, this prior will stronglu influence the posterior.</p></li>
+</ul>
+<div id="fitting-a-ma-with-brms" class="section level3" number="8.3.1">
+<h3><span class="header-section-number">8.3.1</span> Fitting a MA with brms</h3>
+<ul>
+<li><p>As mentioned previously, it is easy to fit MA models with <code>brms</code>.</p></li>
+<li><p>Meta-analyses are somewhat special, because we do not have a variable predicting the effect size (unless when we perform a meta-regression). Also, we have mentioned that MA are also special because the variance of the observed effect size is known (<span class="math inline">\(\mathrm{var}(y_i)\)</span>). This can be done in <code>brms</code> by using <code>y|se(se_y)</code> instead of only <code>y</code>, where the <code>se(se_y)</code> is the standard error of each observed effect size <span class="math inline">\(y_i\)</span> in our data set.</p></li>
+<li><p>For the random-effects model, <code>brms</code> syntax will look like this: <code>y|se(se_y) ~ 1 + (1|random)</code>. <strong>Try to guess how the syntax would be written if a fixed-effects model was used.</strong></p></li>
+</ul>
+<p><strong>Example</strong></p>
+<ul>
+<li><span class="citation"><a href="#ref-colditz1994efficacy" role="doc-biblioref">Colditz et al.</a> (<a href="#ref-colditz1994efficacy" role="doc-biblioref">1994</a>)</span> performed a MA to examine the overall effectiveness of the BCG vaccine for preventing tuberculosis and to examine moderators that may potentially influence the size of the effect. This data is part of the library <code>metafor</code>.</li>
+</ul>
+<div id="htmlwidget-aedfea8bd96ecff69a08" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-aedfea8bd96ecff69a08">{"x":{"filter":"none","vertical":false,"data":[[1,2,3,4,5,6,7,8,9,10,11,12,13],["Aronson","Ferguson &amp; Simes","Rosenthal et al","Hart &amp; Sutherland","Frimodt-Moller et al","Stein &amp; Aronson","Vandiviere et al","TPT Madras","Coetzee &amp; Berjak","Rosenthal et al","Comstock et al","Comstock &amp; Webster","Comstock et al"],[1948,1949,1960,1977,1973,1953,1973,1980,1968,1961,1974,1969,1976],[4,6,3,62,33,180,8,505,29,17,186,5,27],[119,300,228,13536,5036,1361,2537,87886,7470,1699,50448,2493,16886],[11,29,11,248,47,372,10,499,45,65,141,3,29],[128,274,209,12619,5761,1079,619,87892,7232,1600,27197,2338,17825],[44,55,42,52,13,44,19,13,27,42,18,33,33],["random","random","random","random","alternate","alternate","random","random","random","systematic","systematic","systematic","systematic"]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>trial<\/th>\n      <th>author<\/th>\n      <th>year<\/th>\n      <th>tpos<\/th>\n      <th>tneg<\/th>\n      <th>cpos<\/th>\n      <th>cneg<\/th>\n      <th>ablat<\/th>\n      <th>alloc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3]},{"className":"dt-right","targets":[4,5,6,7]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<ul>
+<li>We can calculate the log risk ratios and corresponding sampling variances with:</li>
+</ul>
+<div class="fold s">
+
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="BayesMeta.html#cb223-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">escalc</span>(<span class="at">measure=</span><span class="st">&quot;RR&quot;</span>, <span class="at">ai=</span>tpos, <span class="at">bi=</span>tneg, <span class="at">ci=</span>cpos, <span class="at">di=</span>cneg, <span class="at">data=</span>dat.bcg)</span>
+<span id="cb223-2"><a href="BayesMeta.html#cb223-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">study=</span>author) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">study=</span><span class="fu">paste</span>(study,year))</span></code></pre></div>
+<div>
+
+<ul>
+<li>We can fit a (frequentist) random-effects model to these data using the library <code>metafor</code>.</li>
+</ul>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="BayesMeta.html#cb224-1" aria-hidden="true" tabindex="-1"></a>ma_out <span class="ot">&lt;-</span> <span class="fu">rma</span>(<span class="at">data =</span> dat, <span class="at">yi =</span> yi, <span class="at">vi =</span> vi, <span class="at">slab =</span> dat<span class="sc">$</span>study)</span>
+<span id="cb224-2"><a href="BayesMeta.html#cb224-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ma_out)</span></code></pre></div>
+<pre><code>## 
+## Random-Effects Model (k = 13; tau^2 estimator: REML)
+## 
+##   logLik  deviance       AIC       BIC      AICc 
+## -12.2024   24.4047   28.4047   29.3746   29.7381   
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.3132 (SE = 0.1664)
+## tau (square root of estimated tau^2 value):      0.5597
+## I^2 (total heterogeneity / total variability):   92.22%
+## H^2 (total variability / sampling variability):  12.86
+## 
+## Test for Heterogeneity:
+## Q(df = 12) = 152.2330, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se     zval    pval    ci.lb    ci.ub 
+##  -0.7145  0.1798  -3.9744  &lt;.0001  -1.0669  -0.3622  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="BayesMeta.html#cb226-1" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(ma_out)</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-174-1.png" width="672" /></p>
+<ul>
+<li>We can do the same but know under a Bayesian perspective.</li>
+</ul>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="BayesMeta.html#cb227-1" aria-hidden="true" tabindex="-1"></a>fit_ma_random <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb227-2"><a href="BayesMeta.html#cb227-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb227-3"><a href="BayesMeta.html#cb227-3" aria-hidden="true" tabindex="-1"></a>             yi <span class="sc">|</span> <span class="fu">se</span>(<span class="fu">sqrt</span>(vi)) <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> study), </span>
+<span id="cb227-4"><a href="BayesMeta.html#cb227-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">2000</span>, </span>
+<span id="cb227-5"><a href="BayesMeta.html#cb227-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">1000</span>, </span>
+<span id="cb227-6"><a href="BayesMeta.html#cb227-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb227-7"><a href="BayesMeta.html#cb227-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb227-8"><a href="BayesMeta.html#cb227-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb227-9"><a href="BayesMeta.html#cb227-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb227-10"><a href="BayesMeta.html#cb227-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb227-11"><a href="BayesMeta.html#cb227-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-12"><a href="BayesMeta.html#cb227-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-13"><a href="BayesMeta.html#cb227-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-14"><a href="BayesMeta.html#cb227-14" aria-hidden="true" tabindex="-1"></a><span class="co">#saveRDS(fit_ma_random, &quot;data/chap8_ma_random&quot;)</span></span></code></pre></div>
+<ul>
+<li>Summarizing posterior results</li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-176-1.png" width="672" /></p>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: yi | se(sqrt(vi)) ~ 1 + (1 | study) 
+##    Data: dat (Number of observations: 13) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Group-Level Effects: 
+## ~study (Number of levels: 13) 
+##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sd(Intercept)     0.65      0.20     0.37     1.14 1.01      903     1261
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept    -0.71      0.21    -1.15    -0.30 1.00      880     1395
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     0.00      0.00     0.00     0.00   NA       NA       NA
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<ul>
+<li>We can check the default priors in our model</li>
+</ul>
+<pre><code>##                    prior     class      coef group resp dpar nlpar bound
+##  student_t(3, -0.8, 2.5) Intercept                                      
+##     student_t(3, 0, 2.5)        sd                                      
+##     student_t(3, 0, 2.5)        sd           study                      
+##     student_t(3, 0, 2.5)        sd Intercept study                      
+##        source
+##       default
+##       default
+##  (vectorized)
+##  (vectorized)</code></pre>
+<ul>
+<li>The forest plot displays the entire posterior distribution of each <span class="math inline">\(\theta_i\)</span>. The meta-analytic effect size <span class="math inline">\(\mu\)</span> is also displayed in the bottom row.</li>
+</ul>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="BayesMeta.html#cb230-1" aria-hidden="true" tabindex="-1"></a>out_r <span class="ot">&lt;-</span> <span class="fu">spread_draws</span>(fit_ma_random, r_study[study,term], b_Intercept) <span class="sc">%&gt;%</span> </span>
+<span id="cb230-2"><a href="BayesMeta.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">b_Intercept =</span> r_study <span class="sc">+</span> b_Intercept) </span>
+<span id="cb230-3"><a href="BayesMeta.html#cb230-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-4"><a href="BayesMeta.html#cb230-4" aria-hidden="true" tabindex="-1"></a>out_f <span class="ot">&lt;-</span> <span class="fu">spread_draws</span>(fit_ma_random, b_Intercept) <span class="sc">%&gt;%</span> </span>
+<span id="cb230-5"><a href="BayesMeta.html#cb230-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">study =</span> <span class="st">&quot;Average&quot;</span>)</span>
+<span id="cb230-6"><a href="BayesMeta.html#cb230-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-7"><a href="BayesMeta.html#cb230-7" aria-hidden="true" tabindex="-1"></a>out_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(out_r, out_f) <span class="sc">%&gt;%</span> </span>
+<span id="cb230-8"><a href="BayesMeta.html#cb230-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb230-9"><a href="BayesMeta.html#cb230-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb230-10"><a href="BayesMeta.html#cb230-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">study =</span> <span class="fu">fct_relevel</span>(study, <span class="st">&quot;Average&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb230-11"><a href="BayesMeta.html#cb230-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-12"><a href="BayesMeta.html#cb230-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">study =</span> <span class="fu">str_replace_all</span>(study, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot; &quot;</span>))</span>
+<span id="cb230-13"><a href="BayesMeta.html#cb230-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-14"><a href="BayesMeta.html#cb230-14" aria-hidden="true" tabindex="-1"></a>out_all_sum <span class="ot">&lt;-</span> <span class="fu">group_by</span>(out_all, study) <span class="sc">%&gt;%</span> </span>
+<span id="cb230-15"><a href="BayesMeta.html#cb230-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(b_Intercept)</span>
+<span id="cb230-16"><a href="BayesMeta.html#cb230-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-17"><a href="BayesMeta.html#cb230-17" aria-hidden="true" tabindex="-1"></a>out_all <span class="sc">%&gt;%</span>   </span>
+<span id="cb230-18"><a href="BayesMeta.html#cb230-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(b_Intercept, study)) <span class="sc">+</span></span>
+<span id="cb230-19"><a href="BayesMeta.html#cb230-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb230-20"><a href="BayesMeta.html#cb230-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">25</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb230-21"><a href="BayesMeta.html#cb230-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">95</span>), <span class="at">fill =</span> <span class="st">&quot;pink&quot;</span>) <span class="sc">+</span></span>
+<span id="cb230-22"><a href="BayesMeta.html#cb230-22" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb230-23"><a href="BayesMeta.html#cb230-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb230-24"><a href="BayesMeta.html#cb230-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">mutate_if</span>(out_all_sum, is.numeric, round, <span class="dv">2</span>),</span>
+<span id="cb230-25"><a href="BayesMeta.html#cb230-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">str_glue</span>(<span class="st">&quot;{b_Intercept} [{.lower}, {.upper}]&quot;</span>), <span class="at">x =</span> <span class="fl">1.5</span>),</span>
+<span id="cb230-26"><a href="BayesMeta.html#cb230-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="st">&quot;inward&quot;</span></span>
+<span id="cb230-27"><a href="BayesMeta.html#cb230-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb230-28"><a href="BayesMeta.html#cb230-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Observed as empty points</span></span>
+<span id="cb230-29"><a href="BayesMeta.html#cb230-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb230-30"><a href="BayesMeta.html#cb230-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">study =</span> <span class="fu">str_replace_all</span>(study, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot; &quot;</span>)), </span>
+<span id="cb230-31"><a href="BayesMeta.html#cb230-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>yi), <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">y =</span> <span class="sc">-</span>.<span class="dv">2</span>), <span class="at">shape =</span> <span class="dv">1</span> </span>
+<span id="cb230-32"><a href="BayesMeta.html#cb230-32" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-178-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="guidedexercise">
+<p><strong>Run a fixed-effect model</strong></p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="BayesMeta.html#cb231-1" aria-hidden="true" tabindex="-1"></a>fit_ma_fixed <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb231-2"><a href="BayesMeta.html#cb231-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb231-3"><a href="BayesMeta.html#cb231-3" aria-hidden="true" tabindex="-1"></a>             yi <span class="sc">|</span> <span class="fu">se</span>(<span class="fu">sqrt</span>(vi)) <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb231-4"><a href="BayesMeta.html#cb231-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">2000</span>, </span>
+<span id="cb231-5"><a href="BayesMeta.html#cb231-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">1000</span>, </span>
+<span id="cb231-6"><a href="BayesMeta.html#cb231-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb231-7"><a href="BayesMeta.html#cb231-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>,</span>
+<span id="cb231-8"><a href="BayesMeta.html#cb231-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span></span>
+<span id="cb231-9"><a href="BayesMeta.html#cb231-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb231-10"><a href="BayesMeta.html#cb231-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="meta-regression" class="section level3" number="8.3.2">
+<h3><span class="header-section-number">8.3.2</span> Meta-regression</h3>
+<ul>
+<li><p>Meta-regressions are similar in essence to simple regressions, in which an outcome variable is predicted according to the values of one or more explanatory variables. In meta-regression, the outcome variable is the effect estimate. The explanatory variables are characteristics of studies that might influence the size of intervention effect. These are often called ‘potential effect modifiers’ or covariates.</p></li>
+<li><p>Using the same dataset (BCG vaccine), we will use the absolute latitude of the study location as a moderator. We first do it with <code>metafor</code>.</p></li>
+</ul>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="BayesMeta.html#cb232-1" aria-hidden="true" tabindex="-1"></a>ma_reg <span class="ot">&lt;-</span> <span class="fu">rma</span>(yi, vi, <span class="at">mods =</span> <span class="sc">~</span> ablat, <span class="at">data=</span>dat)</span>
+<span id="cb232-2"><a href="BayesMeta.html#cb232-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ma_reg)</span></code></pre></div>
+<pre><code>## 
+## Mixed-Effects Model (k = 13; tau^2 estimator: REML)
+## 
+##   logLik  deviance       AIC       BIC      AICc 
+##  -8.0873   16.1746   22.1746   23.3683   25.6032   
+## 
+## tau^2 (estimated amount of residual heterogeneity):     0.0764 (SE = 0.0591)
+## tau (square root of estimated tau^2 value):             0.2763
+## I^2 (residual heterogeneity / unaccounted variability): 68.39%
+## H^2 (unaccounted variability / sampling variability):   3.16
+## R^2 (amount of heterogeneity accounted for):            75.62%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 11) = 30.7331, p-val = 0.0012
+## 
+## Test of Moderators (coefficient 2):
+## QM(df = 1) = 16.3571, p-val &lt; .0001
+## 
+## Model Results:
+## 
+##          estimate      se     zval    pval    ci.lb    ci.ub 
+## intrcpt    0.2515  0.2491   1.0095  0.3127  -0.2368   0.7397      
+## ablat     -0.0291  0.0072  -4.0444  &lt;.0001  -0.0432  -0.0150  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<ul>
+<li>We can do the same with <code>brms</code>.</li>
+</ul>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="BayesMeta.html#cb234-1" aria-hidden="true" tabindex="-1"></a>fit_ma_reg <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb234-2"><a href="BayesMeta.html#cb234-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb234-3"><a href="BayesMeta.html#cb234-3" aria-hidden="true" tabindex="-1"></a>             yi <span class="sc">|</span> <span class="fu">se</span>(<span class="fu">sqrt</span>(vi)) <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> ablat<span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> study), </span>
+<span id="cb234-4"><a href="BayesMeta.html#cb234-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">2000</span>, </span>
+<span id="cb234-5"><a href="BayesMeta.html#cb234-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">1000</span>, </span>
+<span id="cb234-6"><a href="BayesMeta.html#cb234-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb234-7"><a href="BayesMeta.html#cb234-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb234-8"><a href="BayesMeta.html#cb234-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb234-9"><a href="BayesMeta.html#cb234-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb234-10"><a href="BayesMeta.html#cb234-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb234-11"><a href="BayesMeta.html#cb234-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb234-12"><a href="BayesMeta.html#cb234-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb234-13"><a href="BayesMeta.html#cb234-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb234-14"><a href="BayesMeta.html#cb234-14" aria-hidden="true" tabindex="-1"></a><span class="co">#saveRDS(fit_ma_reg, &quot;data/chap9_ma_reg&quot;)</span></span></code></pre></div>
+<ul>
+<li>Summarizing posterior results</li>
+</ul>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-182-1.png" width="672" /></p>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: yi | se(sqrt(vi)) ~ 1 + ablat + (1 | study) 
+##    Data: dat (Number of observations: 13) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Group-Level Effects: 
+## ~study (Number of levels: 13) 
+##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sd(Intercept)     0.35      0.17     0.09     0.75 1.01      851     1363
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     0.23      0.32    -0.46     0.85 1.00     1500     1363
+## ablat        -0.03      0.01    -0.05    -0.01 1.00     1550     1331
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     0.00      0.00     0.00     0.00   NA       NA       NA
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<ul>
+<li>Compare models using loo-cv.</li>
+</ul>
+<pre><code>##               elpd_diff se_diff
+## fit_ma_random  0.0       0.0   
+## fit_ma_reg    -1.2       2.5</code></pre>
+</div>
+</div>
+<div id="other-types-of-data" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Other types of data</h2>
+<ul>
+<li><p>The essential idea is that the basic apparatus of the meta-analysis remains the same, but the <em>likelihood</em> and the <em>link</em> function can change to reflect the nature of the data (continuous, rate, categorical), and the sampling process that generated it (Normal, Poisson, Multinomial, etc). In GLM theory, a likelihood is defined in terms of some unknown parameters <span class="math inline">\(\gamma\)</span>, while a link function <span class="math inline">\(g(·)\)</span>, maps the parameters of interest onto the plus/minus infinity range.</p></li>
+<li><p>Then, we have:</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+Y_i &amp;\sim P(.) \\
+g(\gamma) &amp;=  \theta_{i1}=\mu_i \\
+g(\gamma) &amp;=  \theta_{i2}=\mu_i + \delta_{i,12} \\
+\delta_{i,12} &amp;\sim \mathcal{N}(d_{12},\sigma^2)
+\end{align*}
+\]</span></p>
+<ul>
+<li><p>Where <span class="math inline">\(P(.)\)</span> denotes the likelihood (GLM), <span class="math inline">\(g\)</span> is an appropriate link function (for example the logit link), and <span class="math inline">\(\theta_i\)</span> is the linear predictor, usually a continuous measure of the treatment effect. <span class="math inline">\(\mu_i\)</span> are the trial-specific baseline effects in a trial <span class="math inline">\(i\)</span>, treated as unrelated nuisance parameters. The <span class="math inline">\(\delta_{i,12}\)</span> are the trial-specific treatment effect of the treatment relative to control in that trial.</p></li>
+<li><p>The only missing is the likelihood of the observed effet sizes. As an example, if we have binomial data (number of events and sample size per trial), we can write the MA generative model with this type of data.</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+r_{ik} &amp;\sim  \mathrm{Bin}(n_{ik},p_{ik}) \quad k=1,2\\
+\mathrm{logit}(p_{i1}) &amp;=  \mu_i \\
+\mathrm{logit}(p_{i2}) &amp;=  \mu_i+\delta_{i,12} \\
+\delta_{i,12} &amp;\sim \mathcal{N}(d_{12},\sigma^2) \\
+d_{12}, \sigma^2,\mu_i &amp;\sim p(.)
+\end{align*}
+\]</span></p>
+<ul>
+<li>As an example, <span class="citation"><a href="#ref-carlin1992meta" role="doc-biblioref">Carlin</a> (<a href="#ref-carlin1992meta" role="doc-biblioref">1992</a>)</span> consider a MA of 22 trials of beta-blockers to prevent mortality after myocardial infarction.</li>
+</ul>
+<div id="htmlwidget-a9939b1c45ceef5f407e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a9939b1c45ceef5f407e">{"x":{"filter":"none","vertical":false,"data":[[1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22],[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],["Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker","Control","Beta Blocker"],[3,3,14,7,11,5,127,102,27,28,6,4,152,98,48,60,37,25,188,138,52,64,47,45,16,9,45,57,31,25,38,33,12,28,6,8,3,6,40,32,43,27,39,22],[39,38,116,114,93,69,1520,1533,365,355,52,59,939,945,471,632,282,278,1921,1916,583,873,266,263,293,291,883,858,147,154,213,207,122,251,154,151,134,174,218,209,364,391,674,680]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>id<\/th>\n      <th>trtid<\/th>\n      <th>trtc<\/th>\n      <th>events<\/th>\n      <th>ss<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3]},{"className":"dt-right","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<ul>
+<li>We will now fit this model in <code>Stan</code> (the PPL behind <code>brms</code>).</li>
+</ul>
+<div class="fold s">
+
+<pre class="stan"><code>data {
+  int ns;
+  int r[ns,2];
+  int n[ns,2];
+}
+
+parameters{
+  real mu[ns];
+  real&lt;lower=0&gt; sd_;
+  real d_raw;
+  real delta_raw[ns];
+  
+}
+
+transformed parameters {
+  matrix[ns,2] p;
+  real d;
+  real delta[ns];
+
+  d = 5*d_raw;
+  
+  for(i in 1:ns){
+    // implies: delta ~ normal(d, sd_)
+    delta[i] = d + sd_*delta_raw[i];
+    
+    for(k in 1:2){
+      if(k == 1){
+        p[i,k] = inv_logit(mu[i]);
+      } else {
+        p[i,k] = inv_logit(mu[i] + delta[i]);
+      }
+    }
+  }
+}
+
+model {
+  
+  target += normal_lpdf(d_raw| 0,1);
+  
+  for(i in 1:ns){
+    target += normal_lpdf(delta_raw[i] | 0, 1);
+    
+    for(k in 1:2){
+      target += binomial_lpmf(r[i,k]| n[i,k],p[i,k]);
+    }
+  }
+}
+</code></pre>
+<div>
+
+<ul>
+<li>Below you will find the syntax to compile the model and run it in <code>R</code>.</li>
+</ul>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="BayesMeta.html#cb238-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/testData.txt&quot;</span>,<span class="at">header =</span> T)</span>
+<span id="cb238-2"><a href="BayesMeta.html#cb238-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb238-3"><a href="BayesMeta.html#cb238-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">cbind</span>(test[,<span class="dv">1</span>],test[,<span class="dv">3</span>])</span>
+<span id="cb238-4"><a href="BayesMeta.html#cb238-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">cbind</span>(test[,<span class="dv">2</span>],test[,<span class="dv">4</span>])</span>
+<span id="cb238-5"><a href="BayesMeta.html#cb238-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb238-6"><a href="BayesMeta.html#cb238-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ns=</span><span class="dv">22</span>,</span>
+<span id="cb238-7"><a href="BayesMeta.html#cb238-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">r=</span>r,</span>
+<span id="cb238-8"><a href="BayesMeta.html#cb238-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">n=</span>n)</span>
+<span id="cb238-9"><a href="BayesMeta.html#cb238-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb238-10"><a href="BayesMeta.html#cb238-10" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">cmdstan_model</span>(<span class="st">&quot;stan/model1a.stan&quot;</span>)</span>
+<span id="cb238-11"><a href="BayesMeta.html#cb238-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb238-12"><a href="BayesMeta.html#cb238-12" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">=</span>model<span class="sc">$</span><span class="fu">sample</span>(<span class="at">data =</span> data,</span>
+<span id="cb238-13"><a href="BayesMeta.html#cb238-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">chains =</span> <span class="dv">3</span>,</span>
+<span id="cb238-14"><a href="BayesMeta.html#cb238-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">parallel_chains =</span> <span class="dv">3</span>,</span>
+<span id="cb238-15"><a href="BayesMeta.html#cb238-15" aria-hidden="true" tabindex="-1"></a>                      <span class="co">#max_treedepth = 15,</span></span>
+<span id="cb238-16"><a href="BayesMeta.html#cb238-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">iter_warmup =</span> <span class="dv">500</span>,</span>
+<span id="cb238-17"><a href="BayesMeta.html#cb238-17" aria-hidden="true" tabindex="-1"></a>                      <span class="at">iter_sampling =</span> <span class="dv">1500</span>)</span>
+<span id="cb238-18"><a href="BayesMeta.html#cb238-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb238-19"><a href="BayesMeta.html#cb238-19" aria-hidden="true" tabindex="-1"></a><span class="co">#fit$save_object(file = &quot;data/fit_stan.RDS&quot;)</span></span></code></pre></div>
+<ul>
+<li>Summarizing posterior results</li>
+</ul>
+<div id="htmlwidget-6a1b2d3e3cffc605b5dc" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6a1b2d3e3cffc605b5dc">{"x":{"filter":"none","vertical":false,"data":[["d","sd_","delta[1]","delta[2]","delta[3]","delta[4]","delta[5]","delta[6]","delta[7]","delta[8]","delta[9]","delta[10]","delta[11]","delta[12]","delta[13]","delta[14]","delta[15]","delta[16]","delta[17]","delta[18]","delta[19]","delta[20]","delta[21]","delta[22]"],[-0.249444,0.128892,-0.244589,-0.2823725,-0.2645415,-0.25066,-0.206243,-0.266522,-0.355482,-0.2106035,-0.278358,-0.2886075,-0.2456065,-0.206245,-0.2789655,-0.114137,-0.259252,-0.235255,-0.213779,-0.2279875,-0.230514,-0.245822,-0.309584,-0.3064945],[-0.35189925,0.0184772,-0.48611815,-0.5695912,-0.5385836,-0.4035765,-0.391303,-0.54187625,-0.5723131,-0.37716765,-0.52304725,-0.46019725,-0.4231862,-0.383436,-0.5606796,-0.3143713,-0.4873008,-0.4265777,-0.42508495,-0.4508448,-0.4556047,-0.4541963,-0.58591525,-0.59442445],[-0.1371371,0.2816655,0.05842846,-0.058033,-0.0147660299999999,-0.08579512,0.09663512,-0.00658102599999995,-0.19503025,0.032252315,-0.07720944,-0.14868645,-0.0405243749999999,0.046967,-0.054100565,0.2193431,-0.0337126199999999,0.00859802750000002,0.097008065,0.0837891950000002,0.091737885,-0.0138919999999999,-0.1293112,-0.1243963],[1.00458415077518,1.00686373640359,1.00129074219696,1.00153299987092,1.00068695482375,1.00132873057687,1.00060714235706,1.00343712519244,1.00153339699952,1.00191523455427,1.00176247610806,1.00041333936404,1.00163252588898,1.00036662130146,1.00115535304942,1.00720242972296,1.00113464354459,1.00080728874175,1.00409696410409,1.00265167944076,1.0019385547415,1.00075678785396,1.00241003464503,1.00157205721717]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>variable<\/th>\n      <th>median<\/th>\n      <th>q5<\/th>\n      <th>q95<\/th>\n      <th>rhat<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3]},{"className":"dt-right","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<ul>
+<li>Plotting baseline risks and the scatterplot of <span class="math inline">\(d_{12}\)</span> and <span class="math inline">\(sigma\)</span>.</li>
+</ul>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="BayesMeta.html#cb239-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> fit<span class="sc">$</span><span class="fu">draws</span>(<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;sd_&quot;</span>))</span>
+<span id="cb239-2"><a href="BayesMeta.html#cb239-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_intervals</span>(theta,<span class="at">regex_pars =</span> <span class="st">&quot;mu&quot;</span>)</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-188-1.png" width="672" /></p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="BayesMeta.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_pairs</span>(theta,<span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;d&quot;</span>,<span class="st">&quot;sd_&quot;</span>))</span></code></pre></div>
+<p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-188-2.png" width="672" /></p>
+<div class="guidedexercise">
+<p><strong>Run a fixed-effect mode and random-effects model with brms using the binomial data example</strong></p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="BayesMeta.html#cb241-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/blocker.csv&quot;</span>)</span>
+<span id="cb241-2"><a href="BayesMeta.html#cb241-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb241-3"><a href="BayesMeta.html#cb241-3" aria-hidden="true" tabindex="-1"></a>fit_ma_binomial_random <span class="ot">&lt;-</span></span>
+<span id="cb241-4"><a href="BayesMeta.html#cb241-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb241-5"><a href="BayesMeta.html#cb241-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> binomial,</span>
+<span id="cb241-6"><a href="BayesMeta.html#cb241-6" aria-hidden="true" tabindex="-1"></a>      events <span class="sc">|</span> <span class="fu">trials</span>(ss) <span class="sc">~</span> trtid <span class="sc">+</span> (trtid<span class="sc">|</span>id),</span>
+<span id="cb241-7"><a href="BayesMeta.html#cb241-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">chains =</span> <span class="dv">4</span>)</span>
+<span id="cb241-8"><a href="BayesMeta.html#cb241-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb241-9"><a href="BayesMeta.html#cb241-9" aria-hidden="true" tabindex="-1"></a>fit_ma_binomial_fixed<span class="ot">&lt;-</span></span>
+<span id="cb241-10"><a href="BayesMeta.html#cb241-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb241-11"><a href="BayesMeta.html#cb241-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> binomial,</span>
+<span id="cb241-12"><a href="BayesMeta.html#cb241-12" aria-hidden="true" tabindex="-1"></a>      events <span class="sc">|</span> <span class="fu">trials</span>(ss) <span class="sc">~</span> trtid,</span>
+<span id="cb241-13"><a href="BayesMeta.html#cb241-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">chains =</span> <span class="dv">4</span>)</span></code></pre></div>
+</div>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-carlin1992meta" class="csl-entry">
+Carlin, John B. 1992. <span>“Meta-Analysis for 2<span class="math inline">\(\times\)</span> 2 Tables: A Bayesian Approach.”</span> <em>Statistics in Medicine</em> 11 (2): 141–58.
+</div>
+<div id="ref-colditz1994efficacy" class="csl-entry">
+Colditz, Graham A, Timothy F Brewer, Catherine S Berkey, Mary E Wilson, Elisabeth Burdick, Harvey V Fineberg, and Frederick Mosteller. 1994. <span>“Efficacy of BCG Vaccine in the Prevention of Tuberculosis: Meta-Analysis of the Published Literature.”</span> <em>Jama</em> 271 (9): 698–702.
+</div>
+<div id="ref-dias2011general" class="csl-entry">
+Dias, S, NJ Welton, AJ Sutton, and A Ades. 2011. <span>“A General Linear Modelling Framework for Pair-Wise and Network Meta-Analysis of Randomised Controlled Trials (Last Updated September 2016).”</span> NICE.
+</div>
+<div id="ref-higgins2009re" class="csl-entry">
+Higgins, Julian PT, Simon G Thompson, and David J Spiegelhalter. 2009. <span>“A Re-Evaluation of Random-Effects Meta-Analysis.”</span> <em>Journal of the Royal Statistical Society: Series A (Statistics in Society)</em> 172 (1): 137–59.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="BayesReg2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": "twitter"
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
