@@ -885,7 +885,11 @@ count how many episodes of flu did not occur
 - Suppose we have follow up time $T_i$ and number of events $Y_i$ for each subject
 - Lets assume that the underlying rate of events is the **same** for everyone
 - We are interested in this common underlying rate of events $\lambda$
-- We prefer to model $\log(\lambda)$, where $ \lambda > 0 \leftrightarrow - \infty < \log(\lambda) < \infty$ and 
+- We prefer to model $\log(\lambda)$, where 
+
+\[ \lambda > 0 \leftrightarrow - \infty < \log(\lambda) < \infty\] 
+
+and 
 
 \[Y_i \sim Poisson(\theta_i)\]
 \[\theta_i = \lambda \times T_i\]
@@ -900,8 +904,8 @@ count how many episodes of flu did not occur
 - Assume a rate $\lambda_i$ that depends on the treatment received by subject $i$, our model updated to
 
 \[Y_i \sim Poisson(\theta_i)\]
-\[\theta_i = \lambda \times T_i\]
-\[\log(\lambda) = \alpha + \beta \times TRT_i\]
+\[\theta_i = \lambda_i \times T_i\]
+\[\log(\lambda_i) = \alpha + \beta \times TRT_i\]
 
 - Given the model above, we can compare rate between treated (t) and controls (c)
     - Observe $Y_c$ events in 110 person-years in the control group
@@ -976,7 +980,7 @@ brm(y ~ 1 + offset(log(Time)),
     1. **Independent observations**. This assumption can be modified if working with clustered data.
     2. **Linear relationship between continuous covariates and log-rate** 
     3. **No over-dispersion** For Poisson distributed variable, we have its mean equals to its variance. Thus, conditioning on predictors $X$, the expected value of $Y$ should be roughly equivalent to the variability in $Y$. If this assumption is violated, we can consider fitting a negative binomial regression model by allowing the variance to be different (larger) from the mean. We can use waic and loo to determine if the negative binomial model is of better fit than the Poisson model.
-    4. **No zero-inflation** When we observe majority of our study subjects with zero number of events over time, we call this data with an excess number of zeroes (zero-inflation). When we have excess zeroes in our count data, we can consider fitting a zero-inflated Poisson or a zero-inflated negative binomial regression model. We can use waic and loo to determine if the zero-inflated models are of better fit than the Poisson model.
+    4. **No zero-inflation** When we observe majority of our study subjects with zero number of events over time, we call this data with an excess number of zeroes (zero-inflation). When we have excess zeroes in our count data, we can consider fitting a zero-inflated Poisson or a zero-inflated negative binomial regression model. We can use loo to determine if the zero-inflated models are of better fit than the Poisson model.
         - e.g., the number of hospitalizations a health 20-25 years old person experiences in a year
     5. **Multicollinearity** Multicollinearity is the phenomenon when a number of the explanatory variables are strongly correlated.
     6. **Correctly specified regression model** We can use posterior predictive distribution to check for regression fit between different models and can also use WAIC and LOO to compare them.
@@ -1395,16 +1399,16 @@ t(apply(Predictions,2,my.summary))
 **Model 4. Expanding with zero-inflation**
 
 - Often, excessive numbers of zero counts are a problem (e.g., healthy individuals have no events and less healthy individuals can have many events)
-- The Poisson distribution with mean $\mu$ has this probability of zero events:
+- The Poisson distribution with mean $\theta$ has this probability of zero events:
 
-\[P(Y=0 \mid \mu) = \frac{\mu^0 \exp(-\mu)}{0!} = \exp(-\mu)\]
+\[P(Y=0 \mid \theta) = \frac{\theta^0 \exp(-\theta)}{0!} = \exp(-\theta)\]
 
 - e.g., if the mean is 5, $P(Y=0) = 0.67\%$
 
 - In a sample where a lot of people have high counts, so the mean is high, zeroes are unlikely
 
 - One solution is to fit a zero-inflated Poisson
-- It has two parts ("mixure model")
+- It has two parts ("mixture model")
     - One regression fits a probability that $\lambda_i = 0$ (explains some of the zeroes)
     - A simultaneous regression fits the observed count (explains some of the zeroes)
     
@@ -1413,7 +1417,7 @@ t(apply(Predictions,2,my.summary))
 - Among subjects with a non-zero rate, the observations are Poisson
 
 - To model this we need a new Bernoulli variable $z$, $z$ tells us which group (reg 1 for $\lambda_i = 0$ or reg 2 for the observed counts) the observation is in: 0 or 1
-    1. $z=0 \rightarrow \theta = z \times \lambda \times T = 0$ (never have a fall, *strctural zeros*)
+    1. $z=0 \rightarrow \theta = z \times \lambda \times T = 0$ (never have a fall, *structural zeros*)
     2. $z=1 \rightarrow \theta = z \times \lambda \times T$ (fall with rate $\lambda$)
     
 - The probability that $z$ is 0 is governed by a separate logistic model for $z$, which does not have to include all the same predictors for example previous fall in the fall example
@@ -1573,7 +1577,7 @@ falls.aggregate %>%
 |             | prev fall           | 3.01 |  2.37 |   3.86 |
 | Poisson/RE  | female sex          | 0.63 |  0.36 |   1.09 |
 |             | prev fall           | 2.53 |  1.52 |   4.20 |
-| Poisson/Gam | female sex          | 0.72 |  0.40 |   1.19 |
+| NB          | female sex          | 0.72 |  0.40 |   1.19 |
 |             | prevfall            | 2.56 |  1.53 |   4.02 |
 | ZIP         | RR:female sex       | 0.71 |  0.52 |   0.93 |
 |             | RR:prev fall        | 2.00 |  1.51 |   2.61 |

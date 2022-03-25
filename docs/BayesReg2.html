@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Session 7 Bayesian Regression II | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research</title>
   <meta name="description" content="Course notes for HAD5314H Winter 2022" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Session 7 Bayesian Regression II | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://kuan-liu.github.io/bayes_bookdown/" />
   
   <meta property="og:description" content="Course notes for HAD5314H Winter 2022" />
   
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="BayesReg1.html"/>
 <link rel="next" href="BayesMeta.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +49,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
 <script src="libs/datatables-binding-0.21/datatables.js"></script>
@@ -167,179 +166,179 @@ div.csl-indent {
 <li><a href="./">HAD5314H - Winter 2022 </a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>University of Toronto Statement of Acknowledgment of Traditional Land</a>
+<li><a href="index.html#university-of-toronto-statement-of-acknowledgment-of-traditional-land">University of Toronto Statement of Acknowledgment of Traditional Land<span></span></a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-info"><i class="fa fa-check"></i>Course Info</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-description"><i class="fa fa-check"></i>Course Description</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-textbook-and-structure"><i class="fa fa-check"></i>Course Textbook and Structure</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#calendar-and-outline"><i class="fa fa-check"></i>Calendar and Outline</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#accessibility-and-accommodations"><i class="fa fa-check"></i>Accessibility and Accommodations</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#academic-integrity"><i class="fa fa-check"></i>Academic Integrity</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#key-resources-and-supports-for-dslph-graduate-students"><i class="fa fa-check"></i>Key Resources and Supports for DSLPH Graduate Students</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+<li><a href="index.html#course-info">Course Info<span></span></a></li>
+<li><a href="index.html#course-description">Course Description<span></span></a></li>
+<li><a href="index.html#course-textbook-and-structure">Course Textbook and Structure<span></span></a></li>
+<li><a href="index.html#calendar-and-outline">Calendar and Outline<span></span></a></li>
+<li><a href="index.html#accessibility-and-accommodations">Accessibility and Accommodations<span></span></a></li>
+<li><a href="index.html#academic-integrity">Academic Integrity<span></span></a></li>
+<li><a href="index.html#key-resources-and-supports-for-dslph-graduate-students">Key Resources and Supports for DSLPH Graduate Students<span></span></a></li>
+<li><a href="index.html#license">License<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="into.html"><a href="into.html"><i class="fa fa-check"></i><b>1</b> Introduction to the course</a>
+<li class="chapter" data-level="1" data-path="into.html"><a href="into.html"><i class="fa fa-check"></i><b>1</b> Introduction to the course<span></span></a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="into.html"><a href="into.html#about-me"><i class="fa fa-check"></i><b>1.1</b> About me</a></li>
-<li class="chapter" data-level="1.2" data-path="into.html"><a href="into.html#syllabus"><i class="fa fa-check"></i><b>1.2</b> Syllabus</a></li>
-<li class="chapter" data-level="1.3" data-path="into.html"><a href="into.html#some-history"><i class="fa fa-check"></i><b>1.3</b> Some history</a>
+<li class="chapter" data-level="1.1" data-path="into.html"><a href="into.html#about-me"><i class="fa fa-check"></i><b>1.1</b> About me<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="into.html"><a href="into.html#syllabus"><i class="fa fa-check"></i><b>1.2</b> Syllabus<span></span></a></li>
+<li class="chapter" data-level="1.3" data-path="into.html"><a href="into.html#some-history"><i class="fa fa-check"></i><b>1.3</b> Some history<span></span></a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="into.html"><a href="into.html#bayesian-history"><i class="fa fa-check"></i><b>1.3.1</b> Bayesian history</a></li>
-<li class="chapter" data-level="1.3.2" data-path="into.html"><a href="into.html#history-of-this-course"><i class="fa fa-check"></i><b>1.3.2</b> History of this course</a></li>
+<li class="chapter" data-level="1.3.1" data-path="into.html"><a href="into.html#bayesian-history"><i class="fa fa-check"></i><b>1.3.1</b> Bayesian history<span></span></a></li>
+<li class="chapter" data-level="1.3.2" data-path="into.html"><a href="into.html#history-of-this-course"><i class="fa fa-check"></i><b>1.3.2</b> History of this course<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="into.html"><a href="into.html#thinking-like-a-bayesian-using-the-concept-of-probability"><i class="fa fa-check"></i><b>1.4</b> Thinking like a Bayesian using the concept of probability</a>
+<li class="chapter" data-level="1.4" data-path="into.html"><a href="into.html#thinking-like-a-bayesian-using-the-concept-of-probability"><i class="fa fa-check"></i><b>1.4</b> Thinking like a Bayesian using the concept of probability<span></span></a>
 <ul>
-<li class="chapter" data-level="1.4.1" data-path="into.html"><a href="into.html#probability-is-not-unitary"><i class="fa fa-check"></i><b>1.4.1</b> Probability is not unitary</a></li>
-<li class="chapter" data-level="1.4.2" data-path="into.html"><a href="into.html#bayes-rule"><i class="fa fa-check"></i><b>1.4.2</b> Bayes’ Rule</a></li>
-<li class="chapter" data-level="1.4.3" data-path="into.html"><a href="into.html#the-scientific-method-in-steps"><i class="fa fa-check"></i><b>1.4.3</b> The Scientific Method in steps</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html"><i class="fa fa-check"></i>Lab1 Getting started with R &amp; RStudio</a>
-<ul>
-<li class="chapter" data-level="1.5" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-and-rstudio-installation"><i class="fa fa-check"></i><b>1.5</b> R and RStudio Installation</a>
-<ul>
-<li class="chapter" data-level="1.5.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#windows-operating-system"><i class="fa fa-check"></i><b>1.5.1</b> Windows operating system</a></li>
-<li class="chapter" data-level="1.5.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#macos-operating-system"><i class="fa fa-check"></i><b>1.5.2</b> macOS operating system</a></li>
-</ul></li>
-<li class="chapter" data-level="1.6" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-packages"><i class="fa fa-check"></i><b>1.6</b> R Packages</a>
-<ul>
-<li class="chapter" data-level="1.6.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#bayesian-analysis-in-r-using-brms-package"><i class="fa fa-check"></i><b>1.6.1</b> Bayesian Analysis in R using brms package</a></li>
-</ul></li>
-<li class="chapter" data-level="1.7" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-in-rstudio"><i class="fa fa-check"></i><b>1.7</b> Working in RStudio</a>
-<ul>
-<li class="chapter" data-level="1.7.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#rstudio-layout"><i class="fa fa-check"></i><b>1.7.1</b> RStudio layout</a></li>
-<li class="chapter" data-level="1.7.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#customization"><i class="fa fa-check"></i><b>1.7.2</b> Customization</a></li>
-<li class="chapter" data-level="1.7.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-directory"><i class="fa fa-check"></i><b>1.7.3</b> Working directory</a></li>
-<li class="chapter" data-level="1.7.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#getting-help-with-r"><i class="fa fa-check"></i><b>1.7.4</b> Getting help with R</a></li>
-</ul></li>
-<li class="chapter" data-level="1.8" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#basic-r-a-crash-introduction"><i class="fa fa-check"></i><b>1.8</b> Basic R (a crash introduction)</a>
-<ul>
-<li class="chapter" data-level="1.8.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#arithmetic"><i class="fa fa-check"></i><b>1.8.1</b> Arithmetic</a></li>
-<li class="chapter" data-level="1.8.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#vectors"><i class="fa fa-check"></i><b>1.8.2</b> Vectors</a></li>
-<li class="chapter" data-level="1.8.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#data-frame---the-titanic-dataset"><i class="fa fa-check"></i><b>1.8.3</b> Data frame - The Titanic dataset</a></li>
-<li class="chapter" data-level="1.8.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#simple-plots"><i class="fa fa-check"></i><b>1.8.4</b> Simple plots</a></li>
-<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-session-information"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="1.4.1" data-path="into.html"><a href="into.html#probability-is-not-unitary"><i class="fa fa-check"></i><b>1.4.1</b> Probability is not unitary<span></span></a></li>
+<li class="chapter" data-level="1.4.2" data-path="into.html"><a href="into.html#bayes-rule"><i class="fa fa-check"></i><b>1.4.2</b> Bayes’ Rule<span></span></a></li>
+<li class="chapter" data-level="1.4.3" data-path="into.html"><a href="into.html#the-scientific-method-in-steps"><i class="fa fa-check"></i><b>1.4.3</b> The Scientific Method in steps<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="prob.html"><a href="prob.html"><i class="fa fa-check"></i><b>2</b> Probability, random variables and distributions</a>
+<li><a href="lab1-getting-started-with-r-rstudio.html#lab1-getting-started-with-r-rstudio">Lab1 Getting started with R &amp; RStudio<span></span></a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="prob.html"><a href="prob.html#probability"><i class="fa fa-check"></i><b>2.1</b> Probability</a>
+<li class="chapter" data-level="1.5" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html"><i class="fa fa-check"></i><b>1.5</b> R and RStudio Installation<span></span></a>
 <ul>
-<li class="chapter" data-level="2.1.1" data-path="prob.html"><a href="prob.html#venn-diagrams"><i class="fa fa-check"></i><b>2.1.1</b> Venn Diagrams</a></li>
-<li class="chapter" data-level="2.1.2" data-path="prob.html"><a href="prob.html#probability-rules"><i class="fa fa-check"></i><b>2.1.2</b> Probability Rules</a></li>
-<li class="chapter" data-level="2.1.3" data-path="prob.html"><a href="prob.html#how-to-define-and-assign-probabilities-in-general"><i class="fa fa-check"></i><b>2.1.3</b> How to define and assign probabilities in general?</a></li>
+<li class="chapter" data-level="1.5.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#windows-operating-system"><i class="fa fa-check"></i><b>1.5.1</b> Windows operating system<span></span></a></li>
+<li class="chapter" data-level="1.5.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#macos-operating-system"><i class="fa fa-check"></i><b>1.5.2</b> macOS operating system<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="prob.html"><a href="prob.html#probability-distributions"><i class="fa fa-check"></i><b>2.2</b> Probability Distributions</a>
+<li class="chapter" data-level="1.6" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-packages"><i class="fa fa-check"></i><b>1.6</b> R Packages<span></span></a>
 <ul>
-<li class="chapter" data-level="2.2.1" data-path="prob.html"><a href="prob.html#probability-density-functions"><i class="fa fa-check"></i><b>2.2.1</b> Probability density functions</a></li>
-<li class="chapter" data-level="2.2.2" data-path="prob.html"><a href="prob.html#discrete-distributions"><i class="fa fa-check"></i><b>2.2.2</b> Discrete Distributions</a></li>
-<li class="chapter" data-level="2.2.3" data-path="prob.html"><a href="prob.html#continous-distributions"><i class="fa fa-check"></i><b>2.2.3</b> Continous Distributions</a></li>
-<li class="chapter" data-level="" data-path="prob.html"><a href="prob.html#r-session-information-1"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="1.6.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#bayesian-analysis-in-r-using-brms-package"><i class="fa fa-check"></i><b>1.6.1</b> Bayesian Analysis in R using brms package<span></span></a></li>
 </ul></li>
+<li class="chapter" data-level="1.7" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-in-rstudio"><i class="fa fa-check"></i><b>1.7</b> Working in RStudio<span></span></a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#rstudio-layout"><i class="fa fa-check"></i><b>1.7.1</b> RStudio layout<span></span></a></li>
+<li class="chapter" data-level="1.7.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#customization"><i class="fa fa-check"></i><b>1.7.2</b> Customization<span></span></a></li>
+<li class="chapter" data-level="1.7.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-directory"><i class="fa fa-check"></i><b>1.7.3</b> Working directory<span></span></a></li>
+<li class="chapter" data-level="1.7.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#getting-help-with-r"><i class="fa fa-check"></i><b>1.7.4</b> Getting help with R<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>3</b> Introduction to Bayesian inference</a>
+<li class="chapter" data-level="1.8" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#basic-r-a-crash-introduction"><i class="fa fa-check"></i><b>1.8</b> Basic R (a crash introduction)<span></span></a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="bayes.html"><a href="bayes.html#classical-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> Classical frequentist approach</a></li>
-<li class="chapter" data-level="3.2" data-path="bayes.html"><a href="bayes.html#introduction-to-bayesian-approach"><i class="fa fa-check"></i><b>3.2</b> Introduction to Bayesian approach</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="bayes.html"><a href="bayes.html#review-from-session-1"><i class="fa fa-check"></i><b>3.2.1</b> Review from session 1</a></li>
-<li class="chapter" data-level="3.2.2" data-path="bayes.html"><a href="bayes.html#the-beta-binomial-model"><i class="fa fa-check"></i><b>3.2.2</b> The Beta-binomial model</a></li>
-<li class="chapter" data-level="3.2.3" data-path="bayes.html"><a href="bayes.html#the-normal-normal-model"><i class="fa fa-check"></i><b>3.2.3</b> The Normal-normal model</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path="bayes.html"><a href="bayes.html#summary-of-conjugate-priors-models"><i class="fa fa-check"></i><b>3.3</b> Summary of Conjugate priors &amp; models</a></li>
-<li class="chapter" data-level="3.4" data-path="bayes.html"><a href="bayes.html#why-bayesian-statistical-estimation-revisit"><i class="fa fa-check"></i><b>3.4</b> Why Bayesian: Statistical Estimation Revisit</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="bayes.html"><a href="bayes.html#classic-frequentist-inference"><i class="fa fa-check"></i><b>3.4.1</b> Classic Frequentist Inference</a></li>
-<li class="chapter" data-level="3.4.2" data-path="bayes.html"><a href="bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>3.4.2</b> Bayesian Inference</a></li>
-<li class="chapter" data-level="" data-path="bayes.html"><a href="bayes.html#r-session-information-2"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="1.8.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#arithmetic"><i class="fa fa-check"></i><b>1.8.1</b> Arithmetic<span></span></a></li>
+<li class="chapter" data-level="1.8.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#vectors"><i class="fa fa-check"></i><b>1.8.2</b> Vectors<span></span></a></li>
+<li class="chapter" data-level="1.8.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#data-frame---the-titanic-dataset"><i class="fa fa-check"></i><b>1.8.3</b> Data frame - The Titanic dataset<span></span></a></li>
+<li class="chapter" data-level="1.8.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#simple-plots"><i class="fa fa-check"></i><b>1.8.4</b> Simple plots<span></span></a></li>
+<li><a href="lab1-getting-started-with-r-rstudio.html#r-session-information">R Session information<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="Prior.html"><a href="Prior.html"><i class="fa fa-check"></i><b>4</b> Prior Distributions</a>
+<li class="chapter" data-level="2" data-path="prob.html"><a href="prob.html"><i class="fa fa-check"></i><b>2</b> Probability, random variables and distributions<span></span></a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="Prior.html"><a href="Prior.html#choosing-priors"><i class="fa fa-check"></i><b>4.1</b> Choosing priors</a>
+<li class="chapter" data-level="2.1" data-path="prob.html"><a href="prob.html#probability"><i class="fa fa-check"></i><b>2.1</b> Probability<span></span></a>
 <ul>
-<li class="chapter" data-level="4.1.1" data-path="Prior.html"><a href="Prior.html#eliciting-priors-from-experts"><i class="fa fa-check"></i><b>4.1.1</b> Eliciting priors from experts</a></li>
+<li class="chapter" data-level="2.1.1" data-path="prob.html"><a href="prob.html#venn-diagrams"><i class="fa fa-check"></i><b>2.1.1</b> Venn Diagrams<span></span></a></li>
+<li class="chapter" data-level="2.1.2" data-path="prob.html"><a href="prob.html#probability-rules"><i class="fa fa-check"></i><b>2.1.2</b> Probability Rules<span></span></a></li>
+<li class="chapter" data-level="2.1.3" data-path="prob.html"><a href="prob.html#how-to-define-and-assign-probabilities-in-general"><i class="fa fa-check"></i><b>2.1.3</b> How to define and assign probabilities in general?<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors</a>
+<li class="chapter" data-level="2.2" data-path="prob.html"><a href="prob.html#probability-distributions"><i class="fa fa-check"></i><b>2.2</b> Probability Distributions<span></span></a>
 <ul>
-<li class="chapter" data-level="4.2.1" data-path="Prior.html"><a href="Prior.html#non-informative-or-reference-priors"><i class="fa fa-check"></i><b>4.2.1</b> “Non-informative” or “reference” priors</a></li>
-<li class="chapter" data-level="4.2.2" data-path="Prior.html"><a href="Prior.html#minimally-informative-prior"><i class="fa fa-check"></i><b>4.2.2</b> Minimally informative prior</a></li>
-<li class="chapter" data-level="4.2.3" data-path="Prior.html"><a href="Prior.html#skeptical-prior"><i class="fa fa-check"></i><b>4.2.3</b> Skeptical Prior</a></li>
-<li class="chapter" data-level="4.2.4" data-path="Prior.html"><a href="Prior.html#optimisticenthusiastic-prior"><i class="fa fa-check"></i><b>4.2.4</b> Optimistic/enthusiastic Prior</a></li>
-<li class="chapter" data-level="4.2.5" data-path="Prior.html"><a href="Prior.html#evaluating-priors"><i class="fa fa-check"></i><b>4.2.5</b> Evaluating Priors?</a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="Prior.html"><a href="Prior.html#historical-data-meta-analysis"><i class="fa fa-check"></i><b>4.3</b> Historical data (meta-analysis)</a></li>
-<li class="chapter" data-level="4.4" data-path="Prior.html"><a href="Prior.html#hierarchical-priors-and-shrinkage-priors"><i class="fa fa-check"></i><b>4.4</b> Hierarchical priors and shrinkage priors</a>
-<ul>
-<li class="chapter" data-level="" data-path="Prior.html"><a href="Prior.html#r-session-information-3"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="2.2.1" data-path="prob.html"><a href="prob.html#probability-density-functions"><i class="fa fa-check"></i><b>2.2.1</b> Probability density functions<span></span></a></li>
+<li class="chapter" data-level="2.2.2" data-path="prob.html"><a href="prob.html#discrete-distributions"><i class="fa fa-check"></i><b>2.2.2</b> Discrete Distributions<span></span></a></li>
+<li class="chapter" data-level="2.2.3" data-path="prob.html"><a href="prob.html#continous-distributions"><i class="fa fa-check"></i><b>2.2.3</b> Continous Distributions<span></span></a></li>
+<li><a href="prob.html#r-session-information-1">R Session information<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="BayesMCMC.html"><a href="BayesMCMC.html"><i class="fa fa-check"></i><b>5</b> Bayesian estimation with MCMC</a>
+<li class="chapter" data-level="3" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>3</b> Introduction to Bayesian inference<span></span></a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#introduction-to-markov-chain-monte-carlo-methods"><i class="fa fa-check"></i><b>5.1</b> Introduction to Markov Chain Monte Carlo Methods</a>
+<li class="chapter" data-level="3.1" data-path="bayes.html"><a href="bayes.html#classical-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> Classical frequentist approach<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="bayes.html"><a href="bayes.html#introduction-to-bayesian-approach"><i class="fa fa-check"></i><b>3.2</b> Introduction to Bayesian approach<span></span></a>
 <ul>
-<li class="chapter" data-level="5.1.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#gibbs-sampling"><i class="fa fa-check"></i><b>5.1.1</b> Gibbs sampling</a></li>
-<li class="chapter" data-level="5.1.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#metropolis-algorithm"><i class="fa fa-check"></i><b>5.1.2</b> Metropolis algorithm</a></li>
+<li class="chapter" data-level="3.2.1" data-path="bayes.html"><a href="bayes.html#review-from-session-1"><i class="fa fa-check"></i><b>3.2.1</b> Review from session 1<span></span></a></li>
+<li class="chapter" data-level="3.2.2" data-path="bayes.html"><a href="bayes.html#the-beta-binomial-model"><i class="fa fa-check"></i><b>3.2.2</b> The Beta-binomial model<span></span></a></li>
+<li class="chapter" data-level="3.2.3" data-path="bayes.html"><a href="bayes.html#the-normal-normal-model"><i class="fa fa-check"></i><b>3.2.3</b> The Normal-normal model<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#mcmc-diganostics---assess-convergence"><i class="fa fa-check"></i><b>5.2</b> MCMC diganostics - assess convergence</a>
+<li class="chapter" data-level="3.3" data-path="bayes.html"><a href="bayes.html#summary-of-conjugate-priors-models"><i class="fa fa-check"></i><b>3.3</b> Summary of Conjugate priors &amp; models<span></span></a></li>
+<li class="chapter" data-level="3.4" data-path="bayes.html"><a href="bayes.html#why-bayesian-statistical-estimation-revisit"><i class="fa fa-check"></i><b>3.4</b> Why Bayesian: Statistical Estimation Revisit<span></span></a>
 <ul>
-<li class="chapter" data-level="5.2.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#acceptance-rate"><i class="fa fa-check"></i><b>5.2.1</b> Acceptance Rate</a></li>
-<li class="chapter" data-level="5.2.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#diagnostics-using-multiple-chains"><i class="fa fa-check"></i><b>5.2.2</b> Diagnostics Using Multiple Chains</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-modelling-with-brms"><i class="fa fa-check"></i><b>5.3</b> Example Bayesian modelling with brms</a>
-<ul>
-<li class="chapter" data-level="5.3.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-logistic-regression-model"><i class="fa fa-check"></i><b>5.3.1</b> Example Bayesian logistic regression model</a></li>
-<li class="chapter" data-level="" data-path="BayesMCMC.html"><a href="BayesMCMC.html#r-session-information-4"><i class="fa fa-check"></i>R Session information</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="BayesReg1.html"><a href="BayesReg1.html"><i class="fa fa-check"></i><b>6</b> Bayesian Regression I</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="BayesReg1.html"><a href="BayesReg1.html#normal-models-and-linear-regression"><i class="fa fa-check"></i><b>6.1</b> Normal Models and Linear Regression</a>
-<ul>
-<li class="chapter" data-level="6.1.1" data-path="BayesReg1.html"><a href="BayesReg1.html#one-sample-and-two-sample-normal-regression"><i class="fa fa-check"></i><b>6.1.1</b> One-sample and two-sample normal regression</a></li>
-<li class="chapter" data-level="6.1.2" data-path="BayesReg1.html"><a href="BayesReg1.html#linear-regression"><i class="fa fa-check"></i><b>6.1.2</b> Linear regression</a></li>
-<li class="chapter" data-level="6.1.3" data-path="BayesReg1.html"><a href="BayesReg1.html#model-diagnostics"><i class="fa fa-check"></i><b>6.1.3</b> Model diagnostics</a></li>
-<li class="chapter" data-level="6.1.4" data-path="BayesReg1.html"><a href="BayesReg1.html#model-comparision"><i class="fa fa-check"></i><b>6.1.4</b> Model comparision</a></li>
-</ul></li>
-<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="BayesReg1.html"><a href="BayesReg1.html#clustered-data-multi-level"><i class="fa fa-check"></i><b>6.2.1</b> Clustered data (Multi-level)</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization"><i class="fa fa-check"></i><b>6.3</b> Regression regularization</a>
-<ul>
-<li class="chapter" data-level="6.3.1" data-path="BayesReg1.html"><a href="BayesReg1.html#shrinkage-priors-in-action"><i class="fa fa-check"></i><b>6.3.1</b> Shrinkage Priors in action</a></li>
-<li class="chapter" data-level="6.3.2" data-path="BayesReg1.html"><a href="BayesReg1.html#bayesian-logistic-regression-model-cope-example-revisit"><i class="fa fa-check"></i><b>6.3.2</b> Bayesian logistic regression model (COPE example revisit)</a></li>
-<li class="chapter" data-level="" data-path="BayesReg1.html"><a href="BayesReg1.html#r-session-information-5"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="3.4.1" data-path="bayes.html"><a href="bayes.html#classic-frequentist-inference"><i class="fa fa-check"></i><b>3.4.1</b> Classic Frequentist Inference<span></span></a></li>
+<li class="chapter" data-level="3.4.2" data-path="bayes.html"><a href="bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>3.4.2</b> Bayesian Inference<span></span></a></li>
+<li><a href="bayes.html#r-session-information-2">R Session information<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II</a>
+<li class="chapter" data-level="4" data-path="Prior.html"><a href="Prior.html"><i class="fa fa-check"></i><b>4</b> Prior Distributions<span></span></a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-binary-data"><i class="fa fa-check"></i><b>7.1</b> Models for Binary Data</a>
+<li class="chapter" data-level="4.1" data-path="Prior.html"><a href="Prior.html#choosing-priors"><i class="fa fa-check"></i><b>4.1</b> Choosing priors<span></span></a>
 <ul>
-<li class="chapter" data-level="7.1.1" data-path="BayesReg2.html"><a href="BayesReg2.html#logistic-regression-with-predictor"><i class="fa fa-check"></i><b>7.1.1</b> Logistic regression with predictor</a></li>
-<li class="chapter" data-level="7.1.2" data-path="BayesReg2.html"><a href="BayesReg2.html#centring-continous-variable"><i class="fa fa-check"></i><b>7.1.2</b> Centring continous variable</a></li>
-<li class="chapter" data-level="7.1.3" data-path="BayesReg2.html"><a href="BayesReg2.html#hierarchical-model-revisit"><i class="fa fa-check"></i><b>7.1.3</b> hierarchical model revisit</a></li>
+<li class="chapter" data-level="4.1.1" data-path="Prior.html"><a href="Prior.html#eliciting-priors-from-experts"><i class="fa fa-check"></i><b>4.1.1</b> Eliciting priors from experts<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-count-data"><i class="fa fa-check"></i><b>7.2</b> Models for Count Data</a>
+<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors<span></span></a>
 <ul>
-<li class="chapter" data-level="7.2.1" data-path="BayesReg2.html"><a href="BayesReg2.html#modelling-rates"><i class="fa fa-check"></i><b>7.2.1</b> Modelling Rates</a></li>
-<li class="chapter" data-level="7.2.2" data-path="BayesReg2.html"><a href="BayesReg2.html#expanding-the-poisson-model"><i class="fa fa-check"></i><b>7.2.2</b> Expanding the Poisson Model</a></li>
-<li class="chapter" data-level="7.2.3" data-path="BayesReg2.html"><a href="BayesReg2.html#checking-and-comparing-models"><i class="fa fa-check"></i><b>7.2.3</b> Checking and comparing models</a></li>
-<li class="chapter" data-level="" data-path="BayesReg2.html"><a href="BayesReg2.html#r-session-information-6"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="4.2.1" data-path="Prior.html"><a href="Prior.html#non-informative-or-reference-priors"><i class="fa fa-check"></i><b>4.2.1</b> “Non-informative” or “reference” priors<span></span></a></li>
+<li class="chapter" data-level="4.2.2" data-path="Prior.html"><a href="Prior.html#minimally-informative-prior"><i class="fa fa-check"></i><b>4.2.2</b> Minimally informative prior<span></span></a></li>
+<li class="chapter" data-level="4.2.3" data-path="Prior.html"><a href="Prior.html#skeptical-prior"><i class="fa fa-check"></i><b>4.2.3</b> Skeptical Prior<span></span></a></li>
+<li class="chapter" data-level="4.2.4" data-path="Prior.html"><a href="Prior.html#optimisticenthusiastic-prior"><i class="fa fa-check"></i><b>4.2.4</b> Optimistic/enthusiastic Prior<span></span></a></li>
+<li class="chapter" data-level="4.2.5" data-path="Prior.html"><a href="Prior.html#evaluating-priors"><i class="fa fa-check"></i><b>4.2.5</b> Evaluating Priors?<span></span></a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="BayesMeta.html"><a href="BayesMeta.html"><i class="fa fa-check"></i><b>8</b> Bayesian Meta-Analysis</a>
+<li class="chapter" data-level="4.3" data-path="Prior.html"><a href="Prior.html#historical-data-meta-analysis"><i class="fa fa-check"></i><b>4.3</b> Historical data (meta-analysis)<span></span></a></li>
+<li class="chapter" data-level="4.4" data-path="Prior.html"><a href="Prior.html#hierarchical-priors-and-shrinkage-priors"><i class="fa fa-check"></i><b>4.4</b> Hierarchical priors and shrinkage priors<span></span></a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="BayesMeta.html"><a href="BayesMeta.html#introduction"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
-<li class="chapter" data-level="8.2" data-path="BayesMeta.html"><a href="BayesMeta.html#bayesian-inference-1"><i class="fa fa-check"></i><b>8.2</b> Bayesian inference</a></li>
-<li class="chapter" data-level="8.3" data-path="BayesMeta.html"><a href="BayesMeta.html#continuous-data"><i class="fa fa-check"></i><b>8.3</b> Continuous data</a>
+<li><a href="Prior.html#r-session-information-3">R Session information<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="BayesMCMC.html"><a href="BayesMCMC.html"><i class="fa fa-check"></i><b>5</b> Bayesian estimation with MCMC<span></span></a>
 <ul>
-<li class="chapter" data-level="8.3.1" data-path="BayesMeta.html"><a href="BayesMeta.html#fitting-a-ma-with-brms"><i class="fa fa-check"></i><b>8.3.1</b> Fitting a MA with brms</a></li>
-<li class="chapter" data-level="8.3.2" data-path="BayesMeta.html"><a href="BayesMeta.html#meta-regression"><i class="fa fa-check"></i><b>8.3.2</b> Meta-regression</a></li>
+<li class="chapter" data-level="5.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#introduction-to-markov-chain-monte-carlo-methods"><i class="fa fa-check"></i><b>5.1</b> Introduction to Markov Chain Monte Carlo Methods<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#gibbs-sampling"><i class="fa fa-check"></i><b>5.1.1</b> Gibbs sampling<span></span></a></li>
+<li class="chapter" data-level="5.1.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#metropolis-algorithm"><i class="fa fa-check"></i><b>5.1.2</b> Metropolis algorithm<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="BayesMeta.html"><a href="BayesMeta.html#other-types-of-data"><i class="fa fa-check"></i><b>8.4</b> Other types of data</a></li>
+<li class="chapter" data-level="5.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#mcmc-diganostics---assess-convergence"><i class="fa fa-check"></i><b>5.2</b> MCMC diganostics - assess convergence<span></span></a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#acceptance-rate"><i class="fa fa-check"></i><b>5.2.1</b> Acceptance Rate<span></span></a></li>
+<li class="chapter" data-level="5.2.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#diagnostics-using-multiple-chains"><i class="fa fa-check"></i><b>5.2.2</b> Diagnostics Using Multiple Chains<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="5.3" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-modelling-with-brms"><i class="fa fa-check"></i><b>5.3</b> Example Bayesian modelling with brms<span></span></a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-logistic-regression-model"><i class="fa fa-check"></i><b>5.3.1</b> Example Bayesian logistic regression model<span></span></a></li>
+<li><a href="BayesMCMC.html#r-session-information-4">R Session information<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="BayesReg1.html"><a href="BayesReg1.html"><i class="fa fa-check"></i><b>6</b> Bayesian Regression I<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="BayesReg1.html"><a href="BayesReg1.html#normal-models-and-linear-regression"><i class="fa fa-check"></i><b>6.1</b> Normal Models and Linear Regression<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="BayesReg1.html"><a href="BayesReg1.html#one-sample-and-two-sample-normal-regression"><i class="fa fa-check"></i><b>6.1.1</b> One-sample and two-sample normal regression<span></span></a></li>
+<li class="chapter" data-level="6.1.2" data-path="BayesReg1.html"><a href="BayesReg1.html#linear-regression"><i class="fa fa-check"></i><b>6.1.2</b> Linear regression<span></span></a></li>
+<li class="chapter" data-level="6.1.3" data-path="BayesReg1.html"><a href="BayesReg1.html#model-diagnostics"><i class="fa fa-check"></i><b>6.1.3</b> Model diagnostics<span></span></a></li>
+<li class="chapter" data-level="6.1.4" data-path="BayesReg1.html"><a href="BayesReg1.html#model-comparision"><i class="fa fa-check"></i><b>6.1.4</b> Model comparision<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models<span></span></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="BayesReg1.html"><a href="BayesReg1.html#clustered-data-multi-level"><i class="fa fa-check"></i><b>6.2.1</b> Clustered data (Multi-level)<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization"><i class="fa fa-check"></i><b>6.3</b> Regression regularization<span></span></a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="BayesReg1.html"><a href="BayesReg1.html#shrinkage-priors-in-action"><i class="fa fa-check"></i><b>6.3.1</b> Shrinkage Priors in action<span></span></a></li>
+<li class="chapter" data-level="6.3.2" data-path="BayesReg1.html"><a href="BayesReg1.html#bayesian-logistic-regression-model-cope-example-revisit"><i class="fa fa-check"></i><b>6.3.2</b> Bayesian logistic regression model (COPE example revisit)<span></span></a></li>
+<li><a href="BayesReg1.html#r-session-information-5">R Session information<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-binary-data"><i class="fa fa-check"></i><b>7.1</b> Models for Binary Data<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="BayesReg2.html"><a href="BayesReg2.html#logistic-regression-with-predictor"><i class="fa fa-check"></i><b>7.1.1</b> Logistic regression with predictor<span></span></a></li>
+<li class="chapter" data-level="7.1.2" data-path="BayesReg2.html"><a href="BayesReg2.html#centring-continous-variable"><i class="fa fa-check"></i><b>7.1.2</b> Centring continous variable<span></span></a></li>
+<li class="chapter" data-level="7.1.3" data-path="BayesReg2.html"><a href="BayesReg2.html#hierarchical-model-revisit"><i class="fa fa-check"></i><b>7.1.3</b> hierarchical model revisit<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-count-data"><i class="fa fa-check"></i><b>7.2</b> Models for Count Data<span></span></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="BayesReg2.html"><a href="BayesReg2.html#modelling-rates"><i class="fa fa-check"></i><b>7.2.1</b> Modelling Rates<span></span></a></li>
+<li class="chapter" data-level="7.2.2" data-path="BayesReg2.html"><a href="BayesReg2.html#expanding-the-poisson-model"><i class="fa fa-check"></i><b>7.2.2</b> Expanding the Poisson Model<span></span></a></li>
+<li class="chapter" data-level="7.2.3" data-path="BayesReg2.html"><a href="BayesReg2.html#checking-and-comparing-models"><i class="fa fa-check"></i><b>7.2.3</b> Checking and comparing models<span></span></a></li>
+<li><a href="BayesReg2.html#r-session-information-6">R Session information<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="BayesMeta.html"><a href="BayesMeta.html"><i class="fa fa-check"></i><b>8</b> Bayesian Meta-Analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="BayesMeta.html"><a href="BayesMeta.html#introduction"><i class="fa fa-check"></i><b>8.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="8.2" data-path="BayesMeta.html"><a href="BayesMeta.html#bayesian-inference-1"><i class="fa fa-check"></i><b>8.2</b> Bayesian inference<span></span></a></li>
+<li class="chapter" data-level="8.3" data-path="BayesMeta.html"><a href="BayesMeta.html#continuous-data"><i class="fa fa-check"></i><b>8.3</b> Continuous data<span></span></a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="BayesMeta.html"><a href="BayesMeta.html#fitting-a-ma-with-brms"><i class="fa fa-check"></i><b>8.3.1</b> Fitting a MA with brms<span></span></a></li>
+<li class="chapter" data-level="8.3.2" data-path="BayesMeta.html"><a href="BayesMeta.html#meta-regression"><i class="fa fa-check"></i><b>8.3.2</b> Meta-regression<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="BayesMeta.html"><a href="BayesMeta.html#other-types-of-data"><i class="fa fa-check"></i><b>8.4</b> Other types of data<span></span></a></li>
+</ul></li>
+<li><a href="references.html#references">References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a> <a href="https://www.kuan-liu.com/" target="blank">Developed by Kuan Liu</a></li>
 
@@ -360,8 +359,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="BayesReg2" class="section level1" number="7">
-<h1><span class="header-section-number">Session 7</span> Bayesian Regression II</h1>
+<div id="BayesReg2" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Session 7</span> Bayesian Regression II<a href="BayesReg2.html#BayesReg2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div class="chapterintro">
 <ul>
 <li>Learn how to fit and interpret Bayesian logistic regression</li>
@@ -371,8 +370,8 @@ div.csl-indent {
 </div>
 <script src="hideOutput.js"></script>
 <p></br></p>
-<div id="models-for-binary-data" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Models for Binary Data</h2>
+<div id="models-for-binary-data" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Models for Binary Data<a href="BayesReg2.html#models-for-binary-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li>For binary outcome Y, we are interested to model the probability of <span class="math inline">\(\pi_i = P(Y_i=1)\)</span>, <span class="math inline">\(i=1, \ldots, n\)</span></li>
 </ul>
@@ -414,8 +413,8 @@ div.csl-indent {
 <li><p>Each study reports observed positive chemiluminescent immunoassa (CLIA, <span class="math inline">\(r_i\)</span>) and number having positive reference standard reverse transcriptase polymerase chain reaction (RT-PCR, <span class="math inline">\(n_i\)</span>)</p></li>
 <li><p>Interest lies in summarizing this collection of values</p></li>
 </ul>
-<div id="htmlwidget-c64682c1c88dc965a05a" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c64682c1c88dc965a05a">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[65,209,158,44,46,13,15,144,432,69],[79,216,276,61,47,27,16,205,503,80],[59,67,49,42,82,36,61,58,48,59]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Study<\/th>\n      <th>r<\/th>\n      <th>n<\/th>\n      <th>age<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3]},{"className":"dt-right","targets":4},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-648254aad74ad3a6dbbe" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-648254aad74ad3a6dbbe">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[65,209,158,44,46,13,15,144,432,69],[79,216,276,61,47,27,16,205,503,80],[71,72,59,55,59,43,70,54,61,55]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Study<\/th>\n      <th>r<\/th>\n      <th>n<\/th>\n      <th>age<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3]},{"className":"dt-right","targets":4},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p><strong>Unpooled</strong></p>
 <ul>
 <li>recall from last week, We can assume a binomial likelihood for each study (unpooled),</li>
@@ -552,8 +551,8 @@ div.csl-indent {
 <ul>
 <li>what does the posterior output look like?</li>
 </ul>
-<div id="htmlwidget-a1590451ffa5f5d229d1" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a1590451ffa5f5d229d1">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],[1.34592609678414,1.28454906948583,1.34415950074388,1.39184540935794,1.39689495329276,1.32974744854582],[0.391327893705283,-7.03789425274545,-6.81959053190196,-3.49244487623223,4.67425712259199,-0.535442413567366],[-115.626854644715,-115.903290862193,-115.621618507106,-116.031592675718,-116.107345998752,-115.60785718242]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>b_Intercept<\/th>\n      <th>prior_Intercept<\/th>\n      <th>lp__<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2]},{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-70947063b257cf61d051" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-70947063b257cf61d051">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],[1.34592609678414,1.28454906948583,1.34415950074388,1.39184540935794,1.39689495329276,1.32974744854582],[0.391327893705283,-7.03789425274545,-6.81959053190196,-3.49244487623223,4.67425712259199,-0.535442413567366],[-115.626854644715,-115.903290862193,-115.621618507106,-116.031592675718,-116.107345998752,-115.60785718242]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>b_Intercept<\/th>\n      <th>prior_Intercept<\/th>\n      <th>lp__<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2]},{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
 <li>comparing prior and posterior distribution visually</li>
 </ul>
@@ -567,8 +566,8 @@ div.csl-indent {
 <span id="cb8-8"><a href="BayesReg2.html#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>))</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="logistic-regression-with-predictor" class="section level3" number="7.1.1">
-<h3><span class="header-section-number">7.1.1</span> Logistic regression with predictor</h3>
+<div id="logistic-regression-with-predictor" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Logistic regression with predictor<a href="BayesReg2.html#logistic-regression-with-predictor" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><p>Adding one predictor, age, for each study in modelling CLIA sensitivity</p></li>
 <li><p>We have the following Bayesian model</p></li>
@@ -632,11 +631,11 @@ div.csl-indent {
 <span id="cb14-22"><a href="BayesReg2.html#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">searching =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb14-23"><a href="BayesReg2.html#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-center&#39;</span>, </span>
 <span id="cb14-24"><a href="BayesReg2.html#cb14-24" aria-hidden="true" tabindex="-1"></a>                      <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>))))</span></code></pre></div>
-<div id="htmlwidget-49ef3dfc385c9379b210" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-49ef3dfc385c9379b210">{"x":{"filter":"none","vertical":false,"data":[["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[65,209,158,44,46,13,15,144,432,69],[79,216,276,61,47,27,16,205,503,80],[0.82,0.97,0.57,0.72,0.98,0.48,0.94,0.7,0.86,0.86],[0.84,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.72,0.83)","(0.54,0.7)","(0.64,0.85)","(0.66,0.89)","(0.48,0.85)","(0.62,1)","(0.71,0.84)","(0.84,0.92)","(0.84,0.98)"]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>r<\/th>\n      <th>n<\/th>\n      <th>Prob_obs<\/th>\n      <th>Prob_post<\/th>\n      <th>CI_post<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4e10a4966b0f5929b0b7" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4e10a4966b0f5929b0b7">{"x":{"filter":"none","vertical":false,"data":[["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[65,209,158,44,46,13,15,144,432,69],[79,216,276,61,47,27,16,205,503,80],[0.82,0.97,0.57,0.72,0.98,0.48,0.94,0.7,0.86,0.86],[0.85,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.72,0.83)","(0.54,0.69)","(0.64,0.85)","(0.64,0.89)","(0.48,0.85)","(0.62,1)","(0.71,0.84)","(0.84,0.91)","(0.84,0.98)"]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>r<\/th>\n      <th>n<\/th>\n      <th>Prob_obs<\/th>\n      <th>Prob_post<\/th>\n      <th>CI_post<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="centring-continous-variable" class="section level3" number="7.1.2">
-<h3><span class="header-section-number">7.1.2</span> Centring continous variable</h3>
+<div id="centring-continous-variable" class="section level3 hasAnchor" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Centring continous variable<a href="BayesReg2.html#centring-continous-variable" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>our model says that sensitivity is different across studies according to the average age</li>
 </ul>
@@ -687,8 +686,8 @@ div.csl-indent {
 <li><p>posterior predicted probability testing positive for each study comparing between the centred and uncentred models</p></li>
 <li><p>we can see the results are almost <em>identical</em> and we achieved this with only 5000 iterations for the centred model.</p></li>
 </ul>
-<div id="htmlwidget-05b818a5d5b6e1d6ec19" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-05b818a5d5b6e1d6ec19">{"x":{"filter":"none","vertical":false,"data":[["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[0.82,0.97,0.57,0.72,0.98,0.48,0.94,0.7,0.86,0.86],[0.84,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.72,0.83)","(0.54,0.7)","(0.64,0.85)","(0.66,0.89)","(0.48,0.85)","(0.62,1)","(0.71,0.84)","(0.84,0.92)","(0.84,0.98)"],[0.84,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.72,0.83)","(0.54,0.7)","(0.64,0.85)","(0.66,0.89)","(0.48,0.85)","(0.62,1)","(0.71,0.84)","(0.84,0.91)","(0.84,0.96)"]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>Prob_obs<\/th>\n      <th>Prob_post<\/th>\n      <th>CI_post<\/th>\n      <th>c_Prob_post<\/th>\n      <th>c_CI_post<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ac45d030981319e0f3c7" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ac45d030981319e0f3c7">{"x":{"filter":"none","vertical":false,"data":[["Lin","Ma","Cai","Infantino","Zhong","Jin","Xie","Yangchun","Qian","Lou"],[0.82,0.97,0.57,0.72,0.98,0.48,0.94,0.7,0.86,0.86],[0.85,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.72,0.83)","(0.54,0.69)","(0.64,0.85)","(0.64,0.89)","(0.48,0.85)","(0.62,1)","(0.71,0.84)","(0.84,0.91)","(0.84,0.98)"],[0.84,0.78,0.62,0.75,0.78,0.68,0.82,0.78,0.88,0.91],["(0.76,0.92)","(0.71,0.83)","(0.54,0.7)","(0.64,0.85)","(0.66,0.89)","(0.48,0.85)","(0.62,1)","(0.72,0.84)","(0.84,0.92)","(0.84,0.98)"]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>Prob_obs<\/th>\n      <th>Prob_post<\/th>\n      <th>CI_post<\/th>\n      <th>c_Prob_post<\/th>\n      <th>c_CI_post<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
 <li><p>we can investigate the correlation between two posterior regression parameters, <span class="math inline">\(\alpha\)</span> (intercept) and <span class="math inline">\(\beta\)</span> (log-OR for age).</p></li>
 <li><p>The two parameters should be uncorrelated by model assumption! If you see visible correlation, you can consider thinning your MCMC or run more iterations.</p></li>
@@ -744,8 +743,8 @@ div.csl-indent {
 <span id="cb22-23"><a href="BayesReg2.html#cb22-23" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-17-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
-<div id="hierarchical-model-revisit" class="section level3" number="7.1.3">
-<h3><span class="header-section-number">7.1.3</span> hierarchical model revisit</h3>
+<div id="hierarchical-model-revisit" class="section level3 hasAnchor" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> hierarchical model revisit<a href="BayesReg2.html#hierarchical-model-revisit" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><p>Suppose that we do not believe that the sensitivity values are all the same</p></li>
 <li><p>But we also believe that they are related, in the sense that they share a common underlying proportion but with deviations</p></li>
@@ -834,16 +833,16 @@ div.csl-indent {
 <span id="cb24-4"><a href="BayesReg2.html#cb24-4" aria-hidden="true" tabindex="-1"></a>s4 <span class="ot">&lt;-</span> <span class="fu">posterior_samples</span>(fit4)</span>
 <span id="cb24-5"><a href="BayesReg2.html#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(fit4)[,<span class="sc">-</span><span class="dv">2</span>]<span class="sc">/</span>dat<span class="sc">$</span>n </span></code></pre></div>
 <pre><code>##        Estimate      Q2.5     Q97.5
-##  [1,] 0.8243528 0.6962025 0.9240506
-##  [2,] 0.9620226 0.9212963 0.9907407
-##  [3,] 0.5755376 0.4927536 0.6557971
-##  [4,] 0.7271168 0.5573770 0.8688525
-##  [5,] 0.9564654 0.8510638 1.0000000
-##  [6,] 0.5205556 0.2592593 0.7777778
-##  [7,] 0.9058125 0.6875000 1.0000000
-##  [8,] 0.7039866 0.6146341 0.7853659
-##  [9,] 0.8585037 0.8131213 0.8986083
-## [10,] 0.8605406 0.7375000 0.9500000</code></pre>
+##  [1,] 0.8236472 0.6962025 0.9240506
+##  [2,] 0.9623681 0.9212963 0.9907407
+##  [3,] 0.5760838 0.4927536 0.6557971
+##  [4,] 0.7287561 0.5573770 0.8688525
+##  [5,] 0.9564362 0.8510638 1.0000000
+##  [6,] 0.5206343 0.2592593 0.7777778
+##  [7,] 0.9048984 0.6875000 1.0000000
+##  [8,] 0.7041780 0.6146341 0.7902439
+##  [9,] 0.8587555 0.8151093 0.8986083
+## [10,] 0.8602797 0.7500000 0.9500000</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="BayesReg2.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior predicted sensitivity including random effect</span></span>
 <span id="cb26-2"><a href="BayesReg2.html#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="BayesReg2.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># How would I predict the sensitivity in a NEW study</span></span>
@@ -859,7 +858,7 @@ div.csl-indent {
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="BayesReg2.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="fu">inv_logit_scaled</span>(newlogit), <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##       50%      2.5%     97.5% 
-## 0.8371709 0.2228873 0.9910064</code></pre>
+## 0.8371526 0.2270120 0.9904615</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="BayesReg2.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">Sensitivity=</span><span class="fu">c</span>(<span class="fu">inv_logit_scaled</span>(newlogit), <span class="co">#mixed effect;</span></span>
 <span id="cb29-2"><a href="BayesReg2.html#cb29-2" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">inv_logit_scaled</span>(averageLogit)), <span class="co">#fixed effect;</span></span>
 <span id="cb29-3"><a href="BayesReg2.html#cb29-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">Type=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;New Study&quot;</span>,<span class="st">&quot;Pooled Estimate&quot;</span>),<span class="at">each=</span><span class="fu">nrow</span>(s4))) <span class="sc">%&gt;%</span></span>
@@ -1099,8 +1098,8 @@ Figure 7.1: Seed example data summary
 </div>
 </div>
 </div>
-<div id="models-for-count-data" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Models for Count Data</h2>
+<div id="models-for-count-data" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Models for Count Data<a href="BayesReg2.html#models-for-count-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li>Example Count Data
 <ul>
@@ -1145,8 +1144,8 @@ number <span class="math inline">\(\theta\)</span> as</li>
 count how many episodes of flu did not occur</p></li>
 </ul>
 </div>
-<div id="modelling-rates" class="section level3" number="7.2.1">
-<h3><span class="header-section-number">7.2.1</span> Modelling Rates</h3>
+<div id="modelling-rates" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Modelling Rates<a href="BayesReg2.html#modelling-rates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>Usually, it is the rate that we are interested in e.g., consider a study looking at emergency room visits among CHF patients over three years
 <ul>
@@ -1162,8 +1161,10 @@ count how many episodes of flu did not occur</p></li>
 <li>Suppose we have follow up time <span class="math inline">\(T_i\)</span> and number of events <span class="math inline">\(Y_i\)</span> for each subject</li>
 <li>Lets assume that the underlying rate of events is the <strong>same</strong> for everyone</li>
 <li>We are interested in this common underlying rate of events <span class="math inline">\(\lambda\)</span></li>
-<li>We prefer to model <span class="math inline">\(\log(\lambda)\)</span>, where $ &gt; 0 - &lt; () &lt; $ and</li>
+<li>We prefer to model <span class="math inline">\(\log(\lambda)\)</span>, where</li>
 </ul>
+<p><span class="math display">\[ \lambda &gt; 0 \leftrightarrow - \infty &lt; \log(\lambda) &lt; \infty\]</span></p>
+<p>and</p>
 <p><span class="math display">\[Y_i \sim Poisson(\theta_i)\]</span>
 <span class="math display">\[\theta_i = \lambda \times T_i\]</span>
 <span class="math display">\[\log(\lambda) = \alpha\]</span></p>
@@ -1179,8 +1180,8 @@ count how many episodes of flu did not occur</p></li>
 <li>Assume a rate <span class="math inline">\(\lambda_i\)</span> that depends on the treatment received by subject <span class="math inline">\(i\)</span>, our model updated to</li>
 </ul>
 <p><span class="math display">\[Y_i \sim Poisson(\theta_i)\]</span>
-<span class="math display">\[\theta_i = \lambda \times T_i\]</span>
-<span class="math display">\[\log(\lambda) = \alpha + \beta \times TRT_i\]</span></p>
+<span class="math display">\[\theta_i = \lambda_i \times T_i\]</span>
+<span class="math display">\[\log(\lambda_i) = \alpha + \beta \times TRT_i\]</span></p>
 <ul>
 <li>Given the model above, we can compare rate between treated (t) and controls (c)
 <ul>
@@ -1247,7 +1248,7 @@ count how many episodes of flu did not occur</p></li>
 <li><strong>Independent observations</strong>. This assumption can be modified if working with clustered data.</li>
 <li><strong>Linear relationship between continuous covariates and log-rate</strong></li>
 <li><strong>No over-dispersion</strong> For Poisson distributed variable, we have its mean equals to its variance. Thus, conditioning on predictors <span class="math inline">\(X\)</span>, the expected value of <span class="math inline">\(Y\)</span> should be roughly equivalent to the variability in <span class="math inline">\(Y\)</span>. If this assumption is violated, we can consider fitting a negative binomial regression model by allowing the variance to be different (larger) from the mean. We can use waic and loo to determine if the negative binomial model is of better fit than the Poisson model.</li>
-<li><strong>No zero-inflation</strong> When we observe majority of our study subjects with zero number of events over time, we call this data with an excess number of zeroes (zero-inflation). When we have excess zeroes in our count data, we can consider fitting a zero-inflated Poisson or a zero-inflated negative binomial regression model. We can use waic and loo to determine if the zero-inflated models are of better fit than the Poisson model.
+<li><strong>No zero-inflation</strong> When we observe majority of our study subjects with zero number of events over time, we call this data with an excess number of zeroes (zero-inflation). When we have excess zeroes in our count data, we can consider fitting a zero-inflated Poisson or a zero-inflated negative binomial regression model. We can use loo to determine if the zero-inflated models are of better fit than the Poisson model.
 <ul>
 <li>e.g., the number of hospitalizations a health 20-25 years old person experiences in a year</li>
 </ul></li>
@@ -1283,8 +1284,8 @@ history of previous falls, also coded as 0/1</p>
 <span id="cb46-11"><a href="BayesReg2.html#cb46-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">searching =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb46-12"><a href="BayesReg2.html#cb46-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-center&#39;</span>, </span>
 <span id="cb46-13"><a href="BayesReg2.html#cb46-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>))))</span></code></pre></div>
-<div id="htmlwidget-8a93e3a91a43cd650408" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8a93e3a91a43cd650408">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[8,2,1,1,1,0,2,0,2,1],[1,0.63561644,1,1,0.4109589,1,1,1,1,1],[1,0,0,0,0,1,1,0,0,0],[0,0,0,1,0,0,0,0,1,0]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>falls<\/th>\n      <th>fu<\/th>\n      <th>FemaleSex<\/th>\n      <th>PrevFall<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3]},{"className":"dt-right","targets":4},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-49d0024a170c3e8b8cf0" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-49d0024a170c3e8b8cf0">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[8,2,1,1,1,0,2,0,2,1],[1,0.63561644,1,1,0.4109589,1,1,1,1,1],[1,0,0,0,0,1,1,0,0,0],[0,0,0,1,0,0,0,0,1,0]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>falls<\/th>\n      <th>fu<\/th>\n      <th>FemaleSex<\/th>\n      <th>PrevFall<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3]},{"className":"dt-right","targets":4},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
 <li>First let’s examine the summary statistics</li>
 </ul>
@@ -1292,12 +1293,12 @@ history of previous falls, also coded as 0/1</p>
 <span id="cb47-2"><a href="BayesReg2.html#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">list</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">&quot;{mean} ({sd})&quot;</span>,</span>
 <span id="cb47-3"><a href="BayesReg2.html#cb47-3" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">all_categorical</span>() <span class="sc">~</span> <span class="st">&quot;{n} / {N} ({p}%)&quot;</span>),</span>
 <span id="cb47-4"><a href="BayesReg2.html#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="dv">2</span>)</span></code></pre></div>
-<div id="ctvsiowwnh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qdvekoajrq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ctvsiowwnh .gt_table {
+#qdvekoajrq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1322,7 +1323,7 @@ history of previous falls, also coded as 0/1</p>
   border-left-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_heading {
+#qdvekoajrq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1334,7 +1335,7 @@ history of previous falls, also coded as 0/1</p>
   border-right-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_title {
+#qdvekoajrq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1346,7 +1347,7 @@ history of previous falls, also coded as 0/1</p>
   border-bottom-width: 0;
 }
 
-#ctvsiowwnh .gt_subtitle {
+#qdvekoajrq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1358,13 +1359,13 @@ history of previous falls, also coded as 0/1</p>
   border-top-width: 0;
 }
 
-#ctvsiowwnh .gt_bottom_border {
+#qdvekoajrq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_col_headings {
+#qdvekoajrq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1379,7 +1380,7 @@ history of previous falls, also coded as 0/1</p>
   border-right-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_col_heading {
+#qdvekoajrq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1399,7 +1400,7 @@ history of previous falls, also coded as 0/1</p>
   overflow-x: hidden;
 }
 
-#ctvsiowwnh .gt_column_spanner_outer {
+#qdvekoajrq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1411,15 +1412,15 @@ history of previous falls, also coded as 0/1</p>
   padding-right: 4px;
 }
 
-#ctvsiowwnh .gt_column_spanner_outer:first-child {
+#qdvekoajrq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ctvsiowwnh .gt_column_spanner_outer:last-child {
+#qdvekoajrq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ctvsiowwnh .gt_column_spanner {
+#qdvekoajrq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1431,7 +1432,7 @@ history of previous falls, also coded as 0/1</p>
   width: 100%;
 }
 
-#ctvsiowwnh .gt_group_heading {
+#qdvekoajrq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1456,7 +1457,7 @@ history of previous falls, also coded as 0/1</p>
   vertical-align: middle;
 }
 
-#ctvsiowwnh .gt_empty_group_heading {
+#qdvekoajrq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1471,15 +1472,15 @@ history of previous falls, also coded as 0/1</p>
   vertical-align: middle;
 }
 
-#ctvsiowwnh .gt_from_md > :first-child {
+#qdvekoajrq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ctvsiowwnh .gt_from_md > :last-child {
+#qdvekoajrq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ctvsiowwnh .gt_row {
+#qdvekoajrq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1498,7 +1499,7 @@ history of previous falls, also coded as 0/1</p>
   overflow-x: hidden;
 }
 
-#ctvsiowwnh .gt_stub {
+#qdvekoajrq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1511,7 +1512,7 @@ history of previous falls, also coded as 0/1</p>
   padding-right: 5px;
 }
 
-#ctvsiowwnh .gt_stub_row_group {
+#qdvekoajrq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1525,11 +1526,11 @@ history of previous falls, also coded as 0/1</p>
   vertical-align: top;
 }
 
-#ctvsiowwnh .gt_row_group_first td {
+#qdvekoajrq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ctvsiowwnh .gt_summary_row {
+#qdvekoajrq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1539,16 +1540,16 @@ history of previous falls, also coded as 0/1</p>
   padding-right: 5px;
 }
 
-#ctvsiowwnh .gt_first_summary_row {
+#qdvekoajrq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_first_summary_row.thick {
+#qdvekoajrq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ctvsiowwnh .gt_last_summary_row {
+#qdvekoajrq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1558,7 +1559,7 @@ history of previous falls, also coded as 0/1</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_grand_summary_row {
+#qdvekoajrq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1568,7 +1569,7 @@ history of previous falls, also coded as 0/1</p>
   padding-right: 5px;
 }
 
-#ctvsiowwnh .gt_first_grand_summary_row {
+#qdvekoajrq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1578,11 +1579,11 @@ history of previous falls, also coded as 0/1</p>
   border-top-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_striped {
+#qdvekoajrq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ctvsiowwnh .gt_table_body {
+#qdvekoajrq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1591,7 +1592,7 @@ history of previous falls, also coded as 0/1</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_footnotes {
+#qdvekoajrq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1605,7 +1606,7 @@ history of previous falls, also coded as 0/1</p>
   border-right-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_footnote {
+#qdvekoajrq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1614,7 +1615,7 @@ history of previous falls, also coded as 0/1</p>
   padding-right: 5px;
 }
 
-#ctvsiowwnh .gt_sourcenotes {
+#qdvekoajrq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1628,7 +1629,7 @@ history of previous falls, also coded as 0/1</p>
   border-right-color: #D3D3D3;
 }
 
-#ctvsiowwnh .gt_sourcenote {
+#qdvekoajrq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1636,60 +1637,60 @@ history of previous falls, also coded as 0/1</p>
   padding-right: 5px;
 }
 
-#ctvsiowwnh .gt_left {
+#qdvekoajrq .gt_left {
   text-align: left;
 }
 
-#ctvsiowwnh .gt_center {
+#qdvekoajrq .gt_center {
   text-align: center;
 }
 
-#ctvsiowwnh .gt_right {
+#qdvekoajrq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ctvsiowwnh .gt_font_normal {
+#qdvekoajrq .gt_font_normal {
   font-weight: normal;
 }
 
-#ctvsiowwnh .gt_font_bold {
+#qdvekoajrq .gt_font_bold {
   font-weight: bold;
 }
 
-#ctvsiowwnh .gt_font_italic {
+#qdvekoajrq .gt_font_italic {
   font-style: italic;
 }
 
-#ctvsiowwnh .gt_super {
+#qdvekoajrq .gt_super {
   font-size: 65%;
 }
 
-#ctvsiowwnh .gt_footnote_marks {
+#qdvekoajrq .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ctvsiowwnh .gt_asterisk {
+#qdvekoajrq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ctvsiowwnh .gt_slash_mark {
+#qdvekoajrq .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#ctvsiowwnh .gt_fraction_numerator {
+#qdvekoajrq .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#ctvsiowwnh .gt_fraction_denominator {
+#qdvekoajrq .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1899,8 +1900,8 @@ history of previous falls, also coded as 0/1</p>
 ## MalePrevFall   3.72   3.71     3.10       4.40
 ## FemalePrevFall 2.18   2.17     1.69       2.74</code></pre>
 </div>
-<div id="expanding-the-poisson-model" class="section level3" number="7.2.2">
-<h3><span class="header-section-number">7.2.2</span> Expanding the Poisson Model</h3>
+<div id="expanding-the-poisson-model" class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Expanding the Poisson Model<a href="BayesReg2.html#expanding-the-poisson-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>The standard Poisson model says that the only random variation is due to the Poisson sampling
 <ul>
@@ -2097,14 +2098,14 @@ history of previous falls, also coded as 0/1</p>
 <p><strong>Model 4. Expanding with zero-inflation</strong></p>
 <ul>
 <li>Often, excessive numbers of zero counts are a problem (e.g., healthy individuals have no events and less healthy individuals can have many events)</li>
-<li>The Poisson distribution with mean <span class="math inline">\(\mu\)</span> has this probability of zero events:</li>
+<li>The Poisson distribution with mean <span class="math inline">\(\theta\)</span> has this probability of zero events:</li>
 </ul>
-<p><span class="math display">\[P(Y=0 \mid \mu) = \frac{\mu^0 \exp(-\mu)}{0!} = \exp(-\mu)\]</span></p>
+<p><span class="math display">\[P(Y=0 \mid \theta) = \frac{\theta^0 \exp(-\theta)}{0!} = \exp(-\theta)\]</span></p>
 <ul>
 <li><p>e.g., if the mean is 5, <span class="math inline">\(P(Y=0) = 0.67\%\)</span></p></li>
 <li><p>In a sample where a lot of people have high counts, so the mean is high, zeroes are unlikely</p></li>
 <li><p>One solution is to fit a zero-inflated Poisson</p></li>
-<li><p>It has two parts (“mixure model”)</p>
+<li><p>It has two parts (“mixture model”)</p>
 <ul>
 <li>One regression fits a probability that <span class="math inline">\(\lambda_i = 0\)</span> (explains some of the zeroes)</li>
 <li>A simultaneous regression fits the observed count (explains some of the zeroes)</li>
@@ -2113,7 +2114,7 @@ history of previous falls, also coded as 0/1</p>
 <li><p>Among subjects with a non-zero rate, the observations are Poisson</p></li>
 <li><p>To model this we need a new Bernoulli variable <span class="math inline">\(z\)</span>, <span class="math inline">\(z\)</span> tells us which group (reg 1 for <span class="math inline">\(\lambda_i = 0\)</span> or reg 2 for the observed counts) the observation is in: 0 or 1</p>
 <ol style="list-style-type: decimal">
-<li><span class="math inline">\(z=0 \rightarrow \theta = z \times \lambda \times T = 0\)</span> (never have a fall, <em>strctural zeros</em>)</li>
+<li><span class="math inline">\(z=0 \rightarrow \theta = z \times \lambda \times T = 0\)</span> (never have a fall, <em>structural zeros</em>)</li>
 <li><span class="math inline">\(z=1 \rightarrow \theta = z \times \lambda \times T\)</span> (fall with rate <span class="math inline">\(\lambda\)</span>)</li>
 </ol></li>
 <li><p>The probability that <span class="math inline">\(z\)</span> is 0 is governed by a separate logistic model for <span class="math inline">\(z\)</span>, which does not have to include all the same predictors for example previous fall in the fall example</p></li>
@@ -2253,8 +2254,8 @@ history of previous falls, also coded as 0/1</p>
 <span id="cb85-29"><a href="BayesReg2.html#cb85-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">searching =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb85-30"><a href="BayesReg2.html#cb85-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-center&#39;</span>, </span>
 <span id="cb85-31"><a href="BayesReg2.html#cb85-31" aria-hidden="true" tabindex="-1"></a>                      <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>))))</span></code></pre></div>
-<div id="htmlwidget-acd2884f607699c51be2" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-acd2884f607699c51be2">{"x":{"filter":"none","vertical":false,"data":[[0,0,1,1],[0,1,0,1],[53.86027398,43.44383563,28.94520547,20.26027397],[57,38,119,36],[61,47,31,23],[1.06,0.87,4.11,1.78]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>PrevFall<\/th>\n      <th>FemaleSex<\/th>\n      <th>FU<\/th>\n      <th>Falls<\/th>\n      <th>N<\/th>\n      <th>Obs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3bfa08125bbc34e8bba5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3bfa08125bbc34e8bba5">{"x":{"filter":"none","vertical":false,"data":[[0,0,1,1],[0,1,0,1],[53.86027398,43.44383563,28.94520547,20.26027397],[57,38,119,36],[61,47,31,23],[1.06,0.87,4.11,1.78]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>PrevFall<\/th>\n      <th>FemaleSex<\/th>\n      <th>FU<\/th>\n      <th>Falls<\/th>\n      <th>N<\/th>\n      <th>Obs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
 <li>Combining results from all four models</li>
 </ul>
@@ -2301,7 +2302,7 @@ history of previous falls, also coded as 0/1</p>
 <td align="center">4.20</td>
 </tr>
 <tr class="odd">
-<td>Poisson/Gam</td>
+<td>NB</td>
 <td>female sex</td>
 <td align="center">0.72</td>
 <td align="center">0.40</td>
@@ -2362,8 +2363,8 @@ history of previous falls, also coded as 0/1</p>
 <span id="cb86-20"><a href="BayesReg2.html#cb86-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">searching =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb86-21"><a href="BayesReg2.html#cb86-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-center&#39;</span>, </span>
 <span id="cb86-22"><a href="BayesReg2.html#cb86-22" aria-hidden="true" tabindex="-1"></a>                      <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">7</span>))))</span></code></pre></div>
-<div id="htmlwidget-500c3f4541fc9223c5ba" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-500c3f4541fc9223c5ba">{"x":{"filter":"none","vertical":false,"data":[[0,0,1,1],[0,1,0,1],[61,47,31,23],[1.06,0.87,4.11,1.78],[1.24,0.72,3.7,2.18],[1.26,0.8,3.24,2.05],[1.26,0.88,3.18,2.22],[1.11,0.8,3.48,2.45]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>PrevFall<\/th>\n      <th>FemaleSex<\/th>\n      <th>N<\/th>\n      <th>Obs<\/th>\n      <th>Pois<\/th>\n      <th>P/RE<\/th>\n      <th>NB<\/th>\n      <th>ZIP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5,6,7]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-266314bbdb57e609d380" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-266314bbdb57e609d380">{"x":{"filter":"none","vertical":false,"data":[[0,0,1,1],[0,1,0,1],[61,47,31,23],[1.06,0.87,4.11,1.78],[1.25,0.72,3.71,2.17],[1.33,0.85,3.39,2.14],[1.23,0.91,3.22,2.22],[1.12,0.79,3.52,2.5]],"container":"<table class=\"compact\">\n  <thead>\n    <tr>\n      <th>PrevFall<\/th>\n      <th>FemaleSex<\/th>\n      <th>N<\/th>\n      <th>Obs<\/th>\n      <th>Pois<\/th>\n      <th>P/RE<\/th>\n      <th>NB<\/th>\n      <th>ZIP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"paging":false,"searching":false,"columnDefs":[{"className":"dt-center","targets":[0,1,2,3,4,5,6,7]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p><strong>Summary</strong></p>
 <ul>
 <li><p>RR are of similar size for each of the models</p></li>
@@ -2374,8 +2375,8 @@ history of previous falls, also coded as 0/1</p>
 </ul></li>
 </ul>
 </div>
-<div id="checking-and-comparing-models" class="section level3" number="7.2.3">
-<h3><span class="header-section-number">7.2.3</span> Checking and comparing models</h3>
+<div id="checking-and-comparing-models" class="section level3 hasAnchor" number="7.2.3">
+<h3><span class="header-section-number">7.2.3</span> Checking and comparing models<a href="BayesReg2.html#checking-and-comparing-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><p>Dose simple Poisson fit the count outcome?</p></li>
 <li><p>Tukey Hanging Rootogram</p>
@@ -2482,8 +2483,8 @@ gamma distribution</p>
 <li>Check model fits (wait, loo - can be technical problems with these)</li>
 </ul>
 </div>
-<div id="r-session-information-6" class="section level3 unnumbered">
-<h3>R Session information</h3>
+<div id="r-session-information-6" class="section level3 unnumbered hasAnchor">
+<h3>R Session information<a href="BayesReg2.html#r-session-information-6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <pre><code>## R version 4.0.5 (2021-03-31)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 19044)
@@ -2501,8 +2502,8 @@ gamma distribution</p>
 ## 
 ## other attached packages:
 ##  [1] vcd_1.4-9        DT_0.21          extraDistr_1.9.1 gtsummary_1.5.2 
-##  [5] bayesplot_1.8.1  MCMCpack_1.6-0   MASS_7.3-53.1    coda_0.19-4     
-##  [9] ggmcmc_1.5.1.1   tidybayes_3.0.2  brms_2.16.3      Rcpp_1.0.7      
+##  [5] bayesplot_1.9.0  MCMCpack_1.6-1   MASS_7.3-53.1    coda_0.19-4     
+##  [9] ggmcmc_1.5.1.1   tidybayes_3.0.2  brms_2.16.3      Rcpp_1.0.8.3    
 ## [13] ggpubr_0.4.0     forcats_0.5.1    stringr_1.4.0    dplyr_1.0.8     
 ## [17] purrr_0.3.4      readr_2.1.2      tidyr_1.2.0      tibble_3.1.6    
 ## [21] ggplot2_3.3.5    tidyverse_1.3.1</code></pre>
@@ -2510,7 +2511,7 @@ gamma distribution</p>
 </div>
 </div>
 </div>
-<h3>References</h3>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-bastos2020diagnostic" class="csl-entry">
 Bastos, Mayara Lisboa, Gamuchirai Tavaziva, Syed Kunal Abidi, Jonathon R Campbell, Louis-Patrick Haraoui, James C Johnston, Zhiyi Lan, et al. 2020. <span>“Diagnostic Accuracy of Serological Tests for Covid-19: Systematic Review and Meta-Analysis.”</span> <em>Bmj</em> 370.
