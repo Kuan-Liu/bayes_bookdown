@@ -7,12 +7,10 @@
 - Review on random variables and common probability distributions
 :::
 
-<script src="hideOutput.js"></script>
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
-# Every chapter, we will load all the library we will use at the beginning
-# of the chapter. 
-library(tidyverse)
+require(tidyverse)
+library(truncnorm)
 library(VennDiagram)
 library(gganimate)
 library(tweenr)
@@ -23,6 +21,8 @@ options(scipen = 999)
 
 </br>
 
+
+<script src="hideOutput.js"></script>
 
 ## Probability
 
@@ -458,22 +458,25 @@ This is a function with two important properties
 ::: {.workedexample data-latex=""}
 **From histograms to PDFs**
 ```{r, echo=F}
-library(truncnorm)
+
 set.seed(345)
 x <- round(rtruncnorm(10000, a=50, b=220, mean = 125, sd = 25),0)
-dist <- data.frame( x )
-ggplot(dist, aes(x=x)) + 
+dist <- data.frame(x)
+
+p1<-ggplot(dist, aes(x=x)) + 
   geom_histogram(color="black", fill="white", binwidth = 5)+
   scale_x_continuous(breaks = seq(50,200,10))+
   ggtitle('Histogram of 10000 blood pressures for health males aged 18-74 years \n (5mm binwidth)') +
   theme_bw()
 
-ggplot(dist, aes(x=x)) + 
+p2<-ggplot(dist, aes(x=x)) + 
   geom_histogram(color="black", fill="white", binwidth = 2)+
   scale_x_continuous(breaks = seq(50,200,10))+
   ggtitle('Histogram of 10000 blood pressures for health males aged 18-74 years \n (2mm binwidth)') +
   theme_bw()
 
+p1
+p2
 ```
 
 - With a large enough sample, and narrow enough intervals, histogram starts to look smooth.
@@ -498,6 +501,7 @@ q95 <- quantile(x,.80)
 medx <- median(x)
 x.dens <- density(x)
 df.dens <- data.frame(x = x.dens$x, y = x.dens$y)
+
 p + geom_area(data = subset(df.dens, x >= q5 & x <= q95), 
               aes(x=x,y=y), fill = 'red', alpha=0.5)
 

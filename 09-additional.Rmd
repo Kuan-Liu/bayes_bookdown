@@ -12,7 +12,7 @@
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 # Every chapter, we will load all the library we will use at the beginning
 # of the chapter. 
-library(tidyverse)
+require(tidyverse)
 library(DT)
 library(brms)
 library(magrittr)
@@ -155,7 +155,7 @@ fit_ma_random <- brm(data = dat,
 
 
 
-#saveRDS(fit_ma_random, "data/chap8_ma_random")
+# saveRDS(fit_ma_random, "data/chap8_ma_random")
 ```
 
 - Summarizing posterior results
@@ -164,6 +164,7 @@ fit_ma_random <- brm(data = dat,
 fit_ma_random <- readRDS("data/chap8_ma_random")
 plot(fit_ma_random)
 print(fit_ma_random)
+
 ```
 
 - We can check the default priors in our model
@@ -175,8 +176,7 @@ get_prior(data = dat,
 ```
  - The forest plot displays the entire posterior distribution of each $\theta_i$. The meta-analytic effect size $\mu$ is also displayed in the bottom row.
  
-```{r echo=T, fig.align='center', warning=FALSE, message=FALSE}
-
+```{r echo=T, fig.align='center', warning=FALSE, message=FALSE, eval=FALSE}
 
 out_r <- spread_draws(fit_ma_random, r_study[study,term], b_Intercept) %>% 
   mutate(b_Intercept = r_study + b_Intercept) 
@@ -186,9 +186,7 @@ out_f <- spread_draws(fit_ma_random, b_Intercept) %>%
 
 out_all <- bind_rows(out_r, out_f) %>% 
   ungroup() %>%
-  
   mutate(study = fct_relevel(study, "Average")) %>% 
-
   mutate(study = str_replace_all(study, "\\.", " "))
 
 out_all_sum <- group_by(out_all, study) %>% 
@@ -196,10 +194,8 @@ out_all_sum <- group_by(out_all, study) %>%
 
 out_all %>%   
   ggplot(aes(b_Intercept, study)) +
-  
   geom_vline(xintercept = 0, size = .25, lty = 2) +
   stat_halfeye(.width = c(.8, .95), fill = "pink") +
- 
   geom_text(
     data = mutate_if(out_all_sum, is.numeric, round, 2),
     aes(label = str_glue("{b_Intercept} [{.lower}, {.upper}]"), x = 1.5),
@@ -211,7 +207,9 @@ out_all %>%
     aes(x=yi), position = position_nudge(y = -.2), shape = 1 
   )
 ```
-
+```{r echo=FALSE, fig.align='center', fig.width=9, fig.height=5}
+knitr::include_graphics("images/Rplot_forest_brms.jpeg")
+```
 
 ::: {.guidedexercise data-latex=""}
 **Run a fixed-effect model** 
@@ -258,7 +256,7 @@ fit_ma_reg <- brm(data = dat,
 
 
 
-#saveRDS(fit_ma_reg, "data/chap9_ma_reg")
+# saveRDS(fit_ma_reg, "data/chap9_ma_reg")
 ```
 
 - Summarizing posterior results
@@ -312,7 +310,7 @@ $$
 
 ```{r echo=FALSE,include=T,message=F}
 
-dat <- read_csv("data/blocker.csv")
+dat <- read.csv("data/blocker.csv")
 
 dat %>%
   datatable(
@@ -386,7 +384,7 @@ model {
 - Below you will find the syntax to compile the model and run it in `R`.
 
 ```{r echo=T, message=FALSE, warning=FALSE, eval=F}
-test = read.csv("data/testData.txt",header = T)
+test = read.table("data/testData.txt",header = T)
 
 r = cbind(test[,1],test[,3])
 n = cbind(test[,2],test[,4])
@@ -410,8 +408,8 @@ fit=model$sample(data = data,
 
 - Summarizing posterior results
 
-```{r echo=F, message=FALSE, warning=FALSE}
-fit <- readRDS("data/fit_stan.RDS")
+```{r echo=T, message=FALSE, warning=FALSE, eval=F}
+# fit <- readRDS("data/fit_stan.RDS")
 fit$summary(c("d","sd_","delta")) %>% select(variable,median,q5,q95,rhat) %>% 
   datatable(
   rownames = F,
@@ -427,7 +425,7 @@ fit$summary(c("d","sd_","delta")) %>% select(variable,median,q5,q95,rhat) %>%
 
 - Plotting baseline risks and the scatterplot of $d_{12}$ and $sigma$.
 
-```{r echo=T, message=FALSE, warning=FALSE, eval=T}
+```{r echo=T, message=FALSE, warning=FALSE, eval=F}
 theta = fit$draws(c("mu","d","sd_"))
 mcmc_intervals(theta,regex_pars = "mu")
 mcmc_pairs(theta,pars = c("d","sd_"))
@@ -436,7 +434,7 @@ mcmc_pairs(theta,pars = c("d","sd_"))
 ::: {.guidedexercise data-latex=""}
 **Run a fixed-effect mode and random-effects model with brms using the binomial data example** 
 ```{r echo=TRUE, eval=FALSE}
-dat <- read_csv("data/blocker.csv")
+dat <- read.csv("data/blocker.csv")
 
 fit_ma_binomial_random <-
   brm(data = dat,
@@ -453,3 +451,12 @@ fit_ma_binomial_fixed<-
 
 ```
 :::
+
+
+### R Session information {-}
+
+
+```{r echo=F}
+getS3method("print","sessionInfo")(sessionInfo()[c(1:7)])
+```
+

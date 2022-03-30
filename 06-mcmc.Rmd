@@ -13,8 +13,8 @@
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 # Every chapter, we will load all the library we will use at the beginning
 # of the chapter. 
-library(tidyverse)
-library(ggpubr)
+require(tidyverse)
+require(ggpubr)
 library(brms)
 library(ggmcmc)
 library(MCMCpack)

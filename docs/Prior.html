@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Session 4 Prior Distributions | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research</title>
   <meta name="description" content="Course notes for HAD5314H Winter 2022" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Session 4 Prior Distributions | HAD5314H - Applied Bayesian Methods in Clinical Epidemiology and Health Care Research" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://kuan-liu.github.io/bayes_bookdown/" />
   
   <meta property="og:description" content="Course notes for HAD5314H Winter 2022" />
   
@@ -24,7 +23,7 @@
 <meta name="author" content="Kuan Liu   Institute of Health Policy, Management and Evaluation   University of Toronto" />
 
 
-<meta name="date" content="2022-03-18" />
+<meta name="date" content="2022-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="bayes.html"/>
 <link rel="next" href="BayesMCMC.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,11 +49,12 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.20/datatables.js"></script>
+<script src="libs/datatables-binding-0.22/datatables.js"></script>
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
@@ -167,177 +166,183 @@ div.csl-indent {
 <li><a href="./">HAD5314H - Winter 2022 </a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>University of Toronto Statement of Acknowledgment of Traditional Land</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html"><i class="fa fa-check"></i>Course Syllabus</a>
+<li><a href="index.html#university-of-toronto-statement-of-acknowledgment-of-traditional-land">University of Toronto Statement of Acknowledgment of Traditional Land<span></span></a></li>
+<li><a href="course-syllabus.html#course-syllabus">Course Syllabus<span></span></a>
 <ul>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-info"><i class="fa fa-check"></i>Course Info</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-description"><i class="fa fa-check"></i>Course Description</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#course-textbook-and-structure"><i class="fa fa-check"></i>Course Textbook and Structure</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#calendar-and-outline"><i class="fa fa-check"></i>Calendar and Outline</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#accessibility-and-accommodations"><i class="fa fa-check"></i>Accessibility and Accommodations</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#academic-integrity"><i class="fa fa-check"></i>Academic Integrity</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#key-resources-and-supports-for-dslph-graduate-students"><i class="fa fa-check"></i>Key Resources and Supports for DSLPH Graduate Students</a></li>
-<li class="chapter" data-level="" data-path="course-syllabus.html"><a href="course-syllabus.html#license"><i class="fa fa-check"></i>License</a></li>
+<li><a href="course-syllabus.html#course-info">Course Info<span></span></a></li>
+<li><a href="course-syllabus.html#course-description">Course Description<span></span></a></li>
+<li><a href="course-syllabus.html#course-textbook-and-structure">Course Textbook and Structure<span></span></a></li>
+<li><a href="course-syllabus.html#calendar-and-outline">Calendar and Outline<span></span></a></li>
+<li><a href="course-syllabus.html#accessibility-and-accommodations">Accessibility and Accommodations<span></span></a></li>
+<li><a href="course-syllabus.html#academic-integrity">Academic Integrity<span></span></a></li>
+<li><a href="course-syllabus.html#key-resources-and-supports-for-dslph-graduate-students">Key Resources and Supports for DSLPH Graduate Students<span></span></a></li>
+<li><a href="course-syllabus.html#license">License<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="into.html"><a href="into.html"><i class="fa fa-check"></i><b>1</b> Introduction to the course</a>
+<li class="chapter" data-level="1" data-path="into.html"><a href="into.html"><i class="fa fa-check"></i><b>1</b> Introduction to the course<span></span></a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="into.html"><a href="into.html#about-me"><i class="fa fa-check"></i><b>1.1</b> About me</a></li>
-<li class="chapter" data-level="1.2" data-path="into.html"><a href="into.html#syllabus"><i class="fa fa-check"></i><b>1.2</b> Syllabus</a></li>
-<li class="chapter" data-level="1.3" data-path="into.html"><a href="into.html#some-history"><i class="fa fa-check"></i><b>1.3</b> Some history</a>
+<li class="chapter" data-level="1.1" data-path="into.html"><a href="into.html#about-me"><i class="fa fa-check"></i><b>1.1</b> About me<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="into.html"><a href="into.html#syllabus"><i class="fa fa-check"></i><b>1.2</b> Syllabus<span></span></a></li>
+<li class="chapter" data-level="1.3" data-path="into.html"><a href="into.html#some-history"><i class="fa fa-check"></i><b>1.3</b> Some history<span></span></a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="into.html"><a href="into.html#bayesian-history"><i class="fa fa-check"></i><b>1.3.1</b> Bayesian history</a></li>
-<li class="chapter" data-level="1.3.2" data-path="into.html"><a href="into.html#history-of-this-course"><i class="fa fa-check"></i><b>1.3.2</b> History of this course</a></li>
+<li class="chapter" data-level="1.3.1" data-path="into.html"><a href="into.html#bayesian-history"><i class="fa fa-check"></i><b>1.3.1</b> Bayesian history<span></span></a></li>
+<li class="chapter" data-level="1.3.2" data-path="into.html"><a href="into.html#history-of-this-course"><i class="fa fa-check"></i><b>1.3.2</b> History of this course<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="into.html"><a href="into.html#thinking-like-a-bayesian-using-the-concept-of-probability"><i class="fa fa-check"></i><b>1.4</b> Thinking like a Bayesian using the concept of probability</a>
+<li class="chapter" data-level="1.4" data-path="into.html"><a href="into.html#thinking-like-a-bayesian-using-the-concept-of-probability"><i class="fa fa-check"></i><b>1.4</b> Thinking like a Bayesian using the concept of probability<span></span></a>
 <ul>
-<li class="chapter" data-level="1.4.1" data-path="into.html"><a href="into.html#probability-is-not-unitary"><i class="fa fa-check"></i><b>1.4.1</b> Probability is not unitary</a></li>
-<li class="chapter" data-level="1.4.2" data-path="into.html"><a href="into.html#bayes-rule"><i class="fa fa-check"></i><b>1.4.2</b> Bayes’ Rule</a></li>
-<li class="chapter" data-level="1.4.3" data-path="into.html"><a href="into.html#the-scientific-method-in-steps"><i class="fa fa-check"></i><b>1.4.3</b> The Scientific Method in steps</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html"><i class="fa fa-check"></i>Lab1 Getting started with R &amp; RStudio</a>
-<ul>
-<li class="chapter" data-level="1.5" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-and-rstudio-installation"><i class="fa fa-check"></i><b>1.5</b> R and RStudio Installation</a>
-<ul>
-<li class="chapter" data-level="1.5.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#windows-operating-system"><i class="fa fa-check"></i><b>1.5.1</b> Windows operating system</a></li>
-<li class="chapter" data-level="1.5.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#macos-operating-system"><i class="fa fa-check"></i><b>1.5.2</b> macOS operating system</a></li>
-</ul></li>
-<li class="chapter" data-level="1.6" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-packages"><i class="fa fa-check"></i><b>1.6</b> R Packages</a>
-<ul>
-<li class="chapter" data-level="1.6.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#bayesian-analysis-in-r-using-brms-package"><i class="fa fa-check"></i><b>1.6.1</b> Bayesian Analysis in R using brms package</a></li>
-</ul></li>
-<li class="chapter" data-level="1.7" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-in-rstudio"><i class="fa fa-check"></i><b>1.7</b> Working in RStudio</a>
-<ul>
-<li class="chapter" data-level="1.7.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#rstudio-layout"><i class="fa fa-check"></i><b>1.7.1</b> RStudio layout</a></li>
-<li class="chapter" data-level="1.7.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#customization"><i class="fa fa-check"></i><b>1.7.2</b> Customization</a></li>
-<li class="chapter" data-level="1.7.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-directory"><i class="fa fa-check"></i><b>1.7.3</b> Working directory</a></li>
-<li class="chapter" data-level="1.7.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#getting-help-with-r"><i class="fa fa-check"></i><b>1.7.4</b> Getting help with R</a></li>
-</ul></li>
-<li class="chapter" data-level="1.8" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#basic-r-a-crash-introduction"><i class="fa fa-check"></i><b>1.8</b> Basic R (a crash introduction)</a>
-<ul>
-<li class="chapter" data-level="1.8.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#arithmetic"><i class="fa fa-check"></i><b>1.8.1</b> Arithmetic</a></li>
-<li class="chapter" data-level="1.8.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#vectors"><i class="fa fa-check"></i><b>1.8.2</b> Vectors</a></li>
-<li class="chapter" data-level="1.8.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#data-frame---the-titanic-dataset"><i class="fa fa-check"></i><b>1.8.3</b> Data frame - The Titanic dataset</a></li>
-<li class="chapter" data-level="1.8.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#simple-plots"><i class="fa fa-check"></i><b>1.8.4</b> Simple plots</a></li>
-<li class="chapter" data-level="" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-session-information"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="1.4.1" data-path="into.html"><a href="into.html#probability-is-not-unitary"><i class="fa fa-check"></i><b>1.4.1</b> Probability is not unitary<span></span></a></li>
+<li class="chapter" data-level="1.4.2" data-path="into.html"><a href="into.html#bayes-rule"><i class="fa fa-check"></i><b>1.4.2</b> Bayes’ Rule<span></span></a></li>
+<li class="chapter" data-level="1.4.3" data-path="into.html"><a href="into.html#the-scientific-method-in-steps"><i class="fa fa-check"></i><b>1.4.3</b> The Scientific Method in steps<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="prob.html"><a href="prob.html"><i class="fa fa-check"></i><b>2</b> Probability, random variables and distributions</a>
+<li><a href="lab1-getting-started-with-r-rstudio.html#lab1-getting-started-with-r-rstudio">Lab1 Getting started with R &amp; RStudio<span></span></a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="prob.html"><a href="prob.html#probability"><i class="fa fa-check"></i><b>2.1</b> Probability</a>
+<li class="chapter" data-level="1.5" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html"><i class="fa fa-check"></i><b>1.5</b> R and RStudio Installation<span></span></a>
 <ul>
-<li class="chapter" data-level="2.1.1" data-path="prob.html"><a href="prob.html#venn-diagrams"><i class="fa fa-check"></i><b>2.1.1</b> Venn Diagrams</a></li>
-<li class="chapter" data-level="2.1.2" data-path="prob.html"><a href="prob.html#probability-rules"><i class="fa fa-check"></i><b>2.1.2</b> Probability Rules</a></li>
-<li class="chapter" data-level="2.1.3" data-path="prob.html"><a href="prob.html#how-to-define-and-assign-probabilities-in-general"><i class="fa fa-check"></i><b>2.1.3</b> How to define and assign probabilities in general?</a></li>
+<li class="chapter" data-level="1.5.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#windows-operating-system"><i class="fa fa-check"></i><b>1.5.1</b> Windows operating system<span></span></a></li>
+<li class="chapter" data-level="1.5.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#macos-operating-system"><i class="fa fa-check"></i><b>1.5.2</b> macOS operating system<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="prob.html"><a href="prob.html#probability-distributions"><i class="fa fa-check"></i><b>2.2</b> Probability Distributions</a>
+<li class="chapter" data-level="1.6" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#r-packages"><i class="fa fa-check"></i><b>1.6</b> R Packages<span></span></a>
 <ul>
-<li class="chapter" data-level="2.2.1" data-path="prob.html"><a href="prob.html#probability-density-functions"><i class="fa fa-check"></i><b>2.2.1</b> Probability density functions</a></li>
-<li class="chapter" data-level="2.2.2" data-path="prob.html"><a href="prob.html#discrete-distributions"><i class="fa fa-check"></i><b>2.2.2</b> Discrete Distributions</a></li>
-<li class="chapter" data-level="2.2.3" data-path="prob.html"><a href="prob.html#continous-distributions"><i class="fa fa-check"></i><b>2.2.3</b> Continous Distributions</a></li>
-<li class="chapter" data-level="" data-path="prob.html"><a href="prob.html#r-session-information-1"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="1.6.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#bayesian-analysis-in-r-using-brms-package"><i class="fa fa-check"></i><b>1.6.1</b> Bayesian Analysis in R using brms package<span></span></a></li>
 </ul></li>
+<li class="chapter" data-level="1.7" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-in-rstudio"><i class="fa fa-check"></i><b>1.7</b> Working in RStudio<span></span></a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#rstudio-layout"><i class="fa fa-check"></i><b>1.7.1</b> RStudio layout<span></span></a></li>
+<li class="chapter" data-level="1.7.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#customization"><i class="fa fa-check"></i><b>1.7.2</b> Customization<span></span></a></li>
+<li class="chapter" data-level="1.7.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#working-directory"><i class="fa fa-check"></i><b>1.7.3</b> Working directory<span></span></a></li>
+<li class="chapter" data-level="1.7.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#getting-help-with-r"><i class="fa fa-check"></i><b>1.7.4</b> Getting help with R<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>3</b> Introduction to Bayesian inference</a>
+<li class="chapter" data-level="1.8" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#basic-r-a-crash-introduction"><i class="fa fa-check"></i><b>1.8</b> Basic R (a crash introduction)<span></span></a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="bayes.html"><a href="bayes.html#classical-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> Classical frequentist approach</a></li>
-<li class="chapter" data-level="3.2" data-path="bayes.html"><a href="bayes.html#introduction-to-bayesian-approach"><i class="fa fa-check"></i><b>3.2</b> Introduction to Bayesian approach</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="bayes.html"><a href="bayes.html#review-from-session-1"><i class="fa fa-check"></i><b>3.2.1</b> Review from session 1</a></li>
-<li class="chapter" data-level="3.2.2" data-path="bayes.html"><a href="bayes.html#the-beta-binomial-model"><i class="fa fa-check"></i><b>3.2.2</b> The Beta-binomial model</a></li>
-<li class="chapter" data-level="3.2.3" data-path="bayes.html"><a href="bayes.html#the-normal-normal-model"><i class="fa fa-check"></i><b>3.2.3</b> The Normal-normal model</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path="bayes.html"><a href="bayes.html#summary-of-conjugate-priors-models"><i class="fa fa-check"></i><b>3.3</b> Summary of Conjugate priors &amp; models</a></li>
-<li class="chapter" data-level="3.4" data-path="bayes.html"><a href="bayes.html#why-bayesian-statistical-estimation-revisit"><i class="fa fa-check"></i><b>3.4</b> Why Bayesian: Statistical Estimation Revisit</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="bayes.html"><a href="bayes.html#classic-frequentist-inference"><i class="fa fa-check"></i><b>3.4.1</b> Classic Frequentist Inference</a></li>
-<li class="chapter" data-level="3.4.2" data-path="bayes.html"><a href="bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>3.4.2</b> Bayesian Inference</a></li>
-<li class="chapter" data-level="" data-path="bayes.html"><a href="bayes.html#r-session-information-2"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="1.8.1" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#arithmetic"><i class="fa fa-check"></i><b>1.8.1</b> Arithmetic<span></span></a></li>
+<li class="chapter" data-level="1.8.2" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#vectors"><i class="fa fa-check"></i><b>1.8.2</b> Vectors<span></span></a></li>
+<li class="chapter" data-level="1.8.3" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#data-frame---the-titanic-dataset"><i class="fa fa-check"></i><b>1.8.3</b> Data frame - The Titanic dataset<span></span></a></li>
+<li class="chapter" data-level="1.8.4" data-path="lab1-getting-started-with-r-rstudio.html"><a href="lab1-getting-started-with-r-rstudio.html#simple-plots"><i class="fa fa-check"></i><b>1.8.4</b> Simple plots<span></span></a></li>
+<li><a href="lab1-getting-started-with-r-rstudio.html#r-session-information">R Session information<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="Prior.html"><a href="Prior.html"><i class="fa fa-check"></i><b>4</b> Prior Distributions</a>
+<li class="chapter" data-level="2" data-path="prob.html"><a href="prob.html"><i class="fa fa-check"></i><b>2</b> Probability, random variables and distributions<span></span></a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="Prior.html"><a href="Prior.html#choosing-priors"><i class="fa fa-check"></i><b>4.1</b> Choosing priors</a>
+<li class="chapter" data-level="2.1" data-path="prob.html"><a href="prob.html#probability"><i class="fa fa-check"></i><b>2.1</b> Probability<span></span></a>
 <ul>
-<li class="chapter" data-level="4.1.1" data-path="Prior.html"><a href="Prior.html#eliciting-priors-from-experts"><i class="fa fa-check"></i><b>4.1.1</b> Eliciting priors from experts</a></li>
+<li class="chapter" data-level="2.1.1" data-path="prob.html"><a href="prob.html#venn-diagrams"><i class="fa fa-check"></i><b>2.1.1</b> Venn Diagrams<span></span></a></li>
+<li class="chapter" data-level="2.1.2" data-path="prob.html"><a href="prob.html#probability-rules"><i class="fa fa-check"></i><b>2.1.2</b> Probability Rules<span></span></a></li>
+<li class="chapter" data-level="2.1.3" data-path="prob.html"><a href="prob.html#how-to-define-and-assign-probabilities-in-general"><i class="fa fa-check"></i><b>2.1.3</b> How to define and assign probabilities in general?<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors</a>
+<li class="chapter" data-level="2.2" data-path="prob.html"><a href="prob.html#probability-distributions"><i class="fa fa-check"></i><b>2.2</b> Probability Distributions<span></span></a>
 <ul>
-<li class="chapter" data-level="4.2.1" data-path="Prior.html"><a href="Prior.html#non-informative-or-reference-priors"><i class="fa fa-check"></i><b>4.2.1</b> “Non-informative” or “reference” priors</a></li>
-<li class="chapter" data-level="4.2.2" data-path="Prior.html"><a href="Prior.html#minimally-informative-prior"><i class="fa fa-check"></i><b>4.2.2</b> Minimally informative prior</a></li>
-<li class="chapter" data-level="4.2.3" data-path="Prior.html"><a href="Prior.html#skeptical-prior"><i class="fa fa-check"></i><b>4.2.3</b> Skeptical Prior</a></li>
-<li class="chapter" data-level="4.2.4" data-path="Prior.html"><a href="Prior.html#optimisticenthusiastic-prior"><i class="fa fa-check"></i><b>4.2.4</b> Optimistic/enthusiastic Prior</a></li>
-<li class="chapter" data-level="4.2.5" data-path="Prior.html"><a href="Prior.html#evaluating-priors"><i class="fa fa-check"></i><b>4.2.5</b> Evaluating Priors?</a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="Prior.html"><a href="Prior.html#historical-data-meta-analysis"><i class="fa fa-check"></i><b>4.3</b> Historical data (meta-analysis)</a></li>
-<li class="chapter" data-level="4.4" data-path="Prior.html"><a href="Prior.html#hierarchical-priors-and-shrinkage-priors"><i class="fa fa-check"></i><b>4.4</b> Hierarchical priors and shrinkage priors</a>
-<ul>
-<li class="chapter" data-level="" data-path="Prior.html"><a href="Prior.html#r-session-information-3"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="2.2.1" data-path="prob.html"><a href="prob.html#probability-density-functions"><i class="fa fa-check"></i><b>2.2.1</b> Probability density functions<span></span></a></li>
+<li class="chapter" data-level="2.2.2" data-path="prob.html"><a href="prob.html#discrete-distributions"><i class="fa fa-check"></i><b>2.2.2</b> Discrete Distributions<span></span></a></li>
+<li class="chapter" data-level="2.2.3" data-path="prob.html"><a href="prob.html#continous-distributions"><i class="fa fa-check"></i><b>2.2.3</b> Continous Distributions<span></span></a></li>
+<li><a href="prob.html#r-session-information-1">R Session information<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="BayesMCMC.html"><a href="BayesMCMC.html"><i class="fa fa-check"></i><b>5</b> Bayesian estimation with MCMC</a>
+<li class="chapter" data-level="3" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>3</b> Introduction to Bayesian inference<span></span></a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#introduction-to-markov-chain-monte-carlo-methods"><i class="fa fa-check"></i><b>5.1</b> Introduction to Markov Chain Monte Carlo Methods</a>
+<li class="chapter" data-level="3.1" data-path="bayes.html"><a href="bayes.html#classical-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> Classical frequentist approach<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="bayes.html"><a href="bayes.html#introduction-to-bayesian-approach"><i class="fa fa-check"></i><b>3.2</b> Introduction to Bayesian approach<span></span></a>
 <ul>
-<li class="chapter" data-level="5.1.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#gibbs-sampling"><i class="fa fa-check"></i><b>5.1.1</b> Gibbs sampling</a></li>
-<li class="chapter" data-level="5.1.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#metropolis-algorithm"><i class="fa fa-check"></i><b>5.1.2</b> Metropolis algorithm</a></li>
+<li class="chapter" data-level="3.2.1" data-path="bayes.html"><a href="bayes.html#review-from-session-1"><i class="fa fa-check"></i><b>3.2.1</b> Review from session 1<span></span></a></li>
+<li class="chapter" data-level="3.2.2" data-path="bayes.html"><a href="bayes.html#the-beta-binomial-model"><i class="fa fa-check"></i><b>3.2.2</b> The Beta-binomial model<span></span></a></li>
+<li class="chapter" data-level="3.2.3" data-path="bayes.html"><a href="bayes.html#the-normal-normal-model"><i class="fa fa-check"></i><b>3.2.3</b> The Normal-normal model<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#mcmc-diganostics---assess-convergence"><i class="fa fa-check"></i><b>5.2</b> MCMC diganostics - assess convergence</a>
+<li class="chapter" data-level="3.3" data-path="bayes.html"><a href="bayes.html#summary-of-conjugate-priors-models"><i class="fa fa-check"></i><b>3.3</b> Summary of Conjugate priors &amp; models<span></span></a></li>
+<li class="chapter" data-level="3.4" data-path="bayes.html"><a href="bayes.html#why-bayesian-statistical-estimation-revisit"><i class="fa fa-check"></i><b>3.4</b> Why Bayesian: Statistical Estimation Revisit<span></span></a>
 <ul>
-<li class="chapter" data-level="5.2.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#acceptance-rate"><i class="fa fa-check"></i><b>5.2.1</b> Acceptance Rate</a></li>
-<li class="chapter" data-level="5.2.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#diagnostics-using-multiple-chains"><i class="fa fa-check"></i><b>5.2.2</b> Diagnostics Using Multiple Chains</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-modelling-with-brms"><i class="fa fa-check"></i><b>5.3</b> Example Bayesian modelling with brms</a>
-<ul>
-<li class="chapter" data-level="5.3.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-logistic-regression-model"><i class="fa fa-check"></i><b>5.3.1</b> Example Bayesian logistic regression model</a></li>
-<li class="chapter" data-level="" data-path="BayesMCMC.html"><a href="BayesMCMC.html#r-session-information-4"><i class="fa fa-check"></i>R Session information</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="BayesReg1.html"><a href="BayesReg1.html"><i class="fa fa-check"></i><b>6</b> Bayesian Regression I</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="BayesReg1.html"><a href="BayesReg1.html#normal-models-and-linear-regression"><i class="fa fa-check"></i><b>6.1</b> Normal Models and Linear Regression</a>
-<ul>
-<li class="chapter" data-level="6.1.1" data-path="BayesReg1.html"><a href="BayesReg1.html#one-sample-and-two-sample-normal-regression"><i class="fa fa-check"></i><b>6.1.1</b> One-sample and two-sample normal regression</a></li>
-<li class="chapter" data-level="6.1.2" data-path="BayesReg1.html"><a href="BayesReg1.html#linear-regression"><i class="fa fa-check"></i><b>6.1.2</b> Linear regression</a></li>
-<li class="chapter" data-level="6.1.3" data-path="BayesReg1.html"><a href="BayesReg1.html#model-diagnostics"><i class="fa fa-check"></i><b>6.1.3</b> Model diagnostics</a></li>
-<li class="chapter" data-level="6.1.4" data-path="BayesReg1.html"><a href="BayesReg1.html#model-comparision"><i class="fa fa-check"></i><b>6.1.4</b> Model comparision</a></li>
-</ul></li>
-<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="BayesReg1.html"><a href="BayesReg1.html#clustered-data-multi-level"><i class="fa fa-check"></i><b>6.2.1</b> Clustered data (Multi-level)</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization"><i class="fa fa-check"></i><b>6.3</b> Regression regularization</a>
-<ul>
-<li class="chapter" data-level="6.3.1" data-path="BayesReg1.html"><a href="BayesReg1.html#shrinkage-priors-in-action"><i class="fa fa-check"></i><b>6.3.1</b> Shrinkage Priors in action</a></li>
-<li class="chapter" data-level="6.3.2" data-path="BayesReg1.html"><a href="BayesReg1.html#bayesian-logistic-regression-model-cope-example-revisit"><i class="fa fa-check"></i><b>6.3.2</b> Bayesian logistic regression model (COPE example revisit)</a></li>
-<li class="chapter" data-level="" data-path="BayesReg1.html"><a href="BayesReg1.html#r-session-information-5"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="3.4.1" data-path="bayes.html"><a href="bayes.html#classic-frequentist-inference"><i class="fa fa-check"></i><b>3.4.1</b> Classic Frequentist Inference<span></span></a></li>
+<li class="chapter" data-level="3.4.2" data-path="bayes.html"><a href="bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>3.4.2</b> Bayesian Inference<span></span></a></li>
+<li><a href="bayes.html#r-session-information-2">R Session information<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II</a>
+<li class="chapter" data-level="4" data-path="Prior.html"><a href="Prior.html"><i class="fa fa-check"></i><b>4</b> Prior Distributions<span></span></a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-binary-data"><i class="fa fa-check"></i><b>7.1</b> Models for Binary Data</a>
+<li class="chapter" data-level="4.1" data-path="Prior.html"><a href="Prior.html#choosing-priors"><i class="fa fa-check"></i><b>4.1</b> Choosing priors<span></span></a>
 <ul>
-<li class="chapter" data-level="7.1.1" data-path="BayesReg2.html"><a href="BayesReg2.html#logistic-regression-with-predictor"><i class="fa fa-check"></i><b>7.1.1</b> Logistic regression with predictor</a></li>
-<li class="chapter" data-level="7.1.2" data-path="BayesReg2.html"><a href="BayesReg2.html#centring-continous-variable"><i class="fa fa-check"></i><b>7.1.2</b> Centring continous variable</a></li>
-<li class="chapter" data-level="7.1.3" data-path="BayesReg2.html"><a href="BayesReg2.html#hierarchical-model-revisit"><i class="fa fa-check"></i><b>7.1.3</b> hierarchical model revisit</a></li>
+<li class="chapter" data-level="4.1.1" data-path="Prior.html"><a href="Prior.html#eliciting-priors-from-experts"><i class="fa fa-check"></i><b>4.1.1</b> Eliciting priors from experts<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-count-data"><i class="fa fa-check"></i><b>7.2</b> Models for Count Data</a>
+<li class="chapter" data-level="4.2" data-path="Prior.html"><a href="Prior.html#default-clincial-priors"><i class="fa fa-check"></i><b>4.2</b> Default clincial priors<span></span></a>
 <ul>
-<li class="chapter" data-level="" data-path="BayesReg2.html"><a href="BayesReg2.html#r-session-information-6"><i class="fa fa-check"></i>R Session information</a></li>
+<li class="chapter" data-level="4.2.1" data-path="Prior.html"><a href="Prior.html#non-informative-or-reference-priors"><i class="fa fa-check"></i><b>4.2.1</b> “Non-informative” or “reference” priors<span></span></a></li>
+<li class="chapter" data-level="4.2.2" data-path="Prior.html"><a href="Prior.html#minimally-informative-prior"><i class="fa fa-check"></i><b>4.2.2</b> Minimally informative prior<span></span></a></li>
+<li class="chapter" data-level="4.2.3" data-path="Prior.html"><a href="Prior.html#skeptical-prior"><i class="fa fa-check"></i><b>4.2.3</b> Skeptical Prior<span></span></a></li>
+<li class="chapter" data-level="4.2.4" data-path="Prior.html"><a href="Prior.html#optimisticenthusiastic-prior"><i class="fa fa-check"></i><b>4.2.4</b> Optimistic/enthusiastic Prior<span></span></a></li>
+<li class="chapter" data-level="4.2.5" data-path="Prior.html"><a href="Prior.html#evaluating-priors"><i class="fa fa-check"></i><b>4.2.5</b> Evaluating Priors?<span></span></a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="BayesMeta.html"><a href="BayesMeta.html"><i class="fa fa-check"></i><b>8</b> Bayesian Meta-Analysis</a>
+<li class="chapter" data-level="4.3" data-path="Prior.html"><a href="Prior.html#historical-data-meta-analysis"><i class="fa fa-check"></i><b>4.3</b> Historical data (meta-analysis)<span></span></a></li>
+<li class="chapter" data-level="4.4" data-path="Prior.html"><a href="Prior.html#hierarchical-priors-and-shrinkage-priors"><i class="fa fa-check"></i><b>4.4</b> Hierarchical priors and shrinkage priors<span></span></a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="BayesMeta.html"><a href="BayesMeta.html#introduction"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
-<li class="chapter" data-level="8.2" data-path="BayesMeta.html"><a href="BayesMeta.html#bayesian-inference-1"><i class="fa fa-check"></i><b>8.2</b> Bayesian inference</a></li>
-<li class="chapter" data-level="8.3" data-path="BayesMeta.html"><a href="BayesMeta.html#continuous-data"><i class="fa fa-check"></i><b>8.3</b> Continuous data</a>
+<li><a href="Prior.html#r-session-information-3">R Session information<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="BayesMCMC.html"><a href="BayesMCMC.html"><i class="fa fa-check"></i><b>5</b> Bayesian estimation with MCMC<span></span></a>
 <ul>
-<li class="chapter" data-level="8.3.1" data-path="BayesMeta.html"><a href="BayesMeta.html#fitting-a-ma-with-brms"><i class="fa fa-check"></i><b>8.3.1</b> Fitting a MA with brms</a></li>
-<li class="chapter" data-level="8.3.2" data-path="BayesMeta.html"><a href="BayesMeta.html#meta-regression"><i class="fa fa-check"></i><b>8.3.2</b> Meta-regression</a></li>
+<li class="chapter" data-level="5.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#introduction-to-markov-chain-monte-carlo-methods"><i class="fa fa-check"></i><b>5.1</b> Introduction to Markov Chain Monte Carlo Methods<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#gibbs-sampling"><i class="fa fa-check"></i><b>5.1.1</b> Gibbs sampling<span></span></a></li>
+<li class="chapter" data-level="5.1.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#metropolis-algorithm"><i class="fa fa-check"></i><b>5.1.2</b> Metropolis algorithm<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="BayesMeta.html"><a href="BayesMeta.html#other-types-of-data"><i class="fa fa-check"></i><b>8.4</b> Other types of data</a></li>
+<li class="chapter" data-level="5.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#mcmc-diganostics---assess-convergence"><i class="fa fa-check"></i><b>5.2</b> MCMC diganostics - assess convergence<span></span></a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#acceptance-rate"><i class="fa fa-check"></i><b>5.2.1</b> Acceptance Rate<span></span></a></li>
+<li class="chapter" data-level="5.2.2" data-path="BayesMCMC.html"><a href="BayesMCMC.html#diagnostics-using-multiple-chains"><i class="fa fa-check"></i><b>5.2.2</b> Diagnostics Using Multiple Chains<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="5.3" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-modelling-with-brms"><i class="fa fa-check"></i><b>5.3</b> Example Bayesian modelling with brms<span></span></a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="BayesMCMC.html"><a href="BayesMCMC.html#example-bayesian-logistic-regression-model"><i class="fa fa-check"></i><b>5.3.1</b> Example Bayesian logistic regression model<span></span></a></li>
+<li><a href="BayesMCMC.html#r-session-information-4">R Session information<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="BayesReg1.html"><a href="BayesReg1.html"><i class="fa fa-check"></i><b>6</b> Bayesian Regression I<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="BayesReg1.html"><a href="BayesReg1.html#normal-models-and-linear-regression"><i class="fa fa-check"></i><b>6.1</b> Normal Models and Linear Regression<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="BayesReg1.html"><a href="BayesReg1.html#one-sample-and-two-sample-normal-regression"><i class="fa fa-check"></i><b>6.1.1</b> One-sample and two-sample normal regression<span></span></a></li>
+<li class="chapter" data-level="6.1.2" data-path="BayesReg1.html"><a href="BayesReg1.html#linear-regression"><i class="fa fa-check"></i><b>6.1.2</b> Linear regression<span></span></a></li>
+<li class="chapter" data-level="6.1.3" data-path="BayesReg1.html"><a href="BayesReg1.html#model-diagnostics"><i class="fa fa-check"></i><b>6.1.3</b> Model diagnostics<span></span></a></li>
+<li class="chapter" data-level="6.1.4" data-path="BayesReg1.html"><a href="BayesReg1.html#model-comparision"><i class="fa fa-check"></i><b>6.1.4</b> Model comparision<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="BayesReg1.html"><a href="BayesReg1.html#hierarchical-models"><i class="fa fa-check"></i><b>6.2</b> Hierarchical models<span></span></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="BayesReg1.html"><a href="BayesReg1.html#clustered-data-multi-level"><i class="fa fa-check"></i><b>6.2.1</b> Clustered data (Multi-level)<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="BayesReg1.html"><a href="BayesReg1.html#regression-regularization"><i class="fa fa-check"></i><b>6.3</b> Regression regularization<span></span></a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="BayesReg1.html"><a href="BayesReg1.html#shrinkage-priors-in-action"><i class="fa fa-check"></i><b>6.3.1</b> Shrinkage Priors in action<span></span></a></li>
+<li class="chapter" data-level="6.3.2" data-path="BayesReg1.html"><a href="BayesReg1.html#bayesian-logistic-regression-model-cope-example-revisit"><i class="fa fa-check"></i><b>6.3.2</b> Bayesian logistic regression model (COPE example revisit)<span></span></a></li>
+<li><a href="BayesReg1.html#r-session-information-5">R Session information<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="BayesReg2.html"><a href="BayesReg2.html"><i class="fa fa-check"></i><b>7</b> Bayesian Regression II<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-binary-data"><i class="fa fa-check"></i><b>7.1</b> Models for Binary Data<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="BayesReg2.html"><a href="BayesReg2.html#logistic-regression-with-predictor"><i class="fa fa-check"></i><b>7.1.1</b> Logistic regression with predictor<span></span></a></li>
+<li class="chapter" data-level="7.1.2" data-path="BayesReg2.html"><a href="BayesReg2.html#centring-continous-variable"><i class="fa fa-check"></i><b>7.1.2</b> Centring continous variable<span></span></a></li>
+<li class="chapter" data-level="7.1.3" data-path="BayesReg2.html"><a href="BayesReg2.html#hierarchical-model-revisit"><i class="fa fa-check"></i><b>7.1.3</b> hierarchical model revisit<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="BayesReg2.html"><a href="BayesReg2.html#models-for-count-data"><i class="fa fa-check"></i><b>7.2</b> Models for Count Data<span></span></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="BayesReg2.html"><a href="BayesReg2.html#modelling-rates"><i class="fa fa-check"></i><b>7.2.1</b> Modelling Rates<span></span></a></li>
+<li class="chapter" data-level="7.2.2" data-path="BayesReg2.html"><a href="BayesReg2.html#expanding-the-poisson-model"><i class="fa fa-check"></i><b>7.2.2</b> Expanding the Poisson Model<span></span></a></li>
+<li class="chapter" data-level="7.2.3" data-path="BayesReg2.html"><a href="BayesReg2.html#checking-and-comparing-models"><i class="fa fa-check"></i><b>7.2.3</b> Checking and comparing models<span></span></a></li>
+<li><a href="BayesReg2.html#r-session-information-6">R Session information<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="BayesMeta.html"><a href="BayesMeta.html"><i class="fa fa-check"></i><b>8</b> Bayesian Meta-Analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="BayesMeta.html"><a href="BayesMeta.html#introduction"><i class="fa fa-check"></i><b>8.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="8.2" data-path="BayesMeta.html"><a href="BayesMeta.html#bayesian-inference-1"><i class="fa fa-check"></i><b>8.2</b> Bayesian inference<span></span></a></li>
+<li class="chapter" data-level="8.3" data-path="BayesMeta.html"><a href="BayesMeta.html#continuous-data"><i class="fa fa-check"></i><b>8.3</b> Continuous data<span></span></a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="BayesMeta.html"><a href="BayesMeta.html#fitting-a-ma-with-brms"><i class="fa fa-check"></i><b>8.3.1</b> Fitting a MA with brms<span></span></a></li>
+<li class="chapter" data-level="8.3.2" data-path="BayesMeta.html"><a href="BayesMeta.html#meta-regression"><i class="fa fa-check"></i><b>8.3.2</b> Meta-regression<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="BayesMeta.html"><a href="BayesMeta.html#other-types-of-data"><i class="fa fa-check"></i><b>8.4</b> Other types of data<span></span></a>
+<ul>
+<li><a href="BayesMeta.html#r-session-information-7">R Session information<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="references.html#references">References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a> <a href="https://www.kuan-liu.com/" target="blank">Developed by Kuan Liu</a></li>
 
@@ -358,8 +363,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="Prior" class="section level1" number="4">
-<h1><span class="header-section-number">Session 4</span> Prior Distributions</h1>
+<div id="Prior" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Session 4</span> Prior Distributions<a href="Prior.html#Prior" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div class="chapterintro">
 <ul>
 <li>Learn different ways of selecting and constructing priors</li>
@@ -369,9 +374,11 @@ div.csl-indent {
 </ul>
 </div>
 <script src="hideOutput.js"></script>
+<pre><code>## Error in completeSubclasses(classDef2, class1, obj, where) : 
+##   trying to get slot &quot;subclasses&quot; from an object of a basic class (&quot;NULL&quot;) with no slots</code></pre>
 <p></br></p>
-<div id="choosing-priors" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Choosing priors</h2>
+<div id="choosing-priors" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Choosing priors<a href="Prior.html#choosing-priors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><strong>Types of prior</strong></p>
 <p>Generally speaking, there are two types of priors: informative and noninformative.</p>
 <ul>
@@ -407,8 +414,8 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 </ul>
-<div id="eliciting-priors-from-experts" class="section level3" number="4.1.1">
-<h3><span class="header-section-number">4.1.1</span> Eliciting priors from experts</h3>
+<div id="eliciting-priors-from-experts" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Eliciting priors from experts<a href="Prior.html#eliciting-priors-from-experts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Elicitation is the process of</p>
 <ul>
 <li>representing the knowledge of one or more experts - expert knowledge is useful!</li>
@@ -470,11 +477,11 @@ reliability, responsiveness, and feasibility (lacking in exisiting work).</li>
 </div>
 </div>
 </div>
-<div id="default-clincial-priors" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Default clincial priors</h2>
+<div id="default-clincial-priors" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Default clincial priors<a href="Prior.html#default-clincial-priors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Section 5.5 Default Priors of <span class="citation">(<a href="#ref-spiegelhalter2003" role="doc-biblioref">David J. Spiegelhalter, Abrams, and Myles 2003</a>)</span></p>
-<div id="non-informative-or-reference-priors" class="section level3" number="4.2.1">
-<h3><span class="header-section-number">4.2.1</span> “Non-informative” or “reference” priors</h3>
+<div id="non-informative-or-reference-priors" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> “Non-informative” or “reference” priors<a href="Prior.html#non-informative-or-reference-priors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>(Pros) It is attractive to seek a “noninformative”
 prior to use as a baseline analysis
@@ -632,8 +639,8 @@ prior to use as a baseline analysis
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
 </div>
 </div>
-<div id="minimally-informative-prior" class="section level3" number="4.2.2">
-<h3><span class="header-section-number">4.2.2</span> Minimally informative prior</h3>
+<div id="minimally-informative-prior" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Minimally informative prior<a href="Prior.html#minimally-informative-prior" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>Use substantive knowledge to put most prior weight on possible values, without being too restrictive
 <ul>
@@ -642,8 +649,8 @@ prior to use as a baseline analysis
 </ul></li>
 </ul>
 </div>
-<div id="skeptical-prior" class="section level3" number="4.2.3">
-<h3><span class="header-section-number">4.2.3</span> Skeptical Prior</h3>
+<div id="skeptical-prior" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Skeptical Prior<a href="Prior.html#skeptical-prior" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><p>priors that express doubts about large effects</p></li>
 <li><p>Mathematically speaking, a sceptical prior about a treatment effect will have a mean of zero and a shape chosen to include plausible treatment differences which determines the degree of scepticism.</p>
@@ -673,8 +680,8 @@ prior to use as a baseline analysis
 </ul>
 </div>
 </div>
-<div id="optimisticenthusiastic-prior" class="section level3" number="4.2.4">
-<h3><span class="header-section-number">4.2.4</span> Optimistic/enthusiastic Prior</h3>
+<div id="optimisticenthusiastic-prior" class="section level3 hasAnchor" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Optimistic/enthusiastic Prior<a href="Prior.html#optimisticenthusiastic-prior" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>This is centred at the MCID and a 95% CR extends to no effect</li>
 <li>Optimistic Prior will move observed results towards the MCID</li>
@@ -701,8 +708,8 @@ prior to use as a baseline analysis
 </ul>
 </div>
 </div>
-<div id="evaluating-priors" class="section level3" number="4.2.5">
-<h3><span class="header-section-number">4.2.5</span> Evaluating Priors?</h3>
+<div id="evaluating-priors" class="section level3 hasAnchor" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> Evaluating Priors?<a href="Prior.html#evaluating-priors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ol style="list-style-type: decimal">
 <li>Section 5.8 <span class="citation">(<a href="#ref-spiegelhalter2003" role="doc-biblioref">David J. Spiegelhalter, Abrams, and Myles 2003</a>)</span> introduced a Box approach to comparing priors with subsequent data in assessing the ability of the chosen subjective prior to predict the true benefit of intervention
 <ul>
@@ -717,8 +724,8 @@ prior to use as a baseline analysis
 </ol>
 </div>
 </div>
-<div id="historical-data-meta-analysis" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Historical data (meta-analysis)</h2>
+<div id="historical-data-meta-analysis" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Historical data (meta-analysis)<a href="Prior.html#historical-data-meta-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li>Incorporating historical data in Bayesian analysis
 <ul>
@@ -756,29 +763,29 @@ Figure 4.1: In-hospital mortality. Forest plot showing pooled analysis of four r
 </ul>
 <div class="fold s">
 
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="Prior.html#cb60-1" aria-hidden="true" tabindex="-1"></a>CI.normal <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">0.38</span>, <span class="fl">1.06</span>))</span>
-<span id="cb60-2"><a href="Prior.html#cb60-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> (CI.normal[<span class="dv">2</span>] <span class="sc">-</span> CI.normal[<span class="dv">1</span>])<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span><span class="fl">1.96</span>)</span>
-<span id="cb60-3"><a href="Prior.html#cb60-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">0.64</span>)</span>
-<span id="cb60-4"><a href="Prior.html#cb60-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-5"><a href="Prior.html#cb60-5" aria-hidden="true" tabindex="-1"></a>xlabs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
-<span id="cb60-6"><a href="Prior.html#cb60-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-7"><a href="Prior.html#cb60-7" aria-hidden="true" tabindex="-1"></a>noweight <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="fu">log</span>(<span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="dv">3</span>, <span class="at">length=</span><span class="dv">201</span>)), mu, sigma)</span>
-<span id="cb60-8"><a href="Prior.html#cb60-8" aria-hidden="true" tabindex="-1"></a>weight50 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="fu">log</span>(<span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="dv">3</span>, <span class="at">length=</span><span class="dv">201</span>)), mu, sigma<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fl">0.5</span>))</span>
-<span id="cb60-9"><a href="Prior.html#cb60-9" aria-hidden="true" tabindex="-1"></a>weight10 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="fu">log</span>(<span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="dv">3</span>, <span class="at">length=</span><span class="dv">201</span>)), mu, sigma<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fl">0.1</span>))</span>
-<span id="cb60-10"><a href="Prior.html#cb60-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-11"><a href="Prior.html#cb60-11" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">logrr.range =</span> <span class="fu">rep</span>(<span class="fu">log</span>(<span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="dv">3</span>, <span class="at">length=</span><span class="dv">201</span>)),<span class="dv">3</span>),</span>
-<span id="cb60-12"><a href="Prior.html#cb60-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">plog.rr =</span> <span class="fu">c</span>(noweight, weight50, weight10),</span>
-<span id="cb60-13"><a href="Prior.html#cb60-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">Weighting =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;100% weight&quot;</span>,<span class="st">&quot;50% weight&quot;</span>,<span class="st">&quot;10% weight&quot;</span>),<span class="at">each=</span><span class="dv">201</span>)) </span>
-<span id="cb60-14"><a href="Prior.html#cb60-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-15"><a href="Prior.html#cb60-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(logrr.range, plog.rr,<span class="at">colour=</span>Weighting))<span class="sc">+</span></span>
-<span id="cb60-16"><a href="Prior.html#cb60-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb60-17"><a href="Prior.html#cb60-17" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">&quot;RR&quot;</span>)<span class="sc">+</span></span>
-<span id="cb60-18"><a href="Prior.html#cb60-18" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">&quot;probability density&quot;</span>)<span class="sc">+</span></span>
-<span id="cb60-19"><a href="Prior.html#cb60-19" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>))<span class="sc">+</span></span>
-<span id="cb60-20"><a href="Prior.html#cb60-20" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">log</span>(xlabs),<span class="at">labels=</span>xlabs, <span class="at">limits=</span><span class="fu">c</span>(<span class="fu">log</span>(<span class="fl">0.1</span>), <span class="fu">log</span>(<span class="dv">3</span>)))<span class="sc">+</span></span>
-<span id="cb60-21"><a href="Prior.html#cb60-21" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
-<span id="cb60-22"><a href="Prior.html#cb60-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb60-23"><a href="Prior.html#cb60-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Data-derived priors&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="Prior.html#cb63-1" aria-hidden="true" tabindex="-1"></a>CI.normal <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">0.38</span>, <span class="fl">1.06</span>))</span>
+<span id="cb63-2"><a href="Prior.html#cb63-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> (CI.normal[<span class="dv">2</span>] <span class="sc">-</span> CI.normal[<span class="dv">1</span>])<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span><span class="fl">1.96</span>)</span>
+<span id="cb63-3"><a href="Prior.html#cb63-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">0.64</span>)</span>
+<span id="cb63-4"><a href="Prior.html#cb63-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="Prior.html#cb63-5" aria-hidden="true" tabindex="-1"></a>xlabs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb63-6"><a href="Prior.html#cb63-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-7"><a href="Prior.html#cb63-7" aria-hidden="true" tabindex="-1"></a>noweight <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="fu">log</span>(<span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="dv">3</span>, <span class="at">length=</span><span class="dv">201</span>)), mu, sigma)</span>
+<span id="cb63-8"><a href="Prior.html#cb63-8" aria-hidden="true" tabindex="-1"></a>weight50 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="fu">log</span>(<span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="dv">3</span>, <span class="at">length=</span><span class="dv">201</span>)), mu, sigma<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fl">0.5</span>))</span>
+<span id="cb63-9"><a href="Prior.html#cb63-9" aria-hidden="true" tabindex="-1"></a>weight10 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="fu">log</span>(<span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="dv">3</span>, <span class="at">length=</span><span class="dv">201</span>)), mu, sigma<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fl">0.1</span>))</span>
+<span id="cb63-10"><a href="Prior.html#cb63-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-11"><a href="Prior.html#cb63-11" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">logrr.range =</span> <span class="fu">rep</span>(<span class="fu">log</span>(<span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="dv">3</span>, <span class="at">length=</span><span class="dv">201</span>)),<span class="dv">3</span>),</span>
+<span id="cb63-12"><a href="Prior.html#cb63-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">plog.rr =</span> <span class="fu">c</span>(noweight, weight50, weight10),</span>
+<span id="cb63-13"><a href="Prior.html#cb63-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">Weighting =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;100% weight&quot;</span>,<span class="st">&quot;50% weight&quot;</span>,<span class="st">&quot;10% weight&quot;</span>),<span class="at">each=</span><span class="dv">201</span>)) </span>
+<span id="cb63-14"><a href="Prior.html#cb63-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-15"><a href="Prior.html#cb63-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(logrr.range, plog.rr,<span class="at">colour=</span>Weighting))<span class="sc">+</span></span>
+<span id="cb63-16"><a href="Prior.html#cb63-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb63-17"><a href="Prior.html#cb63-17" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">&quot;RR&quot;</span>)<span class="sc">+</span></span>
+<span id="cb63-18"><a href="Prior.html#cb63-18" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">&quot;probability density&quot;</span>)<span class="sc">+</span></span>
+<span id="cb63-19"><a href="Prior.html#cb63-19" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>))<span class="sc">+</span></span>
+<span id="cb63-20"><a href="Prior.html#cb63-20" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">log</span>(xlabs),<span class="at">labels=</span>xlabs, <span class="at">limits=</span><span class="fu">c</span>(<span class="fu">log</span>(<span class="fl">0.1</span>), <span class="fu">log</span>(<span class="dv">3</span>)))<span class="sc">+</span></span>
+<span id="cb63-21"><a href="Prior.html#cb63-21" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
+<span id="cb63-22"><a href="Prior.html#cb63-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb63-23"><a href="Prior.html#cb63-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Data-derived priors&quot;</span>)</span></code></pre></div>
 <img src="bayes_bookdown_files/figure-html/unnamed-chunk-67-1.png" width="480" style="display: block; margin: auto;" />
 <div>
 
@@ -787,8 +794,8 @@ Figure 4.1: In-hospital mortality. Forest plot showing pooled analysis of four r
 
 
 </div>
-<div id="hierarchical-priors-and-shrinkage-priors" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Hierarchical priors and shrinkage priors</h2>
+<div id="hierarchical-priors-and-shrinkage-priors" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Hierarchical priors and shrinkage priors<a href="Prior.html#hierarchical-priors-and-shrinkage-priors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li>Don’t necessarily have information about the value of a parameter</li>
 <li>Expresses knowledge, for example, that a several of parameters, <span class="math inline">\(\mu_1, \ldots, \mu_k\)</span> have a common mean, without saying what that mean is</li>
@@ -818,68 +825,63 @@ Figure 4.1: In-hospital mortality. Forest plot showing pooled analysis of four r
 <li><p><span class="math inline">\(\lambda_j\)</span> is called local shrinkage parameter - enable some <span class="math inline">\(\beta\)</span> to escape the shrinkage</p></li>
 <li><p><span class="math inline">\(\tau\)</span> is the global shrinkage parameter - shrink all <span class="math inline">\(\beta\)</span> towards zero, thus removing the corresponding covariate from the regression model.</p></li>
 </ul>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="Prior.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visually compare normal, student_t, cauchy, laplace, and product_normal</span></span>
-<span id="cb61-2"><a href="Prior.html#cb61-2" aria-hidden="true" tabindex="-1"></a>compare_priors <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">scale =</span> <span class="dv">1</span>, <span class="at">df_t =</span> <span class="dv">2</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) {</span>
-<span id="cb61-3"><a href="Prior.html#cb61-3" aria-hidden="true" tabindex="-1"></a>  dt_loc_scale <span class="ot">&lt;-</span> <span class="cf">function</span>(x, df, location, scale) {</span>
-<span id="cb61-4"><a href="Prior.html#cb61-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span><span class="sc">/</span>scale <span class="sc">*</span> <span class="fu">dt</span>((x <span class="sc">-</span> location)<span class="sc">/</span>scale, df)</span>
-<span id="cb61-5"><a href="Prior.html#cb61-5" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb61-6"><a href="Prior.html#cb61-6" aria-hidden="true" tabindex="-1"></a>  dlaplace <span class="ot">&lt;-</span> <span class="cf">function</span>(x, location, scale) {</span>
-<span id="cb61-7"><a href="Prior.html#cb61-7" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5</span> <span class="sc">/</span> scale <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fu">abs</span>(x <span class="sc">-</span> location) <span class="sc">/</span> scale)</span>
-<span id="cb61-8"><a href="Prior.html#cb61-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb61-9"><a href="Prior.html#cb61-9" aria-hidden="true" tabindex="-1"></a>  dproduct_normal <span class="ot">&lt;-</span> <span class="cf">function</span>(x, scale) {</span>
-<span id="cb61-10"><a href="Prior.html#cb61-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">besselK</span>(<span class="fu">abs</span>(x) <span class="sc">/</span> scale <span class="sc">^</span> <span class="dv">2</span>, <span class="at">nu =</span> <span class="dv">0</span>) <span class="sc">/</span> (scale <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> pi)</span>
-<span id="cb61-11"><a href="Prior.html#cb61-11" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb61-12"><a href="Prior.html#cb61-12" aria-hidden="true" tabindex="-1"></a>  stat_dist <span class="ot">&lt;-</span> <span class="cf">function</span>(dist, ...) {</span>
-<span id="cb61-13"><a href="Prior.html#cb61-13" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">stat_function</span>(ggplot2<span class="sc">::</span><span class="fu">aes_</span>(<span class="at">color =</span> dist), ...)</span>
-<span id="cb61-14"><a href="Prior.html#cb61-14" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb61-15"><a href="Prior.html#cb61-15" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> xlim), ggplot2<span class="sc">::</span><span class="fu">aes</span>(x)) <span class="sc">+</span></span>
-<span id="cb61-16"><a href="Prior.html#cb61-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;normal&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">fun =</span> dnorm,</span>
-<span id="cb61-17"><a href="Prior.html#cb61-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> scale)) <span class="sc">+</span></span>
-<span id="cb61-18"><a href="Prior.html#cb61-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;student_t&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">fun =</span> dt_loc_scale,</span>
-<span id="cb61-19"><a href="Prior.html#cb61-19" aria-hidden="true" tabindex="-1"></a>              <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> df_t, <span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> scale)) <span class="sc">+</span></span>
-<span id="cb61-20"><a href="Prior.html#cb61-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;cauchy&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">fun =</span> dcauchy,</span>
-<span id="cb61-21"><a href="Prior.html#cb61-21" aria-hidden="true" tabindex="-1"></a>              <span class="at">args =</span> <span class="fu">list</span>(<span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> scale)) <span class="sc">+</span></span>
-<span id="cb61-22"><a href="Prior.html#cb61-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;laplace&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">fun =</span> dlaplace,</span>
-<span id="cb61-23"><a href="Prior.html#cb61-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">args =</span> <span class="fu">list</span>(<span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> scale)) <span class="sc">+</span></span>
-<span id="cb61-24"><a href="Prior.html#cb61-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;product_normal&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">fun =</span> dproduct_normal,<span class="at">args =</span> <span class="fu">list</span>(<span class="at">scale =</span> <span class="dv">1</span>))<span class="sc">+</span><span class="fu">theme_bw</span>()</span>
-<span id="cb61-25"><a href="Prior.html#cb61-25" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb61-26"><a href="Prior.html#cb61-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Cauchy has fattest tails, followed by student_t, laplace, and normal</span></span>
-<span id="cb61-27"><a href="Prior.html#cb61-27" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_priors</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="Prior.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visually compare normal, student_t, cauchy, laplace, and product_normal</span></span>
+<span id="cb64-2"><a href="Prior.html#cb64-2" aria-hidden="true" tabindex="-1"></a>compare_priors <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">scale =</span> <span class="dv">1</span>, <span class="at">df_t =</span> <span class="dv">2</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) {</span>
+<span id="cb64-3"><a href="Prior.html#cb64-3" aria-hidden="true" tabindex="-1"></a>  dt_loc_scale <span class="ot">&lt;-</span> <span class="cf">function</span>(x, df, location, scale) {</span>
+<span id="cb64-4"><a href="Prior.html#cb64-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span><span class="sc">/</span>scale <span class="sc">*</span> <span class="fu">dt</span>((x <span class="sc">-</span> location)<span class="sc">/</span>scale, df)</span>
+<span id="cb64-5"><a href="Prior.html#cb64-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb64-6"><a href="Prior.html#cb64-6" aria-hidden="true" tabindex="-1"></a>  dlaplace <span class="ot">&lt;-</span> <span class="cf">function</span>(x, location, scale) {</span>
+<span id="cb64-7"><a href="Prior.html#cb64-7" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5</span> <span class="sc">/</span> scale <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fu">abs</span>(x <span class="sc">-</span> location) <span class="sc">/</span> scale)</span>
+<span id="cb64-8"><a href="Prior.html#cb64-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb64-9"><a href="Prior.html#cb64-9" aria-hidden="true" tabindex="-1"></a>  dproduct_normal <span class="ot">&lt;-</span> <span class="cf">function</span>(x, scale) {</span>
+<span id="cb64-10"><a href="Prior.html#cb64-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">besselK</span>(<span class="fu">abs</span>(x) <span class="sc">/</span> scale <span class="sc">^</span> <span class="dv">2</span>, <span class="at">nu =</span> <span class="dv">0</span>) <span class="sc">/</span> (scale <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> pi)</span>
+<span id="cb64-11"><a href="Prior.html#cb64-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb64-12"><a href="Prior.html#cb64-12" aria-hidden="true" tabindex="-1"></a>  stat_dist <span class="ot">&lt;-</span> <span class="cf">function</span>(dist, ...) {</span>
+<span id="cb64-13"><a href="Prior.html#cb64-13" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">stat_function</span>(ggplot2<span class="sc">::</span><span class="fu">aes_</span>(<span class="at">color =</span> dist), ...)</span>
+<span id="cb64-14"><a href="Prior.html#cb64-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb64-15"><a href="Prior.html#cb64-15" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> xlim), ggplot2<span class="sc">::</span><span class="fu">aes</span>(x)) <span class="sc">+</span></span>
+<span id="cb64-16"><a href="Prior.html#cb64-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;normal&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">fun =</span> dnorm,</span>
+<span id="cb64-17"><a href="Prior.html#cb64-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> scale)) <span class="sc">+</span></span>
+<span id="cb64-18"><a href="Prior.html#cb64-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;student_t&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">fun =</span> dt_loc_scale,</span>
+<span id="cb64-19"><a href="Prior.html#cb64-19" aria-hidden="true" tabindex="-1"></a>              <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> df_t, <span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> scale)) <span class="sc">+</span></span>
+<span id="cb64-20"><a href="Prior.html#cb64-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;cauchy&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">fun =</span> dcauchy,</span>
+<span id="cb64-21"><a href="Prior.html#cb64-21" aria-hidden="true" tabindex="-1"></a>              <span class="at">args =</span> <span class="fu">list</span>(<span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> scale)) <span class="sc">+</span></span>
+<span id="cb64-22"><a href="Prior.html#cb64-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;laplace&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">fun =</span> dlaplace,</span>
+<span id="cb64-23"><a href="Prior.html#cb64-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">args =</span> <span class="fu">list</span>(<span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> scale)) <span class="sc">+</span></span>
+<span id="cb64-24"><a href="Prior.html#cb64-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_dist</span>(<span class="st">&quot;product_normal&quot;</span>, <span class="at">size =</span> .<span class="dv">75</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">fun =</span> dproduct_normal,<span class="at">args =</span> <span class="fu">list</span>(<span class="at">scale =</span> <span class="dv">1</span>))<span class="sc">+</span><span class="fu">theme_bw</span>()</span>
+<span id="cb64-25"><a href="Prior.html#cb64-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-26"><a href="Prior.html#cb64-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Cauchy has fattest tails, followed by student_t, laplace, and normal</span></span>
+<span id="cb64-27"><a href="Prior.html#cb64-27" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_priors</span>()</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
-<div id="r-session-information-3" class="section level3 unnumbered">
-<h3>R Session information</h3>
-<pre><code>## R version 4.1.2 (2021-11-01)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.3 LTS
+<div id="r-session-information-3" class="section level3 unnumbered hasAnchor">
+<h3>R Session information<a href="Prior.html#r-session-information-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<pre><code>## R version 4.0.5 (2021-03-31)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19044)
 ## 
 ## Matrix products: 
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
+## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
+## [5] LC_TIME=English_Canada.1252    
 ## 
 ## attached base packages:
 ## [1] grid      stats     graphics  grDevices utils     datasets  methods  
 ## [8] base     
 ## 
 ## other attached packages:
-##  [1] extraDistr_1.9.1    MCMCpack_1.6-1      MASS_7.3-54        
-##  [4] coda_0.19-4         SHELF_1.8.0         bayesplot_1.8.1    
-##  [7] ggmcmc_1.5.1.1      truncnorm_1.0-8     ggpubr_0.4.0       
+##  [1] extraDistr_1.9.1    MCMCpack_1.6-1      MASS_7.3-53.1      
+##  [4] coda_0.19-4         SHELF_1.8.0         bayesplot_1.9.0    
+##  [7] ggmcmc_1.5.1.1      tidyr_1.2.0         ggpubr_0.4.0       
 ## [10] tweenr_1.0.2        gganimate_1.0.7     VennDiagram_1.7.1  
-## [13] futile.logger_1.4.3 forcats_0.5.1       stringr_1.4.0      
-## [16] purrr_0.3.4         readr_1.4.0         tidyr_1.2.0        
-## [19] tibble_3.1.6        tidyverse_1.3.1     brms_2.16.3        
-## [22] Rcpp_1.0.7          dplyr_1.0.8         ggplot2_3.3.5</code></pre>
+## [13] futile.logger_1.4.3 truncnorm_1.0-8     brms_2.16.3        
+## [16] Rcpp_1.0.8.3        dplyr_1.0.8         ggplot2_3.3.5</code></pre>
 
 </div>
 </div>
 </div>
-<h3>References</h3>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-cooke1991experts" class="csl-entry">
 Cooke, Roger et al. 1991. <em>Experts in Uncertainty: Opinion and Subjective Probability in Science</em>. Oxford University Press on Demand.
