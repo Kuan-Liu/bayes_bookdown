@@ -7,9 +7,10 @@
 - Review on random variables and common probability distributions
 :::
 
+<script src="hideOutput.js"></script>
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
-require(tidyverse)
+# require(tidyverse)
 library(truncnorm)
 library(VennDiagram)
 library(gganimate)
@@ -21,8 +22,6 @@ options(scipen = 999)
 
 </br>
 
-
-<script src="hideOutput.js"></script>
 
 ## Probability
 

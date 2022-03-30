@@ -374,8 +374,6 @@ div.csl-indent {
 </ul>
 </div>
 <script src="hideOutput.js"></script>
-<pre><code>## Error in completeSubclasses(classDef2, class1, obj, where) : 
-##   trying to get slot &quot;subclasses&quot; from an object of a basic class (&quot;NULL&quot;) with no slots</code></pre>
 <p></br></p>
 <div id="classical-frequentist-approach" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Classical frequentist approach<a href="bayes.html#classical-frequentist-approach" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -421,32 +419,32 @@ LogL(\theta, D) &amp;= log({10 \choose 3}) + 3\ log(\theta) + (10-3)\ log(1- \th
 <li>It is the most commonly method to estimate a parameter in frequentist statistics</li>
 </ul>
 </div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="bayes.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#simulating a sequence of probability representing parameter \theta;</span></span>
-<span id="cb31-2"><a href="bayes.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#\theta, probability of success, value between 0 and 1;</span></span>
-<span id="cb31-3"><a href="bayes.html#cb31-3" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">1000</span>) </span>
-<span id="cb31-4"><a href="bayes.html#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#coding Binomial likelihood given x = 3 and n = 10;</span></span>
-<span id="cb31-5"><a href="bayes.html#cb31-5" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">choose</span>(<span class="dv">10</span>,<span class="dv">3</span>)<span class="sc">*</span>theta<span class="sc">^</span><span class="dv">3</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span>(<span class="dv">10-3</span>)</span>
-<span id="cb31-6"><a href="bayes.html#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#coding log Binomial likelihood given x = 3 and n = 10;</span></span>
-<span id="cb31-7"><a href="bayes.html#cb31-7" aria-hidden="true" tabindex="-1"></a>logL <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fu">choose</span>(<span class="dv">10</span>,<span class="dv">3</span>)) <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span><span class="fu">log</span>(theta)<span class="sc">+</span> (<span class="dv">10-3</span>)<span class="sc">*</span><span class="fu">log</span>((<span class="dv">1</span><span class="sc">-</span>theta))</span>
-<span id="cb31-8"><a href="bayes.html#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ploting likelihood function</span></span>
-<span id="cb31-9"><a href="bayes.html#cb31-9" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">theta=</span>theta, <span class="at">L=</span>L)</span>
-<span id="cb31-10"><a href="bayes.html#cb31-10" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">&lt;-</span><span class="fu">ggplot</span>(<span class="at">data=</span>d, <span class="fu">aes</span>(theta,L)) <span class="sc">+</span></span>
-<span id="cb31-11"><a href="bayes.html#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>()<span class="sc">+</span></span>
-<span id="cb31-12"><a href="bayes.html#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">&quot;Binomial likelihood x = 3 and n=10&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb31-13"><a href="bayes.html#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
-<span id="cb31-14"><a href="bayes.html#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Ploting likelihood function</span></span>
-<span id="cb31-15"><a href="bayes.html#cb31-15" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">theta=</span>theta, <span class="at">logL=</span>logL)</span>
-<span id="cb31-16"><a href="bayes.html#cb31-16" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">&lt;-</span><span class="fu">ggplot</span>(<span class="at">data=</span>d, <span class="fu">aes</span>(theta,logL)) <span class="sc">+</span></span>
-<span id="cb31-17"><a href="bayes.html#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>()<span class="sc">+</span></span>
-<span id="cb31-18"><a href="bayes.html#cb31-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">&quot;Log Binomial likelihood x = 3 and n=10&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb31-19"><a href="bayes.html#cb31-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
-<span id="cb31-20"><a href="bayes.html#cb31-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-21"><a href="bayes.html#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2,  <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="bayes.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#simulating a sequence of probability representing parameter \theta;</span></span>
+<span id="cb29-2"><a href="bayes.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">#\theta, probability of success, value between 0 and 1;</span></span>
+<span id="cb29-3"><a href="bayes.html#cb29-3" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length=</span><span class="dv">1000</span>) </span>
+<span id="cb29-4"><a href="bayes.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#coding Binomial likelihood given x = 3 and n = 10;</span></span>
+<span id="cb29-5"><a href="bayes.html#cb29-5" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">choose</span>(<span class="dv">10</span>,<span class="dv">3</span>)<span class="sc">*</span>theta<span class="sc">^</span><span class="dv">3</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span>(<span class="dv">10-3</span>)</span>
+<span id="cb29-6"><a href="bayes.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co">#coding log Binomial likelihood given x = 3 and n = 10;</span></span>
+<span id="cb29-7"><a href="bayes.html#cb29-7" aria-hidden="true" tabindex="-1"></a>logL <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fu">choose</span>(<span class="dv">10</span>,<span class="dv">3</span>)) <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span><span class="fu">log</span>(theta)<span class="sc">+</span> (<span class="dv">10-3</span>)<span class="sc">*</span><span class="fu">log</span>((<span class="dv">1</span><span class="sc">-</span>theta))</span>
+<span id="cb29-8"><a href="bayes.html#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ploting likelihood function</span></span>
+<span id="cb29-9"><a href="bayes.html#cb29-9" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">theta=</span>theta, <span class="at">L=</span>L)</span>
+<span id="cb29-10"><a href="bayes.html#cb29-10" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">&lt;-</span><span class="fu">ggplot</span>(<span class="at">data=</span>d, <span class="fu">aes</span>(theta,L)) <span class="sc">+</span></span>
+<span id="cb29-11"><a href="bayes.html#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb29-12"><a href="bayes.html#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">&quot;Binomial likelihood x = 3 and n=10&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb29-13"><a href="bayes.html#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb29-14"><a href="bayes.html#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Ploting likelihood function</span></span>
+<span id="cb29-15"><a href="bayes.html#cb29-15" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">theta=</span>theta, <span class="at">logL=</span>logL)</span>
+<span id="cb29-16"><a href="bayes.html#cb29-16" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">&lt;-</span><span class="fu">ggplot</span>(<span class="at">data=</span>d, <span class="fu">aes</span>(theta,logL)) <span class="sc">+</span></span>
+<span id="cb29-17"><a href="bayes.html#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb29-18"><a href="bayes.html#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">&quot;Log Binomial likelihood x = 3 and n=10&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb29-19"><a href="bayes.html#cb29-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb29-20"><a href="bayes.html#cb29-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-21"><a href="bayes.html#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2,  <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-39-1.png" width="768" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="bayes.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#negative loglikelihood function of binomial;</span></span>
-<span id="cb32-2"><a href="bayes.html#cb32-2" aria-hidden="true" tabindex="-1"></a>neglogL <span class="ot">&lt;-</span> <span class="cf">function</span>(theta){<span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="at">x=</span><span class="dv">3</span>, <span class="at">size =</span> <span class="dv">10</span>, theta, <span class="at">log =</span> <span class="cn">TRUE</span>))}</span>
-<span id="cb32-3"><a href="bayes.html#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#optimize:</span></span>
-<span id="cb32-4"><a href="bayes.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">optim</span>(<span class="at">par =</span> <span class="fl">0.5</span>, <span class="at">fn=</span>neglogL, <span class="at">method =</span> <span class="st">&quot;Brent&quot;</span>, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>, <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="bayes.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#negative loglikelihood function of binomial;</span></span>
+<span id="cb30-2"><a href="bayes.html#cb30-2" aria-hidden="true" tabindex="-1"></a>neglogL <span class="ot">&lt;-</span> <span class="cf">function</span>(theta){<span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="at">x=</span><span class="dv">3</span>, <span class="at">size =</span> <span class="dv">10</span>, theta, <span class="at">log =</span> <span class="cn">TRUE</span>))}</span>
+<span id="cb30-3"><a href="bayes.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#optimize:</span></span>
+<span id="cb30-4"><a href="bayes.html#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">optim</span>(<span class="at">par =</span> <span class="fl">0.5</span>, <span class="at">fn=</span>neglogL, <span class="at">method =</span> <span class="st">&quot;Brent&quot;</span>, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>, <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## $par
 ## [1] 0.3
 ## 
@@ -489,13 +487,13 @@ where <span class="math inline">\(\sigma_{\theta_0}^2)\)</span> is the asymptoti
 </ul>
 </div>
 <p>How to calculate variance of MLE in R?</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="bayes.html#cb34-1" aria-hidden="true" tabindex="-1"></a>mle<span class="ot">&lt;-</span><span class="fu">optim</span>(<span class="at">par =</span> <span class="fl">0.5</span>, <span class="at">fn=</span>neglogL, <span class="at">method =</span> <span class="st">&quot;Brent&quot;</span>, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>, <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb34-2"><a href="bayes.html#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="bayes.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># solve(mle$hessian) # to compute the inverse of hessian which is the approximate the variance of theta;</span></span>
-<span id="cb34-4"><a href="bayes.html#cb34-4" aria-hidden="true" tabindex="-1"></a>upperbound<span class="ot">&lt;-</span><span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">solve</span>(mle<span class="sc">$</span>hessian))</span>
-<span id="cb34-5"><a href="bayes.html#cb34-5" aria-hidden="true" tabindex="-1"></a>lowerbound<span class="ot">&lt;-</span><span class="fl">0.3</span> <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">solve</span>(mle<span class="sc">$</span>hessian))</span>
-<span id="cb34-6"><a href="bayes.html#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-7"><a href="bayes.html#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;95% CI for theta is:&quot;</span>,<span class="fu">round</span>(lowerbound,<span class="dv">3</span>),<span class="st">&quot;-&quot;</span>, <span class="fu">round</span>(upperbound,<span class="dv">3</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="bayes.html#cb32-1" aria-hidden="true" tabindex="-1"></a>mle<span class="ot">&lt;-</span><span class="fu">optim</span>(<span class="at">par =</span> <span class="fl">0.5</span>, <span class="at">fn=</span>neglogL, <span class="at">method =</span> <span class="st">&quot;Brent&quot;</span>, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>, <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-2"><a href="bayes.html#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="bayes.html#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># solve(mle$hessian) # to compute the inverse of hessian which is the approximate the variance of theta;</span></span>
+<span id="cb32-4"><a href="bayes.html#cb32-4" aria-hidden="true" tabindex="-1"></a>upperbound<span class="ot">&lt;-</span><span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">solve</span>(mle<span class="sc">$</span>hessian))</span>
+<span id="cb32-5"><a href="bayes.html#cb32-5" aria-hidden="true" tabindex="-1"></a>lowerbound<span class="ot">&lt;-</span><span class="fl">0.3</span> <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">solve</span>(mle<span class="sc">$</span>hessian))</span>
+<span id="cb32-6"><a href="bayes.html#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="bayes.html#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;95% CI for theta is:&quot;</span>,<span class="fu">round</span>(lowerbound,<span class="dv">3</span>),<span class="st">&quot;-&quot;</span>, <span class="fu">round</span>(upperbound,<span class="dv">3</span>)))</span></code></pre></div>
 <pre><code>## [1] &quot;95% CI for theta is: 0.016 - 0.584&quot;</code></pre>
 <div class="guidedexercise">
 <p><strong>Practice MLE estimation in R (Tutorial Practice)</strong></p>
@@ -555,9 +553,9 @@ P(\theta \mid y) &amp; = \frac{P(y \mid \theta)P(\theta)}{P(y)} \\
 <ul>
 <li>This is a classic phase I estimate, under frequentist test (Exact Binomial Test) we have</li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="bayes.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">n=</span><span class="dv">6</span>, <span class="at">p =</span> <span class="fl">0.2</span>,</span>
-<span id="cb36-2"><a href="bayes.html#cb36-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;less&quot;</span>),</span>
-<span id="cb36-3"><a href="bayes.html#cb36-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="bayes.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">n=</span><span class="dv">6</span>, <span class="at">p =</span> <span class="fl">0.2</span>,</span>
+<span id="cb34-2"><a href="bayes.html#cb34-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;less&quot;</span>),</span>
+<span id="cb34-3"><a href="bayes.html#cb34-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Exact binomial test
 ## 
@@ -573,13 +571,13 @@ P(\theta \mid y) &amp; = \frac{P(y \mid \theta)P(\theta)}{P(y)} \\
 <li>The observed proportion <span class="math inline">\(\hat{\theta}=0\)</span> with 95% CI: 0 - 0.39.</li>
 <li>How much evidence we have that AE rate is &lt; 20%?</li>
 </ul>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="bayes.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#suppose we observe 0 adverse event out of 14 patients; </span></span>
-<span id="cb38-2"><a href="bayes.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co">#the test results below suggest we would reject the null hypothesis;</span></span>
-<span id="cb38-3"><a href="bayes.html#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">#at 0.05 alpha level and conclude the true AE rate is &lt; 20%;</span></span>
-<span id="cb38-4"><a href="bayes.html#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-5"><a href="bayes.html#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">n=</span><span class="dv">14</span>, <span class="at">p =</span> <span class="fl">0.2</span>,</span>
-<span id="cb38-6"><a href="bayes.html#cb38-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;less&quot;</span>),</span>
-<span id="cb38-7"><a href="bayes.html#cb38-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="bayes.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#suppose we observe 0 adverse event out of 14 patients; </span></span>
+<span id="cb36-2"><a href="bayes.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co">#the test results below suggest we would reject the null hypothesis;</span></span>
+<span id="cb36-3"><a href="bayes.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">#at 0.05 alpha level and conclude the true AE rate is &lt; 20%;</span></span>
+<span id="cb36-4"><a href="bayes.html#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="bayes.html#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">n=</span><span class="dv">14</span>, <span class="at">p =</span> <span class="fl">0.2</span>,</span>
+<span id="cb36-6"><a href="bayes.html#cb36-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;less&quot;</span>),</span>
+<span id="cb36-7"><a href="bayes.html#cb36-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Exact binomial test
 ## 
@@ -613,21 +611,21 @@ P(\theta \mid y = 0) &amp;= \frac{P(y = 0 \mid \theta) \times P(\theta)}{P(y=0)}
 &amp; = \text{Constant} \times (1-\theta)^6 \\
  &amp; \propto (1-\theta)^6 
 \end{align}\]</span></p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="bayes.html#cb40-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">p_grid =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>),</span>
-<span id="cb40-2"><a href="bayes.html#cb40-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">y      =</span> <span class="dv">0</span>, </span>
-<span id="cb40-3"><a href="bayes.html#cb40-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">n      =</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-4"><a href="bayes.html#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">prior      =</span> <span class="fu">dunif</span>(p_grid, <span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb40-5"><a href="bayes.html#cb40-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">likelihood =</span> <span class="fu">dbinom</span>(y, n, p_grid)) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-6"><a href="bayes.html#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">posterior =</span> likelihood <span class="sc">*</span> prior )</span>
-<span id="cb40-7"><a href="bayes.html#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-8"><a href="bayes.html#cb40-8" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(prior<span class="sc">:</span>posterior) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-9"><a href="bayes.html#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this line allows us to dictate the order in which the panels will appear</span></span>
-<span id="cb40-10"><a href="bayes.html#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">factor</span>(name, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;prior&quot;</span>, <span class="st">&quot;likelihood&quot;</span>, <span class="st">&quot;posterior&quot;</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-11"><a href="bayes.html#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> p_grid, <span class="at">y =</span> value, <span class="at">fill =</span> name)) <span class="sc">+</span></span>
-<span id="cb40-12"><a href="bayes.html#cb40-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb40-13"><a href="bayes.html#cb40-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;grey&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb40-14"><a href="bayes.html#cb40-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> name, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>)<span class="sc">+</span></span>
-<span id="cb40-15"><a href="bayes.html#cb40-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="bayes.html#cb38-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">p_grid =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>),</span>
+<span id="cb38-2"><a href="bayes.html#cb38-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">y      =</span> <span class="dv">0</span>, </span>
+<span id="cb38-3"><a href="bayes.html#cb38-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">n      =</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-4"><a href="bayes.html#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">prior      =</span> <span class="fu">dunif</span>(p_grid, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb38-5"><a href="bayes.html#cb38-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">likelihood =</span> <span class="fu">dbinom</span>(y, n, p_grid)) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-6"><a href="bayes.html#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">posterior =</span> likelihood <span class="sc">*</span> prior )</span>
+<span id="cb38-7"><a href="bayes.html#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="bayes.html#cb38-8" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(prior<span class="sc">:</span>posterior) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-9"><a href="bayes.html#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this line allows us to dictate the order in which the panels will appear</span></span>
+<span id="cb38-10"><a href="bayes.html#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">factor</span>(name, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;prior&quot;</span>, <span class="st">&quot;likelihood&quot;</span>, <span class="st">&quot;posterior&quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-11"><a href="bayes.html#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> p_grid, <span class="at">y =</span> value, <span class="at">fill =</span> name)) <span class="sc">+</span></span>
+<span id="cb38-12"><a href="bayes.html#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb38-13"><a href="bayes.html#cb38-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;grey&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb38-14"><a href="bayes.html#cb38-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> name, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>)<span class="sc">+</span></span>
+<span id="cb38-15"><a href="bayes.html#cb38-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-44"></span>
 <img src="bayes_bookdown_files/figure-html/unnamed-chunk-44-1.png" alt="Approximate posterior distribution obtained using Bayes' rule with UNIF(0,1) prior. In this example, the normalizaing term P(y=0) is not considered." width="672" />
 <p class="caption">
@@ -661,36 +659,36 @@ Figure 3.2: Approximate posterior distribution obtained using Bayes’ rule with
 </ul>
 <p><span class="math display">\[P(y=0) = \int_{\theta=0}^{\theta=1} P(y=0 \mid \theta) \times \frac{1}{1-0} \ d \theta \]</span>
 <span class="math display">\[P(y=0) = \int_{\theta=0}^{\theta=1} P(y=0 \mid \theta) \times \frac{1}{0.5-0.05} \ d \theta \]</span></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="bayes.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Integration in R with one variable;</span></span>
-<span id="cb41-2"><a href="bayes.html#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Unif(0,1);</span></span>
-<span id="cb41-3"><a href="bayes.html#cb41-3" aria-hidden="true" tabindex="-1"></a>integrand <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span><span class="dv">6</span>}</span>
-<span id="cb41-4"><a href="bayes.html#cb41-4" aria-hidden="true" tabindex="-1"></a>normalizing_constant<span class="ot">&lt;-</span><span class="fu">integrate</span>(integrand, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)</span>
-<span id="cb41-5"><a href="bayes.html#cb41-5" aria-hidden="true" tabindex="-1"></a>normalizing_constant</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="bayes.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Integration in R with one variable;</span></span>
+<span id="cb39-2"><a href="bayes.html#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Unif(0,1);</span></span>
+<span id="cb39-3"><a href="bayes.html#cb39-3" aria-hidden="true" tabindex="-1"></a>integrand <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span><span class="dv">6</span>}</span>
+<span id="cb39-4"><a href="bayes.html#cb39-4" aria-hidden="true" tabindex="-1"></a>normalizing_constant<span class="ot">&lt;-</span><span class="fu">integrate</span>(integrand, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)</span>
+<span id="cb39-5"><a href="bayes.html#cb39-5" aria-hidden="true" tabindex="-1"></a>normalizing_constant</span></code></pre></div>
 <pre><code>## 0.1428571 with absolute error &lt; 0.0000000000000016</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="bayes.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Unif(0.05,0.5);</span></span>
-<span id="cb43-2"><a href="bayes.html#cb43-2" aria-hidden="true" tabindex="-1"></a>integrand2 <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {((<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span><span class="dv">6</span>)<span class="sc">/</span>(<span class="fl">0.5-0.05</span>)}</span>
-<span id="cb43-3"><a href="bayes.html#cb43-3" aria-hidden="true" tabindex="-1"></a>normalizing_constant2<span class="ot">&lt;-</span><span class="fu">integrate</span>(integrand2, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)</span>
-<span id="cb43-4"><a href="bayes.html#cb43-4" aria-hidden="true" tabindex="-1"></a>normalizing_constant2</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="bayes.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Unif(0.05,0.5);</span></span>
+<span id="cb41-2"><a href="bayes.html#cb41-2" aria-hidden="true" tabindex="-1"></a>integrand2 <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {((<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span><span class="dv">6</span>)<span class="sc">/</span>(<span class="fl">0.5-0.05</span>)}</span>
+<span id="cb41-3"><a href="bayes.html#cb41-3" aria-hidden="true" tabindex="-1"></a>normalizing_constant2<span class="ot">&lt;-</span><span class="fu">integrate</span>(integrand2, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)</span>
+<span id="cb41-4"><a href="bayes.html#cb41-4" aria-hidden="true" tabindex="-1"></a>normalizing_constant2</span></code></pre></div>
 <pre><code>## 0.3174603 with absolute error &lt; 0.0000000000000035</code></pre>
 <div class="fold s">
 
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="bayes.html#cb45-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">p_grid =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>),</span>
-<span id="cb45-2"><a href="bayes.html#cb45-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">y      =</span> <span class="dv">0</span>, </span>
-<span id="cb45-3"><a href="bayes.html#cb45-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">n      =</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-4"><a href="bayes.html#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">prior1 =</span> <span class="fu">dunif</span>(p_grid, <span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb45-5"><a href="bayes.html#cb45-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">prior2 =</span> <span class="fu">dunif</span>(p_grid, <span class="fl">0.05</span>, <span class="fl">0.5</span>),</span>
-<span id="cb45-6"><a href="bayes.html#cb45-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">likelihood =</span> <span class="fu">dbinom</span>(y, n, p_grid)) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-7"><a href="bayes.html#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">posterior1 =</span> likelihood <span class="sc">*</span> prior1 <span class="sc">/</span> normalizing_constant<span class="sc">$</span>value,</span>
-<span id="cb45-8"><a href="bayes.html#cb45-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">posterior2 =</span> likelihood <span class="sc">*</span> prior2 <span class="sc">/</span> normalizing_constant2<span class="sc">$</span>value)</span>
-<span id="cb45-9"><a href="bayes.html#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-10"><a href="bayes.html#cb45-10" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(posterior1<span class="sc">:</span>posterior2) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-11"><a href="bayes.html#cb45-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> p_grid, <span class="at">y =</span> value, <span class="at">group =</span> <span class="fu">as.factor</span>(name))) <span class="sc">+</span></span>
-<span id="cb45-12"><a href="bayes.html#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">fill =</span> name),<span class="at">position=</span><span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
-<span id="cb45-13"><a href="bayes.html#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">&quot;Prior&quot;</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;UNIF(0,1)&quot;</span>,<span class="st">&quot;UNIF(0.05,0.5)&quot;</span>),<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#d8b365&quot;</span>,  <span class="st">&quot;#5ab4ac&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb45-14"><a href="bayes.html#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.2</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb45-15"><a href="bayes.html#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">0.3</span>, <span class="at">y=</span><span class="dv">6</span>, <span class="at">label=</span> <span class="fu">expression</span>(<span class="fu">paste</span>(theta, <span class="st">&quot;=0.2&quot;</span>)), <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span> </span>
-<span id="cb45-16"><a href="bayes.html#cb45-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">&quot;posterior probability density&quot;</span>, <span class="at">title=</span><span class="st">&quot;Posterior distribution given uniform priors and binary data&quot;</span>)<span class="sc">+</span></span>
-<span id="cb45-17"><a href="bayes.html#cb45-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="bayes.html#cb43-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">p_grid =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>),</span>
+<span id="cb43-2"><a href="bayes.html#cb43-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">y      =</span> <span class="dv">0</span>, </span>
+<span id="cb43-3"><a href="bayes.html#cb43-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">n      =</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb43-4"><a href="bayes.html#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">prior1 =</span> <span class="fu">dunif</span>(p_grid, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb43-5"><a href="bayes.html#cb43-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">prior2 =</span> <span class="fu">dunif</span>(p_grid, <span class="fl">0.05</span>, <span class="fl">0.5</span>),</span>
+<span id="cb43-6"><a href="bayes.html#cb43-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">likelihood =</span> <span class="fu">dbinom</span>(y, n, p_grid)) <span class="sc">%&gt;%</span> </span>
+<span id="cb43-7"><a href="bayes.html#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">posterior1 =</span> likelihood <span class="sc">*</span> prior1 <span class="sc">/</span> normalizing_constant<span class="sc">$</span>value,</span>
+<span id="cb43-8"><a href="bayes.html#cb43-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">posterior2 =</span> likelihood <span class="sc">*</span> prior2 <span class="sc">/</span> normalizing_constant2<span class="sc">$</span>value)</span>
+<span id="cb43-9"><a href="bayes.html#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="bayes.html#cb43-10" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(posterior1<span class="sc">:</span>posterior2) <span class="sc">%&gt;%</span> </span>
+<span id="cb43-11"><a href="bayes.html#cb43-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> p_grid, <span class="at">y =</span> value, <span class="at">group =</span> <span class="fu">as.factor</span>(name))) <span class="sc">+</span></span>
+<span id="cb43-12"><a href="bayes.html#cb43-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">fill =</span> name),<span class="at">position=</span><span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb43-13"><a href="bayes.html#cb43-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">&quot;Prior&quot;</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;UNIF(0,1)&quot;</span>,<span class="st">&quot;UNIF(0.05,0.5)&quot;</span>),<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#d8b365&quot;</span>,  <span class="st">&quot;#5ab4ac&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb43-14"><a href="bayes.html#cb43-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.2</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb43-15"><a href="bayes.html#cb43-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">0.3</span>, <span class="at">y=</span><span class="dv">6</span>, <span class="at">label=</span> <span class="fu">expression</span>(<span class="fu">paste</span>(theta, <span class="st">&quot;=0.2&quot;</span>)), <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span> </span>
+<span id="cb43-16"><a href="bayes.html#cb43-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">&quot;posterior probability density&quot;</span>, <span class="at">title=</span><span class="st">&quot;Posterior distribution given uniform priors and binary data&quot;</span>)<span class="sc">+</span></span>
+<span id="cb43-17"><a href="bayes.html#cb43-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-47"></span>
 <img src="bayes_bookdown_files/figure-html/unnamed-chunk-47-1.png" alt="Posterior distribution obtained using Bayes' rule with UNIF(0,1) and UNIF(0.05,0.5) priors" width="672" />
 <p class="caption">
@@ -704,45 +702,45 @@ Figure 3.3: Posterior distribution obtained using Bayes’ rule with UNIF(0,1) a
 <blockquote>
 <p>we will introduce MCMC in later sessions.</p>
 </blockquote>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="bayes.html#cb46-1" aria-hidden="true" tabindex="-1"></a>dat1<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">y=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">6</span>))</span>
-<span id="cb46-2"><a href="bayes.html#cb46-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat1, </span>
-<span id="cb46-3"><a href="bayes.html#cb46-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">bernoulli</span>(<span class="at">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
-<span id="cb46-4"><a href="bayes.html#cb46-4" aria-hidden="true" tabindex="-1"></a>      y <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb46-5"><a href="bayes.html#cb46-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">uniform</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> Intercept)),</span>
-<span id="cb46-6"><a href="bayes.html#cb46-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">1000</span> <span class="sc">+</span> <span class="dv">2500</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">chains =</span> <span class="dv">2</span>, <span class="at">cores =</span> <span class="dv">2</span>,</span>
-<span id="cb46-7"><a href="bayes.html#cb46-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">seed =</span> <span class="dv">123</span>)</span>
-<span id="cb46-8"><a href="bayes.html#cb46-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-9"><a href="bayes.html#cb46-9" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat1, </span>
-<span id="cb46-10"><a href="bayes.html#cb46-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">bernoulli</span>(<span class="at">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
-<span id="cb46-11"><a href="bayes.html#cb46-11" aria-hidden="true" tabindex="-1"></a>      y <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb46-12"><a href="bayes.html#cb46-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">uniform</span>(<span class="fl">0.05</span>, <span class="fl">0.5</span>), <span class="at">class =</span> Intercept)),</span>
-<span id="cb46-13"><a href="bayes.html#cb46-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">1000</span> <span class="sc">+</span> <span class="dv">2500</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">chains =</span> <span class="dv">2</span>, <span class="at">cores =</span> <span class="dv">2</span>,</span>
-<span id="cb46-14"><a href="bayes.html#cb46-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">seed =</span> <span class="dv">123</span>)</span>
-<span id="cb46-15"><a href="bayes.html#cb46-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-16"><a href="bayes.html#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span>
-<span id="cb46-17"><a href="bayes.html#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit2)</span>
-<span id="cb46-18"><a href="bayes.html#cb46-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb46-19"><a href="bayes.html#cb46-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit1)</span>
-<span id="cb46-20"><a href="bayes.html#cb46-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit2)</span>
-<span id="cb46-21"><a href="bayes.html#cb46-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-22"><a href="bayes.html#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb46-23"><a href="bayes.html#cb46-23" aria-hidden="true" tabindex="-1"></a>  fit1, </span>
-<span id="cb46-24"><a href="bayes.html#cb46-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>),</span>
-<span id="cb46-25"><a href="bayes.html#cb46-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.80</span>, <span class="co"># 80% inner intervals;</span></span>
-<span id="cb46-26"><a href="bayes.html#cb46-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_outer =</span> <span class="fl">0.95</span>, <span class="co"># 99% outter intervals;</span></span>
-<span id="cb46-27"><a href="bayes.html#cb46-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">point_est =</span> <span class="st">&quot;mean&quot;</span></span>
-<span id="cb46-28"><a href="bayes.html#cb46-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb46-29"><a href="bayes.html#cb46-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-30"><a href="bayes.html#cb46-30" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb46-31"><a href="bayes.html#cb46-31" aria-hidden="true" tabindex="-1"></a>  fit2, </span>
-<span id="cb46-32"><a href="bayes.html#cb46-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>),</span>
-<span id="cb46-33"><a href="bayes.html#cb46-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.80</span>, <span class="co"># 80% inner intervals;</span></span>
-<span id="cb46-34"><a href="bayes.html#cb46-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_outer =</span> <span class="fl">0.95</span>, <span class="co"># 99% outter intervals;</span></span>
-<span id="cb46-35"><a href="bayes.html#cb46-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">point_est =</span> <span class="st">&quot;mean&quot;</span></span>
-<span id="cb46-36"><a href="bayes.html#cb46-36" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb46-37"><a href="bayes.html#cb46-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-38"><a href="bayes.html#cb46-38" aria-hidden="true" tabindex="-1"></a><span class="fu">hypothesis</span>(fit1, <span class="st">&#39;Intercept &lt; 0.2&#39;</span>)</span>
-<span id="cb46-39"><a href="bayes.html#cb46-39" aria-hidden="true" tabindex="-1"></a><span class="fu">hypothesis</span>(fit2, <span class="st">&#39;Intercept &lt; 0.2&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="bayes.html#cb44-1" aria-hidden="true" tabindex="-1"></a>dat1<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">y=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">6</span>))</span>
+<span id="cb44-2"><a href="bayes.html#cb44-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat1, </span>
+<span id="cb44-3"><a href="bayes.html#cb44-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">bernoulli</span>(<span class="at">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
+<span id="cb44-4"><a href="bayes.html#cb44-4" aria-hidden="true" tabindex="-1"></a>      y <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb44-5"><a href="bayes.html#cb44-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">uniform</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> Intercept)),</span>
+<span id="cb44-6"><a href="bayes.html#cb44-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">1000</span> <span class="sc">+</span> <span class="dv">2500</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">chains =</span> <span class="dv">2</span>, <span class="at">cores =</span> <span class="dv">2</span>,</span>
+<span id="cb44-7"><a href="bayes.html#cb44-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb44-8"><a href="bayes.html#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="bayes.html#cb44-9" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat1, </span>
+<span id="cb44-10"><a href="bayes.html#cb44-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">bernoulli</span>(<span class="at">link =</span> <span class="st">&quot;identity&quot;</span>),</span>
+<span id="cb44-11"><a href="bayes.html#cb44-11" aria-hidden="true" tabindex="-1"></a>      y <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb44-12"><a href="bayes.html#cb44-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">uniform</span>(<span class="fl">0.05</span>, <span class="fl">0.5</span>), <span class="at">class =</span> Intercept)),</span>
+<span id="cb44-13"><a href="bayes.html#cb44-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">1000</span> <span class="sc">+</span> <span class="dv">2500</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">chains =</span> <span class="dv">2</span>, <span class="at">cores =</span> <span class="dv">2</span>,</span>
+<span id="cb44-14"><a href="bayes.html#cb44-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb44-15"><a href="bayes.html#cb44-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-16"><a href="bayes.html#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span>
+<span id="cb44-17"><a href="bayes.html#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit2)</span>
+<span id="cb44-18"><a href="bayes.html#cb44-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-19"><a href="bayes.html#cb44-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit1)</span>
+<span id="cb44-20"><a href="bayes.html#cb44-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit2)</span>
+<span id="cb44-21"><a href="bayes.html#cb44-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-22"><a href="bayes.html#cb44-22" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb44-23"><a href="bayes.html#cb44-23" aria-hidden="true" tabindex="-1"></a>  fit1, </span>
+<span id="cb44-24"><a href="bayes.html#cb44-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>),</span>
+<span id="cb44-25"><a href="bayes.html#cb44-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.80</span>, <span class="co"># 80% inner intervals;</span></span>
+<span id="cb44-26"><a href="bayes.html#cb44-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_outer =</span> <span class="fl">0.95</span>, <span class="co"># 99% outter intervals;</span></span>
+<span id="cb44-27"><a href="bayes.html#cb44-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">point_est =</span> <span class="st">&quot;mean&quot;</span></span>
+<span id="cb44-28"><a href="bayes.html#cb44-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-29"><a href="bayes.html#cb44-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-30"><a href="bayes.html#cb44-30" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb44-31"><a href="bayes.html#cb44-31" aria-hidden="true" tabindex="-1"></a>  fit2, </span>
+<span id="cb44-32"><a href="bayes.html#cb44-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;b_Intercept&quot;</span>),</span>
+<span id="cb44-33"><a href="bayes.html#cb44-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.80</span>, <span class="co"># 80% inner intervals;</span></span>
+<span id="cb44-34"><a href="bayes.html#cb44-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_outer =</span> <span class="fl">0.95</span>, <span class="co"># 99% outter intervals;</span></span>
+<span id="cb44-35"><a href="bayes.html#cb44-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">point_est =</span> <span class="st">&quot;mean&quot;</span></span>
+<span id="cb44-36"><a href="bayes.html#cb44-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-37"><a href="bayes.html#cb44-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-38"><a href="bayes.html#cb44-38" aria-hidden="true" tabindex="-1"></a><span class="fu">hypothesis</span>(fit1, <span class="st">&#39;Intercept &lt; 0.2&#39;</span>)</span>
+<span id="cb44-39"><a href="bayes.html#cb44-39" aria-hidden="true" tabindex="-1"></a><span class="fu">hypothesis</span>(fit2, <span class="st">&#39;Intercept &lt; 0.2&#39;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="the-beta-binomial-model" class="section level3 hasAnchor" number="3.2.2">
@@ -823,17 +821,17 @@ P(\theta \mid x) &amp; \propto P(x \mid \theta) \times P( \theta) \\
 </div>
 <div class="guidedexercise">
 <p><strong>Plot Beta densities in R (Tutorial Practice)</strong> Try plotting Beta(2,8), Beta(8,2), and Beta(8,8). Example R code provided below.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="bayes.html#cb47-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">&lt;-</span><span class="dv">2</span></span>
-<span id="cb47-2"><a href="bayes.html#cb47-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">&lt;-</span><span class="dv">2</span></span>
-<span id="cb47-3"><a href="bayes.html#cb47-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">theta =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">101</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb47-4"><a href="bayes.html#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">priorDensity =</span> <span class="fu">dbeta</span>(theta, <span class="at">shape1 =</span> a,<span class="at">shape2 =</span> b))</span>
-<span id="cb47-5"><a href="bayes.html#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-6"><a href="bayes.html#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(theta, priorDensity))<span class="sc">+</span></span>
-<span id="cb47-7"><a href="bayes.html#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
-<span id="cb47-8"><a href="bayes.html#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(theta))<span class="sc">+</span></span>
-<span id="cb47-9"><a href="bayes.html#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">p</span>(theta)))<span class="sc">+</span></span>
-<span id="cb47-10"><a href="bayes.html#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="fu">paste0</span>(<span class="st">&quot;Beta distribution with &quot;</span>, <span class="st">&quot;a = &quot;</span>,a,<span class="st">&quot;; b = &quot;</span>,b))<span class="sc">+</span></span>
-<span id="cb47-11"><a href="bayes.html#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="bayes.html#cb45-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb45-2"><a href="bayes.html#cb45-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb45-3"><a href="bayes.html#cb45-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">theta =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">101</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-4"><a href="bayes.html#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">priorDensity =</span> <span class="fu">dbeta</span>(theta, <span class="at">shape1 =</span> a,<span class="at">shape2 =</span> b))</span>
+<span id="cb45-5"><a href="bayes.html#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="bayes.html#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(theta, priorDensity))<span class="sc">+</span></span>
+<span id="cb45-7"><a href="bayes.html#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb45-8"><a href="bayes.html#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(theta))<span class="sc">+</span></span>
+<span id="cb45-9"><a href="bayes.html#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">p</span>(theta)))<span class="sc">+</span></span>
+<span id="cb45-10"><a href="bayes.html#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="fu">paste0</span>(<span class="st">&quot;Beta distribution with &quot;</span>, <span class="st">&quot;a = &quot;</span>,a,<span class="st">&quot;; b = &quot;</span>,b))<span class="sc">+</span></span>
+<span id="cb45-11"><a href="bayes.html#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 </div>
 <p><strong>Summarizing Posterior Distribution</strong></p>
 <ul>
@@ -1036,12 +1034,12 @@ P((y_1, \ldots, y_n \mid \theta) &amp;= \prod_{i=1}^n P(y_i \mid \theta) \\
 <li><p>For this example, we will simulate data for a small study of n=100 subjects and randomized 50% to treat=0 and 50% to treat=1 (mimicking an RCT). We will then generate the outcome Y from a normal distribution depending on the treatment indicator.</p></li>
 <li><p>Suppose we have the following table of results from a linear regression estimating treatment effect <span class="math inline">\(\theta\)</span> on the outcome</p></li>
 </ul>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="bayes.html#cb48-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb48-2"><a href="bayes.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb48-3"><a href="bayes.html#cb48-3" aria-hidden="true" tabindex="-1"></a>treat <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span>(<span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)<span class="sc">&lt;</span><span class="fl">0.5</span>)</span>
-<span id="cb48-4"><a href="bayes.html#cb48-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">5</span><span class="sc">*</span>treat<span class="sc">+</span><span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span><span class="dv">10</span>)</span>
-<span id="cb48-5"><a href="bayes.html#cb48-5" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">&lt;-</span><span class="fu">lm</span>(y<span class="sc">~</span>treat)</span>
-<span id="cb48-6"><a href="bayes.html#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="bayes.html#cb46-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb46-2"><a href="bayes.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb46-3"><a href="bayes.html#cb46-3" aria-hidden="true" tabindex="-1"></a>treat <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span>(<span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)<span class="sc">&lt;</span><span class="fl">0.5</span>)</span>
+<span id="cb46-4"><a href="bayes.html#cb46-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">5</span><span class="sc">*</span>treat<span class="sc">+</span><span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span><span class="dv">10</span>)</span>
+<span id="cb46-5"><a href="bayes.html#cb46-5" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">&lt;-</span><span class="fu">lm</span>(y<span class="sc">~</span>treat)</span>
+<span id="cb46-6"><a href="bayes.html#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ treat)
@@ -1060,7 +1058,7 @@ P((y_1, \ldots, y_n \mid \theta) &amp;= \prod_{i=1}^n P(y_i \mid \theta) \\
 ## Residual standard error: 9.543 on 98 degrees of freedom
 ## Multiple R-squared:  0.04414,    Adjusted R-squared:  0.03438 
 ## F-statistic: 4.525 on 1 and 98 DF,  p-value: 0.03591</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bayes.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">confint.default</span>(fit, <span class="st">&#39;treat&#39;</span>, <span class="at">level=</span><span class="fl">0.95</span>),<span class="dv">3</span>) <span class="co"># based on asymptotic normality</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="bayes.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">confint.default</span>(fit, <span class="st">&#39;treat&#39;</span>, <span class="at">level=</span><span class="fl">0.95</span>),<span class="dv">3</span>) <span class="co"># based on asymptotic normality</span></span></code></pre></div>
 <pre><code>##       2.5 % 97.5 %
 ## treat 0.321   7.84</code></pre>
 <ul>
@@ -1088,31 +1086,31 @@ P((y_1, \ldots, y_n \mid \theta) &amp;= \prod_{i=1}^n P(y_i \mid \theta) \\
         &amp; = \frac{1}{prior.sd^2} + \frac{1}{se.obs^2} \\
         &amp; = \frac{1}{2 \times 1.918^2} + \frac{1}{1.918^2} = 0.408
 \end{align}\]</span></p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="bayes.html#cb52-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">theta =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">to =</span> <span class="dv">15</span>, <span class="at">length.out =</span> <span class="dv">200</span>),</span>
-<span id="cb52-2"><a href="bayes.html#cb52-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">y.obs=</span><span class="fl">4.08</span>,</span>
-<span id="cb52-3"><a href="bayes.html#cb52-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">se.obs=</span><span class="fl">1.918</span>,</span>
-<span id="cb52-4"><a href="bayes.html#cb52-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">prior.mean=</span><span class="dv">0</span>,</span>
-<span id="cb52-5"><a href="bayes.html#cb52-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">prior.sd=</span><span class="fu">sqrt</span>(<span class="dv">2</span>)<span class="sc">*</span><span class="fl">1.918</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb52-6"><a href="bayes.html#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">priorDensity =</span> <span class="fu">dnorm</span>(theta, prior.mean, prior.sd)) <span class="sc">%&gt;%</span></span>
-<span id="cb52-7"><a href="bayes.html#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">likelihood.0 =</span> <span class="fu">dnorm</span>(theta, y.obs, se.obs)) <span class="sc">%&gt;%</span></span>
-<span id="cb52-8"><a href="bayes.html#cb52-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">w =</span> (<span class="dv">1</span><span class="sc">/</span>se.obs<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>se.obs<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>prior.sd<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb52-9"><a href="bayes.html#cb52-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">post.prec =</span> <span class="dv">1</span><span class="sc">/</span>se.obs<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>prior.sd<span class="sc">^</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb52-10"><a href="bayes.html#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">posteriorDensity =</span> <span class="fu">dnorm</span>(theta, w<span class="sc">*</span>y.obs<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>w)<span class="sc">*</span>prior.mean, <span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>post.prec))) <span class="sc">%&gt;%</span></span>
-<span id="cb52-11"><a href="bayes.html#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">likelihood =</span> likelihood<span class="fl">.0</span><span class="sc">/</span><span class="fu">sum</span>(<span class="fu">diff</span>(theta)<span class="sc">*</span>likelihood<span class="fl">.0</span>[<span class="sc">-</span><span class="dv">1</span>])) <span class="sc">%&gt;%</span></span>
-<span id="cb52-12"><a href="bayes.html#cb52-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(priorDensity,likelihood,posteriorDensity),<span class="at">names_to=</span><span class="st">&quot;Function&quot;</span>,<span class="at">values_to=</span><span class="st">&quot;p&quot;</span>)</span>
-<span id="cb52-13"><a href="bayes.html#cb52-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb52-14"><a href="bayes.html#cb52-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Function <span class="ot">&lt;-</span> <span class="fu">factor</span>(d<span class="sc">$</span>Function, </span>
-<span id="cb52-15"><a href="bayes.html#cb52-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;priorDensity&quot;</span>,<span class="st">&quot;likelihood&quot;</span>,<span class="st">&quot;posteriorDensity&quot;</span>),</span>
-<span id="cb52-16"><a href="bayes.html#cb52-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Prior&quot;</span>,<span class="st">&quot;Likelihood&quot;</span>,<span class="st">&quot;Posterior&quot;</span>))</span>
-<span id="cb52-17"><a href="bayes.html#cb52-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-18"><a href="bayes.html#cb52-18" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(theta, p,<span class="at">colour=</span>Function))<span class="sc">+</span></span>
-<span id="cb52-19"><a href="bayes.html#cb52-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb52-20"><a href="bayes.html#cb52-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(theta))<span class="sc">+</span></span>
-<span id="cb52-21"><a href="bayes.html#cb52-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">p</span>(theta)))<span class="sc">+</span></span>
-<span id="cb52-22"><a href="bayes.html#cb52-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)<span class="sc">+</span></span>
-<span id="cb52-23"><a href="bayes.html#cb52-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>)) <span class="sc">+</span><span class="fu">theme_bw</span>()</span>
-<span id="cb52-24"><a href="bayes.html#cb52-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-25"><a href="bayes.html#cb52-25" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bayes.html#cb50-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">theta =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">to =</span> <span class="dv">15</span>, <span class="at">length.out =</span> <span class="dv">200</span>),</span>
+<span id="cb50-2"><a href="bayes.html#cb50-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">y.obs=</span><span class="fl">4.08</span>,</span>
+<span id="cb50-3"><a href="bayes.html#cb50-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">se.obs=</span><span class="fl">1.918</span>,</span>
+<span id="cb50-4"><a href="bayes.html#cb50-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">prior.mean=</span><span class="dv">0</span>,</span>
+<span id="cb50-5"><a href="bayes.html#cb50-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">prior.sd=</span><span class="fu">sqrt</span>(<span class="dv">2</span>)<span class="sc">*</span><span class="fl">1.918</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb50-6"><a href="bayes.html#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">priorDensity =</span> <span class="fu">dnorm</span>(theta, prior.mean, prior.sd)) <span class="sc">%&gt;%</span></span>
+<span id="cb50-7"><a href="bayes.html#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">likelihood.0 =</span> <span class="fu">dnorm</span>(theta, y.obs, se.obs)) <span class="sc">%&gt;%</span></span>
+<span id="cb50-8"><a href="bayes.html#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">w =</span> (<span class="dv">1</span><span class="sc">/</span>se.obs<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>se.obs<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>prior.sd<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb50-9"><a href="bayes.html#cb50-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">post.prec =</span> <span class="dv">1</span><span class="sc">/</span>se.obs<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>prior.sd<span class="sc">^</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb50-10"><a href="bayes.html#cb50-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">posteriorDensity =</span> <span class="fu">dnorm</span>(theta, w<span class="sc">*</span>y.obs<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>w)<span class="sc">*</span>prior.mean, <span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>post.prec))) <span class="sc">%&gt;%</span></span>
+<span id="cb50-11"><a href="bayes.html#cb50-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">likelihood =</span> likelihood<span class="fl">.0</span><span class="sc">/</span><span class="fu">sum</span>(<span class="fu">diff</span>(theta)<span class="sc">*</span>likelihood<span class="fl">.0</span>[<span class="sc">-</span><span class="dv">1</span>])) <span class="sc">%&gt;%</span></span>
+<span id="cb50-12"><a href="bayes.html#cb50-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(priorDensity,likelihood,posteriorDensity),<span class="at">names_to=</span><span class="st">&quot;Function&quot;</span>,<span class="at">values_to=</span><span class="st">&quot;p&quot;</span>)</span>
+<span id="cb50-13"><a href="bayes.html#cb50-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb50-14"><a href="bayes.html#cb50-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Function <span class="ot">&lt;-</span> <span class="fu">factor</span>(d<span class="sc">$</span>Function, </span>
+<span id="cb50-15"><a href="bayes.html#cb50-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;priorDensity&quot;</span>,<span class="st">&quot;likelihood&quot;</span>,<span class="st">&quot;posteriorDensity&quot;</span>),</span>
+<span id="cb50-16"><a href="bayes.html#cb50-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Prior&quot;</span>,<span class="st">&quot;Likelihood&quot;</span>,<span class="st">&quot;Posterior&quot;</span>))</span>
+<span id="cb50-17"><a href="bayes.html#cb50-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-18"><a href="bayes.html#cb50-18" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(theta, p,<span class="at">colour=</span>Function))<span class="sc">+</span></span>
+<span id="cb50-19"><a href="bayes.html#cb50-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb50-20"><a href="bayes.html#cb50-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(theta))<span class="sc">+</span></span>
+<span id="cb50-21"><a href="bayes.html#cb50-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">p</span>(theta)))<span class="sc">+</span></span>
+<span id="cb50-22"><a href="bayes.html#cb50-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)<span class="sc">+</span></span>
+<span id="cb50-23"><a href="bayes.html#cb50-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>)) <span class="sc">+</span><span class="fu">theme_bw</span>()</span>
+<span id="cb50-24"><a href="bayes.html#cb50-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-25"><a href="bayes.html#cb50-25" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
 </div>
 <div class="workedexample">
@@ -1174,59 +1172,59 @@ for on the log scale.</p></li>
 <li>The posterior median HR = exp(-0.094) = 0.91 and the posterior 95% Credible Interval for HR is
 <span class="math display">\[\exp(-0.094 \pm 1.96\times 0.09) \rightarrow (0.763, 1.086) \]</span></li>
 </ul>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="bayes.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#prior on log(HR);</span></span>
-<span id="cb53-2"><a href="bayes.html#cb53-2" aria-hidden="true" tabindex="-1"></a>mu0<span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb53-3"><a href="bayes.html#cb53-3" aria-hidden="true" tabindex="-1"></a>sd0<span class="ot">&lt;-</span> <span class="fl">0.11</span></span>
-<span id="cb53-4"><a href="bayes.html#cb53-4" aria-hidden="true" tabindex="-1"></a>prec0 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sd0<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb53-5"><a href="bayes.html#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-6"><a href="bayes.html#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="co">#likelihood on log(HR);</span></span>
-<span id="cb53-7"><a href="bayes.html#cb53-7" aria-hidden="true" tabindex="-1"></a>ybar<span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.287</span></span>
-<span id="cb53-8"><a href="bayes.html#cb53-8" aria-hidden="true" tabindex="-1"></a>sd.ybar<span class="ot">&lt;-</span> <span class="fl">0.158</span> </span>
-<span id="cb53-9"><a href="bayes.html#cb53-9" aria-hidden="true" tabindex="-1"></a>prec.y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sd.ybar<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb53-10"><a href="bayes.html#cb53-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-11"><a href="bayes.html#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="co">#posterior on log(HR)</span></span>
-<span id="cb53-12"><a href="bayes.html#cb53-12" aria-hidden="true" tabindex="-1"></a>prec1 <span class="ot">&lt;-</span> prec0 <span class="sc">+</span> prec.y</span>
-<span id="cb53-13"><a href="bayes.html#cb53-13" aria-hidden="true" tabindex="-1"></a>mu1 <span class="ot">&lt;-</span> (prec0 <span class="sc">*</span> mu0 <span class="sc">+</span> prec.y<span class="sc">*</span>ybar)<span class="sc">/</span>prec1</span>
-<span id="cb53-14"><a href="bayes.html#cb53-14" aria-hidden="true" tabindex="-1"></a>sigma1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(prec1)</span>
-<span id="cb53-15"><a href="bayes.html#cb53-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-16"><a href="bayes.html#cb53-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-17"><a href="bayes.html#cb53-17" aria-hidden="true" tabindex="-1"></a>mu.plot <span class="ot">&lt;-</span> <span class="fu">seq</span>(ybar<span class="dv">-1</span>,ybar<span class="sc">+</span><span class="dv">1</span>,</span>
-<span id="cb53-18"><a href="bayes.html#cb53-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">length.out=</span><span class="dv">200</span>)</span>
-<span id="cb53-19"><a href="bayes.html#cb53-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-20"><a href="bayes.html#cb53-20" aria-hidden="true" tabindex="-1"></a>lik <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(ybar, mu.plot, sd.ybar)</span>
-<span id="cb53-21"><a href="bayes.html#cb53-21" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(mu.plot, mu0, sd0)</span>
-<span id="cb53-22"><a href="bayes.html#cb53-22" aria-hidden="true" tabindex="-1"></a>posterior<span class="ot">&lt;-</span> <span class="fu">dnorm</span>(mu.plot, mu1,sigma1)</span>
-<span id="cb53-23"><a href="bayes.html#cb53-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-24"><a href="bayes.html#cb53-24" aria-hidden="true" tabindex="-1"></a>d<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">mu.plot=</span><span class="fu">rep</span>(mu.plot, <span class="dv">3</span>),</span>
-<span id="cb53-25"><a href="bayes.html#cb53-25" aria-hidden="true" tabindex="-1"></a>              <span class="at">p =</span><span class="fu">c</span>(lik,prior,posterior),</span>
-<span id="cb53-26"><a href="bayes.html#cb53-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">Function=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;likelihood&quot;</span>,<span class="st">&quot;prior&quot;</span>,<span class="st">&quot;posterior&quot;</span>),<span class="at">each=</span><span class="fu">length</span>(mu.plot)))</span>
-<span id="cb53-27"><a href="bayes.html#cb53-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-28"><a href="bayes.html#cb53-28" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(mu.plot, p,<span class="at">colour=</span>Function))<span class="sc">+</span></span>
-<span id="cb53-29"><a href="bayes.html#cb53-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb53-30"><a href="bayes.html#cb53-30" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">&quot;log(HR)&quot;</span>)<span class="sc">+</span></span>
-<span id="cb53-31"><a href="bayes.html#cb53-31" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">&quot;Probability Density&quot;</span>)<span class="sc">+</span></span>
-<span id="cb53-32"><a href="bayes.html#cb53-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
-<span id="cb53-33"><a href="bayes.html#cb53-33" aria-hidden="true" tabindex="-1"></a>     <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb53-34"><a href="bayes.html#cb53-34" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ggtitle</span>(<span class="st">&quot;Neural prior on log(HR): plot on log(HR) scale&quot;</span>)</span>
-<span id="cb53-35"><a href="bayes.html#cb53-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-36"><a href="bayes.html#cb53-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-37"><a href="bayes.html#cb53-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-38"><a href="bayes.html#cb53-38" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="fu">exp</span>(mu.plot), p,<span class="at">colour=</span>Function))<span class="sc">+</span></span>
-<span id="cb53-39"><a href="bayes.html#cb53-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb53-40"><a href="bayes.html#cb53-40" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">&quot;HR&quot;</span>)<span class="sc">+</span></span>
-<span id="cb53-41"><a href="bayes.html#cb53-41" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">&quot;Probability Density&quot;</span>)<span class="sc">+</span></span>
-<span id="cb53-42"><a href="bayes.html#cb53-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
-<span id="cb53-43"><a href="bayes.html#cb53-43" aria-hidden="true" tabindex="-1"></a>     <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb53-44"><a href="bayes.html#cb53-44" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ggtitle</span>(<span class="st">&quot;Neural prior on log(HR): plot on HR scale&quot;</span>)</span>
-<span id="cb53-45"><a href="bayes.html#cb53-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-46"><a href="bayes.html#cb53-46" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1,p2, <span class="at">nrow=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="bayes.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#prior on log(HR);</span></span>
+<span id="cb51-2"><a href="bayes.html#cb51-2" aria-hidden="true" tabindex="-1"></a>mu0<span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb51-3"><a href="bayes.html#cb51-3" aria-hidden="true" tabindex="-1"></a>sd0<span class="ot">&lt;-</span> <span class="fl">0.11</span></span>
+<span id="cb51-4"><a href="bayes.html#cb51-4" aria-hidden="true" tabindex="-1"></a>prec0 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sd0<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb51-5"><a href="bayes.html#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="bayes.html#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="co">#likelihood on log(HR);</span></span>
+<span id="cb51-7"><a href="bayes.html#cb51-7" aria-hidden="true" tabindex="-1"></a>ybar<span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.287</span></span>
+<span id="cb51-8"><a href="bayes.html#cb51-8" aria-hidden="true" tabindex="-1"></a>sd.ybar<span class="ot">&lt;-</span> <span class="fl">0.158</span> </span>
+<span id="cb51-9"><a href="bayes.html#cb51-9" aria-hidden="true" tabindex="-1"></a>prec.y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sd.ybar<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb51-10"><a href="bayes.html#cb51-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-11"><a href="bayes.html#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="co">#posterior on log(HR)</span></span>
+<span id="cb51-12"><a href="bayes.html#cb51-12" aria-hidden="true" tabindex="-1"></a>prec1 <span class="ot">&lt;-</span> prec0 <span class="sc">+</span> prec.y</span>
+<span id="cb51-13"><a href="bayes.html#cb51-13" aria-hidden="true" tabindex="-1"></a>mu1 <span class="ot">&lt;-</span> (prec0 <span class="sc">*</span> mu0 <span class="sc">+</span> prec.y<span class="sc">*</span>ybar)<span class="sc">/</span>prec1</span>
+<span id="cb51-14"><a href="bayes.html#cb51-14" aria-hidden="true" tabindex="-1"></a>sigma1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(prec1)</span>
+<span id="cb51-15"><a href="bayes.html#cb51-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-16"><a href="bayes.html#cb51-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-17"><a href="bayes.html#cb51-17" aria-hidden="true" tabindex="-1"></a>mu.plot <span class="ot">&lt;-</span> <span class="fu">seq</span>(ybar<span class="dv">-1</span>,ybar<span class="sc">+</span><span class="dv">1</span>,</span>
+<span id="cb51-18"><a href="bayes.html#cb51-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">length.out=</span><span class="dv">200</span>)</span>
+<span id="cb51-19"><a href="bayes.html#cb51-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-20"><a href="bayes.html#cb51-20" aria-hidden="true" tabindex="-1"></a>lik <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(ybar, mu.plot, sd.ybar)</span>
+<span id="cb51-21"><a href="bayes.html#cb51-21" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(mu.plot, mu0, sd0)</span>
+<span id="cb51-22"><a href="bayes.html#cb51-22" aria-hidden="true" tabindex="-1"></a>posterior<span class="ot">&lt;-</span> <span class="fu">dnorm</span>(mu.plot, mu1,sigma1)</span>
+<span id="cb51-23"><a href="bayes.html#cb51-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-24"><a href="bayes.html#cb51-24" aria-hidden="true" tabindex="-1"></a>d<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">mu.plot=</span><span class="fu">rep</span>(mu.plot, <span class="dv">3</span>),</span>
+<span id="cb51-25"><a href="bayes.html#cb51-25" aria-hidden="true" tabindex="-1"></a>              <span class="at">p =</span><span class="fu">c</span>(lik,prior,posterior),</span>
+<span id="cb51-26"><a href="bayes.html#cb51-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">Function=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;likelihood&quot;</span>,<span class="st">&quot;prior&quot;</span>,<span class="st">&quot;posterior&quot;</span>),<span class="at">each=</span><span class="fu">length</span>(mu.plot)))</span>
+<span id="cb51-27"><a href="bayes.html#cb51-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-28"><a href="bayes.html#cb51-28" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(mu.plot, p,<span class="at">colour=</span>Function))<span class="sc">+</span></span>
+<span id="cb51-29"><a href="bayes.html#cb51-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb51-30"><a href="bayes.html#cb51-30" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">&quot;log(HR)&quot;</span>)<span class="sc">+</span></span>
+<span id="cb51-31"><a href="bayes.html#cb51-31" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">&quot;Probability Density&quot;</span>)<span class="sc">+</span></span>
+<span id="cb51-32"><a href="bayes.html#cb51-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
+<span id="cb51-33"><a href="bayes.html#cb51-33" aria-hidden="true" tabindex="-1"></a>     <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb51-34"><a href="bayes.html#cb51-34" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ggtitle</span>(<span class="st">&quot;Neural prior on log(HR): plot on log(HR) scale&quot;</span>)</span>
+<span id="cb51-35"><a href="bayes.html#cb51-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-36"><a href="bayes.html#cb51-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-37"><a href="bayes.html#cb51-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-38"><a href="bayes.html#cb51-38" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="fu">exp</span>(mu.plot), p,<span class="at">colour=</span>Function))<span class="sc">+</span></span>
+<span id="cb51-39"><a href="bayes.html#cb51-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb51-40"><a href="bayes.html#cb51-40" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">&quot;HR&quot;</span>)<span class="sc">+</span></span>
+<span id="cb51-41"><a href="bayes.html#cb51-41" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">&quot;Probability Density&quot;</span>)<span class="sc">+</span></span>
+<span id="cb51-42"><a href="bayes.html#cb51-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;goldenrod&quot;</span>,<span class="st">&quot;steelblue&quot;</span>,<span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
+<span id="cb51-43"><a href="bayes.html#cb51-43" aria-hidden="true" tabindex="-1"></a>     <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb51-44"><a href="bayes.html#cb51-44" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ggtitle</span>(<span class="st">&quot;Neural prior on log(HR): plot on HR scale&quot;</span>)</span>
+<span id="cb51-45"><a href="bayes.html#cb51-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-46"><a href="bayes.html#cb51-46" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1,p2, <span class="at">nrow=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
 <p><strong>Posterior summary statistics from R</strong></p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="bayes.html#cb54-1" aria-hidden="true" tabindex="-1"></a>thresholds<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.8</span>)</span>
-<span id="cb54-2"><a href="bayes.html#cb54-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span><span class="fu">exp</span>( <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.025</span>, <span class="fl">0.975</span>), mu1, sigma1))</span>
-<span id="cb54-3"><a href="bayes.html#cb54-3" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">c</span>(res, <span class="fu">pnorm</span>(<span class="fu">log</span>(thresholds), mu1, sigma1))</span>
-<span id="cb54-4"><a href="bayes.html#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;median&quot;</span>,<span class="st">&quot;q2.5&quot;</span>,<span class="st">&quot;q97.5&quot;</span>,<span class="fu">paste0</span>(<span class="st">&quot;Pr(OR &lt; &quot;</span>,thresholds,<span class="st">&quot;)&quot;</span>))</span>
-<span id="cb54-5"><a href="bayes.html#cb54-5" aria-hidden="true" tabindex="-1"></a>  res</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="bayes.html#cb52-1" aria-hidden="true" tabindex="-1"></a>thresholds<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.8</span>)</span>
+<span id="cb52-2"><a href="bayes.html#cb52-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span><span class="fu">exp</span>( <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.025</span>, <span class="fl">0.975</span>), mu1, sigma1))</span>
+<span id="cb52-3"><a href="bayes.html#cb52-3" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">c</span>(res, <span class="fu">pnorm</span>(<span class="fu">log</span>(thresholds), mu1, sigma1))</span>
+<span id="cb52-4"><a href="bayes.html#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;median&quot;</span>,<span class="st">&quot;q2.5&quot;</span>,<span class="st">&quot;q97.5&quot;</span>,<span class="fu">paste0</span>(<span class="st">&quot;Pr(OR &lt; &quot;</span>,thresholds,<span class="st">&quot;)&quot;</span>))</span>
+<span id="cb52-5"><a href="bayes.html#cb52-5" aria-hidden="true" tabindex="-1"></a>  res</span></code></pre></div>
 <pre><code>##       median         q2.5        q97.5   Pr(OR &lt; 1) Pr(OR &lt; 0.8) 
 ##    0.9105607    0.7628965    1.0868065    0.8503338    0.0757977</code></pre>
 </div>
@@ -1321,9 +1319,9 @@ for on the log scale.</p></li>
 <ul>
 <li>We implement an exact binomial test</li>
 </ul>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="bayes.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">n=</span><span class="dv">6</span>, <span class="at">p =</span> <span class="fl">0.2</span>,</span>
-<span id="cb56-2"><a href="bayes.html#cb56-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;less&quot;</span>),</span>
-<span id="cb56-3"><a href="bayes.html#cb56-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="bayes.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">n=</span><span class="dv">6</span>, <span class="at">p =</span> <span class="fl">0.2</span>,</span>
+<span id="cb54-2"><a href="bayes.html#cb54-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;less&quot;</span>),</span>
+<span id="cb54-3"><a href="bayes.html#cb54-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Exact binomial test
 ## 
@@ -1439,17 +1437,17 @@ Figure 3.5: Calibration of Bayes factor (likelihood ratio) provided by Jeffreys 
 <span class="math display">\[P(\theta \mid y) = \frac{\Gamma(8)}{\Gamma(1)\Gamma(7)} \theta^{0}(1-theta)^{6}\]</span></p>
 <div class="fold s">
 
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="bayes.html#cb58-1" aria-hidden="true" tabindex="-1"></a>likelihood<span class="ot">&lt;-</span><span class="fu">length</span>(<span class="dv">7</span>)</span>
-<span id="cb58-2"><a href="bayes.html#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>) {</span>
-<span id="cb58-3"><a href="bayes.html#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-4"><a href="bayes.html#cb58-4" aria-hidden="true" tabindex="-1"></a>integrand_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
-<span id="cb58-5"><a href="bayes.html#cb58-5" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">choose</span>(<span class="dv">6</span>, i<span class="dv">-1</span>)<span class="sc">*</span>theta<span class="sc">^</span>(i<span class="dv">-1</span>)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span>(<span class="dv">6</span><span class="sc">-</span>i<span class="sc">+</span><span class="dv">1</span>))<span class="sc">*</span>((<span class="fu">gamma</span>(<span class="dv">8</span>)<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">1</span>)<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">7</span>))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span><span class="dv">6</span>)}</span>
-<span id="cb58-6"><a href="bayes.html#cb58-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-7"><a href="bayes.html#cb58-7" aria-hidden="true" tabindex="-1"></a>likelihood[i] <span class="ot">&lt;-</span> <span class="fu">integrate</span>(integrand_pred,<span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)<span class="sc">$</span>value   </span>
-<span id="cb58-8"><a href="bayes.html#cb58-8" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb58-9"><a href="bayes.html#cb58-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb58-10"><a href="bayes.html#cb58-10" aria-hidden="true" tabindex="-1"></a>posterior_pred<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">y_star=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">likelihood =</span> likelihood)</span>
-<span id="cb58-11"><a href="bayes.html#cb58-11" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(posterior_pred, <span class="at">caption =</span> <span class="st">&quot;Posterior predictive distribution for a new trial of 6 patients&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="bayes.html#cb56-1" aria-hidden="true" tabindex="-1"></a>likelihood<span class="ot">&lt;-</span><span class="fu">length</span>(<span class="dv">7</span>)</span>
+<span id="cb56-2"><a href="bayes.html#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>) {</span>
+<span id="cb56-3"><a href="bayes.html#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="bayes.html#cb56-4" aria-hidden="true" tabindex="-1"></a>integrand_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb56-5"><a href="bayes.html#cb56-5" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">choose</span>(<span class="dv">6</span>, i<span class="dv">-1</span>)<span class="sc">*</span>theta<span class="sc">^</span>(i<span class="dv">-1</span>)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span>(<span class="dv">6</span><span class="sc">-</span>i<span class="sc">+</span><span class="dv">1</span>))<span class="sc">*</span>((<span class="fu">gamma</span>(<span class="dv">8</span>)<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">1</span>)<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">7</span>))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>theta)<span class="sc">^</span><span class="dv">6</span>)}</span>
+<span id="cb56-6"><a href="bayes.html#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="bayes.html#cb56-7" aria-hidden="true" tabindex="-1"></a>likelihood[i] <span class="ot">&lt;-</span> <span class="fu">integrate</span>(integrand_pred,<span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)<span class="sc">$</span>value   </span>
+<span id="cb56-8"><a href="bayes.html#cb56-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb56-9"><a href="bayes.html#cb56-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb56-10"><a href="bayes.html#cb56-10" aria-hidden="true" tabindex="-1"></a>posterior_pred<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">y_star=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">likelihood =</span> likelihood)</span>
+<span id="cb56-11"><a href="bayes.html#cb56-11" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(posterior_pred, <span class="at">caption =</span> <span class="st">&quot;Posterior predictive distribution for a new trial of 6 patients&quot;</span>)</span></code></pre></div>
 <table>
 <caption><span id="tab:unnamed-chunk-59">Table 3.1: </span>Posterior predictive distribution for a new trial of 6 patients</caption>
 <thead>
@@ -1489,7 +1487,7 @@ Figure 3.5: Calibration of Bayes factor (likelihood ratio) provided by Jeffreys 
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="bayes.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(posterior_pred<span class="sc">$</span>likelihood)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="bayes.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(posterior_pred<span class="sc">$</span>likelihood)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <div>
 
@@ -1555,7 +1553,7 @@ unknown parameter (e.g. an odds ratio <span class="math inline">\(\theta\)</spa
 </div>
 <div id="r-session-information-2" class="section level3 unnumbered hasAnchor">
 <h3>R Session information<a href="bayes.html#r-session-information-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<pre><code>## R version 4.0.5 (2021-03-31)
+<pre><code>## R version 4.1.3 (2022-03-10)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 19044)
 ## 

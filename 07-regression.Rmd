@@ -14,7 +14,7 @@
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 # Every chapter, we will load all the library we will use at the beginning
 # of the chapter. 
-require(tidyverse)
+# require(tidyverse)
 require(ggpubr)
 library(brms)
 library(ggmcmc)

@@ -372,8 +372,6 @@ div.csl-indent {
 </ul>
 </div>
 <script src="hideOutput.js"></script>
-<pre><code>## Error in completeSubclasses(classDef2, class1, obj, where) : 
-##   trying to get slot &quot;subclasses&quot; from an object of a basic class (&quot;NULL&quot;) with no slots</code></pre>
 <p></br></p>
 <div id="introduction" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Introduction<a href="BayesMeta.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -453,15 +451,15 @@ Y_{i} &amp;\sim  \mathcal{N}(\theta_{i},\sigma^2_{Y_i}) \\
 </ul>
 <div class="fold s">
 
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="BayesMeta.html#cb280-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">escalc</span>(<span class="at">measure=</span><span class="st">&quot;RR&quot;</span>, <span class="at">ai=</span>tpos, <span class="at">bi=</span>tneg, <span class="at">ci=</span>cpos, <span class="at">di=</span>cneg, <span class="at">data=</span>dat.bcg)</span>
-<span id="cb280-2"><a href="BayesMeta.html#cb280-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">study=</span>author) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">study=</span><span class="fu">paste</span>(study,year))</span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="BayesMeta.html#cb273-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">escalc</span>(<span class="at">measure=</span><span class="st">&quot;RR&quot;</span>, <span class="at">ai=</span>tpos, <span class="at">bi=</span>tneg, <span class="at">ci=</span>cpos, <span class="at">di=</span>cneg, <span class="at">data=</span>dat.bcg)</span>
+<span id="cb273-2"><a href="BayesMeta.html#cb273-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">study=</span>author) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">study=</span><span class="fu">paste</span>(study,year))</span></code></pre></div>
 <div>
 
 <ul>
 <li>We can fit a (frequentist) random-effects model to these data using the library <code>metafor</code>.</li>
 </ul>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="BayesMeta.html#cb281-1" aria-hidden="true" tabindex="-1"></a>ma_out <span class="ot">&lt;-</span> <span class="fu">rma</span>(<span class="at">data =</span> dat, <span class="at">yi =</span> yi, <span class="at">vi =</span> vi, <span class="at">slab =</span> dat<span class="sc">$</span>study)</span>
-<span id="cb281-2"><a href="BayesMeta.html#cb281-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ma_out)</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="BayesMeta.html#cb274-1" aria-hidden="true" tabindex="-1"></a>ma_out <span class="ot">&lt;-</span> <span class="fu">rma</span>(<span class="at">data =</span> dat, <span class="at">yi =</span> yi, <span class="at">vi =</span> vi, <span class="at">slab =</span> dat<span class="sc">$</span>study)</span>
+<span id="cb274-2"><a href="BayesMeta.html#cb274-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ma_out)</span></code></pre></div>
 <pre><code>## 
 ## Random-Effects Model (k = 13; tau^2 estimator: REML)
 ## 
@@ -483,25 +481,25 @@ Y_{i} &amp;\sim  \mathcal{N}(\theta_{i},\sigma^2_{Y_i}) \\
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="BayesMeta.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(ma_out)</span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="BayesMeta.html#cb276-1" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(ma_out)</span></code></pre></div>
 <p><img src="bayes_bookdown_files/figure-html/unnamed-chunk-205-1.png" width="672" /></p>
 <ul>
 <li>We can do the same but know under a Bayesian perspective.</li>
 </ul>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="BayesMeta.html#cb284-1" aria-hidden="true" tabindex="-1"></a>fit_ma_random <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
-<span id="cb284-2"><a href="BayesMeta.html#cb284-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
-<span id="cb284-3"><a href="BayesMeta.html#cb284-3" aria-hidden="true" tabindex="-1"></a>             yi <span class="sc">|</span> <span class="fu">se</span>(<span class="fu">sqrt</span>(vi)) <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> study), </span>
-<span id="cb284-4"><a href="BayesMeta.html#cb284-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">2000</span>, </span>
-<span id="cb284-5"><a href="BayesMeta.html#cb284-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">1000</span>, </span>
-<span id="cb284-6"><a href="BayesMeta.html#cb284-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
-<span id="cb284-7"><a href="BayesMeta.html#cb284-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
-<span id="cb284-8"><a href="BayesMeta.html#cb284-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
-<span id="cb284-9"><a href="BayesMeta.html#cb284-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
-<span id="cb284-10"><a href="BayesMeta.html#cb284-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
-<span id="cb284-11"><a href="BayesMeta.html#cb284-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb284-12"><a href="BayesMeta.html#cb284-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb284-13"><a href="BayesMeta.html#cb284-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb284-14"><a href="BayesMeta.html#cb284-14" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS(fit_ma_random, &quot;data/chap8_ma_random&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="BayesMeta.html#cb277-1" aria-hidden="true" tabindex="-1"></a>fit_ma_random <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb277-2"><a href="BayesMeta.html#cb277-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb277-3"><a href="BayesMeta.html#cb277-3" aria-hidden="true" tabindex="-1"></a>             yi <span class="sc">|</span> <span class="fu">se</span>(<span class="fu">sqrt</span>(vi)) <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> study), </span>
+<span id="cb277-4"><a href="BayesMeta.html#cb277-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">2000</span>, </span>
+<span id="cb277-5"><a href="BayesMeta.html#cb277-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">1000</span>, </span>
+<span id="cb277-6"><a href="BayesMeta.html#cb277-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb277-7"><a href="BayesMeta.html#cb277-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb277-8"><a href="BayesMeta.html#cb277-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb277-9"><a href="BayesMeta.html#cb277-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb277-10"><a href="BayesMeta.html#cb277-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb277-11"><a href="BayesMeta.html#cb277-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb277-12"><a href="BayesMeta.html#cb277-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb277-13"><a href="BayesMeta.html#cb277-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb277-14"><a href="BayesMeta.html#cb277-14" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS(fit_ma_random, &quot;data/chap8_ma_random&quot;)</span></span></code></pre></div>
 <ul>
 <li>Summarizing posterior results</li>
 </ul>
@@ -545,47 +543,47 @@ Y_{i} &amp;\sim  \mathcal{N}(\theta_{i},\sigma^2_{Y_i}) \\
 <ul>
 <li>The forest plot displays the entire posterior distribution of each <span class="math inline">\(\theta_i\)</span>. The meta-analytic effect size <span class="math inline">\(\mu\)</span> is also displayed in the bottom row.</li>
 </ul>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="BayesMeta.html#cb287-1" aria-hidden="true" tabindex="-1"></a>out_r <span class="ot">&lt;-</span> <span class="fu">spread_draws</span>(fit_ma_random, r_study[study,term], b_Intercept) <span class="sc">%&gt;%</span> </span>
-<span id="cb287-2"><a href="BayesMeta.html#cb287-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">b_Intercept =</span> r_study <span class="sc">+</span> b_Intercept) </span>
-<span id="cb287-3"><a href="BayesMeta.html#cb287-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb287-4"><a href="BayesMeta.html#cb287-4" aria-hidden="true" tabindex="-1"></a>out_f <span class="ot">&lt;-</span> <span class="fu">spread_draws</span>(fit_ma_random, b_Intercept) <span class="sc">%&gt;%</span> </span>
-<span id="cb287-5"><a href="BayesMeta.html#cb287-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">study =</span> <span class="st">&quot;Average&quot;</span>)</span>
-<span id="cb287-6"><a href="BayesMeta.html#cb287-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb287-7"><a href="BayesMeta.html#cb287-7" aria-hidden="true" tabindex="-1"></a>out_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(out_r, out_f) <span class="sc">%&gt;%</span> </span>
-<span id="cb287-8"><a href="BayesMeta.html#cb287-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb287-9"><a href="BayesMeta.html#cb287-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">study =</span> <span class="fu">fct_relevel</span>(study, <span class="st">&quot;Average&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb287-10"><a href="BayesMeta.html#cb287-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">study =</span> <span class="fu">str_replace_all</span>(study, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot; &quot;</span>))</span>
-<span id="cb287-11"><a href="BayesMeta.html#cb287-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb287-12"><a href="BayesMeta.html#cb287-12" aria-hidden="true" tabindex="-1"></a>out_all_sum <span class="ot">&lt;-</span> <span class="fu">group_by</span>(out_all, study) <span class="sc">%&gt;%</span> </span>
-<span id="cb287-13"><a href="BayesMeta.html#cb287-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(b_Intercept)</span>
-<span id="cb287-14"><a href="BayesMeta.html#cb287-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb287-15"><a href="BayesMeta.html#cb287-15" aria-hidden="true" tabindex="-1"></a>out_all <span class="sc">%&gt;%</span>   </span>
-<span id="cb287-16"><a href="BayesMeta.html#cb287-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(b_Intercept, study)) <span class="sc">+</span></span>
-<span id="cb287-17"><a href="BayesMeta.html#cb287-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">25</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb287-18"><a href="BayesMeta.html#cb287-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">95</span>), <span class="at">fill =</span> <span class="st">&quot;pink&quot;</span>) <span class="sc">+</span></span>
-<span id="cb287-19"><a href="BayesMeta.html#cb287-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb287-20"><a href="BayesMeta.html#cb287-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">mutate_if</span>(out_all_sum, is.numeric, round, <span class="dv">2</span>),</span>
-<span id="cb287-21"><a href="BayesMeta.html#cb287-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">str_glue</span>(<span class="st">&quot;{b_Intercept} [{.lower}, {.upper}]&quot;</span>), <span class="at">x =</span> <span class="fl">1.5</span>),</span>
-<span id="cb287-22"><a href="BayesMeta.html#cb287-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="st">&quot;inward&quot;</span></span>
-<span id="cb287-23"><a href="BayesMeta.html#cb287-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb287-24"><a href="BayesMeta.html#cb287-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Observed as empty points</span></span>
-<span id="cb287-25"><a href="BayesMeta.html#cb287-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb287-26"><a href="BayesMeta.html#cb287-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">study =</span> <span class="fu">str_replace_all</span>(study, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot; &quot;</span>)), </span>
-<span id="cb287-27"><a href="BayesMeta.html#cb287-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>yi), <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">y =</span> <span class="sc">-</span>.<span class="dv">2</span>), <span class="at">shape =</span> <span class="dv">1</span> </span>
-<span id="cb287-28"><a href="BayesMeta.html#cb287-28" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="BayesMeta.html#cb280-1" aria-hidden="true" tabindex="-1"></a>out_r <span class="ot">&lt;-</span> <span class="fu">spread_draws</span>(fit_ma_random, r_study[study,term], b_Intercept) <span class="sc">%&gt;%</span> </span>
+<span id="cb280-2"><a href="BayesMeta.html#cb280-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">b_Intercept =</span> r_study <span class="sc">+</span> b_Intercept) </span>
+<span id="cb280-3"><a href="BayesMeta.html#cb280-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-4"><a href="BayesMeta.html#cb280-4" aria-hidden="true" tabindex="-1"></a>out_f <span class="ot">&lt;-</span> <span class="fu">spread_draws</span>(fit_ma_random, b_Intercept) <span class="sc">%&gt;%</span> </span>
+<span id="cb280-5"><a href="BayesMeta.html#cb280-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">study =</span> <span class="st">&quot;Average&quot;</span>)</span>
+<span id="cb280-6"><a href="BayesMeta.html#cb280-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-7"><a href="BayesMeta.html#cb280-7" aria-hidden="true" tabindex="-1"></a>out_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(out_r, out_f) <span class="sc">%&gt;%</span> </span>
+<span id="cb280-8"><a href="BayesMeta.html#cb280-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb280-9"><a href="BayesMeta.html#cb280-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">study =</span> <span class="fu">fct_relevel</span>(study, <span class="st">&quot;Average&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb280-10"><a href="BayesMeta.html#cb280-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">study =</span> <span class="fu">str_replace_all</span>(study, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot; &quot;</span>))</span>
+<span id="cb280-11"><a href="BayesMeta.html#cb280-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-12"><a href="BayesMeta.html#cb280-12" aria-hidden="true" tabindex="-1"></a>out_all_sum <span class="ot">&lt;-</span> <span class="fu">group_by</span>(out_all, study) <span class="sc">%&gt;%</span> </span>
+<span id="cb280-13"><a href="BayesMeta.html#cb280-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean_qi</span>(b_Intercept)</span>
+<span id="cb280-14"><a href="BayesMeta.html#cb280-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-15"><a href="BayesMeta.html#cb280-15" aria-hidden="true" tabindex="-1"></a>out_all <span class="sc">%&gt;%</span>   </span>
+<span id="cb280-16"><a href="BayesMeta.html#cb280-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(b_Intercept, study)) <span class="sc">+</span></span>
+<span id="cb280-17"><a href="BayesMeta.html#cb280-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">25</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb280-18"><a href="BayesMeta.html#cb280-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">95</span>), <span class="at">fill =</span> <span class="st">&quot;pink&quot;</span>) <span class="sc">+</span></span>
+<span id="cb280-19"><a href="BayesMeta.html#cb280-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb280-20"><a href="BayesMeta.html#cb280-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">mutate_if</span>(out_all_sum, is.numeric, round, <span class="dv">2</span>),</span>
+<span id="cb280-21"><a href="BayesMeta.html#cb280-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">str_glue</span>(<span class="st">&quot;{b_Intercept} [{.lower}, {.upper}]&quot;</span>), <span class="at">x =</span> <span class="fl">1.5</span>),</span>
+<span id="cb280-22"><a href="BayesMeta.html#cb280-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="st">&quot;inward&quot;</span></span>
+<span id="cb280-23"><a href="BayesMeta.html#cb280-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb280-24"><a href="BayesMeta.html#cb280-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Observed as empty points</span></span>
+<span id="cb280-25"><a href="BayesMeta.html#cb280-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb280-26"><a href="BayesMeta.html#cb280-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">study =</span> <span class="fu">str_replace_all</span>(study, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot; &quot;</span>)), </span>
+<span id="cb280-27"><a href="BayesMeta.html#cb280-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>yi), <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">y =</span> <span class="sc">-</span>.<span class="dv">2</span>), <span class="at">shape =</span> <span class="dv">1</span> </span>
+<span id="cb280-28"><a href="BayesMeta.html#cb280-28" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="images/Rplot_forest_brms.jpeg" width="527" style="display: block; margin: auto;" /></p>
 <div class="guidedexercise">
 <p><strong>Run a fixed-effect model</strong></p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="BayesMeta.html#cb288-1" aria-hidden="true" tabindex="-1"></a>fit_ma_fixed <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
-<span id="cb288-2"><a href="BayesMeta.html#cb288-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
-<span id="cb288-3"><a href="BayesMeta.html#cb288-3" aria-hidden="true" tabindex="-1"></a>             yi <span class="sc">|</span> <span class="fu">se</span>(<span class="fu">sqrt</span>(vi)) <span class="sc">~</span> <span class="dv">1</span>, </span>
-<span id="cb288-4"><a href="BayesMeta.html#cb288-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">2000</span>, </span>
-<span id="cb288-5"><a href="BayesMeta.html#cb288-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">1000</span>, </span>
-<span id="cb288-6"><a href="BayesMeta.html#cb288-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
-<span id="cb288-7"><a href="BayesMeta.html#cb288-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>,</span>
-<span id="cb288-8"><a href="BayesMeta.html#cb288-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span></span>
-<span id="cb288-9"><a href="BayesMeta.html#cb288-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
-<span id="cb288-10"><a href="BayesMeta.html#cb288-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="BayesMeta.html#cb281-1" aria-hidden="true" tabindex="-1"></a>fit_ma_fixed <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb281-2"><a href="BayesMeta.html#cb281-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb281-3"><a href="BayesMeta.html#cb281-3" aria-hidden="true" tabindex="-1"></a>             yi <span class="sc">|</span> <span class="fu">se</span>(<span class="fu">sqrt</span>(vi)) <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb281-4"><a href="BayesMeta.html#cb281-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">2000</span>, </span>
+<span id="cb281-5"><a href="BayesMeta.html#cb281-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">1000</span>, </span>
+<span id="cb281-6"><a href="BayesMeta.html#cb281-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb281-7"><a href="BayesMeta.html#cb281-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>,</span>
+<span id="cb281-8"><a href="BayesMeta.html#cb281-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span></span>
+<span id="cb281-9"><a href="BayesMeta.html#cb281-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb281-10"><a href="BayesMeta.html#cb281-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="meta-regression" class="section level3 hasAnchor" number="8.3.2">
@@ -594,8 +592,8 @@ Y_{i} &amp;\sim  \mathcal{N}(\theta_{i},\sigma^2_{Y_i}) \\
 <li><p>Meta-regressions are similar in essence to simple regressions, in which an outcome variable is predicted according to the values of one or more explanatory variables. In meta-regression, the outcome variable is the effect estimate. The explanatory variables are characteristics of studies that might influence the size of intervention effect. These are often called ‘potential effect modifiers’ or covariates.</p></li>
 <li><p>Using the same dataset (BCG vaccine), we will use the absolute latitude of the study location as a moderator. We first do it with <code>metafor</code>.</p></li>
 </ul>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="BayesMeta.html#cb289-1" aria-hidden="true" tabindex="-1"></a>ma_reg <span class="ot">&lt;-</span> <span class="fu">rma</span>(yi, vi, <span class="at">mods =</span> <span class="sc">~</span> ablat, <span class="at">data=</span>dat)</span>
-<span id="cb289-2"><a href="BayesMeta.html#cb289-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ma_reg)</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="BayesMeta.html#cb282-1" aria-hidden="true" tabindex="-1"></a>ma_reg <span class="ot">&lt;-</span> <span class="fu">rma</span>(yi, vi, <span class="at">mods =</span> <span class="sc">~</span> ablat, <span class="at">data=</span>dat)</span>
+<span id="cb282-2"><a href="BayesMeta.html#cb282-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ma_reg)</span></code></pre></div>
 <pre><code>## 
 ## Mixed-Effects Model (k = 13; tau^2 estimator: REML)
 ## 
@@ -625,20 +623,20 @@ Y_{i} &amp;\sim  \mathcal{N}(\theta_{i},\sigma^2_{Y_i}) \\
 <ul>
 <li>We can do the same with <code>brms</code>.</li>
 </ul>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="BayesMeta.html#cb291-1" aria-hidden="true" tabindex="-1"></a>fit_ma_reg <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
-<span id="cb291-2"><a href="BayesMeta.html#cb291-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
-<span id="cb291-3"><a href="BayesMeta.html#cb291-3" aria-hidden="true" tabindex="-1"></a>             yi <span class="sc">|</span> <span class="fu">se</span>(<span class="fu">sqrt</span>(vi)) <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> ablat<span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> study), </span>
-<span id="cb291-4"><a href="BayesMeta.html#cb291-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">2000</span>, </span>
-<span id="cb291-5"><a href="BayesMeta.html#cb291-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">1000</span>, </span>
-<span id="cb291-6"><a href="BayesMeta.html#cb291-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
-<span id="cb291-7"><a href="BayesMeta.html#cb291-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
-<span id="cb291-8"><a href="BayesMeta.html#cb291-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
-<span id="cb291-9"><a href="BayesMeta.html#cb291-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
-<span id="cb291-10"><a href="BayesMeta.html#cb291-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
-<span id="cb291-11"><a href="BayesMeta.html#cb291-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb291-12"><a href="BayesMeta.html#cb291-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb291-13"><a href="BayesMeta.html#cb291-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb291-14"><a href="BayesMeta.html#cb291-14" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS(fit_ma_reg, &quot;data/chap9_ma_reg&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="BayesMeta.html#cb284-1" aria-hidden="true" tabindex="-1"></a>fit_ma_reg <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb284-2"><a href="BayesMeta.html#cb284-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian,</span>
+<span id="cb284-3"><a href="BayesMeta.html#cb284-3" aria-hidden="true" tabindex="-1"></a>             yi <span class="sc">|</span> <span class="fu">se</span>(<span class="fu">sqrt</span>(vi)) <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> ablat<span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> study), </span>
+<span id="cb284-4"><a href="BayesMeta.html#cb284-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">iter =</span> <span class="dv">2000</span>, </span>
+<span id="cb284-5"><a href="BayesMeta.html#cb284-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">warmup =</span> <span class="dv">1000</span>, </span>
+<span id="cb284-6"><a href="BayesMeta.html#cb284-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">chains =</span> <span class="dv">4</span>, </span>
+<span id="cb284-7"><a href="BayesMeta.html#cb284-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="co">#instructions on MCMC</span></span>
+<span id="cb284-8"><a href="BayesMeta.html#cb284-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">seed =</span> <span class="dv">123</span>, <span class="co"># random number seed to make results reproducible</span></span>
+<span id="cb284-9"><a href="BayesMeta.html#cb284-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">silent =</span> <span class="dv">2</span>,</span>
+<span id="cb284-10"><a href="BayesMeta.html#cb284-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb284-11"><a href="BayesMeta.html#cb284-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb284-12"><a href="BayesMeta.html#cb284-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb284-13"><a href="BayesMeta.html#cb284-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb284-14"><a href="BayesMeta.html#cb284-14" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS(fit_ma_reg, &quot;data/chap9_ma_reg&quot;)</span></span></code></pre></div>
 <ul>
 <li>Summarizing posterior results</li>
 </ul>
@@ -765,65 +763,65 @@ model {
 <ul>
 <li>Below you will find the syntax to compile the model and run it in <code>R</code>.</li>
 </ul>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="BayesMeta.html#cb295-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;data/testData.txt&quot;</span>,<span class="at">header =</span> T)</span>
-<span id="cb295-2"><a href="BayesMeta.html#cb295-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb295-3"><a href="BayesMeta.html#cb295-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">cbind</span>(test[,<span class="dv">1</span>],test[,<span class="dv">3</span>])</span>
-<span id="cb295-4"><a href="BayesMeta.html#cb295-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">cbind</span>(test[,<span class="dv">2</span>],test[,<span class="dv">4</span>])</span>
-<span id="cb295-5"><a href="BayesMeta.html#cb295-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb295-6"><a href="BayesMeta.html#cb295-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ns=</span><span class="dv">22</span>,</span>
-<span id="cb295-7"><a href="BayesMeta.html#cb295-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">r=</span>r,</span>
-<span id="cb295-8"><a href="BayesMeta.html#cb295-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">n=</span>n)</span>
-<span id="cb295-9"><a href="BayesMeta.html#cb295-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb295-10"><a href="BayesMeta.html#cb295-10" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">cmdstan_model</span>(<span class="st">&quot;stan/model1a.stan&quot;</span>)</span>
-<span id="cb295-11"><a href="BayesMeta.html#cb295-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb295-12"><a href="BayesMeta.html#cb295-12" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">=</span>model<span class="sc">$</span><span class="fu">sample</span>(<span class="at">data =</span> data,</span>
-<span id="cb295-13"><a href="BayesMeta.html#cb295-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">chains =</span> <span class="dv">3</span>,</span>
-<span id="cb295-14"><a href="BayesMeta.html#cb295-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">parallel_chains =</span> <span class="dv">3</span>,</span>
-<span id="cb295-15"><a href="BayesMeta.html#cb295-15" aria-hidden="true" tabindex="-1"></a>                      <span class="co">#max_treedepth = 15,</span></span>
-<span id="cb295-16"><a href="BayesMeta.html#cb295-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">iter_warmup =</span> <span class="dv">500</span>,</span>
-<span id="cb295-17"><a href="BayesMeta.html#cb295-17" aria-hidden="true" tabindex="-1"></a>                      <span class="at">iter_sampling =</span> <span class="dv">1500</span>)</span>
-<span id="cb295-18"><a href="BayesMeta.html#cb295-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb295-19"><a href="BayesMeta.html#cb295-19" aria-hidden="true" tabindex="-1"></a><span class="co">#fit$save_object(file = &quot;data/fit_stan.RDS&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="BayesMeta.html#cb288-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;data/testData.txt&quot;</span>,<span class="at">header =</span> T)</span>
+<span id="cb288-2"><a href="BayesMeta.html#cb288-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-3"><a href="BayesMeta.html#cb288-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">cbind</span>(test[,<span class="dv">1</span>],test[,<span class="dv">3</span>])</span>
+<span id="cb288-4"><a href="BayesMeta.html#cb288-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">cbind</span>(test[,<span class="dv">2</span>],test[,<span class="dv">4</span>])</span>
+<span id="cb288-5"><a href="BayesMeta.html#cb288-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-6"><a href="BayesMeta.html#cb288-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ns=</span><span class="dv">22</span>,</span>
+<span id="cb288-7"><a href="BayesMeta.html#cb288-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">r=</span>r,</span>
+<span id="cb288-8"><a href="BayesMeta.html#cb288-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">n=</span>n)</span>
+<span id="cb288-9"><a href="BayesMeta.html#cb288-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-10"><a href="BayesMeta.html#cb288-10" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">cmdstan_model</span>(<span class="st">&quot;stan/model1a.stan&quot;</span>)</span>
+<span id="cb288-11"><a href="BayesMeta.html#cb288-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-12"><a href="BayesMeta.html#cb288-12" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">=</span>model<span class="sc">$</span><span class="fu">sample</span>(<span class="at">data =</span> data,</span>
+<span id="cb288-13"><a href="BayesMeta.html#cb288-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">chains =</span> <span class="dv">3</span>,</span>
+<span id="cb288-14"><a href="BayesMeta.html#cb288-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">parallel_chains =</span> <span class="dv">3</span>,</span>
+<span id="cb288-15"><a href="BayesMeta.html#cb288-15" aria-hidden="true" tabindex="-1"></a>                      <span class="co">#max_treedepth = 15,</span></span>
+<span id="cb288-16"><a href="BayesMeta.html#cb288-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">iter_warmup =</span> <span class="dv">500</span>,</span>
+<span id="cb288-17"><a href="BayesMeta.html#cb288-17" aria-hidden="true" tabindex="-1"></a>                      <span class="at">iter_sampling =</span> <span class="dv">1500</span>)</span>
+<span id="cb288-18"><a href="BayesMeta.html#cb288-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-19"><a href="BayesMeta.html#cb288-19" aria-hidden="true" tabindex="-1"></a><span class="co">#fit$save_object(file = &quot;data/fit_stan.RDS&quot;)</span></span></code></pre></div>
 <ul>
 <li>Summarizing posterior results</li>
 </ul>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="BayesMeta.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit &lt;- readRDS(&quot;data/fit_stan.RDS&quot;)</span></span>
-<span id="cb296-2"><a href="BayesMeta.html#cb296-2" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;d&quot;</span>,<span class="st">&quot;sd_&quot;</span>,<span class="st">&quot;delta&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(variable,median,q5,q95,rhat) <span class="sc">%&gt;%</span> </span>
-<span id="cb296-3"><a href="BayesMeta.html#cb296-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">datatable</span>(</span>
-<span id="cb296-4"><a href="BayesMeta.html#cb296-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> F,</span>
-<span id="cb296-5"><a href="BayesMeta.html#cb296-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="st">&quot;compact&quot;</span>,</span>
-<span id="cb296-6"><a href="BayesMeta.html#cb296-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
-<span id="cb296-7"><a href="BayesMeta.html#cb296-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dom =</span> <span class="st">&#39;t&#39;</span>,</span>
-<span id="cb296-8"><a href="BayesMeta.html#cb296-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ordering =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb296-9"><a href="BayesMeta.html#cb296-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">paging =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb296-10"><a href="BayesMeta.html#cb296-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">searching =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb296-11"><a href="BayesMeta.html#cb296-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-center&#39;</span>, </span>
-<span id="cb296-12"><a href="BayesMeta.html#cb296-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>))))</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="BayesMeta.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit &lt;- readRDS(&quot;data/fit_stan.RDS&quot;)</span></span>
+<span id="cb289-2"><a href="BayesMeta.html#cb289-2" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;d&quot;</span>,<span class="st">&quot;sd_&quot;</span>,<span class="st">&quot;delta&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(variable,median,q5,q95,rhat) <span class="sc">%&gt;%</span> </span>
+<span id="cb289-3"><a href="BayesMeta.html#cb289-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">datatable</span>(</span>
+<span id="cb289-4"><a href="BayesMeta.html#cb289-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> F,</span>
+<span id="cb289-5"><a href="BayesMeta.html#cb289-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="st">&quot;compact&quot;</span>,</span>
+<span id="cb289-6"><a href="BayesMeta.html#cb289-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb289-7"><a href="BayesMeta.html#cb289-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dom =</span> <span class="st">&#39;t&#39;</span>,</span>
+<span id="cb289-8"><a href="BayesMeta.html#cb289-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ordering =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb289-9"><a href="BayesMeta.html#cb289-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">paging =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb289-10"><a href="BayesMeta.html#cb289-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">searching =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb289-11"><a href="BayesMeta.html#cb289-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-center&#39;</span>, </span>
+<span id="cb289-12"><a href="BayesMeta.html#cb289-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>))))</span></code></pre></div>
 <ul>
 <li>Plotting baseline risks and the scatterplot of <span class="math inline">\(d_{12}\)</span> and <span class="math inline">\(sigma\)</span>.</li>
 </ul>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="BayesMeta.html#cb297-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> fit<span class="sc">$</span><span class="fu">draws</span>(<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;sd_&quot;</span>))</span>
-<span id="cb297-2"><a href="BayesMeta.html#cb297-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_intervals</span>(theta,<span class="at">regex_pars =</span> <span class="st">&quot;mu&quot;</span>)</span>
-<span id="cb297-3"><a href="BayesMeta.html#cb297-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_pairs</span>(theta,<span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;d&quot;</span>,<span class="st">&quot;sd_&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="BayesMeta.html#cb290-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> fit<span class="sc">$</span><span class="fu">draws</span>(<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;sd_&quot;</span>))</span>
+<span id="cb290-2"><a href="BayesMeta.html#cb290-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_intervals</span>(theta,<span class="at">regex_pars =</span> <span class="st">&quot;mu&quot;</span>)</span>
+<span id="cb290-3"><a href="BayesMeta.html#cb290-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_pairs</span>(theta,<span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;d&quot;</span>,<span class="st">&quot;sd_&quot;</span>))</span></code></pre></div>
 <div class="guidedexercise">
 <p><strong>Run a fixed-effect mode and random-effects model with brms using the binomial data example</strong></p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="BayesMeta.html#cb298-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/blocker.csv&quot;</span>)</span>
-<span id="cb298-2"><a href="BayesMeta.html#cb298-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb298-3"><a href="BayesMeta.html#cb298-3" aria-hidden="true" tabindex="-1"></a>fit_ma_binomial_random <span class="ot">&lt;-</span></span>
-<span id="cb298-4"><a href="BayesMeta.html#cb298-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
-<span id="cb298-5"><a href="BayesMeta.html#cb298-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> binomial,</span>
-<span id="cb298-6"><a href="BayesMeta.html#cb298-6" aria-hidden="true" tabindex="-1"></a>      events <span class="sc">|</span> <span class="fu">trials</span>(ss) <span class="sc">~</span> trtid <span class="sc">+</span> (trtid<span class="sc">|</span>id),</span>
-<span id="cb298-7"><a href="BayesMeta.html#cb298-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">chains =</span> <span class="dv">4</span>)</span>
-<span id="cb298-8"><a href="BayesMeta.html#cb298-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb298-9"><a href="BayesMeta.html#cb298-9" aria-hidden="true" tabindex="-1"></a>fit_ma_binomial_fixed<span class="ot">&lt;-</span></span>
-<span id="cb298-10"><a href="BayesMeta.html#cb298-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
-<span id="cb298-11"><a href="BayesMeta.html#cb298-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> binomial,</span>
-<span id="cb298-12"><a href="BayesMeta.html#cb298-12" aria-hidden="true" tabindex="-1"></a>      events <span class="sc">|</span> <span class="fu">trials</span>(ss) <span class="sc">~</span> trtid,</span>
-<span id="cb298-13"><a href="BayesMeta.html#cb298-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">chains =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="BayesMeta.html#cb291-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/blocker.csv&quot;</span>)</span>
+<span id="cb291-2"><a href="BayesMeta.html#cb291-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb291-3"><a href="BayesMeta.html#cb291-3" aria-hidden="true" tabindex="-1"></a>fit_ma_binomial_random <span class="ot">&lt;-</span></span>
+<span id="cb291-4"><a href="BayesMeta.html#cb291-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb291-5"><a href="BayesMeta.html#cb291-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> binomial,</span>
+<span id="cb291-6"><a href="BayesMeta.html#cb291-6" aria-hidden="true" tabindex="-1"></a>      events <span class="sc">|</span> <span class="fu">trials</span>(ss) <span class="sc">~</span> trtid <span class="sc">+</span> (trtid<span class="sc">|</span>id),</span>
+<span id="cb291-7"><a href="BayesMeta.html#cb291-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">chains =</span> <span class="dv">4</span>)</span>
+<span id="cb291-8"><a href="BayesMeta.html#cb291-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb291-9"><a href="BayesMeta.html#cb291-9" aria-hidden="true" tabindex="-1"></a>fit_ma_binomial_fixed<span class="ot">&lt;-</span></span>
+<span id="cb291-10"><a href="BayesMeta.html#cb291-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">brm</span>(<span class="at">data =</span> dat,</span>
+<span id="cb291-11"><a href="BayesMeta.html#cb291-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> binomial,</span>
+<span id="cb291-12"><a href="BayesMeta.html#cb291-12" aria-hidden="true" tabindex="-1"></a>      events <span class="sc">|</span> <span class="fu">trials</span>(ss) <span class="sc">~</span> trtid,</span>
+<span id="cb291-13"><a href="BayesMeta.html#cb291-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">chains =</span> <span class="dv">4</span>)</span></code></pre></div>
 </div>
 <div id="r-session-information-7" class="section level3 unnumbered hasAnchor">
 <h3>R Session information<a href="BayesMeta.html#r-session-information-7" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<pre><code>## R version 4.0.5 (2021-03-31)
+<pre><code>## R version 4.1.3 (2022-03-10)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 19044)
 ## 
@@ -840,10 +838,10 @@ model {
 ## 
 ## other attached packages:
 ##  [1] cmdstanr_0.5.0      ggdist_3.1.1        metafor_3.0-2      
-##  [4] Matrix_1.3-2        magrittr_2.0.2      vcd_1.4-9          
+##  [4] Matrix_1.4-0        magrittr_2.0.2      vcd_1.4-9          
 ##  [7] tidybayes_3.0.2     DT_0.22             gtsummary_1.5.2    
 ## [10] invgamma_1.1        extraDistr_1.9.1    MCMCpack_1.6-1     
-## [13] MASS_7.3-53.1       coda_0.19-4         SHELF_1.8.0        
+## [13] MASS_7.3-55         coda_0.19-4         SHELF_1.8.0        
 ## [16] bayesplot_1.9.0     ggmcmc_1.5.1.1      tidyr_1.2.0        
 ## [19] ggpubr_0.4.0        tweenr_1.0.2        gganimate_1.0.7    
 ## [22] VennDiagram_1.7.1   futile.logger_1.4.3 truncnorm_1.0-8    
